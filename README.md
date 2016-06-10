@@ -1,6 +1,8 @@
 # Textbook
 
-[![Build Status](https://semaphoreci.com/api/v1/michaelherman/textbook/branches/master/badge.svg)](https://semaphoreci.com/michaelherman/textbook)
+[![Build Status](https://travis-ci.org/mjhea0/textbook.svg?branch=master)](https://travis-ci.org/mjhea0/textbook)
+[![Coverage Status](https://coveralls.io/repos/github/mjhea0/textbook/badge.svg?branch=master)](https://coveralls.io/github/mjhea0/textbook?branch=master)
+
 
 Just a simple learning management system for textbook-like sites.
 
