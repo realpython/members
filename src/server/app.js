@@ -7,9 +7,15 @@ var bodyParser = require('body-parser');
 var swig = require('swig');
 var session = require('express-session');
 var flash = require('connect-flash');
+var passport = require('passport');
+
+if (process.env.NODE_ENV !== 'production' || 'staging') {
+  require('dotenv').config();
+}
 
 // *** routes *** //
-var routes = require('./routes/index.js');
+var routes = require('./routes/index');
+var authRoutes = require('./routes/auth');
 
 // *** express instance *** //
 var app = express();
@@ -27,10 +33,18 @@ if (process.env.NODE_ENV !== 'test') {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(session({
+  secret: process.env.SECRET_KEY,
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: true }
+}));
+app.use(flash());
 app.use(express.static(path.join(__dirname, '../client')));
 
 // *** main routes *** //
 app.use('/', routes);
+app.use('/auth', authRoutes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

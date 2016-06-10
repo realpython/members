@@ -21,4 +21,12 @@ Just a simple learning management system for textbook-like sites.
 
 ### User Stories
 
-1. Users should be able to log in via Github
+#### Unregistered
+
+1. Unregistered should be able to log in via Github
+  - Add [passport](https://github.com/jaredhanson/passport-github)
+  - Set up postgres
+  - Register app with Github
+  - Write tests
+
+#### Registered
