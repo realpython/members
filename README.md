@@ -18,3 +18,7 @@ Just a simple learning management system for textbook-like sites.
 1. Write tests
 1. Set up Travis CI
 1. Add code coverage
+
+### User Stories
+
+1. Users should be able to log in via Github
