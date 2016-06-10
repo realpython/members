@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node ./src/server/bin/www",
-    "test": "mocha"
+    "test": "mocha",
+    "coveralls": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
   },
   "dependencies": {
     "body-parser": "~1.13.2",
@@ -20,7 +21,9 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "chai-http": "^2.0.1",
+    "coveralls": "^2.11.9",
     "mocha": "^2.5.3",
+    "mocha-lcov-reporter": "^1.2.0",
     "passport-stub": "^1.1.1"
   }
 }
