@@ -1,5 +1,4 @@
 var passportStub = require('passport-stub');
-
 var queries = require('../src/server/db/queries');
 
 function authenticateUser(done) {

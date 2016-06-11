@@ -11,12 +11,14 @@ services:
 
 env:
   global:
+    - NODE_ENV=test
     - SECRET_KEY=test
     - githubClientID=123456
     - githubClientSecret=123456
     - callbackURL=http://127.0.0.1:3000/auth/github/callback
 
 before_script:
+  - psql -c 'create database textbook_test;'
   - npm install -g istanbul
 
 script:
