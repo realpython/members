@@ -18,7 +18,7 @@ env:
     - callbackURL=http://127.0.0.1:3000/auth/github/callback
 
 before_script:
-  - psql -c 'create database textbook_test;'
+  - psql -c 'create database textbook_test;' -U postgres
   - npm install -g istanbul
 
 script:
