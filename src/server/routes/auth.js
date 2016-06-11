@@ -6,13 +6,13 @@ var authHelpers = require('../auth/helpers');
 
 
 router.get('/github',
-  githubAuth.authenticate('github')
+  githubAuth.authenticate('github', { scope: [ 'user:email' ] })
 );
 
 router.get('/github/callback',
   githubAuth.authenticate('github', { failureRedirect: '/'}),
   function(req, res, next) {
-  res.redirect('/');
+  res.redirect('/dashboard');
 });
 
 router.get('/logout', authHelpers.ensureAuthenticated,

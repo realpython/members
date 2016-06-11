@@ -24,9 +24,10 @@ Just a simple learning management system for textbook-like sites.
 #### Unregistered
 
 1. Unregistered should be able to log in via Github
-  - Add [passport](https://github.com/jaredhanson/passport-github)
-  - Set up postgres
+  - Set up postgres databases
+  - Add Knex
   - Register app with Github
+  - Add [passport](https://github.com/jaredhanson/passport-github)
   - Write tests
 
 #### Registered
