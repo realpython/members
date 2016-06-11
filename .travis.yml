@@ -1,9 +1,14 @@
-language: node_js
+language:
+  - node_js
 
 node_js:
   - "6"
   - "5"
   - "4"
+
+services:
+  - postgresql
+
 env:
   global:
     - SECRET_KEY=test
@@ -11,9 +16,12 @@ env:
     - githubClientSecret=123456
     - callbackURL=http://127.0.0.1:3000/auth/github/callback
 
-before_script: npm install -g istanbul
+before_script:
+  - npm install -g istanbul
 
-script: npm test
+script:
+  - npm test
 
-after_script: npm run coveralls
+after_script:
+  - npm run coveralls
 

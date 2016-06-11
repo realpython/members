@@ -12,15 +12,15 @@ module.exports = {
     }
   },
   test: {
-    client: 'sqlite3',
+    client: 'postgresql',
     connection: {
-      filename: './test.db'
+      database: 'textbook_test'
     },
     migrations: {
       directory: __dirname + '/src/server/db/migrations'
     },
     seeds: {
-      directory: __dirname + '/src/server/db/seeds/test'
+      directory: __dirname + '/src/server/db/seeds/dev'
     }
   },
 };
