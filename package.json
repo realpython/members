@@ -21,6 +21,7 @@
     "passport-github2": "^0.1.10",
     "pg": "^5.0.0",
     "serve-favicon": "~2.3.0",
+    "sqlite3": "^3.1.4",
     "swig": "^1.4.2"
   },
   "devDependencies": {
