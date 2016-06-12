@@ -3,8 +3,9 @@
 [![Build Status](https://travis-ci.org/mjhea0/textbook.svg?branch=master)](https://travis-ci.org/mjhea0/textbook)
 [![Coverage Status](https://coveralls.io/repos/github/mjhea0/textbook/badge.svg?branch=master)](https://coveralls.io/github/mjhea0/textbook?branch=master)
 
-
 Just a simple learning management system for textbook-like sites.
+
+[Staging Server](http://textbook-lms.herokuapp.com/).
 
 ## Development
 
@@ -32,8 +33,8 @@ Just a simple learning management system for textbook-like sites.
   - Add [passport](https://github.com/jaredhanson/passport-github)
   - Write tests
   - Update templates
-  - Add flash messages (CURRENT)
-  - Update test
+  - Add flash messages
+  - Update tests (CURRENT)
   - Write more tests
 
 #### Registered

@@ -4,7 +4,7 @@ function ensureAuthenticated(req, res, next) {
   } else {
     req.flash('messages', {
       status: 'danger',
-      value: 'Please login.'
+      value: 'You must be logged in to do that.'
     });
     return res.redirect('/');
   }
