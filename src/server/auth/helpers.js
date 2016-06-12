@@ -1,5 +1,5 @@
 function ensureAuthenticated(req, res, next) {
-  if(req.user) {
+  if (req.user) {
     return next();
   } else {
     req.flash('messages', {
@@ -11,7 +11,7 @@ function ensureAuthenticated(req, res, next) {
 }
 
 function ensureVerified(req, res, next) {
-  if(req.user.verified) {
+  if (req.user.verified) {
     return next();
   } else {
     req.flash('messages', {
@@ -24,7 +24,7 @@ function ensureVerified(req, res, next) {
 
 function ensureAdmin(req, res, next) {
   if (req.user) {
-    if(req.user.admin) {
+    if (req.user.admin) {
       return next();
     }
   }
@@ -35,15 +35,13 @@ function ensureAdmin(req, res, next) {
   return res.redirect('/');
 }
 
-
 function loginRedirect(req, res, next) {
-  if(req.user) {
+  if (req.user) {
     return res.redirect('/');
   } else {
     return next();
   }
 }
-
 
 module.exports = {
   ensureAuthenticated: ensureAuthenticated,

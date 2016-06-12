@@ -20,5 +20,5 @@ function authenticateUser(done) {
 }
 
 module.exports = {
-  authenticateUser: authenticateUser,
+  authenticateUser: authenticateUser
 };

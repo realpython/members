@@ -18,6 +18,8 @@ Just a simple learning management system for textbook-like sites.
 1. Write tests
 1. Set up Travis CI
 1. Add code coverage
+1. Add JSHint
+1. Deploy to staging server (WIP)
 
 ### User Stories
 
@@ -30,6 +32,7 @@ Just a simple learning management system for textbook-like sites.
   - Add [passport](https://github.com/jaredhanson/passport-github)
   - Write tests
   - Update templates
+  - Add flash messages (CURRENT)
   - Update test
   - Write more tests
 

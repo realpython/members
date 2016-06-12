@@ -28,5 +28,5 @@ module.exports = {
   getUsers: getUsers,
   getSingleUser: getSingleUser,
   addUser: addUser,
-  makeAdmin: makeAdmin,
+  makeAdmin: makeAdmin
 };

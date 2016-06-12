@@ -7,14 +7,14 @@ passport.use(new GitHubStrategy({
   clientID: process.env.githubClientID,
   clientSecret: process.env.githubClientSecret,
   callbackURL: process.env.callbackURL
-  }, function(accessToken, refreshToken, profile, done) {
+}, function(accessToken, refreshToken, profile, done) {
     knex('users').where('email', profile.emails[0].value)
     .then(function(user) {
-      if(user.length) {
+      if (user.length) {
         done(null, user[0]);
       } else {
         var email = '';
-        if(profile.emails) {
+        if (profile.emails) {
           email = profile.emails[0].value;
         }
         knex('users').insert({

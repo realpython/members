@@ -28,7 +28,11 @@
     "chai": "^3.5.0",
     "chai-http": "^2.0.1",
     "coveralls": "^2.11.9",
+    "jscs": "^3.0.4",
+    "jshint-stylish": "^2.2.0",
     "mocha": "^2.5.3",
+    "mocha-jscs": "^5.0.1",
+    "mocha-jshint": "^2.3.1",
     "mocha-lcov-reporter": "^1.2.0",
     "passport-stub": "^1.1.1"
   }

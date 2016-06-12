@@ -4,9 +4,8 @@ var router = express.Router();
 var githubAuth = require('../auth/github');
 var authHelpers = require('../auth/helpers');
 
-
 router.get('/github',
-  githubAuth.authenticate('github', { scope: [ 'user:email' ] })
+  githubAuth.authenticate('github', { scope: ['user:email'] })
 );
 
 router.get('/github/callback',
