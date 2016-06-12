@@ -63,10 +63,11 @@ describe('routes : index', function() {
           res.status.should.equal(200);
           res.type.should.equal('text/html');
           res.text.should.contain(
-            '<h1 class="page-header">Textbook</h1>');
+            '<h1 class="page-header">Textbook<small>&nbsp;learning management system</small</h1>');
           res.text.should.contain(
-            '<p><a href="auth/github">Github</a></p>');
-          res.text.should.not.equal('dashboard!');
+            '<li><a href="/auth/github">Sign in with Github</a></li>');
+          res.text.should.not.contain(
+            '<h1 class="page-header">Textbook<small>&nbsp;dashboard</small</h1>');
           done();
         });
       });
@@ -89,11 +90,10 @@ describe('routes : index', function() {
             res.redirects.length.should.equal(0);
             res.status.should.equal(200);
             res.type.should.equal('text/html');
-            res.text.should.not.contain(
-              '<h1 class="page-header">Textbook</h1>');
-            res.text.should.not.contain(
-              '<p><a href="auth/github">Github</a></p>');
-            res.text.should.equal('dashboard!');
+            res.text.should.contain(
+              '<li><a href="/auth/github">Sign in with Github</a></li>');
+            res.text.should.contain(
+              '<h1 class="page-header">Textbook<small>&nbsp;dashboard</small</h1>');
             done();
           });
       });

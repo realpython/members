@@ -29,7 +29,7 @@ passport.use(new GitHubStrategy({
       }
     })
     .catch(function(err) {
-      callback(err);
+      done(err);
     });
   }
 ));

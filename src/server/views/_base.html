@@ -8,15 +8,15 @@
     <link rel="stylesheet" href="/css/main.css">
   </head>
   <body>
-    <!-- navbar -->
-    {% include "./partials/nav.html" %}
-    <!-- flash messages -->
-    {% include "./partials/flash.html" %}
-    <!-- main content -->
+
     <div class="container">
+      {% include "./partials/nav.html" %}
+      {% include "./partials/flash.html" %}
+      <!-- main content -->
       {% block content %}
       {% endblock %}
     </div>
+
     <!-- scripts -->
     <script type="text/javascript" src="//code.jquery.com/jquery-2.1.4.min.js"></script>
     <script ype="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>

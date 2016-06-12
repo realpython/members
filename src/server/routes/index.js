@@ -13,7 +13,10 @@ router.get('/ping', function(req, res, next) {
 
 router.get('/dashboard', authHelpers.ensureAuthenticated,
   function(req, res, next) {
-  res.send('dashboard!');
+  res.render('dashboard', {
+    user: req.user,
+    messages: req.flash('messages')
+  });
 });
 
 module.exports = router;

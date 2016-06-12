@@ -28,7 +28,9 @@ Just a simple learning management system for textbook-like sites.
   - Add Knex
   - Register app with Github
   - Add [passport](https://github.com/jaredhanson/passport-github)
-  - Write tests (current)
+  - Write tests
   - Update templates
+  - Update test
+  - Write more tests
 
 #### Registered
