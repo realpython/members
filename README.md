@@ -34,7 +34,7 @@ Just a simple learning management system for textbook-like sites.
   - Write tests
   - Update templates
   - Add flash messages
-  - Update tests (CURRENT)
-  - Write more tests
+  - Update tests
+  - Write more tests (CURRENT)
 
 #### Registered
