@@ -26,7 +26,7 @@ Just a simple learning management system for textbook-like sites.
 
 #### Unregistered
 
-1. Unregistered should be able to log in via Github
+1. Unregistered users should be able to log in via Github
   - Set up postgres databases
   - Add Knex
   - Register app with Github
@@ -35,6 +35,9 @@ Just a simple learning management system for textbook-like sites.
   - Update templates
   - Add flash messages
   - Update tests
-  - Write more tests (CURRENT)
+  - Write more tests
 
 #### Registered
+
+1. User should be able to view all the chapters
+  - Create migration (CURRENT)

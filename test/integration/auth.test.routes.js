@@ -13,7 +13,7 @@ var should = chai.should();
 passportStub.install(server);
 chai.use(chaiHttp);
 
-describe('routes : index', function() {
+describe('routes : auth', function() {
 
   beforeEach(function(done) {
     passportStub.logout();
@@ -31,33 +31,10 @@ describe('routes : index', function() {
   });
 
   describe('if unauthenticated', function() {
-    describe('GET /ping', function() {
+    describe('GET /auth/logout', function() {
       it('should return a response', function(done) {
         chai.request(server)
-        .get('/ping')
-        .end(function(err, res) {
-          res.status.should.equal(200);
-          res.type.should.equal('text/html');
-          res.text.should.equal('pong!');
-          done();
-        });
-      });
-    });
-    describe('GET /', function() {
-      it('should return a response', function(done) {
-        chai.request(server)
-        .get('/')
-        .end(function(err, res) {
-          res.status.should.equal(200);
-          res.type.should.equal('text/html');
-          done();
-        });
-      });
-    });
-    describe('GET /dashboard', function() {
-      it('should return a response', function(done) {
-        chai.request(server)
-        .get('/dashboard')
+        .get('/auth/logout')
         .end(function(err, res) {
           res.redirects.length.should.equal(1);
           res.status.should.equal(200);
@@ -83,20 +60,20 @@ describe('routes : index', function() {
       passportStub.logout();
       done();
     });
-    describe('GET /dashboard', function() {
+    describe('GET /auth/logout', function() {
       it('should return a response', function(done) {
         chai.request(server)
-        .get('/dashboard')
+        .get('/auth/logout')
         .end(function(err, res) {
-          res.redirects.length.should.equal(0);
+          res.redirects.length.should.equal(1);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
           res.text.should.contain(
-            '<a href="/auth/logout">Log out</a>');
+            '<h1 class="page-header">Textbook<small>&nbsp;learning management system</small</h1>');
           res.text.should.contain(
-            '<h1 class="page-header">Textbook<small>&nbsp;dashboard</small</h1>');
-          res.text.should.not.contain(
             '<li><a href="/auth/github">Sign in with Github</a></li>');
+          res.text.should.not.contain(
+            '<a href="/auth/logout">Log out</a>');
           done();
         });
       });
