@@ -1,13 +1,31 @@
-language: node_js
-
+language:
+- node_js
 node_js:
-  - "6"
-  - "5"
-  - "4"
-
-before_script: npm install -g istanbul
-
-script: npm test
-
-after_script: npm run coveralls
-
+- '6'
+- '5'
+- '4'
+services:
+- postgresql
+env:
+  global:
+  - NODE_ENV=test
+  - SECRET_KEY=test
+  - githubClientID=123456
+  - githubClientSecret=123456
+  - callbackURL=http://127.0.0.1:3000/auth/github/callback
+before_script:
+- psql -c 'create database textbook_test;' -U postgres
+- npm install -g istanbul
+script:
+- npm test
+after_script:
+- npm run coveralls
+deploy:
+  provider: heroku
+  api_key:
+    secure: AsNvmUwVA45uNfrpSGcfo5QqXVuQakG/OBBd6RXi2RrVVEBbKHmLC1kz59SjAIsrHuQW5LQura4WxgnpvRcnUDM5kqCBx6S6OGb2bqSAu9BqsYBXSWfJPTF5FGXp1j9ZsQ0tdiOucXSsfpo+ybDOm2EOfKh0qrcAUVKz0Wi5SXA74QaT88C1ABT4f8TF/iqO6/YpUWeuqTr8lBfW7dOB3GBpoxPDeN82q/Rew1qcrLy1Sy8m1n6pWhpqii1T1Nzm/esxCBOZW81bo6Xbd5BJprtHpceVAhoGslOk3roYWfM4TMhnPMsYI8WO78rAP8y0+Yf/MxfXAtgLEQ4rPRfEsnxFzzuvzZ3w0a+NXAavWj+ZiaUHomtQv8mLTnNuGHpyIPABtRusV+0sUW5/A2gDrRYUr9RPtLJZ4kAG6wHUvwmk356/7oy6vYiha9NGn8EQaEtgWWoB/+L0rc4TlYjmrP1QONvUMjKSRpKv+sBHEbYF4XeMgHMmJ6sM15P3E3SoA6eylG6VgnnxIBaqIYEl0BrDGb4FIVM0JPwekkKd8Is+A6MitpzpPOcx6J7M8SwvvatZzD6byO2zRx1we6HxcV/IZO94lI0eC56UCPC9VvklwRnFrHJ/J7DKHA9m9wmGaqgnxVTsNS9+e6AXqSG4fQWZmQtBiJ8+AjHoUQF66Jc=
+  app: textbook-lms
+  on:
+    repo: mjhea0/textbook
+    branch: master
+    node: '6'
