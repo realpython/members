@@ -14,10 +14,8 @@
     "$": false,
     "confirm": false
   },
-
   "node" : true,
   "browser" : true,
-
   "boss" : false,
   "curly": false,
   "debug": false,

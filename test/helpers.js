@@ -1,5 +1,5 @@
 var passportStub = require('passport-stub');
-var queries = require('../src/server/db/queries');
+var queries = require('../src/server/db/queries.auth');
 
 function authenticateUser(done) {
   queries.addUser({
@@ -12,10 +12,10 @@ function authenticateUser(done) {
   }).returning('id')
   .then(function(userID) {
     queries.getSingleUser(userID[0])
-      .then(function(user) {
-        passportStub.login(user[0]);
-        done();
-      });
+    .then(function(user) {
+      passportStub.login(user[0]);
+      done();
+    });
   });
 }
 

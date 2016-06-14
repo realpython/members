@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var authHelpers = require('../auth/helpers');
+var chapterQueries = require('../db/queries.chapters');
 
 router.get('/', function(req, res, next) {
   var renderObject = {
@@ -18,9 +19,18 @@ router.get('/ping', function(req, res, next) {
 
 router.get('/dashboard', authHelpers.ensureAuthenticated,
   function(req, res, next) {
-  res.render('dashboard', {
-    user: req.user,
-    messages: req.flash('messages')
+  chapterQueries.getChapters()
+  .then(function(chapters) {
+    var renderObject = {
+      title: 'Textbook LMS - dashboard',
+      user: req.user,
+      chapters: chapters,
+      messages: req.flash('messages')
+    };
+    res.render('dashboard', renderObject);
+  })
+  .catch(function(err) {
+    next(err);
   });
 });
 

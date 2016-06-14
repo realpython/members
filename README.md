@@ -20,7 +20,7 @@ Just a simple learning management system for textbook-like sites.
 1. Set up Travis CI
 1. Add code coverage
 1. Add JSHint
-1. Deploy to staging server (WIP)
+1. Deploy to staging server
 
 ### User Stories
 
@@ -40,4 +40,9 @@ Just a simple learning management system for textbook-like sites.
 #### Registered
 
 1. User should be able to view all the chapters
-  - Create migration (CURRENT)
+  - Create migration
+  - Create seed
+  - Add DB query
+  - Update view (CURRENT)
+  - Write tests
+  - Deploy

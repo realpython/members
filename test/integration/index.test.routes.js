@@ -66,7 +66,7 @@ describe('routes : index', function() {
             '<h1 class="page-header">Textbook<small>&nbsp;learning management system</small</h1>');
           res.text.should.contain(
             '<li><a href="/auth/github">Sign in with Github</a></li>');
-          res.text.should.not.contain('<a href="/auth/logout">Log out</a>');
+          res.text.should.not.contain('<li><a href="/auth/logout"><i class="fa fa-fw fa-power-off"></i> Log Out</a></li>\n');
           res.text.should.not.contain(
             '<h1 class="page-header">Textbook<small>&nbsp;dashboard</small</h1>');
           done();
@@ -92,7 +92,7 @@ describe('routes : index', function() {
           res.status.should.equal(200);
           res.type.should.equal('text/html');
           res.text.should.contain(
-            '<a href="/auth/logout">Log out</a>');
+            '<li><a href="/auth/logout"><i class="fa fa-fw fa-power-off"></i> Log Out</a></li>\n');
           res.text.should.contain(
             '<h1 class="page-header">Textbook<small>&nbsp;dashboard</small</h1>');
           res.text.should.not.contain(

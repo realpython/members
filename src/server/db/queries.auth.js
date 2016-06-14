@@ -1,7 +1,5 @@
 var knex = require('./knex');
 
-// *** auth *** //
-
 function getUsers() {
   return knex('users')
     .select();
