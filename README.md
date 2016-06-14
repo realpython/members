@@ -21,6 +21,8 @@ Just a simple learning management system for textbook-like sites.
 1. Add code coverage
 1. Add JSHint
 1. Deploy to staging server
+  - heroku run knex migrate:latest --env staging
+  - heroku run knex seed:run --env staging
 
 ### User Stories
 

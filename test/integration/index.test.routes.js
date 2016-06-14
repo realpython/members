@@ -55,7 +55,7 @@ describe('routes : index', function() {
       });
     });
     describe('GET /dashboard', function() {
-      it('should return a response', function(done) {
+      it('should redirect', function(done) {
         chai.request(server)
         .get('/dashboard')
         .end(function(err, res) {
@@ -69,6 +69,19 @@ describe('routes : index', function() {
           res.text.should.not.contain('<li><a href="/auth/logout"><i class="fa fa-fw fa-power-off"></i> Log Out</a></li>\n');
           res.text.should.not.contain(
             '<h1 class="page-header">Textbook<small>&nbsp;dashboard</small</h1>');
+          res.text.should.not.contain('<h3>Chapters</h3>');
+          done();
+        });
+      });
+    });
+    describe('GET /doesnotexist', function() {
+      it('should throw an error', function(done) {
+        chai.request(server)
+        .get('/doesnotexist')
+        .end(function(err, res) {
+          res.status.should.equal(404);
+          res.type.should.equal('text/html');
+          res.text.should.contain('Not Found');
           done();
         });
       });
@@ -95,6 +108,7 @@ describe('routes : index', function() {
             '<li><a href="/auth/logout"><i class="fa fa-fw fa-power-off"></i> Log Out</a></li>\n');
           res.text.should.contain(
             '<h1 class="page-header">Textbook<small>&nbsp;dashboard</small</h1>');
+          res.text.should.contain('<h3>Chapters</h3>');
           res.text.should.not.contain(
             '<li><a href="/auth/github">Sign in with Github</a></li>');
           done();

@@ -50,6 +50,7 @@ a {
   -o-transition: all 0.5s ease;
   transition: all 0.5s ease;
   color: white;
+  background-color: #222;
 }
 
 #wrapper.toggled #sidebar-wrapper {
