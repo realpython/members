@@ -43,6 +43,6 @@ Just a simple learning management system for textbook-like sites.
   - Create migration
   - Create seed
   - Add DB query
-  - Update view (CURRENT)
-  - Write tests
+  - Update view
+  - Write tests (CURRENT)
   - Deploy

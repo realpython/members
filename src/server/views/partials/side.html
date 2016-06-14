@@ -1,0 +1,12 @@
+<!-- Sidebar -->
+<div id="sidebar-wrapper">
+  <ul class="sidebar-nav">
+    {% if user and chapters %}
+      <h3>Chapters</h3>
+      {% for chapter in chapters %}
+        <li>{{chapter.name}}</li>
+      {% endfor %}
+    {% endif %}
+  </ul>
+</div>
+<!-- /#sidebar-wrapper -->
