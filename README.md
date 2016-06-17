@@ -41,10 +41,19 @@ Just a simple learning management system for textbook-like sites.
 
 #### Registered
 
-1. User should be able to view all the chapters
+1. Users should be able to view all the chapters
   - Create migration
   - Create seed
   - Add DB query
   - Update view
+  - Write tests
+  - Deploy
+1. Users should be able to view a chapter
+  - Create migration
+  - Update seed
+  - Add DB query
+  - Add route
+  - Add view
   - Write tests (CURRENT)
   - Deploy
+1. User should be redirected to the previous page after sign in
