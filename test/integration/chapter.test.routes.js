@@ -8,6 +8,8 @@ var knex = require('../../src/server/db/knex');
 var testHelpers = require('../helpers');
 var server = require('../../src/server/app');
 var chapterQueries = require('../../src/server/db/queries.chapters');
+var standardQueries = require('../../src/server/db/queries.standards');
+var lessonQueries = require('../../src/server/db/queries.lessons');
 
 var should = chai.should();
 
@@ -69,18 +71,26 @@ describe('routes : chapter', function() {
       it('should return a response', function(done) {
         chapterQueries.getChapters()
         .then(function(chapters) {
-          chai.request(server)
-          .get('/chapter/' + chapters[0].id)
-          .end(function(err, res) {
-            res.redirects.length.should.equal(0);
-            res.status.should.equal(200);
-            res.type.should.equal('text/html');
-            res.text.should.contain(
-              '<small>&nbsp;' + chapters[0].name + '</small>');
-            res.text.should.contain('<h3>Chapters</h3>');
-            res.text.should.not.contain(
-              '<h1 class="page-header">Textbook<small>&nbsp;learning management system</small></h1>');
-            done();
+          return standardQueries.getStandards(parseInt(chapters[0].id))
+          .then(function(standards) {
+            return lessonQueries.getLessons(parseInt(chapters[0].id))
+            .then(function(lessons) {
+              chai.request(server)
+              .get('/chapter/' + chapters[0].id)
+              .end(function(err, res) {
+                res.redirects.length.should.equal(0);
+                res.status.should.equal(200);
+                res.type.should.equal('text/html');
+                res.text.should.contain(
+                  '<small>&nbsp;' + chapters[0].name + '</small>');
+                res.text.should.contain('<p>Standard: ' + standards[0].name + '</p>');
+                res.text.should.contain('<h3>Chapters</h3>');
+                res.text.should.contain('<p>' + lessons[0].content + '</p>');
+                res.text.should.not.contain(
+                  '<h1 class="page-header">Textbook<small>&nbsp;learning management system</small></h1>');
+                done();
+              });
+            });
           });
         });
       });

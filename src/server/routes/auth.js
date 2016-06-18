@@ -5,11 +5,15 @@ var githubAuth = require('../auth/github');
 var authHelpers = require('../auth/helpers');
 
 router.get('/github',
-  githubAuth.authenticate('github', { scope: ['user:email'] })
+  githubAuth.authenticate('github', {
+    scope: ['user:email']
+  })
 );
 
 router.get('/github/callback',
-  githubAuth.authenticate('github', { failureRedirect: '/'}),
+  githubAuth.authenticate('github', {
+    failureRedirect: '/'
+  }),
   function(req, res, next) {
   req.flash('messages', {
     status: 'success',

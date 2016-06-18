@@ -29,31 +29,10 @@ Just a simple learning management system for textbook-like sites.
 #### Unregistered
 
 1. Unregistered users should be able to log in via Github
-  - Set up postgres databases
-  - Add Knex
-  - Register app with Github
-  - Add [passport](https://github.com/jaredhanson/passport-github)
-  - Write tests
-  - Update templates
-  - Add flash messages
-  - Update tests
-  - Write more tests
 
 #### Registered
 
 1. Users should be able to view all the chapters
-  - Create migration
-  - Create seed
-  - Add DB query
-  - Update view
-  - Write tests
-  - Deploy
-1. Users should be able to view a chapter
-  - Create migration
-  - Update seed
-  - Add DB query
-  - Add route
-  - Add view
-  - Write tests (CURRENT)
-  - Deploy
-1. User should be redirected to the previous page after sign in
+1. Users should be able to view a single chapter
+1. User should be able to view standards, lessons, and exercises within a chapter
+1. Users should be able to mark a lesson complete (current)

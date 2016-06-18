@@ -7,7 +7,7 @@ function getChapters() {
 
 function getSingleChapter(chapterID) {
   return knex('chapters')
-    .select()
+    .select('*')
     .where('id', chapterID);
 }
 

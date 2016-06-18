@@ -8,7 +8,12 @@
   <div class="row">
     <div class="col-md-12">
       <h1 class="page-header">Textbook<small>&nbsp;{{singleChapter.name}}</small></h1>
-      {{singleChapter.content}}
+      <p>Standard: {{standard.name}}</p>
+      <p>Lessons:</p>
+      {% for lesson in lessons %}
+        <p>{{lesson.content}}</p>
+      {% endfor %}
+      </ul>
     </div>
   </div>
 

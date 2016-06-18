@@ -2,12 +2,12 @@ var knex = require('./knex');
 
 function getUsers() {
   return knex('users')
-    .select();
+    .select('*');
 }
 
 function getSingleUser(userID) {
   return knex('users')
-    .select()
+    .select('*')
     .where('id', userID);
 }
 
