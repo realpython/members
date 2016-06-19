@@ -50,20 +50,9 @@ describe('routes : index', function() {
       });
     });
     describe('GET /', function() {
-      it('should return a response', function(done) {
-        chai.request(server)
-        .get('/')
-        .end(function(err, res) {
-          res.status.should.equal(200);
-          res.type.should.equal('text/html');
-          done();
-        });
-      });
-    });
-    describe('GET /dashboard', function() {
       it('should redirect', function(done) {
         chai.request(server)
-        .get('/dashboard')
+        .get('/')
         .end(function(err, res) {
           res.redirects.length.should.equal(1);
           res.status.should.equal(200);
@@ -102,10 +91,10 @@ describe('routes : index', function() {
       passportStub.logout();
       done();
     });
-    describe('GET /dashboard', function() {
+    describe('GET /', function() {
       it('should return a response', function(done) {
         chai.request(server)
-        .get('/dashboard')
+        .get('/')
         .end(function(err, res) {
           res.redirects.length.should.equal(0);
           res.status.should.equal(200);

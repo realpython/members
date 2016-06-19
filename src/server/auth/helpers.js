@@ -3,10 +3,10 @@ function ensureAuthenticated(req, res, next) {
     return next();
   } else {
     req.flash('messages', {
-      status: 'danger',
-      value: 'You must be logged in to do that.'
+      status: 'warning',
+      value: 'You need to sign in or sign up before continuing.'
     });
-    return res.redirect('/');
+    return res.redirect('/auth/sign_up');
   }
 }
 
@@ -18,7 +18,7 @@ function ensureVerified(req, res, next) {
       status: 'danger',
       value: 'Please verify your account.'
     });
-    return res.redirect('/');
+    return res.redirect('/auth/sign_up');
   }
 }
 
@@ -32,7 +32,7 @@ function ensureAdmin(req, res, next) {
     status: 'danger',
     value: 'You do not have permission to view that page.'
   });
-  return res.redirect('/');
+  return res.redirect('/auth/sign_up');
 }
 
 function loginRedirect(req, res, next) {

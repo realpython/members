@@ -40,7 +40,7 @@ router.get('/:id', authHelpers.ensureAuthenticated,
           status: 'danger',
           value: 'Sorry. That chapter does not exist.'
         });
-        return res.redirect('/dashboard');
+        return res.redirect('/');
       }
     });
   })

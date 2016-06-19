@@ -36,4 +36,4 @@ Just a simple learning management system for textbook-like sites.
 1. Users should be able to view all the chapters
 1. Users should be able to view a single chapter
 1. User should be able to view standards and lessons within a chapter
-1. Users should be able to mark a lesson complete (current)
+1. Users should be able to view lessons on the sidebar

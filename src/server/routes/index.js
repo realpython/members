@@ -4,20 +4,11 @@ var router = express.Router();
 var authHelpers = require('../auth/helpers');
 var chapterQueries = require('../db/queries.chapters');
 
-router.get('/', function(req, res, next) {
-  var renderObject = {
-    title: 'Textbook LMS',
-    user: req.user,
-    messages: req.flash('messages')
-  };
-  res.render('index', renderObject);
-});
-
 router.get('/ping', function(req, res, next) {
   res.send('pong!');
 });
 
-router.get('/dashboard', authHelpers.ensureAuthenticated,
+router.get('/', authHelpers.ensureAuthenticated,
   function(req, res, next) {
   chapterQueries.getChapters()
   .then(function(chapters) {
