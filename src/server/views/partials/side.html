@@ -1,13 +1,17 @@
+<!-- NOT USED -->
+
 <!-- Sidebar -->
-<div id="sidebar-wrapper">
-  <ul class="sidebar-nav">
-    {% if user and chapters %}
-      <h3>Chapters</h3>
-      <br>
-      {% for chapter in chapters %}
-        <li><a href="/chapter/{{chapter.id}}">{{chapter.name}}</a></li>
-      {% endfor %}
-    {% endif %}
-  </ul>
-</div>
+{% if user %}
+  <div id="sidebar-wrapper">
+    <ul class="sidebar-nav">
+      {% if user and chapters %}
+        <h3>Chapters</h3>
+        <br>
+        {% for chapter in chapters %}
+          <li><a href="/chapter/{{chapter.id}}">{{chapter.name}}</a></li>
+        {% endfor %}
+      {% endif %}
+    </ul>
+  </div>
+{% endif %}
 <!-- /#sidebar-wrapper -->

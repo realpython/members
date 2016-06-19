@@ -37,21 +37,34 @@ describe('routes : auth', function() {
   });
 
   describe('if unauthenticated', function() {
-    describe('GET /auth/logout', function() {
-      it('should return a response', function(done) {
+    describe('GET /auth/log_out', function() {
+      it('should redirect to sign up page', function(done) {
         chai.request(server)
-        .get('/auth/logout')
+        .get('/auth/log_out')
         .end(function(err, res) {
           res.redirects.length.should.equal(1);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
-          res.text.should.contain(
-            '<h1 class="page-header">Textbook<small>&nbsp;learning management system</small></h1>');
+          res.text.should.contain('<h1>Try Textbook</h1>');
           res.text.should.contain(
             '<li><a href="/auth/github">Sign in with Github</a></li>');
-          res.text.should.not.contain('<a href="/auth/logout">Log out</a>');
-          res.text.should.not.contain(
-            '<h1 class="page-header">Textbook<small>&nbsp;dashboard</small></h1>');
+          res.text.should.not.contain('<li><a href="/auth/log_out"><i class="fa fa-fw fa-power-off"></i> Log Out</a></li>');
+          done();
+        });
+      });
+    });
+    describe('GET /auth/sign_up', function() {
+      it('should return a response', function(done) {
+        chai.request(server)
+        .get('/auth/sign_up')
+        .end(function(err, res) {
+          res.redirects.length.should.equal(0);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('<h1>Try Textbook</h1>');
+          res.text.should.contain(
+            '<li><a href="/auth/github">Sign in with Github</a></li>');
+          res.text.should.not.contain('<li><a href="/auth/log_out"><i class="fa fa-fw fa-power-off"></i> Log Out</a></li>');
           done();
         });
       });
@@ -66,20 +79,35 @@ describe('routes : auth', function() {
       passportStub.logout();
       done();
     });
-    describe('GET /auth/logout', function() {
+    describe('GET /auth/log_out', function() {
       it('should return a response', function(done) {
         chai.request(server)
-        .get('/auth/logout')
+        .get('/auth/log_out')
         .end(function(err, res) {
           res.redirects.length.should.equal(1);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
-          res.text.should.contain(
-            '<h1 class="page-header">Textbook<small>&nbsp;learning management system</small></h1>');
+          res.text.should.contain('<h1>Try Textbook</h1>');
           res.text.should.contain(
             '<li><a href="/auth/github">Sign in with Github</a></li>');
           res.text.should.not.contain(
-            '<a href="/auth/logout">Log out</a>');
+            '<li><a href="/auth/log_out"><i class="fa fa-fw fa-power-off"></i> Log Out</a></li>');
+          done();
+        });
+      });
+    });
+    describe('GET /auth/sign_up', function() {
+      it('should return a response', function(done) {
+        chai.request(server)
+        .get('/auth/sign_up')
+        .end(function(err, res) {
+          res.redirects.length.should.equal(1);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.not.contain(
+            '<li><a href="/auth/github">Sign in with Github</a></li>');
+          res.text.should.contain(
+            '<li><a href="/auth/log_out"><i class="fa fa-fw fa-power-off"></i> Log Out</a></li>');
           done();
         });
       });

@@ -16,13 +16,13 @@ router.get('/github/callback',
   }),
   function(req, res, next) {
   req.flash('messages', {
-    status: 'success',
+    status: 'warning',
     value: 'Welcome!'
   });
   res.redirect('/');
 });
 
-router.get('/sign_up', function(req, res, next) {
+router.get('/sign_up', authHelpers.loginRedirect, function(req, res, next) {
   var renderObject = {
     title: 'Textbook LMS',
     user: req.user,
@@ -31,11 +31,11 @@ router.get('/sign_up', function(req, res, next) {
   res.render('sign_up', renderObject);
 });
 
-router.get('/logout', authHelpers.ensureAuthenticated, function(req, res, next) {
+router.get('/log_out', authHelpers.ensureAuthenticated, function(req, res, next) {
   req.logout();
   req.flash('messages', {
-    status: 'success',
-    value: 'You successfully logged out. Congrats!'
+    status: 'warning',
+    value: 'You successfully logged out.'
   });
   res.redirect('/auth/sign_up');
 });
