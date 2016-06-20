@@ -61,8 +61,7 @@ describe('routes : index', function() {
           res.text.should.contain(
             '<li><a href="/auth/github">Sign in with Github</a></li>');
           res.text.should.not.contain('<li><a href="/auth/logout"><i class="fa fa-fw fa-power-off"></i> Log Out</a></li>\n');
-          res.text.should.not.contain(
-            '<h1 class="page-header">Textbook<small>&nbsp;dashboard</small></h1>');
+          res.text.should.not.contain('<h1>Dashboard</h1>');
           res.text.should.not.contain('<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-book"></i> Chapters <b class="caret"></b></a>');
           done();
         });
@@ -100,8 +99,7 @@ describe('routes : index', function() {
           res.type.should.equal('text/html');
           res.text.should.contain(
             '<li><a href="/auth/log_out"><i class="fa fa-fw fa-power-off"></i> Log Out</a></li>\n');
-          res.text.should.contain(
-            '<h1 class="page-header">Textbook<small>&nbsp;dashboard</small></h1>');
+          res.text.should.contain('<h1>Dashboard</h1>');
           res.text.should.contain('<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-book"></i> Chapters <b class="caret"></b></a>');
           res.text.should.not.contain(
             '<li><a href="/auth/github">Sign in with Github</a></li>');

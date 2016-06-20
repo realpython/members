@@ -49,8 +49,7 @@ describe('routes : chapter', function() {
           res.status.should.equal(200);
           res.type.should.equal('text/html');
           res.text.should.contain('<h1>Try Textbook</h1>');
-          res.text.should.not.contain(
-            '<small>&nbsp;Functions and Loops</small>');
+          res.text.should.not.contain('<h1>Functions and Loops</h1>');
           res.text.should.not.contain('<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-book"></i> Chapters <b class="caret"></b></a>');
           done();
         });
@@ -81,7 +80,7 @@ describe('routes : chapter', function() {
                 res.status.should.equal(200);
                 res.type.should.equal('text/html');
                 res.text.should.contain(
-                  '<small>&nbsp;' + chapters[0].name + '</small>');
+                  '<h1>' + chapters[0].name + '</h1>');
                 res.text.should.contain('<p>Standard: ' + standards[0].name + '</p>');
                 res.text.should.contain('<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-book"></i> Chapters <b class="caret"></b></a>');
                 res.text.should.contain('<p>' + lessons[0].content + '</p>');
@@ -103,8 +102,7 @@ describe('routes : chapter', function() {
           res.type.should.equal('text/html');
           res.text.should.contain(
             '<li><a href="/auth/log_out"><i class="fa fa-fw fa-power-off"></i> Log Out</a></li>\n');
-          res.text.should.contain(
-            '<h1 class="page-header">Textbook<small>&nbsp;dashboard</small></h1>');
+          res.text.should.contain('<h1>Dashboard</h1>');
           res.text.should.contain('<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-book"></i> Chapters <b class="caret"></b></a>');
           res.text.should.not.contain(
             '<li><a href="/auth/github">Sign in with Github</a></li>');
