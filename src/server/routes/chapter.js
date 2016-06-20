@@ -3,7 +3,6 @@ var router = express.Router();
 
 var authHelpers = require('../auth/helpers');
 var chapterQueries = require('../db/queries.chapters');
-var standardQueries = require('../db/queries.standards');
 var lessonQueries = require('../db/queries.lessons');
 
 router.get('/:id', authHelpers.ensureAuthenticated,
@@ -22,19 +21,7 @@ router.get('/:id', authHelpers.ensureAuthenticated,
       if (singleChapter.length) {
         renderObject.title = 'Textbook LMS - ' + singleChapter[0].name;
         renderObject.singleChapter = singleChapter[0];
-        // get associated standards
-        return standardQueries.getStandards(
-          parseInt(renderObject.singleChapter.id))
-        .then(function(standard) {
-          renderObject.standard = standard[0];
-          // get associated lessons
-          return lessonQueries.getLessons(
-            parseInt(renderObject.singleChapter.id))
-          .then(function(lessons) {
-            renderObject.lessons = lessons;
-            res.render('chapter', renderObject);
-          });
-        });
+        res.render('chapter', renderObject);
       } else {
         req.flash('messages', {
           status: 'danger',
