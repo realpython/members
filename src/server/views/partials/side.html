@@ -1,12 +1,18 @@
 <!-- Sidebar -->
 {% if user %}
   <div class="sidebar-wrapper">
-    <ul class="sidebar-nav">
+    <ul>
       {% if user and chapters %}
-        <h3>Chapters</h3>
+        <h3>Chapters and Lessons</h3>
         <br>
         {% for chapter in chapters %}
-          <li><a href="/chapter/{{chapter.id}}">{{chapter.name}}</a></li>
+          <li data-side-order="{{chapter.order}}"><a href="/chapter/{{chapter.id}}">{{chapter.name}}</a>
+            <ul>
+            {% for lesson in chapter.lessons %}
+              <li>{{lesson.lessonName}}</li>
+            {% endfor %}
+            </ul>
+          </li>
         {% endfor %}
       {% endif %}
     </ul>

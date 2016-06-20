@@ -9,7 +9,7 @@ module.exports = {
       directory: __dirname + '/src/server/db/migrations'
     },
     seeds: {
-      directory: __dirname + '/src/server/db/seeds/dev'
+      directory: __dirname + '/src/server/db/seeds'
     }
   },
   test: {
@@ -21,7 +21,7 @@ module.exports = {
       directory: __dirname + '/src/server/db/migrations'
     },
     seeds: {
-      directory: __dirname + '/src/server/db/seeds/test'
+      directory: __dirname + '/src/server/db/seeds'
     }
   },
   staging: {
@@ -31,7 +31,7 @@ module.exports = {
       directory: __dirname + '/src/server/db/migrations'
     },
     seeds: {
-      directory: __dirname + '/src/server/db/seeds/staging'
+      directory: __dirname + '/src/server/db/seeds'
     }
   },
   production: {
@@ -41,7 +41,7 @@ module.exports = {
       directory: __dirname + '/src/server/db/migrations'
     },
     seeds: {
-      directory: __dirname + '/src/server/db/seeds/production'
+      directory: __dirname + '/src/server/db/seeds'
     }
   }
 

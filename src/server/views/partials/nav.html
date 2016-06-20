@@ -17,7 +17,7 @@
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-book"></i> Chapters <b class="caret"></b></a>
               <ul class="dropdown-menu">
               {% for chapter in chapters %}
-                <li><a href="/chapter/{{chapter.id}}">{{chapter.name}}</a></li>
+                <li data-nav-order="{{chapter.order}}"><a href="/chapter/{{chapter.id}}">{{chapter.name}}</a></li>
               {% endfor %}
               </ul>
             </li>
