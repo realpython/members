@@ -6,6 +6,8 @@ node_js:
 - '4'
 services:
 - postgresql
+addons:
+  postgresql: "9.4"
 env:
   global:
   - NODE_ENV=test
