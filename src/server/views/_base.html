@@ -1,11 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
     {% if title %}
       <title>{{ title }}</title>
     {% else %}
-      <title>Textbook LMS{% block title %}{% endblock %}</title>
+      <title>Textbook LMS</title>
     {% endif %}
     <!-- stylesheets -->
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -14,18 +17,23 @@
   </head>
   <body>
 
-    <div class="container">
-      {% include "./partials/nav.html" %}
-      {% include "./partials/flash.html" %}
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-md-12">
-              {% block content %}
-              {% endblock %}
-            </div>
-          </div>
+    {% include "./partials/nav.html" %}
+
+    <div class="container site-wrapper">
+      <div class="row">
+        <div class="col-sm-12 site-main">
+          {% include "./partials/flash.html" %}
         </div>
-      {% include './partials/footer.html' %}
+      </div>
+      <div class="row">
+        <div class="col-sm-8 site-main">
+          {% block content %}
+          {% endblock %}
+        </div>
+        <div class="col-sm-3 col-sm-offset-1 site-sidebar">
+          {% include './partials/side.html' %}
+        </div>
+      </div>
     </div>
 
     <!-- scripts -->

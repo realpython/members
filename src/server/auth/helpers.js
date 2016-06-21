@@ -4,7 +4,7 @@ function ensureAuthenticated(req, res, next) {
   } else {
     req.flash('messages', {
       status: 'warning',
-      value: 'You need to sign in or sign up before continuing.'
+      value: 'You need to sign in before continuing.'
     });
     return res.redirect('/auth/log_in');
   }

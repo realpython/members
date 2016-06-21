@@ -46,7 +46,7 @@ describe('routes : chapter', function() {
           res.redirects.length.should.equal(1);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
-          res.text.should.contain('<h1>Try Textbook</h1>');
+          res.text.should.contain('try Textbook');
           done();
         });
       });
@@ -59,7 +59,7 @@ describe('routes : chapter', function() {
           res.redirects.length.should.equal(1);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
-          res.text.should.contain('<h1>Try Textbook</h1>');
+          res.text.should.contain('try Textbook');
           done();
         });
       });

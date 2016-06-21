@@ -9,18 +9,6 @@
     <div class="col-md-12">
       <h1>Dashboard</h1>
       <p>Stats...</p>
-      <h3>Read Chapters</h3>
-      {% for chapter in chapters %}
-        {% if chapter.read %}
-          <li><a href="/chapter/{{chapter.id}}">{{chapter.name}}</a></li>
-        {% endif %}
-      {% endfor %}
-      <h3>Unread Chapters</h3>
-      {% for chapter in chapters %}
-        {% if !chapter.read %}
-          <li><a href="/chapter/{{chapter.id}}">{{chapter.name}}</a></li>
-        {% endif %}
-      {% endfor %}
     </div>
   </div>
 
