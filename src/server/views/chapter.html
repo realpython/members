@@ -9,7 +9,11 @@
     <div class="col-md-12">
       <h1>{{singleChapter.name}}</h1>
       <p>{{singleChapter.content}}</p>
-      </ul>
+      {% if singleChapter.read %}
+        <a href="/chapter/{{singleChapter.id}}/update?read=false" type="button" class="btn btn-default">Mark as Unread</a>
+      {% elseif !singleChapter.read %}
+        <a href="/chapter/{{singleChapter.id}}/update?read=true" type="button" class="btn btn-default">Mark as Read</a>
+      {% endif %}
     </div>
   </div>
 

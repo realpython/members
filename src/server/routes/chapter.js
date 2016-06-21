@@ -22,12 +22,28 @@ router.get('/:id', authHelpers.ensureAuthenticated,
         res.render('chapter', renderObject);
       } else {
         req.flash('messages', {
-          status: 'danger',
+          status: 'warning',
           value: 'Sorry. That chapter does not exist.'
         });
         return res.redirect('/');
       }
     });
+  })
+  .catch(function(err) {
+    next(err);
+  });
+});
+
+router.get('/:id/update', authHelpers.ensureAuthenticated,
+  function(req, res, next) {
+  var read = req.query.read;
+  chapterQueries.updateChapterReadStatus(parseInt(req.params.id), read)
+  .then(function() {
+    req.flash('messages', {
+      status: 'warning',
+      value: 'Thanks!'
+    });
+    res.redirect('/');
   })
   .catch(function(err) {
     next(err);

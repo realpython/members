@@ -25,9 +25,11 @@ Just a simple learning management system for textbook-like sites.
   - heroku run knex migrate:latest --env staging
   - heroku run knex seed:run --env staging
 
-### User Stories (completed)
+### User Stories
 
 1. Unregistered users should be able to log in via Github
 1. Users should be able to view all the chapters
 1. Users should be able to view chapters on the navbar
 1. Users should be able to view a single chapter
+1. Users should be able to mark a chapter as read or unread
+1. Users should be able to view read and unread chapters on the dashboard (WIP)

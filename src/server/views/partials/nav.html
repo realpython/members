@@ -1,5 +1,5 @@
-<nav class="navbar navbar-fixed top" role="navigation">
-  <div class="container">
+<nav class="navbar navbar-default" role="navigation">
+  <div>
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
         <span class="sr-only">Toggle navigation</span>
@@ -17,7 +17,7 @@
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-book"></i> Chapters <b class="caret"></b></a>
               <ul class="dropdown-menu">
               {% for chapter in chapters %}
-                <li data-nav-order="{{chapter.order}}"><a href="/chapter/{{chapter.id}}">{{chapter.name}}</a></li>
+                <li><a href="/chapter/{{chapter.id}}">{{chapter.order}} - {{chapter.name}}</a></li>
               {% endfor %}
               </ul>
             </li>

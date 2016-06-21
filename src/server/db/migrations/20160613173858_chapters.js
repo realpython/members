@@ -4,6 +4,7 @@ exports.up = function(knex, Promise) {
     table.integer('order').unique().notNullable();
     table.string('name').unique().notNullable();
     table.text('content').notNullable();
+    table.boolean('read').notNullable().defaultTo(false);
   });
 };
 

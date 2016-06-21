@@ -51,6 +51,19 @@ describe('routes : chapter', function() {
         });
       });
     });
+    describe('GET /chapter/:id/update?read=true', function() {
+      it('should redirect to log in page', function(done) {
+        chai.request(server)
+        .get('/chapter/:id/update?read=true')
+        .end(function(err, res) {
+          res.redirects.length.should.equal(1);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('<h1>Try Textbook</h1>');
+          done();
+        });
+      });
+    });
   });
 
   describe('if authenticated', function() {
@@ -89,6 +102,37 @@ describe('routes : chapter', function() {
           res.type.should.equal('text/html');
           res.text.should.contain('<h1>Dashboard</h1>');
           done();
+        });
+      });
+    });
+    describe('GET /chapter/:id/update?read=true', function() {
+      it('should redirect to the dashboard', function(done) {
+        chapterQueries.getChapters()
+        .then(function(chapters) {
+          chai.request(server)
+          .get('/chapter/' + chapters[0].id + '/update?read=true')
+          .end(function(err, res) {
+            res.redirects.length.should.equal(1);
+            res.status.should.equal(200);
+            res.type.should.equal('text/html');
+            res.text.should.contain('<h1>Dashboard</h1>');
+            done();
+          });
+        });
+      });
+    });
+    describe('GET /chapter/:id/update?read=999', function() {
+      it('should throw an error if the query string read is not a boolean', function(done) {
+        chapterQueries.getChapters()
+        .then(function(chapters) {
+          chai.request(server)
+          .get('/chapter/' + chapters[0].id + '/update?read=999')
+          .end(function(err, res) {
+            res.redirects.length.should.equal(0);
+            res.status.should.equal(500);
+            res.type.should.equal('text/html');
+            done();
+          });
         });
       });
     });
