@@ -30,14 +30,4 @@ Just a simple learning management system for textbook-like sites.
 1. Unregistered users should be able to log in via Github
 1. Users should be able to view all the chapters
 1. Users should be able to view chapters on the navbar
-1. Users should be able to view chapters on the sidebar
 1. Users should be able to view a single chapter
-1. Users should be able to view a standard in the single chapter view
-
-### User Stories (wip)
-
-1. Users should be able to all lessons on the sidebar
-  - test to ensure chapters are in the right order (sidebar, and navbar)
-  - test that lessons are there and in order
-1. Users should be able to view a single lesson
-1. Users should be able to view all lessons in the single chapter view

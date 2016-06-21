@@ -3,8 +3,7 @@ exports.up = function(knex, Promise) {
     table.increments();
     table.integer('order').unique().notNullable();
     table.string('name').unique().notNullable();
-    table.string('standard').notNullable();
-    table.json('lessons');
+    table.text('content').notNullable();
   });
 };
 

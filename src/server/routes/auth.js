@@ -22,22 +22,24 @@ router.get('/github/callback',
   res.redirect('/');
 });
 
-router.get('/sign_up', authHelpers.loginRedirect, function(req, res, next) {
+router.get('/log_in', authHelpers.loginRedirect,
+  function(req, res, next) {
   var renderObject = {
     title: 'Textbook LMS',
     user: req.user,
     messages: req.flash('messages')
   };
-  res.render('sign_up', renderObject);
+  res.render('log_in', renderObject);
 });
 
-router.get('/log_out', authHelpers.ensureAuthenticated, function(req, res, next) {
+router.get('/log_out', authHelpers.ensureAuthenticated,
+  function(req, res, next) {
   req.logout();
   req.flash('messages', {
     status: 'warning',
     value: 'You successfully logged out.'
   });
-  res.redirect('/auth/sign_up');
+  res.redirect('/auth/log_in');
 });
 
 module.exports = router;

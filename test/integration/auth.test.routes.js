@@ -38,7 +38,7 @@ describe('routes : auth', function() {
 
   describe('if unauthenticated', function() {
     describe('GET /auth/log_out', function() {
-      it('should redirect to sign up page', function(done) {
+      it('should redirect to log in page', function(done) {
         chai.request(server)
         .get('/auth/log_out')
         .end(function(err, res) {
@@ -46,25 +46,19 @@ describe('routes : auth', function() {
           res.status.should.equal(200);
           res.type.should.equal('text/html');
           res.text.should.contain('<h1>Try Textbook</h1>');
-          res.text.should.contain(
-            '<li><a href="/auth/github">Sign in with Github</a></li>');
-          res.text.should.not.contain('<li><a href="/auth/log_out"><i class="fa fa-fw fa-power-off"></i> Log Out</a></li>');
           done();
         });
       });
     });
-    describe('GET /auth/sign_up', function() {
+    describe('GET /auth/log_in', function() {
       it('should return a response', function(done) {
         chai.request(server)
-        .get('/auth/sign_up')
+        .get('/auth/log_in')
         .end(function(err, res) {
           res.redirects.length.should.equal(0);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
           res.text.should.contain('<h1>Try Textbook</h1>');
-          res.text.should.contain(
-            '<li><a href="/auth/github">Sign in with Github</a></li>');
-          res.text.should.not.contain('<li><a href="/auth/log_out"><i class="fa fa-fw fa-power-off"></i> Log Out</a></li>');
           done();
         });
       });
@@ -80,7 +74,7 @@ describe('routes : auth', function() {
       done();
     });
     describe('GET /auth/log_out', function() {
-      it('should return a response', function(done) {
+      it('should log out and redirect to log in page', function(done) {
         chai.request(server)
         .get('/auth/log_out')
         .end(function(err, res) {
@@ -88,26 +82,19 @@ describe('routes : auth', function() {
           res.status.should.equal(200);
           res.type.should.equal('text/html');
           res.text.should.contain('<h1>Try Textbook</h1>');
-          res.text.should.contain(
-            '<li><a href="/auth/github">Sign in with Github</a></li>');
-          res.text.should.not.contain(
-            '<li><a href="/auth/log_out"><i class="fa fa-fw fa-power-off"></i> Log Out</a></li>');
           done();
         });
       });
     });
-    describe('GET /auth/sign_up', function() {
-      it('should return a response', function(done) {
+    describe('GET /auth/log_in', function() {
+      it('should redirect to dashboard', function(done) {
         chai.request(server)
-        .get('/auth/sign_up')
+        .get('/auth/log_in')
         .end(function(err, res) {
           res.redirects.length.should.equal(1);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
-          res.text.should.not.contain(
-            '<li><a href="/auth/github">Sign in with Github</a></li>');
-          res.text.should.contain(
-            '<li><a href="/auth/log_out"><i class="fa fa-fw fa-power-off"></i> Log Out</a></li>');
+          res.text.should.contain('<h1>Dashboard</h1>');
           done();
         });
       });

@@ -3,7 +3,6 @@ var router = express.Router();
 
 var authHelpers = require('../auth/helpers');
 var chapterQueries = require('../db/queries.chapters');
-var lessonQueries = require('../db/queries.lessons');
 
 router.get('/:id', authHelpers.ensureAuthenticated,
   function(req, res, next) {
@@ -11,7 +10,6 @@ router.get('/:id', authHelpers.ensureAuthenticated,
     user: req.user,
     messages: req.flash('messages')
   };
-  // get all chapters for the sidebar
   chapterQueries.getChapters()
   .then(function(chapters) {
     renderObject.chapters = chapters;
