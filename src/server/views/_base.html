@@ -11,31 +11,27 @@
       <title>Textbook LMS</title>
     {% endif %}
     <!-- stylesheets -->
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.6/cosmo/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="/css/main.css">
   </head>
   <body>
-
     {% include "./partials/nav.html" %}
-
-    <div class="container site-wrapper">
+    <!-- Page Content -->
+    <div class="container">
       <div class="row">
-        <div class="col-sm-12 site-main">
+        {% include './partials/side.html' %}
+        <div class="col-md-9">
+          <h1>{{pageTitle}}</h1>
+          <hr>
           {% include "./partials/flash.html" %}
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-8 site-main">
           {% block content %}
           {% endblock %}
         </div>
-        <div class="col-sm-3 col-sm-offset-1 site-sidebar">
-          {% include './partials/side.html' %}
-        </div>
       </div>
+      <hr>
+      {% include './partials/footer.html' %}
     </div>
-
     <!-- scripts -->
     <script type="text/javascript" src="//code.jquery.com/jquery-2.1.4.min.js"></script>
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>

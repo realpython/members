@@ -31,5 +31,5 @@ Just a simple learning management system for textbook-like sites.
 1. Users should be able to view all the chapters
 1. Users should be able to view chapters on the sidebar
 1. Users should be able to view a single chapter
-1. Users should be able to mark a chapter as read or unread
-1. Users should be able to view a checkmark next to read chapters on the sidebar
+1. Users should be able to mark a chapter as read or unread (WIP)
+1. Users should be able to view a checkmark next to read chapters on the sidebar (WIP)

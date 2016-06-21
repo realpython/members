@@ -3,7 +3,7 @@ function ensureAuthenticated(req, res, next) {
     return next();
   } else {
     req.flash('messages', {
-      status: 'warning',
+      status: 'success',
       value: 'You need to sign in before continuing.'
     });
     return res.redirect('/auth/log_in');
@@ -15,7 +15,7 @@ function ensureVerified(req, res, next) {
     return next();
   } else {
     req.flash('messages', {
-      status: 'danger',
+      status: 'success',
       value: 'Please verify your account.'
     });
     return res.redirect('/auth/log_in');
@@ -29,7 +29,7 @@ function ensureAdmin(req, res, next) {
     }
   }
   req.flash('messages', {
-    status: 'danger',
+    status: 'success',
     value: 'You do not have permission to view that page.'
   });
   return res.redirect('/auth/log_in');

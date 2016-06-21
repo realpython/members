@@ -14,6 +14,7 @@ router.get('/', authHelpers.ensureAuthenticated,
   .then(function(chapters) {
     var renderObject = {
       title: 'Textbook LMS - dashboard',
+      pageTitle: 'Dashboard',
       user: req.user,
       chapters: chapters,
       messages: req.flash('messages')

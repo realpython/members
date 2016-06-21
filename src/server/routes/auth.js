@@ -16,8 +16,8 @@ router.get('/github/callback',
   }),
   function(req, res, next) {
   req.flash('messages', {
-    status: 'warning',
-    value: 'Welcome!'
+    status: 'success',
+    value: 'Welcome, friend!'
   });
   res.redirect('/');
 });
@@ -26,6 +26,7 @@ router.get('/log_in', authHelpers.loginRedirect,
   function(req, res, next) {
   var renderObject = {
     title: 'Textbook LMS',
+    pageTitle: 'Textbook LMS',
     user: req.user,
     messages: req.flash('messages')
   };
@@ -36,7 +37,7 @@ router.get('/log_out', authHelpers.ensureAuthenticated,
   function(req, res, next) {
   req.logout();
   req.flash('messages', {
-    status: 'warning',
+    status: 'success',
     value: 'You successfully logged out.'
   });
   res.redirect('/auth/log_in');

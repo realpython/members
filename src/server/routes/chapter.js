@@ -18,11 +18,12 @@ router.get('/:id', authHelpers.ensureAuthenticated,
     .then(function(singleChapter) {
       if (singleChapter.length) {
         renderObject.title = 'Textbook LMS - ' + singleChapter[0].name;
+        renderObject.pageTitle = singleChapter[0].name;
         renderObject.singleChapter = singleChapter[0];
         res.render('chapter', renderObject);
       } else {
         req.flash('messages', {
-          status: 'warning',
+          status: 'success',
           value: 'Sorry. That chapter does not exist.'
         });
         return res.redirect('/');
@@ -40,8 +41,8 @@ router.get('/:id/update', authHelpers.ensureAuthenticated,
   chapterQueries.updateChapterReadStatus(parseInt(req.params.id), read)
   .then(function() {
     req.flash('messages', {
-      status: 'warning',
-      value: 'Thanks!'
+      status: 'success',
+      value: 'Status updated.'
     });
     res.redirect('/');
   })

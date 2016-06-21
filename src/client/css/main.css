@@ -1,28 +1,8 @@
-/*
- * Globals
- */
+/* globals */
 
 body {
-  font-family: Georgia, "Times New Roman", Times, serif;
-  color: #555;
+  padding-top: 70px;
 }
-
-h1, .h1,
-h2, .h2,
-h3, .h3,
-h4, .h4,
-h5, .h5,
-h6, .h6 {
-  margin-top: 0;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-weight: normal;
-  color: #333;
-}
-
-
-/*
- * Override Bootstrap's default container.
- */
 
 @media (min-width: 1200px) {
   .container {
@@ -30,97 +10,11 @@ h6, .h6 {
   }
 }
 
-.container {
-  position: relative;
-  min-height: 100%;
+footer {
+  margin: 50px 0;
 }
 
-
-/*
- * Masthead for nav
- */
-
-.site-masthead {
-  background-color: #4a565d;
-  -webkit-box-shadow: inset 0 -2px 5px rgba(0,0,0,.1);
-  -moz-box-shadow: inset 0 -2px 5px rgba(0,0,0,.1);
-          box-shadow: inset 0 -2px 5px rgba(0,0,0,.1);
-}
-
-/* Nav links */
-.site-nav-item {
-  position: relative;
-  display: inline-block;
-  padding: 10px;
-  font-weight: 500;
-  color: #cdddeb;
-}
-.site-nav-item:hover,
-.site-nav-item:focus {
-  color: #fff;
-  text-decoration: none;
-}
-
-/* Active state gets a caret at the bottom */
-.site-nav .active {
-  color: #fff;
-}
-.site-nav .active:after {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  width: 0;
-  height: 0;
-  margin-left: -5px;
-  vertical-align: middle;
-  content: " ";
-  border-right: 5px solid transparent;
-  border-bottom: 5px solid;
-  border-left: 5px solid transparent;
-}
-
-
-/*
- * Site name and description
- */
-
-.site-wrapper {
-  padding-top: 60px;
-  padding-bottom: 100px
-}
-.site-title {
-  margin-top: 30px;
-  margin-bottom: 0;
-  font-size: 60px;
-  font-weight: normal;
-}
-.site-description {
-  font-size: 20px;
-  color: #999;
-}
-
-
-/*
- * Main column and sidebar layout
- */
-
-.site-main {
-  font-size: 18px;
-  line-height: 1.5;
-}
-
-/* Sidebar modules for boxing content */
-.sidebar-module {
-  padding: 15px;
-  margin: 0 -15px 15px;
-}
-.sidebar-module-inset {
-  padding: 15px;
-  background-color: #f5f5f5;
-  border-radius: 4px;
-}
-.sidebar-module-inset p:last-child,
-.sidebar-module-inset ul:last-child,
-.sidebar-module-inset ol:last-child {
-  margin-bottom: 0;
+.badge {
+  background-color: inherit;
+  color: inherit;
 }

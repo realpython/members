@@ -1,21 +1,22 @@
-<div class="sidebar-module sidebar-module-inset">
-  <h4>About</h4>
-  <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
+<!-- Sidebar -->
+<div class="col-md-3">
+  <p class="lead">About</p>
+  <div class="well">
+    <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
+  </div>
+  {% if user %}
+    <p class="lead">Chapters</p>
+    <ul class="list-group">
+      {% for chapter in chapters %}
+        <li class="list-group-item">
+          {% if chapter.read %}
+            <span class="badge"><i class="fa fa-check-square-o" aria-hidden="true"></i></span>
+            {% else %}
+              <span class="badge"><i class="fa fa-square-o" aria-hidden="true"></i></span>
+            {% endif %}
+          <a href="/chapter/{{chapter.id}}">{{chapter.name}}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
 </div>
-{% if user %}
-<div class="sidebar-module">
-  <h4>Chapters</h4>
-  <ol class="list-unstyled">
-    {% for chapter in chapters %}
-      <li>
-        {% if chapter.read %}
-          <span><i class="fa fa-check-square-o" aria-hidden="true"></i></i></span>
-        {% else %}
-          <span><i class="fa fa-square-o" aria-hidden="true"></i></span>
-        {% endif %}
-        <a href="/chapter/{{chapter.id}}">{{chapter.name}}</a>
-      </li>
-    {% endfor %}
-  </ol>
-</div>
-{% endif %}
