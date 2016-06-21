@@ -136,6 +136,21 @@ describe('routes : chapter', function() {
         });
       });
     });
+    describe('GET /chapter/:id/update?test=true', function() {
+      it('should throw an error if the query string is not "read"', function(done) {
+        chapterQueries.getChapters()
+        .then(function(chapters) {
+          chai.request(server)
+          .get('/chapter/' + chapters[0].id + '/update?test=true')
+          .end(function(err, res) {
+            res.redirects.length.should.equal(0);
+            res.status.should.equal(500);
+            res.type.should.equal('text/html');
+            done();
+          });
+        });
+      });
+    });
   });
 
 });

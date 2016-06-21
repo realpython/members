@@ -6,7 +6,7 @@
 
 Just a simple learning management system for textbook-like sites.
 
-[Staging Server](http://textbook-lms.herokuapp.com/).
+[Staging Server](http://textbook-lms.herokuapp.com/)
 
 ## Development
 
@@ -32,4 +32,4 @@ Just a simple learning management system for textbook-like sites.
 1. Users should be able to view chapters on the navbar
 1. Users should be able to view a single chapter
 1. Users should be able to mark a chapter as read or unread
-1. Users should be able to view read and unread chapters on the dashboard (WIP)
+1. Users should be able to view read and unread chapters on the dashboard
