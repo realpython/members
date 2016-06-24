@@ -10,10 +10,8 @@
       {% for chapter in chapters %}
         <li class="list-group-item">
           {% if chapter.read %}
-            <span class="badge"><i class="fa fa-check-square-o" aria-hidden="true"></i></span>
-            {% else %}
-              <span class="badge"><i class="fa fa-square-o" aria-hidden="true"></i></span>
-            {% endif %}
+            <span class="badge"><i class="fa fa-check" aria-hidden="true"></i></span>
+          {% endif %}
           <a href="/chapter/{{chapter.id}}">{{chapter.name}}</a>
         </li>
       {% endfor %}

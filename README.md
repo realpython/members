@@ -27,9 +27,21 @@ Just a simple learning management system for textbook-like sites.
 
 ### User Stories
 
+#### Complete
+
 1. Unregistered users should be able to log in via Github
 1. Users should be able to view all the chapters
 1. Users should be able to view chapters on the sidebar
 1. Users should be able to view a single chapter
-1. Users should be able to mark a chapter as read or unread (WIP)
-1. Users should be able to view a checkmark next to read chapters on the sidebar (WIP)
+1. Users should be able to mark a chapter as read or unread
+1. Users should be able to view a checkmark next to read chapters on the sidebar
+
+#### Todo
+
+1. Users should be able to view their github picture in the navbar (current)
+1. Users should be able to move from chapter to chapter within the single chapter view
+
+### Todo
+
+1. Set up error logging
+1. Add uncaught exception handler

@@ -47,7 +47,10 @@ router.get('/:id/update', authHelpers.ensureAuthenticated,
     res.redirect('/');
   })
   .catch(function(err) {
-    next(err);
+    res.status(500);
+    res.render('error', {
+      message: 'Something went wrong'
+    });
   });
 });
 

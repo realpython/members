@@ -116,6 +116,7 @@ describe('routes : chapter', function() {
             res.status.should.equal(200);
             res.type.should.equal('text/html');
             res.text.should.contain('<h1>Dashboard</h1>');
+            res.text.should.contain('<span class="badge"><i class="fa fa-check" aria-hidden="true"></i></span>');
             done();
           });
         });
