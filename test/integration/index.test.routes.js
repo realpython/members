@@ -7,6 +7,7 @@ var passportStub = require('passport-stub');
 var knex = require('../../src/server/db/knex');
 var testHelpers = require('../helpers');
 var server = require('../../src/server/app');
+var chapterQueries = require('../../src/server/db/queries.chapters');
 
 var should = chai.should();
 
@@ -93,7 +94,30 @@ describe('routes : index', function() {
           res.status.should.equal(200);
           res.type.should.equal('text/html');
           res.text.should.contain('<h1>Dashboard</h1>');
+          res.text.should.contain(
+            '<p class="completed">0% Complete</p>');
           done();
+        });
+      });
+    });
+    describe('GET /', function() {
+      it('should show the correct course status', function(done) {
+        chapterQueries.getChapters()
+        .then(function(chapters) {
+          chapterQueries.updateChapterReadStatus(chapters[0].id, true)
+          .then(function(response) {
+            chai.request(server)
+            .get('/')
+            .end(function(err, res) {
+              res.redirects.length.should.equal(0);
+              res.status.should.equal(200);
+              res.type.should.equal('text/html');
+              res.text.should.contain('<h1>Dashboard</h1>');
+              res.text.should.contain(
+                '<p class="completed">33% Complete</p>');
+              done();
+            });
+          });
         });
       });
     });

@@ -18,3 +18,14 @@ footer {
   background-color: inherit;
   color: inherit;
 }
+
+/* dashboard */
+
+.completed {
+  font-style: italic;
+}
+
+.custom-progress-bar {
+  height: 30px;
+  margin-bottom: 2px;
+}
