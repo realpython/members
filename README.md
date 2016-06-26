@@ -35,11 +35,13 @@ Just a simple learning management system for textbook-like sites.
 1. Users should be able to view a single chapter
 1. Users should be able to mark a chapter as read or unread
 1. Users should be able to view a checkmark next to read chapters on the sidebar
+1. Users should be able to move from chapter to chapter within the single chapter view
 
 #### Todo
 
-1. Users should be able to view their github picture in the navbar (current)
-1. Users should be able to move from chapter to chapter within the single chapter view
+1. Users should be able to view their overall progress on the dashboard (current)
+1. Users should be able to see the current chapter highlighted on the sidebar
+1. Users should be able to view their profile
 
 ### Todo
 

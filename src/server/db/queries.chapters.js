@@ -12,6 +12,12 @@ function getSingleChapter(chapterID) {
     .where('id', chapterID);
 }
 
+function getSingleChapterFromOrder(order) {
+  return knex('chapters')
+    .select('*')
+    .where('order', order);
+}
+
 function updateChapterReadStatus(chapterID, value) {
   return knex('chapters')
     .update('read', value)
@@ -21,5 +27,6 @@ function updateChapterReadStatus(chapterID, value) {
 module.exports = {
   getChapters: getChapters,
   getSingleChapter: getSingleChapter,
+  getSingleChapterFromOrder: getSingleChapterFromOrder,
   updateChapterReadStatus: updateChapterReadStatus
 };

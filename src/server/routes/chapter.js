@@ -10,6 +10,7 @@ router.get('/:id', authHelpers.ensureAuthenticated,
     user: req.user,
     messages: req.flash('messages')
   };
+  // get all chapters
   chapterQueries.getChapters()
   .then(function(chapters) {
     renderObject.chapters = chapters;
@@ -17,9 +18,14 @@ router.get('/:id', authHelpers.ensureAuthenticated,
     return chapterQueries.getSingleChapter(parseInt(req.params.id))
     .then(function(singleChapter) {
       if (singleChapter.length) {
-        renderObject.title = 'Textbook LMS - ' + singleChapter[0].name;
-        renderObject.pageTitle = singleChapter[0].name;
-        renderObject.singleChapter = singleChapter[0];
+        var chapterObject = singleChapter[0];
+        renderObject.previousChapter = getPrevChapter(
+          chapterObject.order, chapters);
+        renderObject.nextChapter = getNextChapter(
+          chapterObject.order, chapters);
+        renderObject.title = 'Textbook LMS - ' + chapterObject.name;
+        renderObject.pageTitle = chapterObject.name;
+        renderObject.singleChapter = chapterObject;
         res.render('chapter', renderObject);
       } else {
         req.flash('messages', {
@@ -53,5 +59,19 @@ router.get('/:id/update', authHelpers.ensureAuthenticated,
     });
   });
 });
+
+// *** helpers ** //
+
+function getPrevChapter(orderID, chapters) {
+  return chapters.filter(function(chapter) {
+    return chapter.order === parseInt(orderID - 1);
+  });
+}
+
+function getNextChapter(orderID, chapters) {
+  return chapters.filter(function(chapter) {
+    return chapter.order === parseInt(orderID + 1);
+  });
+}
 
 module.exports = router;
