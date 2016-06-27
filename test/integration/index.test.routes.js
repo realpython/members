@@ -96,6 +96,7 @@ describe('routes : index', function() {
           res.text.should.contain('<h1>Dashboard</h1>');
           res.text.should.contain(
             '<p class="completed">0% Complete</p>');
+          res.text.should.not.contain('<h2>You are an admin.</h2>');
           done();
         });
       });

@@ -10,6 +10,12 @@ Just a simple learning management system for textbook-like sites.
 
 ## Development
 
+Update a user's admin status (`development` and `testing` only):
+
+```sh
+$ curl -X PUT -d admin=true http://localhost:3000/users/<USERNAME>/admin
+```
+
 ### Getting started
 
 1. Generate Express Boilerplate
@@ -41,11 +47,11 @@ Just a simple learning management system for textbook-like sites.
 
 #### Todo
 
-1. Users should be able to view their profile (current)
-1. Admin should be able to view all chapters
+1. Admin should be able to view all chapters (current)
 1. Admin should be able to add new chapters
 1. Users should be able to hide/show the sidebar
-1. Users should be able to update their profile
+1. Users should be able to view lessons on the sidebar
+1. Users should be able to hide/show lessons on the sidebar
 
 ### Todo
 

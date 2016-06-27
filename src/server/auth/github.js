@@ -3,28 +3,30 @@ var GitHubStrategy = require('passport-github2').Strategy;
 
 var knex = require('../db/knex');
 
-passport.use(new GitHubStrategy({
+var githubConfig = {
   clientID: process.env.githubClientID,
   clientSecret: process.env.githubClientSecret,
   callbackURL: process.env.callbackURL
-}, function(accessToken, refreshToken, profile, done) {
-    knex('users').where('email', profile.emails[0].value)
+};
+
+passport.use(new GitHubStrategy(githubConfig,
+  function(accessToken, refreshToken, profile, done) {
+    knex('users').where('github_id', profile.id)
     .then(function(user) {
       if (user.length) {
         done(null, user[0]);
       } else {
-        var email = '';
-        if (profile.emails) {
-          email = profile.emails[0].value;
-        }
-        knex('users').insert({
+        var email = profile._json.email || null;
+        var displayName = profile.displayName || profile.username;
+        return knex('users').insert({
           username: profile.username,
-          display_name: profile.displayName,
+          github_id: profile.id,
+          display_name: displayName,
           email: email,
           access_token: accessToken
         }).returning('*')
-        .then(function(user) {
-          done(null, user[0]);
+        .then(function(response) {
+          done(null, response[0]);
         });
       }
     })

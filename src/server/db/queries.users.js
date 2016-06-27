@@ -16,10 +16,10 @@ function addUser(obj) {
     .insert(obj);
 }
 
-function makeAdmin(userID) {
+function makeAdmin(username, value) {
   return knex('users')
-    .where('id', parseInt(userID))
-    .update({ admin: true });
+    .update({ admin: value })
+    .where('username', username);
 }
 
 module.exports = {

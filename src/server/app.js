@@ -16,7 +16,8 @@ if (process.env.NODE_ENV !== 'production' || 'staging') {
 // *** routes *** //
 var routes = require('./routes/index');
 var authRoutes = require('./routes/auth');
-var chapterRoutes = require('./routes/chapter');
+var chapterRoutes = require('./routes/chapters');
+var userRoutes = require('./routes/users');
 
 // *** express instance *** //
 var app = express();
@@ -47,7 +48,8 @@ app.use(express.static(path.join(__dirname, '../client')));
 // *** main routes *** //
 app.use('/', routes);
 app.use('/auth', authRoutes);
-app.use('/chapter', chapterRoutes);
+app.use('/chapters', chapterRoutes);
+app.use('/users', userRoutes);
 
 // *** error handling *** //
 app.use(function(req, res, next) {

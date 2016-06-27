@@ -6,7 +6,7 @@ $(function() {
 
 function addActiveClass() {
   var current = (location.pathname).split('/');
-  if (current[1] === 'chapter') {
+  if (current[1] === 'chapters') {
     $('#chapter-list li a').each(function() {
       var $this = $(this);
       if ($this.attr('href').indexOf(current[2]) !== -1) {

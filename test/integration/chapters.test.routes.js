@@ -14,7 +14,7 @@ var should = chai.should();
 passportStub.install(server);
 chai.use(chaiHttp);
 
-describe('routes : chapter', function() {
+describe('routes : chapters', function() {
 
   beforeEach(function(done) {
     passportStub.logout();
@@ -38,10 +38,10 @@ describe('routes : chapter', function() {
   });
 
   describe('if unauthenticated', function() {
-    describe('GET /chapter/:id', function() {
+    describe('GET /chapters/:id', function() {
       it('should redirect to log in page', function(done) {
         chai.request(server)
-        .get('/chapter/1')
+        .get('/chapters/1')
         .end(function(err, res) {
           res.redirects.length.should.equal(1);
           res.status.should.equal(200);
@@ -51,10 +51,10 @@ describe('routes : chapter', function() {
         });
       });
     });
-    describe('GET /chapter/:id/update?read=true', function() {
+    describe('GET /chapters/:id/update?read=true', function() {
       it('should redirect to log in page', function(done) {
         chai.request(server)
-        .get('/chapter/1/update?read=true')
+        .get('/chapters/1/update?read=true')
         .end(function(err, res) {
           res.redirects.length.should.equal(1);
           res.status.should.equal(200);
@@ -74,14 +74,14 @@ describe('routes : chapter', function() {
       passportStub.logout();
       done();
     });
-    describe('GET /chapter/:id', function() {
+    describe('GET /chapters/:id', function() {
       it('should return a response', function(done) {
         chapterQueries.getSingleChapterFromOrder(2)
         .then(function(chapter) {
           var previous = parseInt(chapter[0].id) - 1;
           var next = parseInt(chapter[0].id) + 1;
           chai.request(server)
-          .get('/chapter/' + chapter[0].id)
+          .get('/chapters/' + chapter[0].id)
           .end(function(err, res) {
             res.redirects.length.should.equal(0);
             res.status.should.equal(200);
@@ -95,14 +95,14 @@ describe('routes : chapter', function() {
         });
       });
     });
-    describe('GET /chapter/:id', function() {
+    describe('GET /chapters/:id', function() {
       it('should show only next chapter button', function(done) {
         chapterQueries.getSingleChapterFromOrder(1)
         .then(function(chapter) {
           var previous = parseInt(chapter[0].id) - 1;
           var next = parseInt(chapter[0].id) + 1;
           chai.request(server)
-          .get('/chapter/' + chapter[0].id)
+          .get('/chapters/' + chapter[0].id)
           .end(function(err, res) {
             res.redirects.length.should.equal(0);
             res.status.should.equal(200);
@@ -116,14 +116,14 @@ describe('routes : chapter', function() {
         });
       });
     });
-    describe('GET /chapter/:id', function() {
+    describe('GET /chapters/:id', function() {
       it('should show only previous chapter button', function(done) {
         chapterQueries.getSingleChapterFromOrder(3)
         .then(function(chapter) {
           var previous = parseInt(chapter[0].id) - 1;
           var next = parseInt(chapter[0].id) + 1;
           chai.request(server)
-          .get('/chapter/' + chapter[0].id)
+          .get('/chapters/' + chapter[0].id)
           .end(function(err, res) {
             res.redirects.length.should.equal(0);
             res.status.should.equal(200);
@@ -137,11 +137,11 @@ describe('routes : chapter', function() {
         });
       });
     });
-    describe('GET /chapter/:id', function() {
+    describe('GET /chapters/:id', function() {
       it('should redirect to the dashboard if the chapter is invalid',
         function(done) {
         chai.request(server)
-        .get('/chapter/999')
+        .get('/chapters/999')
         .end(function(err, res) {
           res.redirects.length.should.equal(1);
           res.status.should.equal(200);
@@ -151,12 +151,12 @@ describe('routes : chapter', function() {
         });
       });
     });
-    describe('GET /chapter/:id/update?read=true', function() {
+    describe('GET /chapters/:id/update?read=true', function() {
       it('should redirect to the dashboard', function(done) {
         chapterQueries.getChapters()
         .then(function(chapters) {
           chai.request(server)
-          .get('/chapter/' + chapters[0].id + '/update?read=true')
+          .get('/chapters/' + chapters[0].id + '/update?read=true')
           .end(function(err, res) {
             res.redirects.length.should.equal(1);
             res.status.should.equal(200);
@@ -168,12 +168,12 @@ describe('routes : chapter', function() {
         });
       });
     });
-    describe('GET /chapter/:id/update?read=999', function() {
+    describe('GET /chapters/:id/update?read=999', function() {
       it('should throw an error if the query string read is not a boolean', function(done) {
         chapterQueries.getChapters()
         .then(function(chapters) {
           chai.request(server)
-          .get('/chapter/' + chapters[0].id + '/update?read=999')
+          .get('/chapters/' + chapters[0].id + '/update?read=999')
           .end(function(err, res) {
             res.redirects.length.should.equal(0);
             res.status.should.equal(500);
@@ -183,12 +183,12 @@ describe('routes : chapter', function() {
         });
       });
     });
-    describe('GET /chapter/:id/update?test=true', function() {
+    describe('GET /chapters/:id/update?test=true', function() {
       it('should throw an error if the query string is not "read"', function(done) {
         chapterQueries.getChapters()
         .then(function(chapters) {
           chai.request(server)
-          .get('/chapter/' + chapters[0].id + '/update?test=true')
+          .get('/chapters/' + chapters[0].id + '/update?test=true')
           .end(function(err, res) {
             res.redirects.length.should.equal(0);
             res.status.should.equal(500);
