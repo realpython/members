@@ -37,13 +37,15 @@ Just a simple learning management system for textbook-like sites.
 1. Users should be able to view a checkmark next to read chapters on the sidebar
 1. Users should be able to move from chapter to chapter within the single chapter view
 1. Users should be able to view their overall progress on the dashboard
+1. Users should be able to see the current chapter highlighted on the sidebar
 
 #### Todo
 
-1. Users should be able to see the current chapter highlighted on the sidebar (current)
-1. Users should be able to view their profile
+1. Users should be able to view their profile (current)
 1. Admin should be able to view all chapters
 1. Admin should be able to add new chapters
+1. Users should be able to hide/show the sidebar
+1. Users should be able to update their profile
 
 ### Todo
 

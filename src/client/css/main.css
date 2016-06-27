@@ -29,3 +29,12 @@ footer {
   height: 30px;
   margin-bottom: 2px;
 }
+
+/* sidebar */
+
+.active-chapter a:link,
+.active-chapter a:visited,
+.active-chapter a:hover,
+.active-chapter a:active {
+  color: #fff;
+}

@@ -6,7 +6,7 @@
   </div>
   {% if user %}
     <p class="lead">Chapters</p>
-    <ul class="list-group">
+    <ul class="list-group" id="chapter-list">
       {% for chapter in chapters %}
         <li class="list-group-item">
           {% if chapter.read %}
