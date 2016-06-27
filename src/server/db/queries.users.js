@@ -8,7 +8,14 @@ function getUsers() {
 function getSingleUser(userID) {
   return knex('users')
     .select('*')
-    .where('id', userID);
+    .where('id', parseInt(userID));
+}
+
+function getSingleUserByUsername(username) {
+  return knex('users')
+    .select('*')
+    .where('username', username)
+    .returning('username');
 }
 
 function addUser(obj) {
@@ -25,6 +32,7 @@ function makeAdmin(username, value) {
 module.exports = {
   getUsers: getUsers,
   getSingleUser: getSingleUser,
+  getSingleUserByUsername: getSingleUserByUsername,
   addUser: addUser,
   makeAdmin: makeAdmin
 };

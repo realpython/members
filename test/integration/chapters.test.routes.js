@@ -169,7 +169,7 @@ describe('routes : chapters', function() {
       });
     });
     describe('GET /chapters/:id/update?read=999', function() {
-      it('should throw an error if the query string read is not a boolean', function(done) {
+      it('should throw an error if the query string "read" is not a boolean', function(done) {
         chapterQueries.getChapters()
         .then(function(chapters) {
           chai.request(server)

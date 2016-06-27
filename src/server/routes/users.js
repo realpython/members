@@ -13,12 +13,22 @@ if (process.env.NODE_ENV === 'development' || 'testing') {
         message: 'You do not have permission to do that.'
       });
     } else {
-      userQueries.makeAdmin(req.params.username, req.body.admin)
-      .then(function() {
-        res.json({
-          status: 'success',
-          message: 'User admin status updated.'
-        });
+      userQueries.getSingleUserByUsername(req.params.username)
+      .then(function(user) {
+        if (user.length) {
+          return userQueries.makeAdmin(req.params.username, req.body.admin)
+          .then(function(response) {
+            res.json({
+              status: 'success',
+              message: 'User admin status updated.'
+            });
+          });
+        } else {
+          res.status(400);
+          res.json({
+            message: 'That user does not exist.'
+          });
+        }
       })
       .catch(function(err) {
         res.status(500);

@@ -37,22 +37,23 @@ describe('routes : users', function() {
     });
   });
 
-  describe('if unauthenticated', function() {
+  describe('if user does not exist', function() {
     describe('PUT /:username/admin', function() {
       it('should throw an error', function(done) {
         chai.request(server)
-        .get('/ping')
+        .put('/users/michael/admin')
+        .send({ admin: true })
         .end(function(err, res) {
-          res.status.should.equal(200);
-          res.type.should.equal('text/html');
-          res.text.should.equal('pong!');
+          res.status.should.equal(400);
+          res.type.should.equal('application/json');
+          res.body.message.should.equal('That user does not exist.');
           done();
         });
       });
     });
   });
 
-  describe('if authenticated as user', function() {
+  describe('if user does exist', function() {
     beforeEach(function(done) {
       testHelpers.authenticateUser(done);
     });
@@ -61,35 +62,28 @@ describe('routes : users', function() {
       done();
     });
     describe('PUT /:username/admin', function() {
-      it('should throw an error', function(done) {
+      it('should return a 200 response', function(done) {
         chai.request(server)
-        .get('/ping')
+        .put('/users/michael/admin')
+        .send({ admin: true })
         .end(function(err, res) {
           res.status.should.equal(200);
-          res.type.should.equal('text/html');
-          res.text.should.equal('pong!');
+          res.type.should.equal('application/json');
+          res.body.message.should.equal('User admin status updated.');
           done();
         });
       });
     });
-  });
-
-  describe('if authenticated as admin', function() {
-    beforeEach(function(done) {
-      testHelpers.authenticateUser(done);
-    });
-    afterEach(function(done) {
-      passportStub.logout();
-      done();
-    });
     describe('PUT /:username/admin', function() {
-      it('should return a success response', function(done) {
+      it('should throw an error if "read" is not in the request body', function(done) {
         chai.request(server)
-        .get('/ping')
+        .put('/users/michael/admin')
+        .send({ unknown: true })
         .end(function(err, res) {
-          res.status.should.equal(200);
-          res.type.should.equal('text/html');
-          res.text.should.equal('pong!');
+          res.status.should.equal(403);
+          res.type.should.equal('application/json');
+          res.body.message.should.equal(
+            'You do not have permission to do that.');
           done();
         });
       });

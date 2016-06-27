@@ -48,6 +48,7 @@ $ curl -X PUT -d admin=true http://localhost:3000/users/<USERNAME>/admin
 #### Todo
 
 1. Admin should be able to view all chapters (current)
+1. Users should be able to view their profile
 1. Admin should be able to add new chapters
 1. Users should be able to hide/show the sidebar
 1. Users should be able to view lessons on the sidebar
