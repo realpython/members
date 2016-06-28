@@ -45,16 +45,20 @@ $ curl -X PUT -d admin=true http://localhost:3000/users/<USERNAME>/admin
 1. Users should be able to view their overall progress on the dashboard
 1. Users should be able to see the current chapter highlighted on the sidebar
 1. Admin should be able to view all chapters
+1. Users should be able to view their profile
 
 #### Todo
 
-1. Users should be able to view their profile (current)
-1. Admin should be able to add new chapters
+1. Admin should be able to add new users (current)
 1. Users should be able to hide/show the sidebar
 1. Users should be able to view lessons on the sidebar
 1. Users should be able to hide/show lessons on the sidebar
 1. Users should be able to view all standards
 1. Users should be able to view an about page detailing the relationship between chapters, lessons, standards, and exercises
+1. Users should be able to post new messages within the lesson view
+1. Users should be able to reply to messages within the lesson view
+1. Admin should be able to view all chapters
+1. Admin should be able to add new chapters
 
 ### Todo
 

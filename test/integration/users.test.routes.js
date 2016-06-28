@@ -7,7 +7,7 @@ var passportStub = require('passport-stub');
 var knex = require('../../src/server/db/knex');
 var testHelpers = require('../helpers');
 var server = require('../../src/server/app');
-var chapterQueries = require('../../src/server/db/queries.chapters');
+var userQueries = require('../../src/server/db/queries.users');
 
 var should = chai.should();
 
@@ -37,7 +37,7 @@ describe('routes : users', function() {
     });
   });
 
-  describe('if user does not exist', function() {
+  describe('if unauthenticated', function() {
     describe('PUT /:username/admin', function() {
       it('should throw an error', function(done) {
         chai.request(server)
@@ -51,15 +51,44 @@ describe('routes : users', function() {
         });
       });
     });
+    describe('GET /:id/profile', function() {
+      it('should redirect to log in page', function(done) {
+        chai.request(server)
+        .get('/users/1/profile')
+        .end(function(err, res) {
+          res.redirects.length.should.equal(1);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('try Textbook');
+          done();
+        });
+      });
+    });
   });
 
-  describe('if user does exist', function() {
+  describe('if authenticated', function() {
     beforeEach(function(done) {
       testHelpers.authenticateUser(done);
     });
     afterEach(function(done) {
       passportStub.logout();
       done();
+    });
+    describe('GET /:id/profile', function() {
+      it('should return a 200 response', function(done) {
+        userQueries.getUsers()
+        .then(function(users) {
+          chai.request(server)
+          .get('/users/' + parseInt(users[0].id) + '/profile')
+          .end(function(err, res) {
+            res.status.should.equal(200);
+            res.type.should.equal('text/html');
+            res.text.should.contain('<h1>User Profile');
+            res.text.should.contain('<dt>Email</dt>');
+            done();
+          });
+        });
+      });
     });
     describe('PUT /:username/admin', function() {
       it('should return a 200 response', function(done) {

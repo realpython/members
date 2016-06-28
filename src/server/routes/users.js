@@ -1,10 +1,44 @@
 var express = require('express');
 var router = express.Router();
 
+var authHelpers = require('../auth/helpers');
+var chapterQueries = require('../db/queries.chapters');
 var userQueries = require('../db/queries.users');
 
+router.get('/:id/profile', authHelpers.ensureAuthenticated,
+  function(req, res, next) {
+  var userID = parseInt(req.params.id);
+  var renderObject = {
+    title: 'Textbook LMS - user profile',
+    pageTitle: 'User Profile',
+    messages: req.flash('messages')
+  };
+  // get all chapters
+  chapterQueries.getChapters()
+  .then(function(chapters) {
+    renderObject.chapters = chapters;
+    // get single user
+    return userQueries.getSingleUser(userID)
+    .then(function(user) {
+      if (user.length) {
+        renderObject.user = user[0];
+        res.render('profile', renderObject);
+      } else {
+        req.flash('messages', {
+          status: 'success',
+          value: 'That user does not exist.'
+        });
+        return res.redirect('/');
+      }
+    });
+  })
+  .catch(function(err) {
+    next(err);
+  });
+});
+
+// toggle admin status
 if (process.env.NODE_ENV === 'development' || 'testing') {
-  // update user to admin
   router.put('/:username/admin', function(req, res, next) {
     var update = req.body;
     if (!('admin' in req.body)) {

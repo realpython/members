@@ -5,16 +5,18 @@
     <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
   </div>
   {% if user %}
-    <p class="lead">Chapters</p>
-    <ul class="list-group" id="chapter-list">
-      {% for chapter in chapters %}
-        <li class="list-group-item">
-          {% if chapter.read %}
-            <span class="badge"><i class="fa fa-check" aria-hidden="true"></i></span>
-          {% endif %}
-          <a href="/chapters/{{chapter.id}}">{{chapter.name}}</a>
-        </li>
-      {% endfor %}
-    </ul>
+    {% if chapters %}
+      <p class="lead">Chapters</p>
+      <ul class="list-group" id="chapter-list">
+        {% for chapter in chapters %}
+          <li class="list-group-item">
+            {% if chapter.read %}
+              <span class="badge"><i class="fa fa-check" aria-hidden="true"></i></span>
+            {% endif %}
+            <a href="/chapters/{{chapter.id}}">{{chapter.name}}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
   {% endif %}
 </div>
