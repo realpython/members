@@ -18,6 +18,7 @@ var routes = require('./routes/index');
 var authRoutes = require('./routes/auth');
 var chapterRoutes = require('./routes/chapters');
 var userRoutes = require('./routes/users');
+var adminRoutes = require('./routes/admin.users');
 
 // *** express instance *** //
 var app = express();
@@ -50,6 +51,7 @@ app.use('/', routes);
 app.use('/auth', authRoutes);
 app.use('/chapters', chapterRoutes);
 app.use('/users', userRoutes);
+app.use('/admin', adminRoutes);
 
 // *** error handling *** //
 app.use(function(req, res, next) {

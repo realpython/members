@@ -1,0 +1,37 @@
+{% extends '_admin-base.html' %}
+
+{% block title %}{% endblock %}
+
+
+{% block content %}
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th>Github ID</th>
+        <th>Display Name</th>
+        <th>Email</th>
+        <th>Admin</th>
+        <th>Verified</th>
+        <th>Update</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for user in users %}
+        <tr>
+          <td>{{user.username}}</td>
+          <td>{{user.github_id}}</td>
+          <td>{{user.display_name}}</td>
+          <td>{{user.email}}</td>
+          <td>{{user.admin}}</td>
+          <td>{{user.verified}}</td>
+          <td></td>
+          <td></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+{% endblock %}

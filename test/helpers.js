@@ -20,6 +20,26 @@ function authenticateUser(done) {
   });
 }
 
+function authenticateAdmin(done) {
+  queries.addUser({
+    username: 'admin',
+    github_id: 654321,
+    display_name: 'Jeremy Johnson',
+    email: 'jeremy@realpython.com',
+    access_token: '654321',
+    verified: false,
+    admin: true
+  }).returning('id')
+  .then(function(userID) {
+    queries.getSingleUser(userID[0])
+    .then(function(user) {
+      passportStub.login(user[0]);
+      done();
+    });
+  });
+}
+
 module.exports = {
-  authenticateUser: authenticateUser
+  authenticateUser: authenticateUser,
+  authenticateAdmin: authenticateAdmin
 };
