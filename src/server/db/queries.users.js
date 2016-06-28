@@ -20,7 +20,8 @@ function getSingleUserByUsername(username) {
 
 function addUser(obj) {
   return knex('users')
-    .insert(obj);
+    .insert(obj)
+    .returning('*');
 }
 
 function makeAdmin(username, value) {

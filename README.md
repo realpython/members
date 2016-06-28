@@ -35,7 +35,12 @@ $ curl -X PUT -d admin=true http://localhost:3000/users/<USERNAME>/admin
 
 #### Complete
 
+**Unregistered Users**
+
 1. Unregistered users should be able to log in via Github
+
+**Users**
+
 1. Users should be able to view all the chapters
 1. Users should be able to view chapters on the sidebar
 1. Users should be able to view a single chapter
@@ -44,13 +49,16 @@ $ curl -X PUT -d admin=true http://localhost:3000/users/<USERNAME>/admin
 1. Users should be able to move from chapter to chapter within the single chapter view
 1. Users should be able to view their overall progress on the dashboard
 1. Users should be able to see the current chapter highlighted on the sidebar
-1. Admin should be able to view all chapters
 1. Users should be able to view their profile
 
-#### Todo
+**Admin**
 
-1. Admin should be able to add new users (current)
-1. Users should be able to hide/show the sidebar
+1. Admin should be able to view all chapters
+1. Admin should be able to add new users
+
+#### Incomplete
+
+1. Users should be able to hide/show the sidebar (current)
 1. Users should be able to view lessons on the sidebar
 1. Users should be able to hide/show lessons on the sidebar
 1. Users should be able to view all standards
@@ -59,8 +67,12 @@ $ curl -X PUT -d admin=true http://localhost:3000/users/<USERNAME>/admin
 1. Users should be able to reply to messages within the lesson view
 1. Admin should be able to view all chapters
 1. Admin should be able to add new chapters
+1. Unregistered users should have to enter an email and a numeric code to register and become an unverified user
+1. Unverified users should have to connect their Github account to become verified
+1. Users should be able to submit exercises for grading
 
 ### Todo
 
 1. Set up error logging
 1. Add uncaught exception handler
+1. Separate API routes from server side templating routes

@@ -15,7 +15,7 @@ router.get('/:id', authHelpers.ensureAuthenticated,
   .then(function(chapters) {
     renderObject.chapters = chapters;
     // get single chapter info
-    return chapterQueries.getSingleChapter(parseInt(req.params.id))
+    chapterQueries.getSingleChapter(parseInt(req.params.id))
     .then(function(singleChapter) {
       if (singleChapter.length) {
         var chapterObject = singleChapter[0];
@@ -26,7 +26,7 @@ router.get('/:id', authHelpers.ensureAuthenticated,
         renderObject.title = 'Textbook LMS - ' + chapterObject.name;
         renderObject.pageTitle = chapterObject.name;
         renderObject.singleChapter = chapterObject;
-        res.render('chapter', renderObject);
+        return res.render('chapter', renderObject);
       } else {
         req.flash('messages', {
           status: 'success',
@@ -37,7 +37,7 @@ router.get('/:id', authHelpers.ensureAuthenticated,
     });
   })
   .catch(function(err) {
-    next(err);
+    return next(err);
   });
 });
 
@@ -50,11 +50,10 @@ router.get('/:id/update', authHelpers.ensureAuthenticated,
       status: 'success',
       value: 'Status updated.'
     });
-    res.redirect('/');
+    return res.redirect('/');
   })
   .catch(function(err) {
-    res.status(500);
-    res.render('error', {
+    return res.status(500).render('error', {
       message: 'Something went wrong'
     });
   });

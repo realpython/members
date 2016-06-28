@@ -64,7 +64,7 @@ app.use(function(err, req, res, next) {
   console.error(err.message); // set up error logging
   res.status(err.status || 500);
   res.render('error', {
-    message: err.customMessage || 'Something went wrong',
+    message: err.customMessage || 'Something went wrong!',
     error: {}
   });
 });

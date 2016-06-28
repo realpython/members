@@ -39,7 +39,29 @@ function authenticateAdmin(done) {
   });
 }
 
+var sampleUser = {
+  username: 'red',
+  githubID: 1234567,
+  displayName: 'red',
+  email: 'red@red.com',
+  token: '123456red',
+  verified: false,
+  admin: false
+};
+
+var dupeUser = {
+  username: 'michael',
+  githubID: 123456,
+  displayName: 'Michael Herman',
+  email: 'michael@realpython.com',
+  token: '123456',
+  verified: false,
+  admin: false
+};
+
 module.exports = {
   authenticateUser: authenticateUser,
-  authenticateAdmin: authenticateAdmin
+  authenticateAdmin: authenticateAdmin,
+  sampleUser: sampleUser,
+  dupeUser: dupeUser
 };

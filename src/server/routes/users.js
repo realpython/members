@@ -18,14 +18,14 @@ router.get('/:id/profile', authHelpers.ensureAuthenticated,
   .then(function(chapters) {
     renderObject.chapters = chapters;
     // get single user
-    return userQueries.getSingleUser(userID)
+    userQueries.getSingleUser(userID)
     .then(function(user) {
       if (user.length) {
         renderObject.user = user[0];
-        res.render('profile', renderObject);
+        return res.render('profile', renderObject);
       } else {
         req.flash('messages', {
-          status: 'success',
+          status: 'danger',
           value: 'That user does not exist.'
         });
         return res.redirect('/');
@@ -33,7 +33,7 @@ router.get('/:id/profile', authHelpers.ensureAuthenticated,
     });
   })
   .catch(function(err) {
-    next(err);
+    return next(err);
   });
 });
 
@@ -50,23 +50,21 @@ if (process.env.NODE_ENV === 'development' || 'testing') {
       userQueries.getSingleUserByUsername(req.params.username)
       .then(function(user) {
         if (user.length) {
-          return userQueries.makeAdmin(req.params.username, req.body.admin)
+          userQueries.makeAdmin(req.params.username, req.body.admin)
           .then(function(response) {
-            res.json({
+            return res.status(200).json({
               status: 'success',
               message: 'User admin status updated.'
             });
           });
         } else {
-          res.status(400);
-          res.json({
+          return res.status(400).json({
             message: 'That user does not exist.'
           });
         }
       })
       .catch(function(err) {
-        res.status(500);
-        res.json({
+        return res.status(500).json({
           message: 'Something went wrong.'
         });
       });

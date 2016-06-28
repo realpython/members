@@ -5,33 +5,86 @@
 
 {% block content %}
 
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Username</th>
-        <th>Github ID</th>
-        <th>Display Name</th>
-        <th>Email</th>
-        <th>Admin</th>
-        <th>Verified</th>
-        <th>Update</th>
-        <th>Delete</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for user in users %}
-        <tr>
-          <td>{{user.username}}</td>
-          <td>{{user.github_id}}</td>
-          <td>{{user.display_name}}</td>
-          <td>{{user.email}}</td>
-          <td>{{user.admin}}</td>
-          <td>{{user.verified}}</td>
-          <td></td>
-          <td></td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+  <div class="row">
+    <div class="col-md-12">
+      <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#newUserModal">Add New User</button>
+    </div>
+  </div>
+
+  <br>
+
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Github Username</th>
+            <th>Github ID</th>
+            <th>Github Display Name</th>
+            <th>Email</th>
+            <th>Admin</th>
+            <th>Verified</th>
+            <th>Update</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in users %}
+            <tr>
+              <td>{{user.username}}</td>
+              <td>{{user.github_id}}</td>
+              <td>{{user.display_name}}</td>
+              <td>{{user.email}}</td>
+              <td>{{user.admin}}</td>
+              <td>{{user.verified}}</td>
+              <td></td>
+              <td></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- modal -->
+  <div class="modal fade" id="newUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Add new user</h4>
+        </div>
+        <div class="modal-body">
+          <form action="/admin/users" method="POST" id="add-user-form">
+            <div class="form-group">
+              <input type="text" name="username" class="form-control" placeholder="Github Username" required>
+            </div>
+            <div class="form-group">
+              <input type="number" name="githubID" class="form-control" placeholder="Github ID" required>
+            </div>
+            <div class="form-group">
+              <input type="text" name="displayName" class="form-control" placeholder="Github Display Name" required>
+            </div>
+            <div class="form-group">
+              <input type="email" name="email" class="form-control" placeholder="Email" required>
+            </div>
+            <div class="form-group">
+              <input type="text" name="token" class="form-control" placeholder="Github Access Token" required>
+            </div>
+            <div class="checkbox">
+              <label><input type="checkbox" name="admin"> Admin?</label>
+            </div>
+            <div class="checkbox">
+              <label><input type="checkbox" name="verified"> Verified?</label>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary" id="add-user-button">Add User</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
 {% endblock %}

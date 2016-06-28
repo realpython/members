@@ -38,6 +38,9 @@
     {% if user %}
       <script type="text/javascript" src="/js/user.js"></script>
     {% endif %}
+    {% if user.admin %}
+      <script type="text/javascript" src="/js/admin.js"></script>
+    {% endif %}
     {% block scripts %}{% endblock %}
   </body>
 </html>

@@ -21,10 +21,10 @@ router.get('/', authHelpers.ensureAuthenticated,
       completed: ((completed / chapters.length) * 100).toFixed(0),
       messages: req.flash('messages')
     };
-    res.render('dashboard', renderObject);
+    return res.render('dashboard', renderObject);
   })
   .catch(function(err) {
-    next(err);
+    return next(err);
   });
 });
 

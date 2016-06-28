@@ -16,10 +16,46 @@ function(req, res, next) {
       users: users,
       messages: req.flash('messages')
     };
-    res.render('admin/users', renderObject);
+    return res.render('admin/users', renderObject);
   })
   .catch(function(err) {
-    next(err);
+    return next(err);
+  });
+});
+
+// add new user
+router.post('/users', authHelpers.ensureAdmin,
+function(req, res, next) {
+  // TODO: Add server side validation
+  var payload = req.body;
+  var user = {
+    username: payload.username,
+    github_id: payload.githubID,
+    display_name: payload.displayName,
+    email: payload.email,
+    access_token: payload.token,
+    admin: payload.admin || false,
+    verified: payload.verified || false
+  };
+  return userQueries.addUser(user)
+  .then(function(response) {
+    if (response.length) {
+      req.flash('messages', {
+        status: 'success',
+        value: 'User added.'
+      });
+      return res.redirect('/admin/users');
+    } else {
+      req.flash('messages', {
+        status: 'danger',
+        value: 'Something went wrong.'
+      });
+      return res.redirect('/admin/users');
+    }
+  })
+  .catch(function(err) {
+    // TODO: be more specific with the errors
+    return next(err);
   });
 });
 
