@@ -94,6 +94,8 @@ describe('routes : index', function() {
           res.status.should.equal(200);
           res.type.should.equal('text/html');
           res.text.should.contain('<h1>Dashboard</h1>');
+          res.text.should.contain('<p class="lead">Chapters</p>');
+          res.text.should.contain('<ul class="lesson-list">');
           res.text.should.contain(
             '<p class="completed">0% Complete</p>');
           res.text.should.not.contain('<h2>You are an admin.</h2>');

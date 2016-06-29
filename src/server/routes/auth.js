@@ -4,12 +4,14 @@ var router = express.Router();
 var githubAuth = require('../auth/github');
 var authHelpers = require('../auth/helpers');
 
+// *** authenticate with github *** //
 router.get('/github',
   githubAuth.authenticate('github', {
     scope: ['user:email']
   })
 );
 
+// *** github callback *** //
 router.get('/github/callback',
   githubAuth.authenticate('github', {
     failureRedirect: '/auth/sign_up'
@@ -22,6 +24,7 @@ router.get('/github/callback',
   res.redirect('/');
 });
 
+// *** user log in *** //
 router.get('/log_in', authHelpers.loginRedirect,
   function(req, res, next) {
   var renderObject = {
@@ -33,6 +36,7 @@ router.get('/log_in', authHelpers.loginRedirect,
   res.render('log_in', renderObject);
 });
 
+// *** user log out *** //
 router.get('/log_out', authHelpers.ensureAuthenticated,
   function(req, res, next) {
   req.logout();

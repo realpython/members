@@ -17,11 +17,11 @@
       {% endif %}
       {% if previousChapter.length %}
         <!-- previous chapter button -->
-        <a href="/chapters/{{previousChapter[0].id}}" type="button" class="btn btn-primary">« Prev Chapter</a>
+        <a href="/chapters/{{previousChapter[0].chapterID}}" type="button" class="btn btn-primary">« Prev Chapter</a>
       {% endif %}
       {% if nextChapter.length %}
         <!-- next chapter button -->
-        <a href="/chapters/{{nextChapter[0].id}}" type="button" class="btn btn-primary">Next Chapter »</a>
+        <a href="/chapters/{{nextChapter[0].chapterID}}" type="button" class="btn btn-primary">Next Chapter »</a>
       {% endif %}
     </div>
   </div>

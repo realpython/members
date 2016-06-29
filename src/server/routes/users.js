@@ -4,7 +4,9 @@ var router = express.Router();
 var authHelpers = require('../auth/helpers');
 var chapterQueries = require('../db/queries.chapters');
 var userQueries = require('../db/queries.users');
+var routeHelpers = require('./_helpers');
 
+// *** get user profile *** //
 router.get('/:id/profile', authHelpers.ensureAuthenticated,
   function(req, res, next) {
   var userID = parseInt(req.params.id);
@@ -13,10 +15,13 @@ router.get('/:id/profile', authHelpers.ensureAuthenticated,
     pageTitle: 'User Profile',
     messages: req.flash('messages')
   };
-  // get all chapters
-  chapterQueries.getChapters()
-  .then(function(chapters) {
-    renderObject.chapters = chapters;
+  // get all chapters and associated lessons
+  chapterQueries.chaptersAndLessons()
+  .then(function(results) {
+    // filter and reduce the results
+    var reducedResults = routeHelpers.reduceResults(results);
+    var chaptersAndLessons = routeHelpers.convertArray(reducedResults);
+    renderObject.chaptersAndLessons = chaptersAndLessons;
     // get single user
     userQueries.getSingleUser(userID)
     .then(function(user) {
@@ -37,7 +42,7 @@ router.get('/:id/profile', authHelpers.ensureAuthenticated,
   });
 });
 
-// toggle admin status
+// *** toggle admin status *** //
 if (process.env.NODE_ENV === 'development' || 'testing') {
   router.put('/:username/admin', function(req, res, next) {
     var update = req.body;

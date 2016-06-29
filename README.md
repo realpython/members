@@ -8,7 +8,15 @@ Just a simple learning management system for textbook-like sites.
 
 [Staging Server](http://textbook-lms.herokuapp.com/)
 
-## Development
+## Getting Started
+
+1. Install dependencies
+1. Create the Postgres DB
+1. Run Migrations
+1. Run Seed
+1. Run server
+
+> Make sure to drop the database before running the seed!
 
 Update a user's admin status (`development` and `testing` only):
 
@@ -16,7 +24,9 @@ Update a user's admin status (`development` and `testing` only):
 $ curl -X PUT -d admin=true http://localhost:3000/users/<USERNAME>/admin
 ```
 
-### Getting started
+## Development
+
+### Set up
 
 1. Generate Express Boilerplate
 1. Organize project structure
@@ -45,10 +55,7 @@ $ curl -X PUT -d admin=true http://localhost:3000/users/<USERNAME>/admin
 1. Users should be able to view chapters on the sidebar
 1. Users should be able to view a single chapter
 1. Users should be able to mark a chapter as read or unread
-1. Users should be able to view a checkmark next to read chapters on the sidebar
-1. Users should be able to move from chapter to chapter within the single chapter view
 1. Users should be able to view their overall progress on the dashboard
-1. Users should be able to see the current chapter highlighted on the sidebar
 1. Users should be able to view their profile
 
 **Admin**
@@ -58,9 +65,14 @@ $ curl -X PUT -d admin=true http://localhost:3000/users/<USERNAME>/admin
 
 #### Incomplete
 
-1. Users should be able to hide/show the sidebar (current)
-1. Users should be able to view lessons on the sidebar
+1. Users should be able to view lessons on the sidebar (current)
+1. Users should be able to view a single lesson
+1. Users should be able to view a chapter's lessons from the single chapter view
+1. Users should be able to view a checkmark next to read lessons on the sidebar
+1. Users should be able to view a checkmark next to read chapters on the sidebar after all lessons have been read
+1. Users should be able to move from lesson to lesson within the single lesson view
 1. Users should be able to hide/show lessons on the sidebar
+1. Users should be able to see the current chapter and lesson highlighted on the sidebar
 1. Users should be able to view all standards
 1. Users should be able to view an about page detailing the relationship between chapters, lessons, standards, and exercises
 1. Users should be able to post new messages within the lesson view
@@ -70,6 +82,7 @@ $ curl -X PUT -d admin=true http://localhost:3000/users/<USERNAME>/admin
 1. Unregistered users should have to enter an email and a numeric code to register and become an unverified user
 1. Unverified users should have to connect their Github account to become verified
 1. Users should be able to submit exercises for grading
+1. Users should be able to hide/show the sidebar
 
 ### Todo
 

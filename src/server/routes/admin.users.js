@@ -4,6 +4,7 @@ var router = express.Router();
 var authHelpers = require('../auth/helpers');
 var userQueries = require('../db/queries.users');
 
+// *** get all users *** //
 router.get('/users', authHelpers.ensureAdmin,
 function(req, res, next) {
   // get all users
@@ -23,7 +24,7 @@ function(req, res, next) {
   });
 });
 
-// add new user
+// *** add new user *** //
 router.post('/users', authHelpers.ensureAdmin,
 function(req, res, next) {
   // TODO: Add server side validation

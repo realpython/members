@@ -3,26 +3,31 @@ var router = express.Router();
 
 var authHelpers = require('../auth/helpers');
 var chapterQueries = require('../db/queries.chapters');
+var routeHelpers = require('./_helpers');
 
+// *** get single chapter *** //
 router.get('/:id', authHelpers.ensureAuthenticated,
   function(req, res, next) {
   var renderObject = {
     user: req.user,
     messages: req.flash('messages')
   };
-  // get all chapters
-  chapterQueries.getChapters()
-  .then(function(chapters) {
-    renderObject.chapters = chapters;
+  // get all chapters and associated lessons
+  chapterQueries.chaptersAndLessons()
+  .then(function(results) {
+    // filter and reduce the results
+    var reducedResults = routeHelpers.reduceResults(results);
+    var chaptersAndLessons = routeHelpers.convertArray(reducedResults);
+    renderObject.chaptersAndLessons = chaptersAndLessons;
     // get single chapter info
-    chapterQueries.getSingleChapter(parseInt(req.params.id))
+    return chapterQueries.getSingleChapter(parseInt(req.params.id))
     .then(function(singleChapter) {
       if (singleChapter.length) {
         var chapterObject = singleChapter[0];
-        renderObject.previousChapter = getPrevChapter(
-          chapterObject.order, chapters);
-        renderObject.nextChapter = getNextChapter(
-          chapterObject.order, chapters);
+        renderObject.previousChapter = routeHelpers.getPrevChapter(
+          chapterObject.order, chaptersAndLessons);
+        renderObject.nextChapter = routeHelpers.getNextChapter(
+          chapterObject.order, chaptersAndLessons);
         renderObject.title = 'Textbook LMS - ' + chapterObject.name;
         renderObject.pageTitle = chapterObject.name;
         renderObject.singleChapter = chapterObject;
@@ -41,6 +46,7 @@ router.get('/:id', authHelpers.ensureAuthenticated,
   });
 });
 
+// *** update chapter read status *** //
 router.get('/:id/update', authHelpers.ensureAuthenticated,
   function(req, res, next) {
   var read = req.query.read;
@@ -58,19 +64,5 @@ router.get('/:id/update', authHelpers.ensureAuthenticated,
     });
   });
 });
-
-// *** helpers ** //
-
-function getPrevChapter(orderID, chapters) {
-  return chapters.filter(function(chapter) {
-    return chapter.order === parseInt(orderID - 1);
-  });
-}
-
-function getNextChapter(orderID, chapters) {
-  return chapters.filter(function(chapter) {
-    return chapter.order === parseInt(orderID + 1);
-  });
-}
 
 module.exports = router;

@@ -3,22 +3,31 @@ var router = express.Router();
 
 var authHelpers = require('../auth/helpers');
 var chapterQueries = require('../db/queries.chapters');
+var routeHelpers = require('./_helpers');
 
+// *** sanity check *** //
 router.get('/ping', function(req, res, next) {
   res.send('pong!');
 });
 
+// *** dashboard *** //
 router.get('/', authHelpers.ensureAuthenticated,
-  function(req, res, next) {
-  chapterQueries.getChapters()
-  .then(function(chapters) {
-    var completed = getCompleted(chapters).length;
+function(req, res, next) {
+  // get all chapters and associated lessons
+  chapterQueries.chaptersAndLessons()
+  .then(function(results) {
+    // filter and reduce the results
+    var reducedResults = routeHelpers.reduceResults(results);
+    var chaptersAndLessons = routeHelpers.convertArray(reducedResults);
+    // get completed chapters
+    var completed = routeHelpers.getCompletedChapters(
+      chaptersAndLessons).length;
     var renderObject = {
       title: 'Textbook LMS - dashboard',
       pageTitle: 'Dashboard',
       user: req.user,
-      chapters: chapters,
-      completed: ((completed / chapters.length) * 100).toFixed(0),
+      chaptersAndLessons: chaptersAndLessons,
+      completed: ((completed / chaptersAndLessons.length) * 100).toFixed(0),
       messages: req.flash('messages')
     };
     return res.render('dashboard', renderObject);
@@ -27,13 +36,5 @@ router.get('/', authHelpers.ensureAuthenticated,
     return next(err);
   });
 });
-
-// *** helpers ** //
-
-function getCompleted(chapters) {
-  return chapters.filter(function(chapter) {
-    return chapter.read;
-  });
-}
 
 module.exports = router;
