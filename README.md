@@ -62,11 +62,11 @@ $ curl -X PUT -d admin=true http://localhost:3000/users/<USERNAME>/admin
 
 1. Admin should be able to view all chapters
 1. Admin should be able to add new users
+1. Users should be able to view lessons on the sidebar
 
 #### Incomplete
 
-1. Users should be able to view lessons on the sidebar (current)
-1. Users should be able to view a single lesson
+1. Users should be able to view a single lesson (current)
 1. Users should be able to view a chapter's lessons from the single chapter view
 1. Users should be able to view a checkmark next to read lessons on the sidebar
 1. Users should be able to view a checkmark next to read chapters on the sidebar after all lessons have been read
@@ -83,6 +83,10 @@ $ curl -X PUT -d admin=true http://localhost:3000/users/<USERNAME>/admin
 1. Unverified users should have to connect their Github account to become verified
 1. Users should be able to submit exercises for grading
 1. Users should be able to hide/show the sidebar
+1. Users should be able to view a Github avatar on the navbar
+1. Admin should be able to update users
+1. Users should be able to see their recent activity log on the dashboard
+1. Users should be able to view a breadcrumb-like navigation
 
 ### Todo
 
