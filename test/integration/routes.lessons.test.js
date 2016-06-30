@@ -51,19 +51,19 @@ describe('routes : lessons', function() {
         });
       });
     });
-    // describe('GET /chapters/:id/update?read=true', function() {
-    //   it('should redirect to log in page', function(done) {
-    //     chai.request(server)
-    //     .get('/chapters/1/update?read=true')
-    //     .end(function(err, res) {
-    //       res.redirects.length.should.equal(1);
-    //       res.status.should.equal(200);
-    //       res.type.should.equal('text/html');
-    //       res.text.should.contain('try Textbook');
-    //       done();
-    //     });
-    //   });
-    // });
+    describe('GET /lessons/:id/update?read=true', function() {
+      it('should redirect to log in page', function(done) {
+        chai.request(server)
+        .get('/lessons/1/update?read=true')
+        .end(function(err, res) {
+          res.redirects.length.should.equal(1);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('try Textbook');
+          done();
+        });
+      });
+    });
   });
 
   describe('if authenticated', function() {
@@ -76,7 +76,6 @@ describe('routes : lessons', function() {
     });
     describe('GET /lessons/:id', function() {
       it('should return a response', function(done) {
-        /////
         lessonQueries.getSingleLessonFromOrder(2)
         .then(function(lesson) {
           // var previous = parseInt(lesson[0].id) - 1;
@@ -152,53 +151,53 @@ describe('routes : lessons', function() {
         });
       });
     });
-    // describe('GET /chapters/:id/update?read=true', function() {
-    //   it('should redirect to the dashboard', function(done) {
-    //     chapterQueries.getChapters()
-    //     .then(function(chapters) {
-    //       chai.request(server)
-    //       .get('/chapters/' + chapters[0].id + '/update?read=true')
-    //       .end(function(err, res) {
-    //         res.redirects.length.should.equal(1);
-    //         res.status.should.equal(200);
-    //         res.type.should.equal('text/html');
-    //         res.text.should.contain('<h1>Dashboard</h1>');
-    //         res.text.should.contain('<span class="badge"><i class="fa fa-check" aria-hidden="true"></i></span>');
-    //         done();
-    //       });
-    //     });
-    //   });
-    // });
-    // describe('GET /chapters/:id/update?read=999', function() {
-    //   it('should throw an error if the query string "read" is not a boolean', function(done) {
-    //     chapterQueries.getChapters()
-    //     .then(function(chapters) {
-    //       chai.request(server)
-    //       .get('/chapters/' + chapters[0].id + '/update?read=999')
-    //       .end(function(err, res) {
-    //         res.redirects.length.should.equal(0);
-    //         res.status.should.equal(500);
-    //         res.type.should.equal('text/html');
-    //         done();
-    //       });
-    //     });
-    //   });
-    // });
-    // describe('GET /chapters/:id/update?test=true', function() {
-    //   it('should throw an error if the query string is not "read"', function(done) {
-    //     chapterQueries.getChapters()
-    //     .then(function(chapters) {
-    //       chai.request(server)
-    //       .get('/chapters/' + chapters[0].id + '/update?test=true')
-    //       .end(function(err, res) {
-    //         res.redirects.length.should.equal(0);
-    //         res.status.should.equal(500);
-    //         res.type.should.equal('text/html');
-    //         done();
-    //       });
-    //     });
-    //   });
-    // });
+    describe('GET /lessons/:id/update?read=true', function() {
+      it('should redirect to the dashboard', function(done) {
+        lessonQueries.getLessons()
+        .then(function(lessons) {
+          chai.request(server)
+          .get('/lessons/' + lessons[0].id + '/update?read=true')
+          .end(function(err, res) {
+            res.redirects.length.should.equal(1);
+            res.status.should.equal(200);
+            res.type.should.equal('text/html');
+            res.text.should.contain('<h1>Dashboard</h1>');
+            res.text.should.contain('<span class="badge"><i class="fa fa-check" aria-hidden="true"></i></span>');
+            done();
+          });
+        });
+      });
+    });
+    describe('GET /lessons/:id/update?read=999', function() {
+      it('should throw an error if the query string "read" is not a boolean', function(done) {
+        lessonQueries.getLessons()
+        .then(function(lessons) {
+          chai.request(server)
+          .get('/lessons/' + lessons[0].id + '/update?read=999')
+          .end(function(err, res) {
+            res.redirects.length.should.equal(0);
+            res.status.should.equal(500);
+            res.type.should.equal('text/html');
+            done();
+          });
+        });
+      });
+    });
+    describe('GET /lessons/:id/update?test=true', function() {
+      it('should throw an error if the query string is not "read"', function(done) {
+        lessonQueries.getLessons()
+        .then(function(lessons) {
+          chai.request(server)
+          .get('/lessons/' + lessons[0].id + '/update?test=true')
+          .end(function(err, res) {
+            res.redirects.length.should.equal(0);
+            res.status.should.equal(500);
+            res.type.should.equal('text/html');
+            done();
+          });
+        });
+      });
+    });
   });
 
 });

@@ -49,4 +49,23 @@ router.get('/:id', authHelpers.ensureAuthenticated,
   });
 });
 
+// *** update lesson read status *** //
+router.get('/:id/update', authHelpers.ensureAuthenticated,
+  function(req, res, next) {
+  var read = req.query.read;
+  lessonQueries.updateLessonReadStatus(parseInt(req.params.id), read)
+  .then(function() {
+    req.flash('messages', {
+      status: 'success',
+      value: 'Status updated.'
+    });
+    return res.redirect('/');
+  })
+  .catch(function(err) {
+    return res.status(500).render('error', {
+      message: 'Something went wrong'
+    });
+  });
+});
+
 module.exports = router;
