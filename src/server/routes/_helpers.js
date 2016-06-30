@@ -61,7 +61,6 @@ function compareChapterOrder(a, b) {
   return 0;
 }
 
-
 function getPrevChapter(orderID, chapters) {
   return chapters.filter(function(chapter) {
     return parseInt(chapter.chapterOrder) === parseInt(orderID - 1);
