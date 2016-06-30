@@ -13,21 +13,23 @@ router.get('/:id', authHelpers.ensureAuthenticated,
     messages: req.flash('messages')
   };
   // get all chapters and associated lessons
+  // for the sidebar and navbar
   chapterQueries.chaptersAndLessons()
   .then(function(results) {
-    // filter and reduce the results
+    // filter, reduce, and sort the results
     var reducedResults = routeHelpers.reduceResults(results);
-    var chaptersAndLessons = routeHelpers.convertArray(reducedResults);
-    renderObject.chaptersAndLessons = chaptersAndLessons;
+    var chapters = routeHelpers.convertArray(reducedResults);
+    var sortedChapters = routeHelpers.sortLessonsByOrderNumber(chapters);
+    renderObject.sortedChapters = sortedChapters;
     // get single chapter info
     return chapterQueries.getSingleChapter(parseInt(req.params.id))
     .then(function(singleChapter) {
       if (singleChapter.length) {
         var chapterObject = singleChapter[0];
         renderObject.previousChapter = routeHelpers.getPrevChapter(
-          chapterObject.order, chaptersAndLessons);
+          chapterObject.order, sortedChapters);
         renderObject.nextChapter = routeHelpers.getNextChapter(
-          chapterObject.order, chaptersAndLessons);
+          chapterObject.order, sortedChapters);
         renderObject.title = 'Textbook LMS - ' + chapterObject.name;
         renderObject.pageTitle = chapterObject.name;
         renderObject.singleChapter = chapterObject;

@@ -57,7 +57,7 @@ exports.seed = function(knex, Promise) {
     return Promise.all(chapterLessons.map(function(el) {
       return getChapterID(el.chapterOrder, knex, Promise)
       .then(function(chapter) {
-        return createLesson(el.chapterOrder, el.lessonName, el.lessonContent, chapter.id, knex, Promise);
+        return createLesson(el.lessonOrder, el.lessonName, el.lessonContent, chapter.id, knex, Promise);
       });
     }));
   });

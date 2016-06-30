@@ -12,6 +12,12 @@ function getSingleLesson(lessonID) {
     .where('id', lessonID);
 }
 
+function getSingleLessonFromOrder(order) {
+  return knex('lessons')
+    .select('*')
+    .where('order', order);
+}
+
 function updateLessonReadStatus(lessonID, value) {
   return knex('lessons')
     .update('read', value)
@@ -21,5 +27,6 @@ function updateLessonReadStatus(lessonID, value) {
 module.exports = {
   getLessons: getLessons,
   getSingleLesson: getSingleLesson,
+  getSingleLessonFromOrder: getSingleLessonFromOrder,
   updateLessonReadStatus: updateLessonReadStatus
 };

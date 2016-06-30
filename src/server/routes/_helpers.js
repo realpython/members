@@ -34,6 +34,21 @@ function convertArray(obj) {
   return dataArray;
 }
 
+function sortLessonsByOrderNumber(chaptersAndLessons) {
+  return chaptersAndLessons.map(function(chapter) {
+    chapter.lessons.sort(compare);
+    return chapter;
+  });
+}
+
+function compare(a, b) {
+  if (a.lessonOrder < b.lessonOrder)
+    return -1;
+  if (a.lessonOrder > b.lessonOrder)
+    return 1;
+  return 0;
+}
+
 function getPrevChapter(orderID, chapters) {
   return chapters.filter(function(chapter) {
     return parseInt(chapter.chapterOrder) === parseInt(orderID - 1);
@@ -50,6 +65,7 @@ module.exports = {
   getCompletedChapters: getCompletedChapters,
   reduceResults: reduceResults,
   convertArray: convertArray,
+  sortLessonsByOrderNumber: sortLessonsByOrderNumber,
   getPrevChapter: getPrevChapter,
   getNextChapter: getNextChapter
 };

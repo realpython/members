@@ -17,6 +17,7 @@ if (process.env.NODE_ENV !== 'production' || 'staging') {
 var routes = require('./routes/index');
 var authRoutes = require('./routes/auth');
 var chapterRoutes = require('./routes/chapters');
+var lessonRoutes = require('./routes/lessons');
 var userRoutes = require('./routes/users');
 var adminRoutes = require('./routes/admin.users');
 
@@ -50,6 +51,7 @@ app.use(express.static(path.join(__dirname, '../client')));
 app.use('/', routes);
 app.use('/auth', authRoutes);
 app.use('/chapters', chapterRoutes);
+app.use('/lessons', lessonRoutes);
 app.use('/users', userRoutes);
 app.use('/admin', adminRoutes);
 

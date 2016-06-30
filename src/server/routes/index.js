@@ -14,20 +14,22 @@ router.get('/ping', function(req, res, next) {
 router.get('/', authHelpers.ensureAuthenticated,
 function(req, res, next) {
   // get all chapters and associated lessons
+  // for the sidebar and navbar
   chapterQueries.chaptersAndLessons()
   .then(function(results) {
-    // filter and reduce the results
+    // filter, reduce, and sort the results
     var reducedResults = routeHelpers.reduceResults(results);
-    var chaptersAndLessons = routeHelpers.convertArray(reducedResults);
+    var chapters = routeHelpers.convertArray(reducedResults);
+    var sortedChapters = routeHelpers.sortLessonsByOrderNumber(chapters);
     // get completed chapters
     var completed = routeHelpers.getCompletedChapters(
-      chaptersAndLessons).length;
+      sortedChapters).length;
     var renderObject = {
       title: 'Textbook LMS - dashboard',
       pageTitle: 'Dashboard',
       user: req.user,
-      chaptersAndLessons: chaptersAndLessons,
-      completed: ((completed / chaptersAndLessons.length) * 100).toFixed(0),
+      sortedChapters: sortedChapters,
+      completed: ((completed / sortedChapters.length) * 100).toFixed(0),
       messages: req.flash('messages')
     };
     return res.render('dashboard', renderObject);

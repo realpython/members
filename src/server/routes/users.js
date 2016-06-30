@@ -16,6 +16,7 @@ router.get('/:id/profile', authHelpers.ensureAuthenticated,
     messages: req.flash('messages')
   };
   // get all chapters and associated lessons
+  // for the sidebar and navbar
   chapterQueries.chaptersAndLessons()
   .then(function(results) {
     // filter and reduce the results
