@@ -96,3 +96,4 @@ $ curl -X PUT -d admin=true http://localhost:3000/users/<USERNAME>/admin
 1. Set up error logging
 1. Add uncaught exception handler
 1. Separate API routes from server side templating routes
+1. Swagger docs for the handlers returning JSON

@@ -51,10 +51,15 @@ describe('routes : lessons', function() {
         });
       });
     });
-    describe('GET /lessons/:id/update?read=true', function() {
+    describe('POST /lessons', function() {
       it('should redirect to log in page', function(done) {
         chai.request(server)
-        .get('/lessons/1/update?read=true')
+        .post('/lessons')
+        .send({
+          chapter: 1,
+          lesson: 1,
+          read: 'true'
+        })
         .end(function(err, res) {
           res.redirects.length.should.equal(1);
           res.status.should.equal(200);
@@ -151,12 +156,17 @@ describe('routes : lessons', function() {
         });
       });
     });
-    describe('GET /lessons/:id/update?read=true', function() {
+    describe('POST /lessons', function() {
       it('should redirect to the dashboard', function(done) {
         lessonQueries.getLessons()
         .then(function(lessons) {
           chai.request(server)
-          .get('/lessons/' + lessons[0].id + '/update?read=true')
+          .post('/lessons')
+          .send({
+            chapter: lessons[0].chapter_id,
+            lesson: lessons[0].id,
+            read: 'true'
+          })
           .end(function(err, res) {
             res.redirects.length.should.equal(1);
             res.status.should.equal(200);
@@ -168,27 +178,17 @@ describe('routes : lessons', function() {
         });
       });
     });
-    describe('GET /lessons/:id/update?read=999', function() {
+    describe('POST /lessons', function() {
       it('should throw an error if the query string "read" is not a boolean', function(done) {
         lessonQueries.getLessons()
         .then(function(lessons) {
           chai.request(server)
-          .get('/lessons/' + lessons[0].id + '/update?read=999')
-          .end(function(err, res) {
-            res.redirects.length.should.equal(0);
-            res.status.should.equal(500);
-            res.type.should.equal('text/html');
-            done();
-          });
-        });
-      });
-    });
-    describe('GET /lessons/:id/update?test=true', function() {
-      it('should throw an error if the query string is not "read"', function(done) {
-        lessonQueries.getLessons()
-        .then(function(lessons) {
-          chai.request(server)
-          .get('/lessons/' + lessons[0].id + '/update?test=true')
+          .post('/lessons')
+          .send({
+            chapter: lessons[0].chapter_id,
+            lesson: lessons[0].id,
+            read: '999'
+          })
           .end(function(err, res) {
             res.redirects.length.should.equal(0);
             res.status.should.equal(500);

@@ -15,7 +15,7 @@ router.get('/:id', authHelpers.ensureAuthenticated,
   };
   // get all chapters and associated lessons
   // for the sidebar and navbar
-  chapterQueries.chaptersAndLessons()
+  return chapterQueries.chaptersAndLessons()
   .then(function(results) {
     // filter, reduce, and sort the results
     var reducedResults = routeHelpers.reduceResults(results);
@@ -50,10 +50,14 @@ router.get('/:id', authHelpers.ensureAuthenticated,
 });
 
 // *** update lesson read status *** //
-router.get('/:id/update', authHelpers.ensureAuthenticated,
+router.post('/', authHelpers.ensureAuthenticated,
   function(req, res, next) {
-  var read = req.query.read;
-  lessonQueries.updateLessonReadStatus(parseInt(req.params.id), read)
+  // TODO: add try/catch
+  var chapterID = parseInt(req.body.chapter);
+  var lessonID = parseInt(req.body.lesson);
+  var read = req.body.read;
+  // toggle read status
+  return lessonQueries.updateLessonReadStatus(lessonID, read)
   .then(function() {
     req.flash('messages', {
       status: 'success',
