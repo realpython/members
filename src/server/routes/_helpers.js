@@ -35,19 +35,32 @@ function convertArray(obj) {
 }
 
 function sortLessonsByOrderNumber(chaptersAndLessons) {
-  return chaptersAndLessons.map(function(chapter) {
-    chapter.lessons.sort(compare);
+  // sort lessons by lesson order number
+  var sortedLessons = chaptersAndLessons.map(function(chapter) {
+    chapter.lessons.sort(compareLessonOrder);
     return chapter;
   });
+  // sort chapters by chapter order number
+  var sortedChapters = sortedLessons.sort(compareChapterOrder);
+  return sortedChapters;
 }
 
-function compare(a, b) {
+function compareLessonOrder(a, b) {
   if (a.lessonOrder < b.lessonOrder)
     return -1;
   if (a.lessonOrder > b.lessonOrder)
     return 1;
   return 0;
 }
+
+function compareChapterOrder(a, b) {
+  if (a.chapterOrder < b.chapterOrder)
+    return -1;
+  if (a.chapterOrder > b.chapterOrder)
+    return 1;
+  return 0;
+}
+
 
 function getPrevChapter(orderID, chapters) {
   return chapters.filter(function(chapter) {

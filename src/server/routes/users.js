@@ -19,10 +19,11 @@ router.get('/:id/profile', authHelpers.ensureAuthenticated,
   // for the sidebar and navbar
   chapterQueries.chaptersAndLessons()
   .then(function(results) {
-    // filter and reduce the results
+    // filter, reduce, and sort the results
     var reducedResults = routeHelpers.reduceResults(results);
-    var chaptersAndLessons = routeHelpers.convertArray(reducedResults);
-    renderObject.chaptersAndLessons = chaptersAndLessons;
+    var chapters = routeHelpers.convertArray(reducedResults);
+    var sortedChapters = routeHelpers.sortLessonsByOrderNumber(chapters);
+    renderObject.sortedChapters = sortedChapters;
     // get single user
     userQueries.getSingleUser(userID)
     .then(function(user) {
