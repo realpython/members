@@ -5,7 +5,7 @@ var base = [
     lessonOrder: 1,
     lessonName: 'Lesson 2a',
     lessonContent: 'test',
-    lessonRead: false,
+    lessonRead: true,
     chapterID: 2,
     chapterOrder: 2,
     chapterName: 'Conditional logic',
@@ -87,7 +87,7 @@ var reduced = {
         lessonID: 5,
         lessonName: 'Lesson 2a',
         lessonOrder: 1,
-        lessonRead: false
+        lessonRead: true
       }
     ]
   }
@@ -134,7 +134,7 @@ var converted = [
         lessonID: 5,
         lessonName: 'Lesson 2a',
         lessonOrder: 1,
-        lessonRead: false
+        lessonRead: true
       }
     ]
   }
@@ -181,9 +181,50 @@ var sorted = [
         lessonID: 5,
         lessonName: 'Lesson 2a',
         lessonOrder: 1,
-        lessonRead: false
+        lessonRead: true
       }
     ]
+  }
+];
+
+var totalLessons = [
+  {
+    lessonContent: 'test',
+    lessonID: 1,
+    lessonName: 'Lesson 1a',
+    lessonOrder: 1,
+    lessonRead: false
+  },
+  {
+    lessonContent: 'test',
+    lessonID: 2,
+    lessonName: 'Lesson 1b',
+    lessonOrder: 2,
+    lessonRead: false
+  },
+  {
+    lessonContent: 'test',
+    lessonID: 3,
+    lessonName: 'Lesson 1c',
+    lessonOrder: 3,
+    lessonRead: false
+  },
+  {
+    lessonContent: 'test',
+    lessonID: 5,
+    lessonName: 'Lesson 2a',
+    lessonOrder: 1,
+    lessonRead: true
+  }
+];
+
+var completedLessons = [
+  {
+    lessonContent: 'test',
+    lessonID: 5,
+    lessonName: 'Lesson 2a',
+    lessonOrder: 1,
+    lessonRead: true
   }
 ];
 
@@ -191,5 +232,7 @@ module.exports = {
   base: base,
   reduced: reduced,
   converted: converted,
-  sorted: sorted
+  sorted: sorted,
+  totalLessons: totalLessons,
+  completedLessons: completedLessons
 };

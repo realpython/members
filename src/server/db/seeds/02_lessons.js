@@ -20,7 +20,7 @@ exports.seed = function(knex, Promise) {
         lessonName: 'Lesson 1a',
         lessonOrder: 1,
         lessonContent: 'test',
-        lessonRead: true,
+        lessonRead: false,
         chapterOrder: chapterOrder[0]
       },
       {

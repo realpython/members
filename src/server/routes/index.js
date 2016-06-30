@@ -21,15 +21,18 @@ function(req, res, next) {
     var reducedResults = routeHelpers.reduceResults(results);
     var chapters = routeHelpers.convertArray(reducedResults);
     var sortedChapters = routeHelpers.sortLessonsByOrderNumber(chapters);
-    // get completed chapters
-    var completed = routeHelpers.getCompletedChapters(
-      sortedChapters).length;
+    // get total lessons
+    var totalLessons = routeHelpers.getTotalLessons(sortedChapters);
+    // get completed lessons
+    var completed = routeHelpers.getCompletedLessons(totalLessons);
+    // get completed percentage
+    var percentage = ((completed.length / totalLessons.length) * 100).toFixed(0);
     var renderObject = {
       title: 'Textbook LMS - dashboard',
       pageTitle: 'Dashboard',
       user: req.user,
       sortedChapters: sortedChapters,
-      completed: ((completed / sortedChapters.length) * 100).toFixed(0),
+      completed: percentage,
       messages: req.flash('messages')
     };
     return res.render('dashboard', renderObject);

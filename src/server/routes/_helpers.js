@@ -1,6 +1,12 @@
-function getCompletedChapters(chaptersAndLessons) {
-  return chaptersAndLessons.filter(function(chapter) {
-    return chapter.chapterRead;
+function getTotalLessons(chapters) {
+  return chapters.reduce(function(acc, chapter) {
+    return acc.concat(chapter.lessons);
+  }, []);
+}
+
+function getCompletedLessons(lessons) {
+  return lessons.filter(function(lesson) {
+    return lesson.lessonRead;
   });
 }
 
@@ -74,7 +80,8 @@ function getNextChapter(orderID, chapters) {
 }
 
 module.exports = {
-  getCompletedChapters: getCompletedChapters,
+  getTotalLessons: getTotalLessons,
+  getCompletedLessons: getCompletedLessons,
   reduceResults: reduceResults,
   convertArray: convertArray,
   sortLessonsByOrderNumber: sortLessonsByOrderNumber,

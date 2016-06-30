@@ -59,6 +59,7 @@ $ curl -X PUT -d admin=true http://localhost:3000/users/<USERNAME>/admin
 1. Users should be able to view a chapter's lessons from the single chapter view
 1. Users should be able to view a checkmark next to read lessons on the sidebar
 1. Users should be able to mark a lesson as read or unread from the single lesson view
+1. Users should be able to view their overall progress on the dashboard (based on read lessons)
 
 **Admin**
 
@@ -68,8 +69,7 @@ $ curl -X PUT -d admin=true http://localhost:3000/users/<USERNAME>/admin
 
 #### Incomplete
 
-1. Users should be able to view their overall progress on the dashboard (based on read lessons) (current)
-1. Users should be able to view a checkmark next to read chapters on the sidebar after all lessons have been read
+1. Users should be able to view a checkmark next to read chapters on the sidebar after all lessons have been read (current)
 1. Users should be able to move from lesson to lesson within the single lesson view
 1. Users should be able to hide/show lessons on the sidebar
 1. Users should be able to see the current chapter and lesson highlighted on the sidebar
@@ -89,7 +89,7 @@ $ curl -X PUT -d admin=true http://localhost:3000/users/<USERNAME>/admin
 1. Users should be able to view a breadcrumb-like navigation
 1. Users should be able to view the chapter overview from the single chapter view
 1. Admin should be able to delete users
-1. User should be able to contact support
+1. Users should be able to contact support
 
 ### Todo
 

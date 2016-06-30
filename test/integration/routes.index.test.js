@@ -104,27 +104,27 @@ describe('routes : index', function() {
         });
       });
     });
-    // describe('GET /', function() {
-    //   it('should show the correct course status', function(done) {
-    //     chapterQueries.getChapters()
-    //     .then(function(chapters) {
-    //       chapterQueries.updateChapterReadStatus(chapters[0].id, true)
-    //       .then(function(response) {
-    //         chai.request(server)
-    //         .get('/')
-    //         .end(function(err, res) {
-    //           res.redirects.length.should.equal(0);
-    //           res.status.should.equal(200);
-    //           res.type.should.equal('text/html');
-    //           res.text.should.contain('<h1>Dashboard</h1>');
-    //           res.text.should.contain(
-    //             '<p class="completed">33% Complete</p>');
-    //           done();
-    //         });
-    //       });
-    //     });
-    //   });
-    // });
+    describe('GET /', function() {
+      it('should show the correct course status', function(done) {
+        lessonQueries.getLessons()
+        .then(function(lessons) {
+          lessonQueries.updateLessonReadStatus(lessons[0].id, true)
+          .then(function(response) {
+            chai.request(server)
+            .get('/')
+            .end(function(err, res) {
+              res.redirects.length.should.equal(0);
+              res.status.should.equal(200);
+              res.type.should.equal('text/html');
+              res.text.should.contain('<h1>Dashboard</h1>');
+              res.text.should.contain(
+                '<p class="completed">17% Complete</p>');
+              done();
+            });
+          });
+        });
+      });
+    });
   });
 
   describe('if authenticated as an admin', function() {
