@@ -22,26 +22,28 @@ router.get('/:id', authHelpers.ensureAuthenticated,
     var sortedChapters = routeHelpers.sortLessonsByOrderNumber(chapters);
     renderObject.sortedChapters = sortedChapters;
     // get single chapter info
-    return chapterQueries.getSingleChapter(parseInt(req.params.id))
-    .then(function(singleChapter) {
-      if (singleChapter.length) {
-        var chapterObject = singleChapter[0];
-        renderObject.previousChapter = routeHelpers.getPrevChapter(
-          chapterObject.order, sortedChapters);
-        renderObject.nextChapter = routeHelpers.getNextChapter(
-          chapterObject.order, sortedChapters);
-        renderObject.title = 'Textbook LMS - ' + chapterObject.name;
-        renderObject.pageTitle = chapterObject.name;
-        renderObject.singleChapter = chapterObject;
-        return res.render('chapter', renderObject);
-      } else {
-        req.flash('messages', {
-          status: 'success',
-          value: 'Sorry. That chapter does not exist.'
-        });
-        return res.redirect('/');
-      }
+    var singleChapter = sortedChapters.filter(function(chapter) {
+      return parseInt(chapter.chapterID) === parseInt(req.params.id);
     });
+    // render
+    if (singleChapter.length) {
+      var chapterObject = singleChapter[0];
+      renderObject.previousChapter = routeHelpers.getPrevChapter(
+        chapterObject.chapterOrder, sortedChapters);
+      renderObject.nextChapter = routeHelpers.getNextChapter(
+        chapterObject.chapterOrder, sortedChapters);
+      renderObject.title = 'Textbook LMS - ' + chapterObject.chapterName;
+      renderObject.pageTitle = chapterObject.chapterName;
+      renderObject.singleChapter = chapterObject;
+      return res.render('chapter', renderObject);
+    } else {
+      req.flash('messages', {
+        status: 'success',
+        value: 'Sorry. That chapter does not exist.'
+      });
+      return res.redirect('/');
+    }
+
   })
   .catch(function(err) {
     return next(err);

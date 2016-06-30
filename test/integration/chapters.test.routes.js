@@ -78,8 +78,6 @@ describe('routes : chapters', function() {
       it('should return a response', function(done) {
         chapterQueries.getSingleChapterFromOrder(2)
         .then(function(chapter) {
-          var previous = parseInt(chapter[0].id) - 1;
-          var next = parseInt(chapter[0].id) + 1;
           chai.request(server)
           .get('/chapters/' + chapter[0].id)
           .end(function(err, res) {
@@ -88,50 +86,6 @@ describe('routes : chapters', function() {
             res.type.should.equal('text/html');
             res.text.should.contain(
               '<h1>' + chapter[0].name + '</h1>');
-            res.text.should.contain('<!-- previous chapter button -->');
-            res.text.should.contain('<!-- next chapter button -->');
-            done();
-          });
-        });
-      });
-    });
-    describe('GET /chapters/:id', function() {
-      it('should show only next chapter button', function(done) {
-        chapterQueries.getSingleChapterFromOrder(1)
-        .then(function(chapter) {
-          var previous = parseInt(chapter[0].id) - 1;
-          var next = parseInt(chapter[0].id) + 1;
-          chai.request(server)
-          .get('/chapters/' + chapter[0].id)
-          .end(function(err, res) {
-            res.redirects.length.should.equal(0);
-            res.status.should.equal(200);
-            res.type.should.equal('text/html');
-            res.text.should.contain(
-              '<h1>' + chapter[0].name + '</h1>');
-            res.text.should.not.contain('<!-- previous chapter button -->');
-            res.text.should.contain('<!-- next chapter button -->');
-            done();
-          });
-        });
-      });
-    });
-    describe('GET /chapters/:id', function() {
-      it('should show only previous chapter button', function(done) {
-        chapterQueries.getSingleChapterFromOrder(3)
-        .then(function(chapter) {
-          var previous = parseInt(chapter[0].id) - 1;
-          var next = parseInt(chapter[0].id) + 1;
-          chai.request(server)
-          .get('/chapters/' + chapter[0].id)
-          .end(function(err, res) {
-            res.redirects.length.should.equal(0);
-            res.status.should.equal(200);
-            res.type.should.equal('text/html');
-            res.text.should.contain(
-              '<h1>' + chapter[0].name + '</h1>');
-            res.text.should.contain('<!-- previous chapter button -->');
-            res.text.should.not.contain('<!-- next chapter button -->');
             done();
           });
         });

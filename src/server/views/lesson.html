@@ -9,6 +9,20 @@
     <div class="col-md-12">
       <!-- lesson content -->
       <p>{{singleLesson.content}}</p>
+      <!-- mark read/unread -->
+      {% if singleChapter.read %}
+        <a href="/chapters/{{singleChapter.id}}/update?read=false" type="button" class="btn btn-default">Mark as Unread</a>
+      {% elseif !singleChapter.read %}
+        <a href="/chapters/{{singleChapter.id}}/update?read=true" type="button" class="btn btn-default">Mark as Read</a>
+      {% endif %}
+      {% if previousChapter.length %}
+        <!-- previous chapter button -->
+        <a href="/chapters/{{previousChapter[0].chapterID}}" type="button" class="btn btn-primary">« Prev Chapter</a>
+      {% endif %}
+      {% if nextChapter.length %}
+        <!-- next chapter button -->
+        <a href="/chapters/{{nextChapter[0].chapterID}}" type="button" class="btn btn-primary">Next Chapter »</a>
+      {% endif %}
     </div>
   </div>
 
