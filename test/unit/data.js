@@ -1,6 +1,17 @@
 // queries.chapters.js => chaptersAndLessons()
 var base = [
   {
+    lessonID: 5,
+    lessonOrder: 1,
+    lessonName: 'Lesson 2a',
+    lessonContent: 'test',
+    lessonRead: false,
+    chapterID: 2,
+    chapterOrder: 2,
+    chapterName: 'Conditional logic',
+    chapterRead: false
+  },
+  {
     lessonID: 3,
     lessonOrder: 3,
     lessonName: 'Lesson 1c',
@@ -31,17 +42,6 @@ var base = [
     chapterID: 1,
     chapterOrder: 1,
     chapterName: 'Functions and Loops',
-    chapterRead: false
-  },
-  {
-    lessonID: 5,
-    lessonOrder: 1,
-    lessonName: 'Lesson 2a',
-    lessonContent: 'test',
-    lessonRead: false,
-    chapterID: 2,
-    chapterOrder: 2,
-    chapterName: 'Conditional logic',
     chapterRead: false
   }
 ];
