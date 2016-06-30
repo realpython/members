@@ -88,6 +88,7 @@ $ curl -X PUT -d admin=true http://localhost:3000/users/<USERNAME>/admin
 1. Users should be able to see their recent activity log on the dashboard
 1. Users should be able to view a breadcrumb-like navigation
 1. Users should be able to view the chapter overview from the single chapter view
+1. Admin should be able to delete users
 
 ### Todo
 

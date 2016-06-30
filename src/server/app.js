@@ -25,7 +25,7 @@ var adminRoutes = require('./routes/admin.users');
 var app = express();
 
 // *** view engine *** //
-var swig = new swig.Swig();
+// var swig = new swig.Swig();
 app.engine('html', swig.renderFile);
 app.set('view engine', 'html');
 app.set('views', path.join(__dirname, 'views'));
