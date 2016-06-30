@@ -20,36 +20,42 @@ exports.seed = function(knex, Promise) {
         lessonName: 'Lesson 1a',
         lessonOrder: 1,
         lessonContent: 'test',
+        lessonRead: true,
         chapterOrder: chapterOrder[0]
       },
       {
         lessonName: 'Lesson 1b',
         lessonOrder: 2,
         lessonContent: 'test',
+        lessonRead: false,
         chapterOrder: chapterOrder[0]
       },
       {
         lessonName: 'Lesson 1c',
         lessonOrder: 3,
         lessonContent: 'test',
+        lessonRead: false,
         chapterOrder: chapterOrder[0]
       },
       {
         lessonName: 'Lesson 2a',
         lessonOrder: 1,
         lessonContent: 'test',
+        lessonRead: false,
         chapterOrder: chapterOrder[1]
       },
       {
         lessonName: 'Lesson 3a',
         lessonOrder: 1,
         lessonContent: 'test',
+        lessonRead: false,
         chapterOrder: chapterOrder[2]
       },
       {
         lessonName: 'Lesson 3b',
         lessonOrder: 2,
         lessonContent: 'test',
+        lessonRead: false,
         chapterOrder: chapterOrder[2]
       }
     ];
@@ -57,7 +63,15 @@ exports.seed = function(knex, Promise) {
     return Promise.all(chapterLessons.map(function(el) {
       return getChapterID(el.chapterOrder, knex, Promise)
       .then(function(chapter) {
-        return createLesson(el.lessonOrder, el.lessonName, el.lessonContent, chapter.id, knex, Promise);
+        return createLesson(
+          el.lessonOrder,
+          el.lessonName,
+          el.lessonContent,
+          el.lessonRead,
+          chapter.id,
+          knex,
+          Promise
+        );
       });
     }));
   });
@@ -76,7 +90,7 @@ function getChapterID(chapterOrder, knex, Promise) {
 
 function createLesson(
   order, lessonName, lessonContent,
-  chapterID, knex, Promise
+  lessonRead, chapterID, knex, Promise
 ) {
   return new Promise(function(resolve, reject) {
     knex('lessons')
@@ -84,6 +98,7 @@ function createLesson(
         order: parseInt(order),
         name: lessonName,
         content: lessonContent,
+        read: lessonRead,
         chapter_id: chapterID
       })
       .then(function() {

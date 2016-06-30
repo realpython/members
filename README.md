@@ -54,11 +54,10 @@ $ curl -X PUT -d admin=true http://localhost:3000/users/<USERNAME>/admin
 1. Users should be able to view all the chapters
 1. Users should be able to view chapters on the sidebar
 1. Users should be able to view a single chapter
-1. Users should be able to mark a chapter as read or unread
-1. Users should be able to view their overall progress on the dashboard
 1. Users should be able to view their profile
 1. Users should be able to view a single lesson
 1. Users should be able to view a chapter's lessons from the single chapter view
+1. Users should be able to view a checkmark next to read lessons on the sidebar
 
 **Admin**
 
@@ -68,7 +67,8 @@ $ curl -X PUT -d admin=true http://localhost:3000/users/<USERNAME>/admin
 
 #### Incomplete
 
-1. Users should be able to view a checkmark next to read lessons on the sidebar (current)
+1. Users should be able to mark a lesson as read or unread (current)
+1. Users should be able to view their overall progress on the dashboard (based on lessons read)
 1. Users should be able to view a checkmark next to read chapters on the sidebar after all lessons have been read
 1. Users should be able to move from lesson to lesson within the single lesson view
 1. Users should be able to hide/show lessons on the sidebar

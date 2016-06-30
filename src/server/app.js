@@ -9,6 +9,7 @@ var session = require('express-session');
 var flash = require('connect-flash');
 var passport = require('passport');
 
+// *** .env *** //
 if (process.env.NODE_ENV !== 'production' || 'staging') {
   require('dotenv').config();
 }

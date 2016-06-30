@@ -17,7 +17,12 @@
             {% if chapter.lessons %}
               <ul class="lesson-list">
                 {% for lesson in chapter.lessons %}
-                  <li><a href="/lessons/{{lesson.lessonID}}">{{lesson.lessonName}}</a></li>
+                  <li class="list-group-item">
+                    {% if lesson.lessonRead %}
+                      <span class="badge"><i class="fa fa-check" aria-hidden="true"></i></span>
+                    {% endif %}
+                    <a href="/lessons/{{lesson.lessonID}}">{{lesson.lessonName}}</a>
+                  </li>
                 {% endfor %}
               </ul>
             {% endif %}
