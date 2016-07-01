@@ -8,6 +8,7 @@ var knex = require('../../src/server/db/knex');
 var testHelpers = require('../helpers');
 var server = require('../../src/server/app');
 var lessonQueries = require('../../src/server/db/queries.lessons');
+var chapterQueries = require('../../src/server/db/queries.chapters');
 
 var should = chai.should();
 
@@ -172,8 +173,34 @@ describe('routes : lessons', function() {
             res.status.should.equal(200);
             res.type.should.equal('text/html');
             res.text.should.contain('<h1>Dashboard</h1>');
-            res.text.should.contain('<span class="badge"><i class="fa fa-check" aria-hidden="true"></i></span>');
+            res.text.should.contain('<span class="badge" data-lesson-read="true"><i class="fa fa-check" aria-hidden="true"></i></span>');
             done();
+          });
+        });
+      });
+    });
+    describe('POST /lessons', function() {
+      it('should mark chapter as read', function(done) {
+        chapterQueries.getSingleChapterFromOrder(2)
+        .then(function(chapter) {
+          lessonQueries.getLessonsFromChapterID(chapter[0].id)
+          .then(function(lessons) {
+            chai.request(server)
+            .post('/lessons')
+            .send({
+              chapter: lessons[0].chapter_id,
+              lesson: lessons[0].id,
+              read: 'true'
+            })
+            .end(function(err, res) {
+              res.redirects.length.should.equal(1);
+              res.status.should.equal(200);
+              res.type.should.equal('text/html');
+              res.text.should.contain('<h1>Dashboard</h1>');
+              res.text.should.contain('<span class="badge" data-lesson-read="true"><i class="fa fa-check" aria-hidden="true"></i></span>');
+              res.text.should.contain('<span class="badge" data-chapter-read="true"><i class="fa fa-check" aria-hidden="true"></i></span>');
+              done();
+            });
           });
         });
       });

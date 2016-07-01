@@ -11,7 +11,7 @@
         {% for chapter in sortedChapters %}
           <li class="list-group-item">
             {% if chapter.chapterRead %}
-              <span class="badge"><i class="fa fa-check" aria-hidden="true"></i></span>
+              <span class="badge" data-chapter-read="true"><i class="fa fa-check" aria-hidden="true"></i></span>
             {% endif %}
             <a href="/chapters/{{chapter.chapterID}}">{{chapter.chapterName}}</a>
             {% if chapter.lessons %}
@@ -19,7 +19,7 @@
                 {% for lesson in chapter.lessons %}
                   <li class="list-group-item">
                     {% if lesson.lessonRead %}
-                      <span class="badge"><i class="fa fa-check" aria-hidden="true"></i></span>
+                      <span class="badge" data-lesson-read="true"><i class="fa fa-check" aria-hidden="true"></i></span>
                     {% endif %}
                     <a href="/lessons/{{lesson.lessonID}}">{{lesson.lessonName}}</a>
                   </li>

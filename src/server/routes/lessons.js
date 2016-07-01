@@ -52,18 +52,29 @@ router.get('/:id', authHelpers.ensureAuthenticated,
 // *** update lesson read status *** //
 router.post('/', authHelpers.ensureAuthenticated,
   function(req, res, next) {
-  // TODO: add try/catch
+  // TODO: add try/catch or validation
   var chapterID = parseInt(req.body.chapter);
   var lessonID = parseInt(req.body.lesson);
   var read = req.body.read;
   // toggle read status
   return lessonQueries.updateLessonReadStatus(lessonID, read)
   .then(function() {
-    req.flash('messages', {
-      status: 'success',
-      value: 'Status updated.'
+    // get all lessons from associated chapter
+    return lessonQueries.getLessonsFromChapterID(chapterID)
+    .then(function(lessons) {
+      // check chapter read status
+      var chapterStatus = routeHelpers.getChapterReadStatus(lessons);
+      // update chapter status
+      return chapterQueries.updateChapterReadStatus(
+        chapterID, chapterStatus)
+      .then(function() {
+        req.flash('messages', {
+          status: 'success',
+          value: 'Status updated.'
+        });
+        return res.redirect('/');
+      });
     });
-    return res.redirect('/');
   })
   .catch(function(err) {
     return res.status(500).render('error', {

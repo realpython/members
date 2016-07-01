@@ -79,6 +79,15 @@ function getNextChapter(orderID, chapters) {
   });
 }
 
+function getChapterReadStatus(lessons) {
+  for (var i = 0; i < lessons.length; i++) {
+    if (!lessons[i].read) {
+      return false;
+    }
+  }
+  return true;
+}
+
 module.exports = {
   getTotalLessons: getTotalLessons,
   getCompletedLessons: getCompletedLessons,
@@ -86,5 +95,6 @@ module.exports = {
   convertArray: convertArray,
   sortLessonsByOrderNumber: sortLessonsByOrderNumber,
   getPrevChapter: getPrevChapter,
-  getNextChapter: getNextChapter
+  getNextChapter: getNextChapter,
+  getChapterReadStatus: getChapterReadStatus
 };

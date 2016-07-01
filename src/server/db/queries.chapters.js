@@ -24,9 +24,16 @@ function chaptersAndLessons() {
     .join('lessons', 'lessons.chapter_id', 'chapters.id');
 }
 
+function updateChapterReadStatus(chapterID, value) {
+  return knex('chapters')
+    .update('read', value)
+    .where('id', parseInt(chapterID));
+}
+
 module.exports = {
   getChapters: getChapters,
   getSingleChapter: getSingleChapter,
   getSingleChapterFromOrder: getSingleChapterFromOrder,
-  chaptersAndLessons: chaptersAndLessons
+  chaptersAndLessons: chaptersAndLessons,
+  updateChapterReadStatus: updateChapterReadStatus
 };
