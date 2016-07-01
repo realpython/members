@@ -17,7 +17,7 @@ router.get('/:id/profile', authHelpers.ensureAuthenticated,
   };
   // get all chapters and associated lessons
   // for the sidebar and navbar
-  chapterQueries.chaptersAndLessons()
+  return chapterQueries.chaptersAndLessons()
   .then(function(results) {
     // filter, reduce, and sort the results
     var reducedResults = routeHelpers.reduceResults(results);
@@ -25,7 +25,7 @@ router.get('/:id/profile', authHelpers.ensureAuthenticated,
     var sortedChapters = routeHelpers.sortLessonsByOrderNumber(chapters);
     renderObject.sortedChapters = sortedChapters;
     // get single user
-    userQueries.getSingleUser(userID)
+    return userQueries.getSingleUser(userID)
     .then(function(user) {
       if (user.length) {
         renderObject.user = user[0];

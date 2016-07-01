@@ -79,6 +79,18 @@ function getNextChapter(orderID, chapters) {
   });
 }
 
+function getPrevLesson(orderID, lessons) {
+  return lessons.filter(function(lesson) {
+    return parseInt(lesson.lessonOrder) === parseInt(orderID - 1);
+  });
+}
+
+function getNextLesson(orderID, lessons) {
+  return lessons.filter(function(lesson) {
+    return parseInt(lesson.lessonOrder) === parseInt(orderID + 1);
+  });
+}
+
 function getChapterReadStatus(lessons) {
   for (var i = 0; i < lessons.length; i++) {
     if (!lessons[i].read) {
@@ -96,5 +108,7 @@ module.exports = {
   sortLessonsByOrderNumber: sortLessonsByOrderNumber,
   getPrevChapter: getPrevChapter,
   getNextChapter: getNextChapter,
+  getPrevLesson: getPrevLesson,
+  getNextLesson: getNextLesson,
   getChapterReadStatus: getChapterReadStatus
 };

@@ -1,3 +1,31 @@
+var knex = require('../db/knex');
+
+function githubCallback(
+  accessToken, refreshToken, profile, done) {
+  knex('users').where('github_id', profile.id)
+  .then(function(user) {
+    if (user.length) {
+      done(null, user[0]);
+    } else {
+      var email = profile._json.email || null;
+      var displayName = profile.displayName || profile.username;
+      return knex('users').insert({
+        github_username: profile.username,
+        github_id: profile.id,
+        github_display_name: displayName,
+        github_access_token: accessToken,
+        email: email
+      }).returning('*')
+      .then(function(response) {
+        done(null, response[0]);
+      });
+    }
+  })
+  .catch(function(err) {
+    done(err);
+  });
+}
+
 function ensureAuthenticated(req, res, next) {
   if (req.user) {
     return next();
@@ -46,5 +74,6 @@ function loginRedirect(req, res, next) {
 module.exports = {
   ensureAuthenticated: ensureAuthenticated,
   ensureAdmin: ensureAdmin,
-  loginRedirect: loginRedirect
+  loginRedirect: loginRedirect,
+  githubCallback: githubCallback
 };

@@ -3,23 +3,23 @@ var knex = require('./knex');
 function getChapters() {
   return knex('chapters')
   .select('*')
-  .orderBy('order');
+  .orderBy('order_number');
 }
 
 function getSingleChapter(chapterID) {
   return knex('chapters')
     .select('*')
-    .where('id', chapterID);
+    .where('id', parseInt(chapterID));
 }
 
-function getSingleChapterFromOrder(order) {
+function getSingleChapterFromOrder(orderNum) {
   return knex('chapters')
     .select('*')
-    .where('order', order);
+    .where('order_number', parseInt(orderNum));
 }
 
 function chaptersAndLessons() {
-  return knex.select('lessons.id as lessonID', 'lessons.order as lessonOrder', 'lessons.name as lessonName', 'lessons.content as lessonContent', 'lessons.read as lessonRead', 'chapters.id as chapterID', 'chapters.order as chapterOrder', 'chapters.name as chapterName', 'chapters.read as chapterRead')
+  return knex.select('lessons.id as lessonID', 'lessons.lesson_order_number as lessonLessonOrder', 'lessons.chapter_order_number as lessonChapterOrder', 'lessons.name as lessonName', 'lessons.content as lessonContent', 'lessons.read as lessonRead', 'chapters.id as chapterID', 'chapters.order_number as chapterOrder', 'chapters.name as chapterName', 'chapters.read as chapterRead')
     .from('chapters')
     .join('lessons', 'lessons.chapter_id', 'chapters.id');
 }

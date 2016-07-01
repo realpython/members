@@ -8,7 +8,7 @@ var userQueries = require('../db/queries.users');
 router.get('/users', authHelpers.ensureAdmin,
 function(req, res, next) {
   // get all users
-  userQueries.getUsers()
+  return userQueries.getUsers()
   .then(function(users) {
     var renderObject = {
       title: 'Textbook LMS - admin',
@@ -30,11 +30,11 @@ function(req, res, next) {
   // TODO: Add server side validation
   var payload = req.body;
   var user = {
-    username: payload.username,
+    github_username: payload.githubUsername,
     github_id: payload.githubID,
-    display_name: payload.displayName,
+    github_display_name: payload.githubDisplayName,
+    github_access_token: payload.githubToken,
     email: payload.email,
-    access_token: payload.token,
     admin: payload.admin || false,
     verified: payload.verified || false
   };

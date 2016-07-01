@@ -57,20 +57,26 @@ $ curl -X PUT -d admin=true http://localhost:3000/users/<USERNAME>/admin
 1. Users should be able to view their profile
 1. Users should be able to view a single lesson
 1. Users should be able to view a chapter's lessons from the single chapter view
+1. Users should be able to view lessons on the sidebar
 1. Users should be able to view a checkmark next to read lessons on the sidebar
 1. Users should be able to mark a lesson as read or unread from the single lesson view
 1. Users should be able to view their overall progress on the dashboard (based on read lessons)
+1. Users should be able to view a checkmark next to read chapters on the sidebar after all lessons have been read
 
 **Admin**
 
 1. Admin should be able to view all chapters
 1. Admin should be able to add new users
-1. Users should be able to view lessons on the sidebar
 
 #### Incomplete
 
-1. Users should be able to view a checkmark next to read chapters on the sidebar after all lessons have been read (current)
 1. Users should be able to move from lesson to lesson within the single lesson view
+  - update model to include total order and chapter order
+  - write function to get all lessons (current)
+  - write function to get next lesson
+  - write function to get previous lesson
+  - update render object
+  - update template
 1. Users should be able to hide/show lessons on the sidebar
 1. Users should be able to see the current chapter and lesson highlighted on the sidebar
 1. Users should be able to view all standards

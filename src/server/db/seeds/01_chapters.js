@@ -4,15 +4,15 @@ exports.seed = function(knex, Promise) {
     // knex('chapters').del(),
     // Inserts seed entries
     knex('chapters').insert({
-      order: 1,
+      order_number: 1,
       name: 'Functions and Loops'
     }),
     knex('chapters').insert({
-      order: 2,
+      order_number: 2,
       name: 'Conditional logic'
     }),
     knex('chapters').insert({
-      order: 3,
+      order_number: 3,
       name: 'Lists and Dictionaries'
     })
   );

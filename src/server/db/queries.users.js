@@ -14,7 +14,7 @@ function getSingleUser(userID) {
 function getSingleUserByUsername(username) {
   return knex('users')
     .select('*')
-    .where('username', username)
+    .where('github_username', username)
     .returning('username');
 }
 
@@ -27,7 +27,7 @@ function addUser(obj) {
 function makeAdmin(username, value) {
   return knex('users')
     .update({ admin: value })
-    .where('username', username);
+    .where('github_username', username);
 }
 
 module.exports = {

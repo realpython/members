@@ -31,9 +31,9 @@
         <tbody>
           {% for user in users %}
             <tr>
-              <td>{{user.username}}</td>
+              <td>{{user.github_username}}</td>
               <td>{{user.github_id}}</td>
-              <td>{{user.display_name}}</td>
+              <td>{{user.github_display_name}}</td>
               <td>{{user.email}}</td>
               <td>{{user.admin}}</td>
               <td>{{user.verified}}</td>
@@ -57,19 +57,19 @@
         <div class="modal-body">
           <form action="/admin/users" method="POST" id="add-user-form">
             <div class="form-group">
-              <input type="text" name="username" class="form-control" placeholder="Github Username" required>
+              <input type="text" name="githubUsername" class="form-control" placeholder="Github Username" required>
             </div>
             <div class="form-group">
               <input type="number" name="githubID" class="form-control" placeholder="Github ID" required>
             </div>
             <div class="form-group">
-              <input type="text" name="displayName" class="form-control" placeholder="Github Display Name" required>
+              <input type="text" name="githubDisplayName" class="form-control" placeholder="Github Display Name" required>
             </div>
             <div class="form-group">
               <input type="email" name="email" class="form-control" placeholder="Email" required>
             </div>
             <div class="form-group">
-              <input type="text" name="token" class="form-control" placeholder="Github Access Token" required>
+              <input type="text" name="githubToken" class="form-control" placeholder="Github Access Token" required>
             </div>
             <div class="checkbox">
               <label><input type="checkbox" name="admin"> Admin?</label>

@@ -28,10 +28,6 @@ router.get('/:id', authHelpers.ensureAuthenticated,
     // render
     if (singleChapter.length) {
       var chapterObject = singleChapter[0];
-      renderObject.previousChapter = routeHelpers.getPrevChapter(
-        chapterObject.chapterOrder, sortedChapters);
-      renderObject.nextChapter = routeHelpers.getNextChapter(
-        chapterObject.chapterOrder, sortedChapters);
       renderObject.title = 'Textbook LMS - ' + chapterObject.chapterName;
       renderObject.pageTitle = chapterObject.chapterName;
       renderObject.singleChapter = chapterObject;

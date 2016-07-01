@@ -1,9 +1,9 @@
 process.env.NODE_ENV = 'test';
 
 var routeHelpers = require('../../src/server/routes/_helpers');
-var data = require('./data');
+var data = require('../fixtures/data');
 
-// TODO: add more fictures!
+// TODO: add more fixtures!
 
 describe('routes : helpers', function() {
   describe('reducedResults()', function() {

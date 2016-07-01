@@ -3,11 +3,11 @@ var queries = require('../src/server/db/queries.users');
 
 function authenticateUser(done) {
   queries.addUser({
-    username: 'michael',
+    github_username: 'michael',
     github_id: 123456,
-    display_name: 'Michael Herman',
+    github_display_name: 'Michael Herman',
+    github_access_token: '123456',
     email: 'michael@realpython.com',
-    access_token: '123456',
     verified: false,
     admin: false
   }).returning('id')
@@ -22,11 +22,11 @@ function authenticateUser(done) {
 
 function authenticateAdmin(done) {
   queries.addUser({
-    username: 'admin',
+    github_username: 'admin',
     github_id: 654321,
-    display_name: 'Jeremy Johnson',
+    github_display_name: 'Jeremy Johnson',
+    github_access_token: '654321',
     email: 'jeremy@realpython.com',
-    access_token: '654321',
     verified: false,
     admin: true
   }).returning('id')
@@ -40,21 +40,21 @@ function authenticateAdmin(done) {
 }
 
 var sampleUser = {
-  username: 'red',
+  githubUsername: 'red',
   githubID: 1234567,
-  displayName: 'red',
+  githubDisplayName: 'red',
+  githubToken: '123456red',
   email: 'red@red.com',
-  token: '123456red',
   verified: false,
   admin: false
 };
 
-var dupeUser = {
-  username: 'michael',
+var duplicateUser = {
+  githubUsername: 'michael',
   githubID: 123456,
-  displayName: 'Michael Herman',
+  githubDisplayName: 'Michael Herman',
+  githubToken: '123456',
   email: 'michael@realpython.com',
-  token: '123456',
   verified: false,
   admin: false
 };
@@ -63,5 +63,5 @@ module.exports = {
   authenticateUser: authenticateUser,
   authenticateAdmin: authenticateAdmin,
   sampleUser: sampleUser,
-  dupeUser: dupeUser
+  duplicateUser: duplicateUser
 };

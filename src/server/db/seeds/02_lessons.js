@@ -6,54 +6,60 @@ exports.seed = function(knex, Promise) {
     return Promise.all([
       knex('chapters')
         .select('*')
-        .orderBy('order')
+        .orderBy('order_number')
         .returning('*')
     ]);
   }).then(function(chapters) {
     // get chapter order number
     var chapterOrder = chapters[0].map(function(chapter) {
-      return chapter.order;
+      return chapter.order_number;
     });
     // link lesson name to order number
     var chapterLessons = [
       {
         lessonName: 'Lesson 1a',
-        lessonOrder: 1,
+        lessonLessonOrder: 1,
+        lessonChapterOrder: 1,
         lessonContent: 'test',
         lessonRead: false,
         chapterOrder: chapterOrder[0]
       },
       {
         lessonName: 'Lesson 1b',
-        lessonOrder: 2,
+        lessonLessonOrder: 2,
+        lessonChapterOrder: 2,
         lessonContent: 'test',
         lessonRead: false,
         chapterOrder: chapterOrder[0]
       },
       {
         lessonName: 'Lesson 1c',
-        lessonOrder: 3,
+        lessonLessonOrder: 3,
+        lessonChapterOrder: 3,
         lessonContent: 'test',
         lessonRead: false,
         chapterOrder: chapterOrder[0]
       },
       {
         lessonName: 'Lesson 2a',
-        lessonOrder: 1,
+        lessonLessonOrder: 4,
+        lessonChapterOrder: 1,
         lessonContent: 'test',
         lessonRead: false,
         chapterOrder: chapterOrder[1]
       },
       {
         lessonName: 'Lesson 3a',
-        lessonOrder: 1,
+        lessonLessonOrder: 5,
+        lessonChapterOrder: 1,
         lessonContent: 'test',
         lessonRead: false,
         chapterOrder: chapterOrder[2]
       },
       {
         lessonName: 'Lesson 3b',
-        lessonOrder: 2,
+        lessonLessonOrder: 6,
+        lessonChapterOrder: 2,
         lessonContent: 'test',
         lessonRead: false,
         chapterOrder: chapterOrder[2]
@@ -64,7 +70,8 @@ exports.seed = function(knex, Promise) {
       return getChapterID(el.chapterOrder, knex, Promise)
       .then(function(chapter) {
         return createLesson(
-          el.lessonOrder,
+          el.lessonLessonOrder,
+          el.lessonChapterOrder,
           el.lessonName,
           el.lessonContent,
           el.lessonRead,
@@ -81,7 +88,7 @@ function getChapterID(chapterOrder, knex, Promise) {
   return new Promise(function(resolve, reject) {
     knex('chapters')
       .select('id')
-      .where('order', parseInt(chapterOrder))
+      .where('order_number', parseInt(chapterOrder))
       .then(function(chapter) {
         resolve(chapter[0]);
       });
@@ -89,13 +96,15 @@ function getChapterID(chapterOrder, knex, Promise) {
 }
 
 function createLesson(
-  order, lessonName, lessonContent,
-  lessonRead, chapterID, knex, Promise
+  lessonOrder, chapterOrder, lessonName,
+  lessonContent, lessonRead, chapterID,
+  knex, Promise
 ) {
   return new Promise(function(resolve, reject) {
     knex('lessons')
       .insert({
-        order: parseInt(order),
+        lesson_order_number: parseInt(lessonOrder),
+        chapter_order_number: parseInt(chapterOrder),
         name: lessonName,
         content: lessonContent,
         read: lessonRead,

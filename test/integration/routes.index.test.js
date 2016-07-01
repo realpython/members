@@ -99,6 +99,7 @@ describe('routes : index', function() {
           res.text.should.contain('<ul class="lesson-list">');
           res.text.should.contain(
             '<p class="completed">0% Complete</p>');
+          res.text.should.contain('<i class="fa fa-user"></i> Michael Herman <b class="caret"></b>');
           res.text.should.not.contain('<h2>You are an admin.</h2>');
           done();
         });

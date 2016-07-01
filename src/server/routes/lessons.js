@@ -27,10 +27,10 @@ router.get('/:id', authHelpers.ensureAuthenticated,
     .then(function(singleLesson) {
       if (singleLesson.length) {
         var lessonObject = singleLesson[0];
-        // renderObject.previousLesson = routeHelpers.getPrevLesson(
-        // lessonObject.order, sortedChapters);
-        // renderObject.nextChapter = routeHelpers.getNextChapter(
-        // lessonObject.order, sortedChapters);
+        renderObject.previousLesson = routeHelpers.getPrevLesson(
+        lessonObject.order, sortedChapters);
+        renderObject.nextChapter = routeHelpers.getNextChapter(
+        lessonObject.order, sortedChapters);
         renderObject.title = 'Textbook LMS - ' + lessonObject.name;
         renderObject.pageTitle = lessonObject.name;
         renderObject.singleLesson = lessonObject;

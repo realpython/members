@@ -3,13 +3,13 @@ var knex = require('./knex');
 function getLessons() {
   return knex('lessons')
   .select('*')
-  .orderBy('order');
+  .orderBy('lesson_order_number');
 }
 
 function getLessonsFromChapterID(chapterID) {
   return knex('lessons')
   .select('*')
-  .orderBy('order')
+  .orderBy('lesson_order_number')
   .where('chapter_id', parseInt(chapterID));
 }
 
@@ -19,10 +19,10 @@ function getSingleLesson(lessonID) {
     .where('id', parseInt(lessonID));
 }
 
-function getSingleLessonFromOrder(order) {
+function getSingleLessonFromOrder(lessonOrderNum) {
   return knex('lessons')
     .select('*')
-    .where('order', order);
+    .where('lesson_order_number', parseInt(lessonOrderNum));
 }
 
 function updateLessonReadStatus(lessonID, value) {
