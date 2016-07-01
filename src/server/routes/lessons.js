@@ -27,14 +27,17 @@ router.get('/:id', authHelpers.ensureAuthenticated,
     .then(function(singleLesson) {
       if (singleLesson.length) {
         var lessonObject = singleLesson[0];
-        renderObject.previousLesson = routeHelpers.getPrevLesson(
-        lessonObject.order, sortedChapters);
-        renderObject.nextChapter = routeHelpers.getNextChapter(
-        lessonObject.order, sortedChapters);
-        renderObject.title = 'Textbook LMS - ' + lessonObject.name;
-        renderObject.pageTitle = lessonObject.name;
-        renderObject.singleLesson = lessonObject;
-        return res.render('lesson', renderObject);
+        // get all lessons
+        return lessonQueries.getLessons()
+        .then(function (lessons) {
+          renderObject.previousLesson = routeHelpers.getPrevLesson(
+            lessonObject.lesson_order_number, lessons);
+          renderObject.nextLesson = routeHelpers.getNextLesson(lessonObject.lesson_order_number, lessons);
+          renderObject.title = 'Textbook LMS - ' + lessonObject.name;
+          renderObject.pageTitle = lessonObject.name;
+          renderObject.singleLesson = lessonObject;
+          return res.render('lesson', renderObject);
+        });
       } else {
         req.flash('messages', {
           status: 'success',

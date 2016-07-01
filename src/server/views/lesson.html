@@ -20,13 +20,13 @@
           <input type="hidden" name="read" value="true">
           <button type="submit" class="btn btn-default">Mark as Read</button>
         {% endif %}
-      {% if previousChapter.length %}
-        <!-- previous chapter button -->
-        <a href="/chapters/{{previousChapter[0].chapterID}}" type="button" class="btn btn-primary">« Prev Chapter</a>
+      {% if previousLesson.length %}
+        <!-- previous lesson button -->
+        <a href="/lessons/{{previousLesson[0].id}}" type="button" class="btn btn-primary">« Prev Lesson</a>
       {% endif %}
-      {% if nextChapter.length %}
-        <!-- next chapter button -->
-        <a href="/chapters/{{nextChapter[0].chapterID}}" type="button" class="btn btn-primary">Next Chapter »</a>
+      {% if nextLesson.length %}
+        <!-- next lesson button -->
+        <a href="/lessons/{{nextLesson[0].id}}" type="button" class="btn btn-primary">Next Lesson »</a>
       {% endif %}
     </div>
   </div>

@@ -81,13 +81,13 @@ function getNextChapter(orderID, chapters) {
 
 function getPrevLesson(orderID, lessons) {
   return lessons.filter(function(lesson) {
-    return parseInt(lesson.lessonOrder) === parseInt(orderID - 1);
+    return parseInt(lesson.lesson_order_number) === parseInt(orderID - 1);
   });
 }
 
 function getNextLesson(orderID, lessons) {
   return lessons.filter(function(lesson) {
-    return parseInt(lesson.lessonOrder) === parseInt(orderID + 1);
+    return parseInt(lesson.lesson_order_number) === parseInt(orderID + 1);
   });
 }
 
