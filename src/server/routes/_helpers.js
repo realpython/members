@@ -1,13 +1,18 @@
 function getTotalLessons(chapters) {
-  return chapters.reduce(function(acc, chapter) {
+  var total = chapters.reduce(function(acc, chapter) {
     return acc.concat(chapter.lessons);
   }, []);
+  return total.length;
 }
 
-function getCompletedLessons(lessons) {
-  return lessons.filter(function(lesson) {
+function getCompletedLessons(chapters) {
+  var lessons = chapters.reduce(function(acc, chapter) {
+    return acc.concat(chapter.lessons);
+  }, []);
+  var total = lessons.filter(function(lesson) {
     return lesson.lessonRead;
   });
+  return total.length;
 }
 
 function reduceResults(results) {
@@ -23,7 +28,8 @@ function reduceResults(results) {
     }
     acc[val.chapterID].lessons.push({
       lessonID: val.lessonID,
-      lessonOrder: val.lessonOrder,
+      lessonLessonOrder: val.lessonLessonOrder,
+      lessonChapterOrder: val.lessonChapterOrder,
       lessonName: val.lessonName,
       lessonContent: val.lessonContent,
       lessonRead: val.lessonRead
@@ -52,9 +58,9 @@ function sortLessonsByOrderNumber(chaptersAndLessons) {
 }
 
 function compareLessonOrder(a, b) {
-  if (a.lessonOrder < b.lessonOrder)
+  if (a.lessonChapterOrder < b.lessonChapterOrder)
     return -1;
-  if (a.lessonOrder > b.lessonOrder)
+  if (a.lessonChapterOrder > b.lessonChapterOrder)
     return 1;
   return 0;
 }

@@ -1,20 +1,10 @@
 // queries.chapters.js => chaptersAndLessons()
 var base = [
   {
-    lessonID: 5,
-    lessonOrder: 1,
-    lessonName: 'Lesson 2a',
-    lessonContent: 'test',
-    lessonRead: true,
-    chapterID: 2,
-    chapterOrder: 2,
-    chapterName: 'Conditional logic',
-    chapterRead: false
-  },
-  {
     lessonID: 3,
-    lessonOrder: 3,
-    lessonName: 'Lesson 1c',
+    lessonLessonOrder: 1,
+    lessonChapterOrder: 1,
+    lessonName: 'Lesson 1a',
     lessonContent: 'test',
     lessonRead: false,
     chapterID: 1,
@@ -24,8 +14,9 @@ var base = [
   },
   {
     lessonID: 2,
-    lessonOrder: 2,
-    lessonName: 'Lesson 1b',
+    lessonLessonOrder: 3,
+    lessonChapterOrder: 3,
+    lessonName: 'Lesson 1c',
     lessonContent: 'test',
     lessonRead: false,
     chapterID: 1,
@@ -35,13 +26,50 @@ var base = [
   },
   {
     lessonID: 1,
-    lessonOrder: 1,
-    lessonName: 'Lesson 1a',
+    lessonLessonOrder: 2,
+    lessonChapterOrder: 2,
+    lessonName: 'Lesson 1b',
     lessonContent: 'test',
     lessonRead: false,
     chapterID: 1,
     chapterOrder: 1,
     chapterName: 'Functions and Loops',
+    chapterRead: false
+  },
+  {
+    lessonID: 6,
+    lessonLessonOrder: 6,
+    lessonChapterOrder: 2,
+    lessonName: 'Lesson 3b',
+    lessonContent: 'test',
+    lessonRead: false,
+    chapterID: 2,
+    chapterOrder: 3,
+    chapterName: 'Lists and Dictionaries',
+    chapterRead: false
+  },
+  {
+    lessonID: 4,
+    lessonLessonOrder: 5,
+    lessonChapterOrder: 1,
+    lessonName: 'Lesson 3a',
+    lessonContent: 'test',
+    lessonRead: false,
+    chapterID: 2,
+    chapterOrder: 3,
+    chapterName: 'Lists and Dictionaries',
+    chapterRead: false
+  },
+  {
+    lessonID: 5,
+    lessonLessonOrder: 4,
+    lessonChapterOrder: 1,
+    lessonName: 'Lesson 2a',
+    lessonContent: 'test',
+    lessonRead: false,
+    chapterID: 3,
+    chapterOrder: 2,
+    chapterName: 'Conditional logic',
     chapterRead: false
   }
 ];
@@ -49,45 +77,73 @@ var base = [
 var reduced = {
   1: {
     chapterID: 1,
-    chapterOrder: 1,
     chapterName: 'Functions and Loops',
+    chapterOrder: 1,
     chapterRead: false,
     lessons: [
       {
+        lessonChapterOrder: 1,
         lessonContent: 'test',
         lessonID: 3,
-        lessonName: 'Lesson 1c',
-        lessonOrder: 3,
+        lessonLessonOrder: 1,
+        lessonName: 'Lesson 1a',
         lessonRead: false
       },
       {
+        lessonChapterOrder: 3,
         lessonContent: 'test',
         lessonID: 2,
-        lessonName: 'Lesson 1b',
-        lessonOrder: 2,
+        lessonLessonOrder: 3,
+        lessonName: 'Lesson 1c',
         lessonRead: false
       },
       {
+        lessonChapterOrder: 2,
         lessonContent: 'test',
         lessonID: 1,
-        lessonName: 'Lesson 1a',
-        lessonOrder: 1,
+        lessonLessonOrder: 2,
+        lessonName: 'Lesson 1b',
         lessonRead: false
       }
     ]
   },
   2: {
     chapterID: 2,
-    chapterOrder: 2,
-    chapterName: 'Conditional logic',
+    chapterName: 'Lists and Dictionaries',
+    chapterOrder: 3,
     chapterRead: false,
     lessons: [
       {
+        lessonChapterOrder: 2,
+        lessonContent: 'test',
+        lessonID: 6,
+        lessonLessonOrder: 6,
+        lessonName: 'Lesson 3b',
+        lessonRead: false
+      },
+      {
+        lessonChapterOrder: 1,
+        lessonContent: 'test',
+        lessonID: 4,
+        lessonLessonOrder: 5,
+        lessonName: 'Lesson 3a',
+        lessonRead: false
+      }
+    ]
+  },
+  3: {
+    chapterID: 3,
+    chapterName: 'Conditional logic',
+    chapterOrder: 2,
+    chapterRead: false,
+    lessons: [
+      {
+        lessonChapterOrder: 1,
         lessonContent: 'test',
         lessonID: 5,
+        lessonLessonOrder: 4,
         lessonName: 'Lesson 2a',
-        lessonOrder: 1,
-        lessonRead: true
+        lessonRead: false
       }
     ]
   }
@@ -96,45 +152,73 @@ var reduced = {
 var converted = [
   {
     chapterID: 1,
-    chapterOrder: 1,
     chapterName: 'Functions and Loops',
+    chapterOrder: 1,
     chapterRead: false,
     lessons: [
       {
+        lessonChapterOrder: 1,
         lessonContent: 'test',
         lessonID: 3,
-        lessonName: 'Lesson 1c',
-        lessonOrder: 3,
+        lessonLessonOrder: 1,
+        lessonName: 'Lesson 1a',
         lessonRead: false
       },
       {
+        lessonChapterOrder: 3,
         lessonContent: 'test',
         lessonID: 2,
-        lessonName: 'Lesson 1b',
-        lessonOrder: 2,
+        lessonLessonOrder: 3,
+        lessonName: 'Lesson 1c',
         lessonRead: false
       },
       {
+        lessonChapterOrder: 2,
         lessonContent: 'test',
         lessonID: 1,
-        lessonName: 'Lesson 1a',
-        lessonOrder: 1,
+        lessonLessonOrder: 2,
+        lessonName: 'Lesson 1b',
         lessonRead: false
       }
     ]
   },
   {
     chapterID: 2,
-    chapterOrder: 2,
-    chapterName: 'Conditional logic',
+    chapterName: 'Lists and Dictionaries',
+    chapterOrder: 3,
     chapterRead: false,
     lessons: [
       {
+        lessonChapterOrder: 2,
+        lessonContent: 'test',
+        lessonID: 6,
+        lessonLessonOrder: 6,
+        lessonName: 'Lesson 3b',
+        lessonRead: false
+      },
+      {
+        lessonChapterOrder: 1,
+        lessonContent: 'test',
+        lessonID: 4,
+        lessonLessonOrder: 5,
+        lessonName: 'Lesson 3a',
+        lessonRead: false
+      }
+    ]
+  },
+  {
+    chapterID: 3,
+    chapterName: 'Conditional logic',
+    chapterOrder: 2,
+    chapterRead: false,
+    lessons: [
+      {
+        lessonChapterOrder: 1,
         lessonContent: 'test',
         lessonID: 5,
+        lessonLessonOrder: 4,
         lessonName: 'Lesson 2a',
-        lessonOrder: 1,
-        lessonRead: true
+        lessonRead: false
       }
     ]
   }
@@ -143,88 +227,75 @@ var converted = [
 var sorted = [
   {
     chapterID: 1,
-    chapterOrder: 1,
     chapterName: 'Functions and Loops',
+    chapterOrder: 1,
     chapterRead: false,
     lessons: [
       {
-        lessonContent: 'test',
-        lessonID: 1,
-        lessonName: 'Lesson 1a',
-        lessonOrder: 1,
-        lessonRead: false
-      },
-      {
-        lessonContent: 'test',
-        lessonID: 2,
-        lessonName: 'Lesson 1b',
-        lessonOrder: 2,
-        lessonRead: false
-      },
-      {
+        lessonChapterOrder: 1,
         lessonContent: 'test',
         lessonID: 3,
+        lessonLessonOrder: 1,
+        lessonName: 'Lesson 1a',
+        lessonRead: false
+      },
+      {
+        lessonChapterOrder: 2,
+        lessonContent: 'test',
+        lessonID: 1,
+        lessonLessonOrder: 2,
+        lessonName: 'Lesson 1b',
+        lessonRead: false
+      },
+      {
+        lessonChapterOrder: 3,
+        lessonContent: 'test',
+        lessonID: 2,
+        lessonLessonOrder: 3,
         lessonName: 'Lesson 1c',
-        lessonOrder: 3,
+        lessonRead: false
+      }
+    ]
+  },
+  {
+    chapterID: 3,
+    chapterName: 'Conditional logic',
+    chapterOrder: 2,
+    chapterRead: false,
+    lessons: [
+      {
+        lessonChapterOrder: 1,
+        lessonContent: 'test',
+        lessonID: 5,
+        lessonLessonOrder: 4,
+        lessonName: 'Lesson 2a',
         lessonRead: false
       }
     ]
   },
   {
     chapterID: 2,
-    chapterOrder: 2,
-    chapterName: 'Conditional logic',
+    chapterName: 'Lists and Dictionaries',
+    chapterOrder: 3,
     chapterRead: false,
     lessons: [
       {
+        lessonChapterOrder: 1,
         lessonContent: 'test',
-        lessonID: 5,
-        lessonName: 'Lesson 2a',
-        lessonOrder: 1,
-        lessonRead: true
+        lessonID: 4,
+        lessonLessonOrder: 5,
+        lessonName: 'Lesson 3a',
+        lessonRead: false
+      },
+      {
+        lessonChapterOrder: 2,
+        lessonContent: 'test',
+        lessonID: 6,
+        lessonLessonOrder: 6,
+        lessonName: 'Lesson 3b',
+        lessonRead: false
       }
     ]
-  }
-];
-
-var totalLessons = [
-  {
-    lessonContent: 'test',
-    lessonID: 1,
-    lessonName: 'Lesson 1a',
-    lessonOrder: 1,
-    lessonRead: false
-  },
-  {
-    lessonContent: 'test',
-    lessonID: 2,
-    lessonName: 'Lesson 1b',
-    lessonOrder: 2,
-    lessonRead: false
-  },
-  {
-    lessonContent: 'test',
-    lessonID: 3,
-    lessonName: 'Lesson 1c',
-    lessonOrder: 3,
-    lessonRead: false
-  },
-  {
-    lessonContent: 'test',
-    lessonID: 5,
-    lessonName: 'Lesson 2a',
-    lessonOrder: 1,
-    lessonRead: true
-  }
-];
-
-var completedLessons = [
-  {
-    lessonContent: 'test',
-    lessonID: 5,
-    lessonName: 'Lesson 2a',
-    lessonOrder: 1,
-    lessonRead: true
   }
 ];
 
@@ -232,7 +303,5 @@ module.exports = {
   base: base,
   reduced: reduced,
   converted: converted,
-  sorted: sorted,
-  totalLessons: totalLessons,
-  completedLessons: completedLessons
+  sorted: sorted
 };

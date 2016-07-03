@@ -24,9 +24,9 @@ function(req, res, next) {
     // get total lessons
     var totalLessons = routeHelpers.getTotalLessons(sortedChapters);
     // get completed lessons
-    var completed = routeHelpers.getCompletedLessons(totalLessons);
+    var completed = routeHelpers.getCompletedLessons(sortedChapters);
     // get completed percentage
-    var percentage = ((completed.length / totalLessons.length) * 100).toFixed(0);
+    var percentage = ((completed / totalLessons) * 100).toFixed(0);
     var renderObject = {
       title: 'Textbook LMS - dashboard',
       pageTitle: 'Dashboard',
