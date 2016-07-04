@@ -1,12 +1,37 @@
 /* globals */
 
 body {
-  padding-top: 70px;
+  margin-top: 100px;
 }
 
-@media (min-width: 1200px) {
-  .container {
-    width: 970px;
+@media(min-width:768px) {
+  body {
+    margin-top: 50px;
+  }
+}
+
+#wrapper {
+  padding-left: 0;
+}
+
+#page-wrapper {
+  width: 100%;
+  padding: 0;
+  background-color: #fff;
+}
+
+.huge {
+  font-size: 50px;
+  line-height: normal;
+}
+
+@media(min-width:768px) {
+  #wrapper {
+    padding-left: 225px;
+  }
+
+  #page-wrapper {
+    padding: 10px;
   }
 }
 
@@ -14,9 +39,83 @@ footer {
   margin: 50px 0;
 }
 
-.badge {
-  background-color: inherit;
-  color: inherit;
+/* navbar */
+
+.top-nav {
+  padding: 0 15px;
+}
+
+.top-nav>li {
+  display: inline-block;
+  float: left;
+}
+
+.top-nav>li>a {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  line-height: 20px;
+  color: #999;
+}
+
+.top-nav>li>a:hover {
+  color: #fff;
+  background-color: #000;
+}
+
+/* sidebar */
+
+@media(min-width:768px) {
+  .side-nav {
+    position: fixed;
+    top: 51px;
+    left: 225px;
+    width: 225px;
+    margin-left: -225px;
+    border: none;
+    border-radius: 0;
+    overflow-y: auto;
+    background-color: #222;
+    bottom: 0;
+    overflow-x: hidden;
+    padding-bottom: 40px;
+  }
+
+  .side-bar>ul {
+    list-style: none;
+  }
+
+  .side-nav>li>a {
+    width: 225px;
+  }
+
+  .side-nav a:hover,
+  .side-nav a:focus {
+    color: #ffffff;
+    background-color: #3fb618 !important;
+  }
+}
+
+.side-nav>li>ul {
+  padding: 0;
+}
+
+.side-nav>li>ul>li>a {
+  display: block;
+  padding: 10px 15px 10px 38px;
+  text-decoration: none;
+  color: #fff;
+}
+
+.side-nav>li>ul>li>ul>li>a {
+  display: block;
+  padding: 10px 15px 10px 38px;
+  text-decoration: none;
+  color: #fff;
+}
+
+.active-side {
+  color: #ffffff;
+  background-color: #3fb618;
 }
 
 /* dashboard */
@@ -28,13 +127,4 @@ footer {
 .custom-progress-bar {
   height: 30px;
   margin-bottom: 2px;
-}
-
-/* sidebar */
-
-.active-chapter a:link,
-.active-chapter a:visited,
-.active-chapter a:hover,
-.active-chapter a:active {
-  color: #fff;
 }

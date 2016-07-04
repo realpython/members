@@ -39,7 +39,6 @@ router.get('/:id', authHelpers.ensureAuthenticated,
       });
       return res.redirect('/');
     }
-
   })
   .catch(function(err) {
     return next(err);

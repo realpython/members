@@ -7,10 +7,22 @@ $(function() {
 function addActiveClass() {
   var current = (location.pathname).split('/');
   if (current[1] === 'chapters') {
-    $('#chapter-list li a').each(function() {
+    $('#sidebar-chapters li a').each(function() {
       var $this = $(this);
-      if ($this.attr('href').indexOf(current[2]) !== -1) {
-        $this.closest('li').addClass('list-group-item-success active-chapter');
+      if (($this.attr('href').indexOf(current[2]) !== -1) && ($this.attr('href').indexOf('chapters') !== -1)) {
+        $this.addClass('active-side');
+        $this.siblings('ul').addClass('in');
+        return true;
+      }
+    });
+  }
+  if (current[1] === 'lessons') {
+    $('#sidebar-chapters li ul li a').each(function() {
+      var $this = $(this);
+      console.log($this);
+      if (($this.attr('href').indexOf(current[2]) !== -1) && ($this.attr('href').indexOf('lessons') !== -1)) {
+        $this.closest('li').addClass('active-side');
+        $this.closest('ul').addClass('in');
         return true;
       }
     });

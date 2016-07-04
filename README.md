@@ -91,6 +91,8 @@ $ curl -X PUT -d admin=true http://localhost:3000/users/<USERNAME>/admin
 1. Users should be able to view the chapter overview from the single chapter view
 1. Admin should be able to delete users
 1. Users should be able to contact support
+1. Admin should be able to view all lessons
+1. Users should be able to search across all lessons
 
 ### Todo
 
