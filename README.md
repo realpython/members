@@ -64,6 +64,7 @@ $ curl -X PUT -d admin=true http://localhost:3000/users/<USERNAME>/admin
 1. Users should be able to view a checkmark next to read chapters on the sidebar after all lessons have been read
 1. Users should be able to move from lesson to lesson within the single lesson view
 1. Users should be able to view lessons on the sidebar in the correct order
+1. Users should be able to see the current chapter and lesson highlighted on the sidebar
 
 **Admin**
 
@@ -72,9 +73,7 @@ $ curl -X PUT -d admin=true http://localhost:3000/users/<USERNAME>/admin
 
 #### Incomplete
 
-1. Users should be able to hide/show lessons on the sidebar (current)
-1. Users should be able to see the current chapter and lesson highlighted on the sidebar
-1. Users should be able to view all standards
+1. Users should be able to view all standards (current)
 1. Users should be able to view an about page detailing the relationship between chapters, lessons, standards, and exercises
 1. Users should be able to post new messages within the lesson view
 1. Users should be able to reply to messages within the lesson view
@@ -93,6 +92,8 @@ $ curl -X PUT -d admin=true http://localhost:3000/users/<USERNAME>/admin
 1. Users should be able to contact support
 1. Admin should be able to view all lessons
 1. Users should be able to search across all lessons
+1. Users should be able to hide/show lessons on the sidebar
+1. Admin should be able to add new lessons
 
 ### Todo
 

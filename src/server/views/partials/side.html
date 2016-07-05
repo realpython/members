@@ -6,14 +6,22 @@
         <br>
         {% for chapter in sortedChapters %}
           <li>
-            <a href="/chapters/{{chapter.chapterID}}" data-toggle="collapse" data-target="#sidebar-chapter-{{loop.index}}">{{chapter.chapterName}}&nbsp;<i class="fa fa-fw fa-caret-down"></i></a>
+            <a href="/chapters/{{chapter.chapterID}}">
+              {{chapter.chapterName}}
+              {% if chapter.chapterRead %}
+                &nbsp;&nbsp;&nbsp;<i class="fa fa-check" data-chapter-read="true"></i></a>
+              {% endif %}
+            </a>
             {% if chapter.lessons %}
-              <ul id="sidebar-chapter-{{loop.index}}" class="collapse">
+              <ul id="sidebar-chapter-{{loop.index}}" class="lesson-list">
                 {% for lesson in chapter.lessons %}
                   <li>
-                    {% if lesson.lessonRead %}
-                    {% endif %}
-                    <a href="/lessons/{{lesson.lessonID}}">{{lesson.lessonName}}</a>
+                    <a href="/lessons/{{lesson.lessonID}}">
+                      {{lesson.lessonName}}
+                      {% if lesson.lessonRead %}
+                        &nbsp;&nbsp;&nbsp;<i class="fa fa-check" data-lesson-read="true"></i></a>
+                      {% endif %}
+                    </a>
                   </li>
                 {% endfor %}
               </ul>

@@ -11,7 +11,7 @@ function addActiveClass() {
       var $this = $(this);
       if (($this.attr('href').indexOf(current[2]) !== -1) && ($this.attr('href').indexOf('chapters') !== -1)) {
         $this.addClass('active-side');
-        $this.siblings('ul').addClass('in');
+        // $this.siblings('ul').addClass('in');
         return true;
       }
     });
@@ -22,7 +22,7 @@ function addActiveClass() {
       console.log($this);
       if (($this.attr('href').indexOf(current[2]) !== -1) && ($this.attr('href').indexOf('lessons') !== -1)) {
         $this.closest('li').addClass('active-side');
-        $this.closest('ul').addClass('in');
+        // $this.closest('ul').addClass('in');
         return true;
       }
     });

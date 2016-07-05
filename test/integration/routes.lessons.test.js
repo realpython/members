@@ -167,7 +167,7 @@ describe('routes : lessons', function() {
             res.status.should.equal(200);
             res.type.should.equal('text/html');
             res.text.should.contain('<h1>Dashboard</h1>');
-            res.text.should.contain('<span class="badge" data-lesson-read="true"><i class="fa fa-check" aria-hidden="true"></i></span>');
+            res.text.should.contain('&nbsp;&nbsp;&nbsp;<i class="fa fa-check" data-lesson-read="true"></i></a>');
             done();
           });
         });
@@ -191,8 +191,8 @@ describe('routes : lessons', function() {
               res.status.should.equal(200);
               res.type.should.equal('text/html');
               res.text.should.contain('<h1>Dashboard</h1>');
-              res.text.should.contain('<span class="badge" data-lesson-read="true"><i class="fa fa-check" aria-hidden="true"></i></span>');
-              res.text.should.contain('<span class="badge" data-chapter-read="true"><i class="fa fa-check" aria-hidden="true"></i></span>');
+              res.text.should.contain('&nbsp;&nbsp;&nbsp;<i class="fa fa-check" data-lesson-read="true"></i></a>');
+              res.text.should.contain('&nbsp;&nbsp;&nbsp;<i class="fa fa-check" data-chapter-read="true"></i></a>');
               done();
             });
           });
