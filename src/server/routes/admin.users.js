@@ -7,6 +7,8 @@ var userQueries = require('../db/queries.users');
 // *** get all users *** //
 router.get('/users', authHelpers.ensureAdmin,
 function(req, res, next) {
+  // get breadcrumbs
+  var breadcrumbs = ['Admin', 'Users'];
   // get all users
   return userQueries.getUsers()
   .then(function(users) {
@@ -15,6 +17,7 @@ function(req, res, next) {
       pageTitle: 'Users',
       user: req.user,
       users: users,
+      breadcrumbs: breadcrumbs,
       messages: req.flash('messages')
     };
     return res.render('admin/users', renderObject);

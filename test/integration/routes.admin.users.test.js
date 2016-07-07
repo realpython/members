@@ -126,6 +126,7 @@ describe('routes : admin : users', function() {
           res.status.should.equal(200);
           res.type.should.equal('text/html');
           res.text.should.contain('<h1>Users</h1>');
+          res.text.should.contain('<!-- breadcrumbs -->');
           done();
         });
       });

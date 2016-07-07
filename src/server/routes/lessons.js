@@ -9,8 +9,11 @@ var routeHelpers = require('./_helpers');
 // *** get single lesson *** //
 router.get('/:id', authHelpers.ensureAuthenticated,
   function(req, res, next) {
+  // get breadcrumbs
+  var breadcrumbs = ['Chapters', 'Lessons'];
   var renderObject = {
     user: req.user,
+    breadcrumbs: breadcrumbs,
     messages: req.flash('messages')
   };
   // get all chapters and associated lessons

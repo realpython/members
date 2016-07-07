@@ -25,6 +25,15 @@
             <div class="col-md-12">
               <h1>{{pageTitle}}</h1>
               <hr>
+              {% if breadcrumbs.length %}
+                <!-- breadcrumbs -->
+                <ol class="breadcrumb">
+                  {% for crumb in breadcrumbs %}
+                    <li>{{crumb}}</li>
+                  {% endfor %}
+                </ol>
+                <br>
+              {% endif %}
               {% include "./partials/flash.html" %}
               {% block content %}
               {% endblock %}

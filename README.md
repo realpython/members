@@ -65,6 +65,7 @@ $ curl -X PUT -d admin=true http://localhost:3000/users/<USERNAME>/admin
 1. Users should be able to move from lesson to lesson within the single lesson view
 1. Users should be able to view lessons on the sidebar in the correct order
 1. Users should be able to see the current chapter and lesson highlighted on the sidebar
+1. Users should be able to view a breadcrumb-like navigation
 
 **Admin**
 
@@ -73,20 +74,17 @@ $ curl -X PUT -d admin=true http://localhost:3000/users/<USERNAME>/admin
 
 #### Incomplete
 
-1. Users should be able to view all standards (current)
-1. Users should be able to view an about page detailing the relationship between chapters, lessons, standards, and exercises
+1. Users should be able to view messages within the lesson view (current)
 1. Users should be able to post new messages within the lesson view
 1. Users should be able to reply to messages within the lesson view
 1. Admin should be able to view all chapters
 1. Admin should be able to add new chapters
 1. Unregistered users should have to enter an email and a numeric code to register and become an unverified user
 1. Unverified users should have to connect their Github account to become verified
-1. Users should be able to submit exercises for grading
 1. Users should be able to hide/show the sidebar
 1. Users should be able to view a Github avatar on the navbar
 1. Admin should be able to update users
 1. Users should be able to see their recent activity log on the dashboard
-1. Users should be able to view a breadcrumb-like navigation
 1. Users should be able to view the chapter overview from the single chapter view
 1. Admin should be able to delete users
 1. Users should be able to contact support
@@ -94,6 +92,9 @@ $ curl -X PUT -d admin=true http://localhost:3000/users/<USERNAME>/admin
 1. Users should be able to search across all lessons
 1. Users should be able to hide/show lessons on the sidebar
 1. Admin should be able to add new lessons
+1. Users should be able to view all standards
+1. Users should be able to view an about page detailing the relationship between chapters, lessons, standards, and exercises
+1. Users should be able to submit exercises for grading
 
 ### Todo
 

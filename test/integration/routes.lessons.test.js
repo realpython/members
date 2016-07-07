@@ -94,6 +94,7 @@ describe('routes : lessons', function() {
               '<h1>' + lesson[0].name + '</h1>');
             res.text.should.contain('<!-- previous lesson button -->');
             res.text.should.contain('<!-- next lesson button -->');
+            res.text.should.contain('<!-- breadcrumbs -->');
             done();
           });
         });
@@ -113,6 +114,7 @@ describe('routes : lessons', function() {
               '<h1>' + lesson[0].name + '</h1>');
             res.text.should.not.contain('<!-- previous lesson button -->');
             res.text.should.contain('<!-- next lesson button -->');
+            res.text.should.contain('<!-- breadcrumbs -->');
             done();
           });
         });
@@ -132,6 +134,7 @@ describe('routes : lessons', function() {
               '<h1>' + lesson[0].name + '</h1>');
             res.text.should.contain('<!-- previous lesson button -->');
             res.text.should.not.contain('<!-- next lesson button -->');
+            res.text.should.contain('<!-- breadcrumbs -->');
             done();
           });
         });
