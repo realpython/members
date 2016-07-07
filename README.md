@@ -66,6 +66,7 @@ $ curl -X PUT -d admin=true http://localhost:3000/users/<USERNAME>/admin
 1. Users should be able to view lessons on the sidebar in the correct order
 1. Users should be able to see the current chapter and lesson highlighted on the sidebar
 1. Users should be able to view a breadcrumb-like navigation
+1. Users should be able to view messages within the lesson view
 
 **Admin**
 
@@ -74,7 +75,7 @@ $ curl -X PUT -d admin=true http://localhost:3000/users/<USERNAME>/admin
 
 #### Incomplete
 
-1. Users should be able to view messages within the lesson view (current)
+1. Users should be able to see who posted a particular message (current)
 1. Users should be able to post new messages within the lesson view
 1. Users should be able to reply to messages within the lesson view
 1. Admin should be able to view all chapters

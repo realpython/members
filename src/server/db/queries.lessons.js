@@ -19,6 +19,12 @@ function getSingleLesson(lessonID) {
     .where('id', parseInt(lessonID));
 }
 
+function getSingleLessonFromLessonID(lessonID) {
+  return knex('lessons')
+    .select('*')
+    .where('id', parseInt(lessonID));
+}
+
 function getSingleLessonFromOrder(lessonOrderNum) {
   return knex('lessons')
     .select('*')
@@ -35,6 +41,7 @@ module.exports = {
   getLessons: getLessons,
   getLessonsFromChapterID: getLessonsFromChapterID,
   getSingleLesson: getSingleLesson,
+  getSingleLessonFromLessonID: getSingleLessonFromLessonID,
   getSingleLessonFromOrder: getSingleLessonFromOrder,
   updateLessonReadStatus: updateLessonReadStatus
 };

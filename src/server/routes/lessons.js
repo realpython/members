@@ -4,6 +4,7 @@ var router = express.Router();
 var authHelpers = require('../auth/helpers');
 var chapterQueries = require('../db/queries.chapters');
 var lessonQueries = require('../db/queries.lessons');
+var messageQueries = require('../db/queries.messages');
 var routeHelpers = require('./_helpers');
 
 // *** get single lesson *** //
@@ -32,14 +33,20 @@ router.get('/:id', authHelpers.ensureAuthenticated,
         var lessonObject = singleLesson[0];
         // get all lessons
         return lessonQueries.getLessons()
-        .then(function (lessons) {
+        .then(function(lessons) {
           renderObject.previousLesson = routeHelpers.getPrevLesson(
             lessonObject.lesson_order_number, lessons);
           renderObject.nextLesson = routeHelpers.getNextLesson(lessonObject.lesson_order_number, lessons);
-          renderObject.title = 'Textbook LMS - ' + lessonObject.name;
-          renderObject.pageTitle = lessonObject.name;
-          renderObject.singleLesson = lessonObject;
-          return res.render('lesson', renderObject);
+          // get all associated messages
+          return messageQueries.getMessagesFromLessonID(
+            parseInt(lessonObject.id))
+          .then(function(messages) {
+            renderObject.userMessages = messages;
+            renderObject.title = 'Textbook LMS - ' + lessonObject.name;
+            renderObject.pageTitle = lessonObject.name;
+            renderObject.singleLesson = lessonObject;
+            return res.render('lesson', renderObject);
+          });
         });
       } else {
         req.flash('messages', {

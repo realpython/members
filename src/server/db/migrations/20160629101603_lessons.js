@@ -7,6 +7,7 @@ exports.up = function(knex, Promise) {
     table.text('content').notNullable();
     table.boolean('read').notNullable().defaultTo(false);
     table.integer('chapter_id').references('id').inTable('chapters').notNullable();
+    table.timestamp('created_at').defaultTo(knex.fn.now());
   });
 };
 

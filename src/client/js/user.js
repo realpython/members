@@ -19,7 +19,6 @@ function addActiveClass() {
   if (current[1] === 'lessons') {
     $('#sidebar-chapters li ul li a').each(function() {
       var $this = $(this);
-      console.log($this);
       if (($this.attr('href').indexOf(current[2]) !== -1) && ($this.attr('href').indexOf('lessons') !== -1)) {
         $this.closest('li').addClass('active-side');
         // $this.closest('ul').addClass('in');

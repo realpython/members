@@ -8,6 +8,7 @@ exports.up = function(knex, Promise) {
     table.string('email').unique();
     table.boolean('admin').notNullable().defaultTo(false);
     table.boolean('verified').notNullable().defaultTo(false);
+    table.timestamp('created_at').defaultTo(knex.fn.now());
   });
 };
 
