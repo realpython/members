@@ -7,6 +7,7 @@ function authenticateUser(done) {
     github_id: 123456,
     github_display_name: 'Michael Herman',
     github_access_token: '123456',
+    github_avatar: 'https://avatars.io/static/default_128.jpg',
     email: 'michael@realpython.com',
     verified: false,
     admin: false
@@ -26,6 +27,7 @@ function authenticateAdmin(done) {
     github_id: 654321,
     github_display_name: 'Jeremy Johnson',
     github_access_token: '654321',
+    github_avatar: 'https://avatars.io/static/default_128.jpg',
     email: 'jeremy@realpython.com',
     verified: false,
     admin: true
@@ -44,6 +46,7 @@ var sampleUser = {
   githubID: 1234567,
   githubDisplayName: 'red',
   githubToken: '123456red',
+  githubAvatar: 'https://avatars.io/static/default_128.jpg',
   email: 'red@red.com',
   verified: false,
   admin: false
@@ -54,6 +57,7 @@ var duplicateUser = {
   githubID: 123456,
   githubDisplayName: 'Michael Herman',
   githubToken: '123456',
+  githubAvatar: 'https://avatars.io/static/default_128.jpg',
   email: 'michael@realpython.com',
   verified: false,
   admin: false

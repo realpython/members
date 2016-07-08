@@ -62,6 +62,17 @@ footer {
   background-color: #000;
 }
 
+.avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%
+}
+
+.avatar-link {
+  padding-top: 11px !important;
+  padding-bottom: 11px !important;
+}
+
 /* sidebar */
 
 @media(min-width:768px) {

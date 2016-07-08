@@ -98,7 +98,7 @@ describe('routes : index', function() {
           res.text.should.contain('<ul id="sidebar-chapter-1" class="lesson-list">');
           res.text.should.contain(
             '<p class="completed">0% Complete</p>');
-          res.text.should.contain('<i class="fa fa-user"></i> Michael Herman <b class="caret"></b>');
+          res.text.should.contain('<a href="#" class="dropdown-toggle avatar-link" data-toggle="dropdown"><img class="avatar" src="https://avatars.io/static/default_128.jpg">&nbsp;Michael Herman <b class="caret"></b></a>');
           res.text.should.not.contain('<h2>You are an admin.</h2>');
           done();
         });

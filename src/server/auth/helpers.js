@@ -9,11 +9,13 @@ function githubCallback(
     } else {
       var email = profile._json.email || null;
       var displayName = profile.displayName || profile.username;
+      var avatar = profile._json.avatar_url || 'https://avatars.io/static/default_128.jpg';
       return knex('users').insert({
         github_username: profile.username,
         github_id: profile.id,
         github_display_name: displayName,
         github_access_token: accessToken,
+        github_avatar: avatar,
         email: email
       }).returning('*')
       .then(function(response) {

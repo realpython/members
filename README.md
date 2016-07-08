@@ -67,6 +67,7 @@ $ curl -X PUT -d admin=true http://localhost:3000/users/<USERNAME>/admin
 1. Users should be able to see the current chapter and lesson highlighted on the sidebar
 1. Users should be able to view a breadcrumb-like navigation
 1. Users should be able to view messages within the lesson view
+1. Users should have an avatar
 
 **Admin**
 
@@ -96,6 +97,8 @@ $ curl -X PUT -d admin=true http://localhost:3000/users/<USERNAME>/admin
 1. Users should be able to view all standards
 1. Users should be able to view an about page detailing the relationship between chapters, lessons, standards, and exercises
 1. Users should be able to submit exercises for grading
+1. Admin should be able to add new chapters
+1. Users should be able to update their avatar on the profile page
 
 ### Todo
 

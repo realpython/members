@@ -5,7 +5,8 @@ exports.seed = function(knex, Promise) {
     // Inserts seed entries
     knex('messages').insert({
       content: 'Awesome lesson!',
-      lesson_id: 1
+      lesson_id: 1,
+      user_id: 1
     })
   );
 };
