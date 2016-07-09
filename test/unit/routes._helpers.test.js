@@ -4,6 +4,7 @@ var routeHelpers = require('../../src/server/routes/_helpers');
 var data = require('../fixtures/data');
 
 // TODO: add more fixtures!
+// TODO: DRY code
 
 describe('routes : helpers', function() {
   describe('reducedResults()', function() {
@@ -44,6 +45,34 @@ describe('routes : helpers', function() {
       var chapters = routeHelpers.convertArray(reducedResults);
       var sorted = routeHelpers.sortLessonsByOrderNumber(chapters);
       routeHelpers.getCompletedLessons(sorted).should.eql(0);
+      done();
+    });
+  });
+  describe('getPrevChapter()', function() {
+    it('should return the previous chapter', function(done) {
+      var result = routeHelpers.getPrevChapter(2,data.chapters);
+      result.length.should.eql(1);
+      done();
+    });
+  });
+  describe('getPrevChapter()', function() {
+    it('should not return the previous chapter', function(done) {
+      var result = routeHelpers.getPrevChapter(1,data.chapters);
+      result.length.should.eql(0);
+      done();
+    });
+  });
+  describe('getNextChapter()', function() {
+    it('should return the next chapter', function(done) {
+      var result = routeHelpers.getNextChapter(2,data.chapters);
+      result.length.should.eql(1);
+      done();
+    });
+  });
+  describe('getNextChapter()', function() {
+    it('should not return the next chapter', function(done) {
+      var result = routeHelpers.getNextChapter(3,data.chapters);
+      result.length.should.eql(0);
       done();
     });
   });

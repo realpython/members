@@ -75,13 +75,13 @@ function compareChapterOrder(a, b) {
 
 function getPrevChapter(orderID, chapters) {
   return chapters.filter(function(chapter) {
-    return parseInt(chapter.chapterOrder) === parseInt(orderID - 1);
+    return parseInt(chapter.order_number) === parseInt(orderID - 1);
   });
 }
 
 function getNextChapter(orderID, chapters) {
   return chapters.filter(function(chapter) {
-    return parseInt(chapter.chapterOrder) === parseInt(orderID + 1);
+    return parseInt(chapter.order_number) === parseInt(orderID + 1);
   });
 }
 

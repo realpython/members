@@ -299,9 +299,34 @@ var sorted = [
   }
 ];
 
+var chapters = [
+  {
+    id: 1,
+    order_number: 1,
+    name: 'Functions and Loops',
+    read: false,
+    created_at: '2016-07-08T23:49:03.267Z'
+  },
+  {
+    id: 3,
+    order_number: 2,
+    name: 'Conditional logic',
+    read: false,
+    created_at: '2016-07-08T23:49:03.268Z'
+  },
+  {
+    id: 2,
+    order_number: 3,
+    name: 'Lists and Dictionaries',
+    read: false,
+    created_at: '2016-07-08T23:49:03.267Z '
+  }
+];
+
 module.exports = {
   base: base,
   reduced: reduced,
   converted: converted,
-  sorted: sorted
+  sorted: sorted,
+  chapters: chapters
 };

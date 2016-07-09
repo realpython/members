@@ -16,13 +16,11 @@ Just a simple learning management system for textbook-like sites.
 1. Run Seed
 1. Run server
 
-> Make sure to drop the database before running the seed!
+## Notes
 
-Update a user's admin status (`development` and `testing` only):
-
-```sh
-$ curl -X PUT -d admin=true http://localhost:3000/users/<USERNAME>/admin
-```
+1. Make sure to drop the database before running the seed!
+1. Update a user's admin status (`development` and `testing` only): `curl -X PUT -d admin=true http://localhost:3000/users/<USERNAME>/admin`
+1. Make sure to update the fixtures (*/test/fixtures/data.js*) whenever the DB schema is updated
 
 ## Development
 
