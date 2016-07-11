@@ -11,19 +11,19 @@ exports.seed = function(knex, Promise) {
       knex('messages').insert({
         content: 'Awesome lesson!',
         lesson_id: 1,
-        user_id: 1,
+        user_id: users[0][0].id,
         created_at: new Date(2015, 06, 9)
       }),
       knex('messages').insert({
         content: 'Sick!',
         lesson_id: 1,
-        user_id: 1,
+        user_id: users[0][0].id,
         created_at: new Date(2016, 06, 9)
       }),
       knex('messages').insert({
         content: 'Love it!',
         lesson_id: 2,
-        user_id: 1
+        user_id: users[0][0].id
       })
     ]);
   });
