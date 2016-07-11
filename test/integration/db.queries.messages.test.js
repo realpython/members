@@ -29,7 +29,7 @@ describe('db : queries : messages', function() {
     });
   });
 
-  describe.only('messagesAndUsers()', function() {
+  describe('messagesAndUsers()', function() {
     it('should format data correctly', function(done) {
       messageQueries.messagesAndUsers(1)
       .then(function(results) {
