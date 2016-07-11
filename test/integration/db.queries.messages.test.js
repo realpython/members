@@ -43,7 +43,7 @@ describe('db : queries : messages', function() {
           d2 = Date.parse(results[0].messageCreatedAt);
         }
         var test = d1 < d2;
-        test.should.be.true;
+        test.should.be.true; // jshint ignore:line
       });
       done();
     });

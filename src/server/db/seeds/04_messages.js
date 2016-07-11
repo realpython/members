@@ -7,13 +7,13 @@ exports.seed = function(knex, Promise) {
       content: 'Awesome lesson!',
       lesson_id: 1,
       user_id: 1,
-      created_at: new Date(2015, 06, 09)
+      created_at: new Date(2015, 06, 9)
     }),
     knex('messages').insert({
       content: 'Sick!',
       lesson_id: 1,
       user_id: 1,
-      created_at: new Date(2016, 06, 09)
+      created_at: new Date(2016, 06, 9)
     }),
     knex('messages').insert({
       content: 'Love it!',
