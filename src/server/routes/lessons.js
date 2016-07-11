@@ -7,6 +7,8 @@ var lessonQueries = require('../db/queries.lessons');
 var messageQueries = require('../db/queries.messages');
 var routeHelpers = require('./_helpers');
 
+// TODO: refactor sql queries
+
 // *** get single lesson *** //
 router.get('/:id', authHelpers.ensureAuthenticated,
   function(req, res, next) {
@@ -37,8 +39,8 @@ router.get('/:id', authHelpers.ensureAuthenticated,
           renderObject.previousLesson = routeHelpers.getPrevLesson(
             lessonObject.lesson_order_number, lessons);
           renderObject.nextLesson = routeHelpers.getNextLesson(lessonObject.lesson_order_number, lessons);
-          // get all associated messages
-          return messageQueries.getMessagesFromLessonID(
+          // get all associated messages and user info
+          return messageQueries.messagesAndUsers(
             parseInt(lessonObject.id))
           .then(function(messages) {
             renderObject.userMessages = messages;

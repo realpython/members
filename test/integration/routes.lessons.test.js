@@ -115,6 +115,7 @@ describe('routes : lessons', function() {
             res.text.should.contain('<!-- next lesson button -->');
             res.text.should.contain('<!-- breadcrumbs -->');
             res.text.should.contain('<!-- user messages -->');
+            res.text.should.contain('<p class="message-author">Michael Johnson said:</p>');
             res.text.should.contain('Awesome lesson!');
             done();
           });

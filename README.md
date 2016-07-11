@@ -12,8 +12,8 @@ Just a simple learning management system for textbook-like sites.
 
 1. Install dependencies
 1. Create the Postgres DB
-1. Run Migrations
-1. Run Seed
+1. Run migrations
+1. Run seed
 1. Run server
 
 ## Notes
@@ -66,17 +66,18 @@ Just a simple learning management system for textbook-like sites.
 1. Users should be able to view a breadcrumb-like navigation
 1. Users should be able to view messages within the lesson view
 1. Users should have an avatar
+1. Users should be able to see who posted a particular message
 
 **Admin**
 
-1. Admin should be able to view all chapters
+1. Admin should be able to view all users
 1. Admin should be able to add new users
 
 #### Incomplete
 
-1. Users should be able to see who posted a particular message (current)
-1. Users should be able to post new messages within the lesson view
+1. Users should be able to post new messages within the lesson view (current)
 1. Users should be able to reply to messages within the lesson view
+1. Users should have to click a link to show (or hide) messages
 1. Admin should be able to view all chapters
 1. Admin should be able to add new chapters
 1. Unregistered users should have to enter an email and a numeric code to register and become an unverified user

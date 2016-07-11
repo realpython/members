@@ -65,7 +65,7 @@ footer {
 .avatar {
   width: 30px;
   height: 30px;
-  border-radius: 50%
+  border-radius: 50%;
 }
 
 .avatar-link {
@@ -138,4 +138,19 @@ footer {
 .custom-progress-bar {
   height: 30px;
   margin-bottom: 2px;
+}
+
+/* lesson */
+
+.message-avatar {
+  width: 50px;
+  height: 50px;
+}
+
+.message-avatar-grid {
+  max-width: 60px;
+}
+
+.message-author {
+  font-weight: bold;
 }
