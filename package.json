@@ -26,6 +26,7 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
+    "chai-datetime": "^1.4.1",
     "chai-http": "^2.0.1",
     "coveralls": "^2.11.9",
     "jscs": "^3.0.4",
