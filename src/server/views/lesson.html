@@ -29,27 +29,7 @@
           <a href="/lessons/{{nextLesson[0].id}}" type="button" class="btn btn-primary">Next Lesson »</a>
         {% endif %}
       </form>
-      <br><br>
-      <div id="user-questions">
-        {% if userMessages.length %}
-          <!-- user messages -->
-          <hr>
-          {% for message in userMessages %}
-            <div class="row">
-              <div class="col-md-12">
-                <div class="col-md-1 message-avatar-grid">
-                  <img src="{{message.userGithubAvatar}}" alt="User Avatar" class="message-avatar">
-                </div>
-                <div class="col-md-5">
-                  <p class="message-author">{{message.userGithubDisplayName}} said:</p>
-                  <p>{{message.messageContent}}</p>
-                </div>
-              </div>
-            </div>
-            <br>
-          {% endfor %}
-        {% endif %}
-      </div>
+      {% include "./partials/messages.html" %}
     </div>
   </div>
 

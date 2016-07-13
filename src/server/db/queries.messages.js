@@ -13,6 +13,12 @@ function getMessagesFromLessonID(lessonID) {
   .where('lesson_id', parseInt(lessonID));
 }
 
+function addMessage(obj) {
+  return knex('messages')
+    .insert(obj)
+    .returning('*');
+}
+
 function messagesAndUsers(lessonID) {
   return knex
     .select('messages.id as messageID', 'messages.content as messageContent', 'messages.lesson_id as messageLessonID', 'messages.created_at as messageCreatedAt', 'users.id as userID', 'users.github_display_name as userGithubDisplayName', 'users.github_avatar as userGithubAvatar', 'users.created_at as userCreatedAt')
@@ -25,5 +31,6 @@ function messagesAndUsers(lessonID) {
 module.exports = {
   getMessages: getMessages,
   getMessagesFromLessonID: getMessagesFromLessonID,
+  addMessage: addMessage,
   messagesAndUsers: messagesAndUsers
 };

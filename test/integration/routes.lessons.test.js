@@ -9,6 +9,7 @@ var testHelpers = require('../helpers');
 var server = require('../../src/server/app');
 var lessonQueries = require('../../src/server/db/queries.lessons');
 var chapterQueries = require('../../src/server/db/queries.chapters');
+var messageQueries = require('../../src/server/db/queries.messages');
 
 var should = chai.should();
 
@@ -100,7 +101,7 @@ describe('routes : lessons', function() {
         });
       });
     });
-    describe('GET /lessons/1', function() {
+    describe('GET /lessons/:id', function() {
       it('should show a message', function(done) {
         lessonQueries.getSingleLessonFromLessonID(1)
         .then(function(lesson) {
@@ -118,6 +119,46 @@ describe('routes : lessons', function() {
             res.text.should.contain('<p class="message-author">Michael Johnson said:</p>');
             res.text.should.contain('Awesome lesson!');
             done();
+          });
+        });
+      });
+    });
+
+    // add POST request for adding a message
+
+    describe('GET /lessons/:id', function() {
+      it('should show a new message', function(done) {
+        lessonQueries.getSingleLessonFromLessonID(1)
+        .then(function(lesson) {
+          chai.request(server)
+          .get('/lessons/' + lesson[0].id)
+          .end(function(err, res) {
+            res.redirects.length.should.equal(0);
+            res.status.should.equal(200);
+            res.type.should.equal('text/html');
+            res.text.should.contain(
+              '<h1>' + lesson[0].name + '</h1>');
+            res.text.should.contain('<!-- next lesson button -->');
+            res.text.should.contain('<!-- breadcrumbs -->');
+            res.text.should.contain('<!-- user messages -->');
+            res.text.should.contain('<p class="message-author">Michael Johnson said:</p>');
+            res.text.should.contain('Awesome lesson!');
+            var messageObject = {
+              content: 'testing a message',
+              lesson_id: 1,
+              user_id: 1
+            };
+            messageQueries.addMessage(messageObject)
+            .then(function() {
+              chai.request(server)
+              .get('/lessons/' + lesson[0].id)
+              .end(function(err, res) {
+                res.text.should.contain(
+                  '<h1>' + lesson[0].name + '</h1>');
+                res.text.should.contain('testing a message');
+                done();
+              });
+            });
           });
         });
       });

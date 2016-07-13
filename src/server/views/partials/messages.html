@@ -1,0 +1,33 @@
+<br><br>
+<div class="row">
+  <div class="col-md-6">
+    <div id="user-questions">
+      <form action="/messages" method="POST">
+        <div class="form-group">
+          <label for="comment">Add Question or Comment:</label>
+          <textarea class="form-control" rows="5" id="comment" name="comment"></textarea>
+          <input type="hidden" name="lesson" value="{{singleLesson.id}}">
+        </div>
+        <button type="submit" class="btn btn-default btn-sm">Submit</button>
+      </form>
+      {% if userMessages.length %}
+        <!-- user messages -->
+        <hr>
+        {% for message in userMessages %}
+          <div class="row">
+            <div class="col-md-12">
+              <div class="col-md-2 message-avatar-grid">
+                <img src="{{message.userGithubAvatar}}" alt="User Avatar" class="message-avatar">
+              </div>
+              <div class="col-md-10">
+                <p class="message-author">{{message.userGithubDisplayName}} said:</p>
+                <p>{{message.messageContent}}</p>
+              </div>
+            </div>
+          </div>
+          <br>
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+</div>
