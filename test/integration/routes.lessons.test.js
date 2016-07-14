@@ -123,9 +123,33 @@ describe('routes : lessons', function() {
         });
       });
     });
-
-    // add POST request for adding a message
-
+    describe('GET /lessons/:id', function() {
+      it('should show a new message', function(done) {
+        lessonQueries.getSingleLessonFromLessonID(1)
+        .then(function(lesson) {
+          chai.request(server)
+          .post('/messages')
+          .send({
+            comment: 'testing a message',
+            lesson: lesson[0].id
+          })
+          .end(function(err, res) {
+            res.redirects.length.should.equal(1);
+            res.status.should.equal(200);
+            res.type.should.equal('text/html');
+            res.text.should.contain(
+              '<h1>' + lesson[0].name + '</h1>');
+            res.text.should.contain('<!-- next lesson button -->');
+            res.text.should.contain('<!-- breadcrumbs -->');
+            res.text.should.contain('<!-- user messages -->');
+            res.text.should.contain('<p class="message-author">Michael Johnson said:</p>');
+            res.text.should.contain('Awesome lesson!');
+            res.text.should.contain('testing a message');
+            done();
+          });
+        });
+      });
+    });
     describe('GET /lessons/:id', function() {
       it('should show a new message', function(done) {
         lessonQueries.getSingleLessonFromLessonID(1)

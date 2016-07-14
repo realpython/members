@@ -67,6 +67,7 @@ Just a simple learning management system for textbook-like sites.
 1. Users should be able to view messages within the lesson view
 1. Users should have an avatar
 1. Users should be able to see who posted a particular message
+1. Users should be able to post new messages within the lesson view
 
 **Admin**
 
@@ -75,8 +76,7 @@ Just a simple learning management system for textbook-like sites.
 
 #### Incomplete
 
-1. Users should be able to post new messages within the lesson view (current)
-1. Users should be able to reply to messages within the lesson view
+1. Users should be able to reply to messages within the lesson view (current)
 1. Users should have to click a link to show (or hide) messages
 1. Admin should be able to view all chapters
 1. Admin should be able to add new chapters
