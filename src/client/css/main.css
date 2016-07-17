@@ -25,6 +25,21 @@ body {
   line-height: normal;
 }
 
+.link-text {
+  cursor: pointer;
+  color: #2780e3;
+}
+
+.link-text:hover,
+.link-text:focus {
+  color: #165ba8;
+  text-decoration: underline;
+}
+
+.bold-text {
+  font-weight: bold;
+}
+
 @media(min-width:768px) {
   #wrapper {
     padding-left: 225px;
@@ -153,4 +168,8 @@ footer {
 
 .message-author {
   font-weight: bold;
+}
+
+.message-reply-input {
+  display: none;
 }

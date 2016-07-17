@@ -11,6 +11,7 @@ Just a simple learning management system for textbook-like sites.
 ## Getting Started
 
 1. Install dependencies
+1. Rename *.env-sample* to *.env* and then update
 1. Create the Postgres DB
 1. Run migrations
 1. Run seed
@@ -68,6 +69,7 @@ Just a simple learning management system for textbook-like sites.
 1. Users should have an avatar
 1. Users should be able to see who posted a particular message
 1. Users should be able to post new messages within the lesson view
+1. Admin should be able to reply to messages within the lesson view
 
 **Admin**
 
@@ -76,7 +78,8 @@ Just a simple learning management system for textbook-like sites.
 
 #### Incomplete
 
-1. Users should be able to reply to messages within the lesson view (current)
+1. Admin should be able to add an avatar when adding a new user (current)
+1. Admin should be able to delete messages within the lesson view
 1. Users should have to click a link to show (or hide) messages
 1. Admin should be able to view all chapters
 1. Admin should be able to add new chapters
@@ -98,6 +101,8 @@ Just a simple learning management system for textbook-like sites.
 1. Users should be able to submit exercises for grading
 1. Admin should be able to add new chapters
 1. Users should be able to update their avatar on the profile page
+1. Admin should be able to move the order of messages within the lesson view
+1. Users should be able to view a tag next to a message if it's posted by an admin within the lesson view
 
 ### Todo
 
@@ -105,3 +110,5 @@ Just a simple learning management system for textbook-like sites.
 1. Add uncaught exception handler
 1. Separate API routes from server side templating routes
 1. Swagger docs for the handlers returning JSON
+1. Add front end tests with selenium
+

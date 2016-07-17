@@ -11,6 +11,7 @@ function(req, res, next) {
   var payload = req.body;
   var messageObject = {
     content: payload.comment,
+    parent_id: parseInt(payload.parent) || null,
     lesson_id: parseInt(payload.lesson),
     user_id: parseInt(req.user.id)
   };

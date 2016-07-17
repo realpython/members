@@ -50,29 +50,51 @@ describe('routes : helpers', function() {
   });
   describe('getPrevChapter()', function() {
     it('should return the previous chapter', function(done) {
-      var result = routeHelpers.getPrevChapter(2,data.chapters);
+      var result = routeHelpers.getPrevChapter(2, data.chapters);
       result.length.should.eql(1);
       done();
     });
   });
   describe('getPrevChapter()', function() {
     it('should not return the previous chapter', function(done) {
-      var result = routeHelpers.getPrevChapter(1,data.chapters);
+      var result = routeHelpers.getPrevChapter(1, data.chapters);
       result.length.should.eql(0);
       done();
     });
   });
   describe('getNextChapter()', function() {
     it('should return the next chapter', function(done) {
-      var result = routeHelpers.getNextChapter(2,data.chapters);
+      var result = routeHelpers.getNextChapter(2, data.chapters);
       result.length.should.eql(1);
       done();
     });
   });
   describe('getNextChapter()', function() {
     it('should not return the next chapter', function(done) {
-      var result = routeHelpers.getNextChapter(3,data.chapters);
+      var result = routeHelpers.getNextChapter(3, data.chapters);
       result.length.should.eql(0);
+      done();
+    });
+  });
+  describe('getParentMessages()', function() {
+    it('should format data correctly', function(done) {
+      var result = routeHelpers.getParentMessages(data.messages);
+      result.length.should.eql(2);
+      result[0].should.not.include.keys('replies');
+      result[1].should.not.include.keys('replies');
+      result.should.eql(data.parentMessages);
+      done();
+    });
+  });
+  describe('getChildMessages()', function() {
+    it('should format data correctly', function(done) {
+      var result = routeHelpers.getChildMessages(data.parentMessages, data.messages);
+      result.length.should.eql(2);
+      result[0].should.include.keys('replies');
+      result[1].should.include.keys('replies');
+      result[0].replies.length.should.eql(2);
+      result[1].replies.length.should.eql(0);
+      result.should.eql(data.childMessages);
       done();
     });
   });

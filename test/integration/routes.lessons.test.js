@@ -118,6 +118,9 @@ describe('routes : lessons', function() {
             res.text.should.contain('<!-- user messages -->');
             res.text.should.contain('<p class="message-author">Michael Johnson said:</p>');
             res.text.should.contain('Awesome lesson!');
+            res.text.should.not.contain('Reply');
+            res.text.should.not.contain('data-status="hidden"');
+            res.text.should.not.contain('data-status="visible"');
             done();
           });
         });
@@ -304,6 +307,41 @@ describe('routes : lessons', function() {
             res.redirects.length.should.equal(0);
             res.status.should.equal(500);
             res.type.should.equal('text/html');
+            done();
+          });
+        });
+      });
+    });
+  });
+
+  describe('if authenticated as an admin', function() {
+    beforeEach(function(done) {
+      testHelpers.authenticateAdmin(done);
+    });
+    afterEach(function(done) {
+      passportStub.logout();
+      done();
+    });
+    describe('GET /lessons/:id', function() {
+      it('should show a message', function(done) {
+        lessonQueries.getSingleLessonFromLessonID(1)
+        .then(function(lesson) {
+          chai.request(server)
+          .get('/lessons/' + lesson[0].id)
+          .end(function(err, res) {
+            res.redirects.length.should.equal(0);
+            res.status.should.equal(200);
+            res.type.should.equal('text/html');
+            res.text.should.contain(
+              '<h1>' + lesson[0].name + '</h1>');
+            res.text.should.contain('<!-- next lesson button -->');
+            res.text.should.contain('<!-- breadcrumbs -->');
+            res.text.should.contain('<!-- user messages -->');
+            res.text.should.contain('<p class="message-author">Michael Johnson said:</p>');
+            res.text.should.contain('Awesome lesson!');
+            res.text.should.contain('<!-- reply -->');
+            res.text.should.contain('data-status="hidden"');
+            res.text.should.not.contain('data-status="visible"');
             done();
           });
         });

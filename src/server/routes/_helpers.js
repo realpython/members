@@ -106,6 +106,28 @@ function getChapterReadStatus(lessons) {
   return true;
 }
 
+function getParentMessages(messages) {
+  return messages.filter(function(message) {
+    return !message.messageParentID;
+  });
+}
+
+function getChildMessages(parentMessages, allMessages) {
+  for (var i = 0; i < allMessages.length; i++) {
+    if (allMessages[i].messageParentID) {
+      for (var j = 0; j < parentMessages.length; j++) {
+        if (!parentMessages[j].replies) {
+          parentMessages[j].replies = [];
+        }
+        if (parentMessages[j].messageID === allMessages[i].messageParentID) {
+          parentMessages[j].replies.push(allMessages[i]);
+        }
+      }
+    }
+  }
+  return parentMessages;
+}
+
 module.exports = {
   getTotalLessons: getTotalLessons,
   getCompletedLessons: getCompletedLessons,
@@ -116,5 +138,7 @@ module.exports = {
   getNextChapter: getNextChapter,
   getPrevLesson: getPrevLesson,
   getNextLesson: getNextLesson,
-  getChapterReadStatus: getChapterReadStatus
+  getChapterReadStatus: getChapterReadStatus,
+  getParentMessages: getParentMessages,
+  getChildMessages: getChildMessages
 };

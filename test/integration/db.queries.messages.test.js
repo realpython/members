@@ -28,7 +28,33 @@ describe('db : queries : messages', function() {
       done();
     });
   });
-
+  describe('getMessages()', function() {
+    it('should format data correctly', function(done) {
+      messageQueries.getMessages()
+      .then(function(results) {
+        results.length.should.equal(5);
+        results[0].should.include.keys('id', 'content', 'parent_id', 'lesson_id', 'user_id', 'created_at');
+        results[1].should.include.keys('id', 'content', 'parent_id', 'lesson_id', 'user_id', 'created_at');
+        results[2].should.include.keys('id', 'content', 'parent_id', 'lesson_id', 'user_id', 'created_at');
+        results[3].should.include.keys('id', 'content', 'parent_id', 'lesson_id', 'user_id', 'created_at');
+        results[4].should.include.keys('id', 'content', 'parent_id', 'lesson_id', 'user_id', 'created_at');
+      });
+      done();
+    });
+  });
+  describe('getMessagesFromLessonID(1)', function() {
+    it('should format data correctly', function(done) {
+      messageQueries.getMessagesFromLessonID(1)
+      .then(function(results) {
+        results.length.should.equal(4);
+        results[0].should.include.keys('id', 'content', 'parent_id', 'lesson_id', 'user_id', 'created_at');
+        results[1].should.include.keys('id', 'content', 'parent_id', 'lesson_id', 'user_id', 'created_at');
+        results[2].should.include.keys('id', 'content', 'parent_id', 'lesson_id', 'user_id', 'created_at');
+        results[3].should.include.keys('id', 'content', 'parent_id', 'lesson_id', 'user_id', 'created_at');
+      });
+      done();
+    });
+  });
   describe('messagesAndUsers()', function() {
     it('should format data correctly', function(done) {
       messageQueries.messagesAndUsers(1)

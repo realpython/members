@@ -1,4 +1,3 @@
-// queries.chapters.js => chaptersAndLessons()
 var base = [
   {
     lessonID: 3,
@@ -323,10 +322,135 @@ var chapters = [
   }
 ];
 
+var messages = [
+  {
+    messageID: 2,
+    messageContent: 'Awesome lesson!',
+    messageParentID: null,
+    messageLessonID: 1,
+    messageCreatedAt: '2015-07-09T06:00:00.000Z',
+    userID: 1,
+    userGithubDisplayName: 'Michael Johnson',
+    userGithubAvatar: 'https://avatars.io/static/default_128.jpg',
+    userCreatedAt: '2016-07-17T21:04:34.977Z'
+  },
+  {
+    messageID: 1,
+    messageContent: 'Sick!',
+    messageParentID: null,
+    messageLessonID: 1,
+    messageCreatedAt: '2016-07-09T06:00:00.000Z',
+    userID: 1,
+    userGithubDisplayName: 'Michael Johnson',
+    userGithubAvatar: 'https://avatars.io/static/default_128.jpg',
+    userCreatedAt: '2016-07-17T21:04:34.977Z'
+  },
+  {
+    messageID: 4,
+    messageContent: 'Just a reply',
+    messageParentID: 2,
+    messageLessonID: 1,
+    messageCreatedAt: '2016-07-17T21:04:35.000Z',
+    userID: 1,
+    userGithubDisplayName: 'Michael Johnson',
+    userGithubAvatar: 'https://avatars.io/static/default_128.jpg',
+    userCreatedAt: '2016-07-17T21:04:34.977Z'
+  },
+  {
+    messageID: 5,
+    messageContent: 'Just another reply',
+    messageParentID: 2,
+    messageLessonID: 1,
+    messageCreatedAt: '2016-07-17T21:04:35.001Z',
+    userID: 1,
+    userGithubDisplayName: 'Michael Johnson',
+    userGithubAvatar: 'https://avatars.io/static/default_128.jpg',
+    userCreatedAt: '2016-07-17T21:04:34.977Z'
+  }
+];
+
+var parentMessages = [
+  {
+    messageID: 2,
+    messageContent: 'Awesome lesson!',
+    messageParentID: null,
+    messageLessonID: 1,
+    messageCreatedAt: '2015-07-09T06:00:00.000Z',
+    userID: 1,
+    userGithubDisplayName: 'Michael Johnson',
+    userGithubAvatar: 'https://avatars.io/static/default_128.jpg',
+    userCreatedAt: '2016-07-17T21:04:34.977Z'
+  },
+  {
+    messageID: 1,
+    messageContent: 'Sick!',
+    messageParentID: null,
+    messageLessonID: 1,
+    messageCreatedAt: '2016-07-09T06:00:00.000Z',
+    userID: 1,
+    userGithubDisplayName: 'Michael Johnson',
+    userGithubAvatar: 'https://avatars.io/static/default_128.jpg',
+    userCreatedAt: '2016-07-17T21:04:34.977Z'
+  }
+];
+
+var childMessages = [
+  {
+    messageID: 2,
+    messageContent: 'Awesome lesson!',
+    messageParentID: null,
+    messageLessonID: 1,
+    messageCreatedAt: '2015-07-09T06:00:00.000Z',
+    replies: [
+      {
+        messageContent: 'Just a reply',
+        messageCreatedAt: '2016-07-17T21:04:35.000Z',
+        messageID: 4,
+        messageLessonID: 1,
+        messageParentID: 2,
+        userCreatedAt: '2016-07-17T21:04:34.977Z',
+        userGithubAvatar: 'https://avatars.io/static/default_128.jpg',
+        userGithubDisplayName: 'Michael Johnson',
+        userID: 1
+      },
+      {
+        messageContent: 'Just another reply',
+        messageCreatedAt: '2016-07-17T21:04:35.001Z',
+        messageID: 5,
+        messageLessonID: 1,
+        messageParentID: 2,
+        userCreatedAt: '2016-07-17T21:04:34.977Z',
+        userGithubAvatar: 'https://avatars.io/static/default_128.jpg',
+        userGithubDisplayName: 'Michael Johnson',
+        userID: 1
+      }
+    ],
+    userID: 1,
+    userGithubDisplayName: 'Michael Johnson',
+    userGithubAvatar: 'https://avatars.io/static/default_128.jpg',
+    userCreatedAt: '2016-07-17T21:04:34.977Z'
+  },
+  {
+    messageID: 1,
+    messageContent: 'Sick!',
+    messageParentID: null,
+    messageLessonID: 1,
+    messageCreatedAt: '2016-07-09T06:00:00.000Z',
+    replies: [],
+    userID: 1,
+    userGithubDisplayName: 'Michael Johnson',
+    userGithubAvatar: 'https://avatars.io/static/default_128.jpg',
+    userCreatedAt: '2016-07-17T21:04:34.977Z'
+  }
+];
+
 module.exports = {
   base: base,
   reduced: reduced,
   converted: converted,
   sorted: sorted,
-  chapters: chapters
+  chapters: chapters,
+  messages: messages,
+  parentMessages: parentMessages,
+  childMessages: childMessages
 };

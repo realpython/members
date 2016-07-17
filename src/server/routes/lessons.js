@@ -39,11 +39,15 @@ router.get('/:id', authHelpers.ensureAuthenticated,
           renderObject.previousLesson = routeHelpers.getPrevLesson(
             lessonObject.lesson_order_number, lessons);
           renderObject.nextLesson = routeHelpers.getNextLesson(lessonObject.lesson_order_number, lessons);
-          // get all associated messages and user info
+          // get all associated messages, replies, and user info
           return messageQueries.messagesAndUsers(
             parseInt(lessonObject.id))
           .then(function(messages) {
-            renderObject.userMessages = messages;
+            // filter, reduce, and sort the results
+            var parentMessages = routeHelpers.getParentMessages(messages);
+            var formattedMessages = routeHelpers.getChildMessages(
+              parentMessages, messages);
+            renderObject.userMessages = formattedMessages;
             renderObject.title = 'Textbook LMS - ' + lessonObject.name;
             renderObject.pageTitle = lessonObject.name;
             renderObject.singleLesson = lessonObject;
