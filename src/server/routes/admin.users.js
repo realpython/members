@@ -37,7 +37,7 @@ function(req, res, next) {
     github_id: payload.githubID,
     github_display_name: payload.githubDisplayName,
     github_access_token: payload.githubToken,
-    github_avatar: payload.githubAvatar,
+    github_avatar: payload.githubAvatar || 'https://avatars.io/static/default_128.jpg',
     email: payload.email,
     admin: payload.admin || false,
     verified: payload.verified || false
