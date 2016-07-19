@@ -20,8 +20,9 @@ var authRoutes = require('./routes/auth');
 var chapterRoutes = require('./routes/chapters');
 var lessonRoutes = require('./routes/lessons');
 var userRoutes = require('./routes/users');
-var adminRoutes = require('./routes/admin.users');
 var messageRoutes = require('./routes/messages');
+var adminUserRoutes = require('./routes/admin.users');
+var adminMessageRoutes = require('./routes/admin.messages');
 
 // *** express instance *** //
 var app = express();
@@ -55,8 +56,9 @@ app.use('/auth', authRoutes);
 app.use('/chapters', chapterRoutes);
 app.use('/lessons', lessonRoutes);
 app.use('/users', userRoutes);
-app.use('/admin', adminRoutes);
 app.use('/messages', messageRoutes);
+app.use('/admin/users', adminUserRoutes);
+app.use('/admin/messages', adminMessageRoutes);
 
 // *** error handling *** //
 app.use(function(req, res, next) {

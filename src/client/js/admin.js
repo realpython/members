@@ -15,4 +15,14 @@ $(function() {
     }
   });
 
+  // confirm delete message
+  $(document).on('click', '.delete-link', function() {
+    var result = confirm('Are you sure?');
+    if (result) {
+      return true;
+    } else {
+      return false;
+    }
+  });
+
 });

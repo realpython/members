@@ -5,7 +5,7 @@ var authHelpers = require('../auth/helpers');
 var userQueries = require('../db/queries.users');
 
 // *** get all users *** //
-router.get('/users', authHelpers.ensureAdmin,
+router.get('/', authHelpers.ensureAdmin,
 function(req, res, next) {
   // get breadcrumbs
   var breadcrumbs = ['Admin', 'Users'];
@@ -28,7 +28,7 @@ function(req, res, next) {
 });
 
 // *** add new user *** //
-router.post('/users', authHelpers.ensureAdmin,
+router.post('/', authHelpers.ensureAdmin,
 function(req, res, next) {
   // TODO: Add server side validation
   var payload = req.body;

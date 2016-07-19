@@ -23,8 +23,13 @@
                 <p class="message-author">{{message.userGithubDisplayName}} said:</p>
                 <p>{{message.messageContent}}</p>
                 {% if user.admin %}
-                  <!-- reply -->
-                  <p class="link-text reply-link" data-message-id="{{message.messageID}}">Reply</p>
+                  <p>
+                    <!-- reply link -->
+                    <span class="link-text reply-link" data-message-id="{{message.messageID}}">Reply</span>
+                    <span>&nbsp;</span>
+                    <!-- delete link -->
+                    <a href="/admin/messages/{{message.messageID}}/delete" class="delete-link">Delete</span>
+                  </p>
                   <!-- reply input - hidden on page load -->
                   <div class="message-reply-input" id="message-reply-input-{{message.messageID}}" data-status="hidden">
                     <form action="/messages" method="POST">

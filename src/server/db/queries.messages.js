@@ -28,9 +28,23 @@ function messagesAndUsers(lessonID) {
     .where('messages.lesson_id', parseInt(lessonID));
 }
 
+function deleteChildMessagesFromParent(messageID) {
+  return knex('messages')
+  .del()
+  .where('parent_id', parseInt(messageID));
+}
+
+function deleteParentMessage(messageID) {
+  return knex('messages')
+  .del()
+  .where('id', parseInt(messageID));
+}
+
 module.exports = {
   getMessages: getMessages,
   getMessagesFromLessonID: getMessagesFromLessonID,
   addMessage: addMessage,
-  messagesAndUsers: messagesAndUsers
+  messagesAndUsers: messagesAndUsers,
+  deleteChildMessagesFromParent: deleteChildMessagesFromParent,
+  deleteParentMessage: deleteParentMessage
 };

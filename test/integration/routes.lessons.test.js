@@ -339,7 +339,8 @@ describe('routes : lessons', function() {
             res.text.should.contain('<!-- user messages -->');
             res.text.should.contain('<p class="message-author">Michael Johnson said:</p>');
             res.text.should.contain('Awesome lesson!');
-            res.text.should.contain('<!-- reply -->');
+            res.text.should.contain('<!-- reply link -->');
+            res.text.should.contain('<!-- delete link -->');
             res.text.should.contain('data-status="hidden"');
             res.text.should.not.contain('data-status="visible"');
             done();
