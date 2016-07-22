@@ -10,6 +10,7 @@
       <!-- lesson content -->
       <p>{{singleLesson.content}}</p>
       <!-- mark read/unread -->
+      <br>
       <form action="/lessons" method="POST">
         <input type="hidden" name="chapter" value="{{singleLesson.chapter_id}}">
         <input type="hidden" name="lesson" value="{{singleLesson.id}}">

@@ -23,6 +23,7 @@ var userRoutes = require('./routes/users');
 var messageRoutes = require('./routes/messages');
 var adminUserRoutes = require('./routes/admin.users');
 var adminMessageRoutes = require('./routes/admin.messages');
+var adminChapterRoutes = require('./routes/admin.chapters');
 
 // *** express instance *** //
 var app = express();
@@ -59,6 +60,7 @@ app.use('/users', userRoutes);
 app.use('/messages', messageRoutes);
 app.use('/admin/users', adminUserRoutes);
 app.use('/admin/messages', adminMessageRoutes);
+app.use('/admin/chapters', adminChapterRoutes);
 
 // *** error handling *** //
 app.use(function(req, res, next) {

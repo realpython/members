@@ -77,12 +77,11 @@ Just a simple learning management system for textbook-like sites.
 1. Admin should be able to reply to messages within the lesson view
 1. Admin should be able to delete messages, and all the respective replies, within the lesson view
 1. Admin should be able to delete replies within the lesson view
+1. Admin should be able to view all chapters
 
 #### Incomplete
 
-1. Users should have to click a link to show (or hide) messages (current)
-1. Admin should be able to view all chapters
-1. Admin should be able to add new chapters
+1. Admin should be able to add new chapters (current)
 1. Unregistered users should have to enter an email and a numeric code to register and become an unverified user
 1. Unverified users should have to connect their Github account to become verified
 1. Users should be able to hide/show the sidebar
