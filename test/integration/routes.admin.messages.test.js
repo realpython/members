@@ -7,6 +7,7 @@ var passportStub = require('passport-stub');
 var knex = require('../../src/server/db/knex');
 var testHelpers = require('../helpers');
 var server = require('../../src/server/app');
+var messageQueries = require('../../src/server/db/queries.messages');
 
 var should = chai.should();
 
@@ -35,12 +36,11 @@ describe('routes : admin : messages', function() {
       done();
     });
   });
-
   describe('if unauthenticated', function() {
-    describe('GET /admin/messages/:id/delete', function() {
+    describe('GET /admin/messages/:id/delete?type=parent', function() {
       it('should redirect to log in page', function(done) {
         chai.request(server)
-        .get('/admin/messages/1/delete')
+        .get('/admin/messages/1/delete?type=parent')
         .end(function(err, res) {
           res.redirects.length.should.equal(1);
           res.status.should.equal(200);
@@ -60,10 +60,10 @@ describe('routes : admin : messages', function() {
       passportStub.logout();
       done();
     });
-    describe('GET /admin/messages/:id/delete', function() {
+    describe('GET /admin/messages/:id/delete?type=parent', function() {
       it('should redirect to the dashboard', function(done) {
         chai.request(server)
-        .get('/admin/messages/1/delete')
+        .get('/admin/messages/1/delete?type=parent')
         .end(function(err, res) {
           res.redirects.length.should.equal(2);
           res.status.should.equal(200);
@@ -86,17 +86,37 @@ describe('routes : admin : messages', function() {
       passportStub.logout();
       done();
     });
-    describe('GET /admin/messages/:id/delete', function() {
-      it('should return a response', function(done) {
-        chai.request(server)
-        .get('/admin/messages/1/delete')
-        .end(function(err, res) {
-          res.redirects.length.should.equal(1);
-          res.status.should.equal(200);
-          res.type.should.equal('text/html');
-          res.text.should.contain('<h1>Dashboard</h1>');
-          res.text.should.contain('<h2>You are an admin.</h2>');
-          done();
+    describe('GET /admin/messages/:id/delete?type=parent', function() {
+      it('should delete parent and child messages', function(done) {
+        messageQueries.getParentMessages()
+        .then(function(messages) {
+          chai.request(server)
+          .get('/admin/messages/' + messages[0].id + '/delete?type=parent')
+          .end(function(err, res) {
+            res.redirects.length.should.equal(1);
+            res.status.should.equal(200);
+            res.type.should.equal('text/html');
+            res.text.should.contain('<h1>Dashboard</h1>');
+            res.text.should.contain('<h2>You are an admin.</h2>');
+            done();
+          });
+        });
+      });
+    });
+    describe('GET /admin/messages/:id/delete?type=child', function() {
+      it('should delete child messages', function(done) {
+        messageQueries.getChildMessages()
+        .then(function(messages) {
+          chai.request(server)
+          .get('/admin/messages/' + messages[0].id + '/delete?type=parent')
+          .end(function(err, res) {
+            res.redirects.length.should.equal(1);
+            res.status.should.equal(200);
+            res.type.should.equal('text/html');
+            res.text.should.contain('<h1>Dashboard</h1>');
+            res.text.should.contain('<h2>You are an admin.</h2>');
+            done();
+          });
         });
       });
     });

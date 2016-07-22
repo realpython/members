@@ -76,11 +76,11 @@ Just a simple learning management system for textbook-like sites.
 1. Admin should be able to add new users
 1. Admin should be able to reply to messages within the lesson view
 1. Admin should be able to delete messages, and all the respective replies, within the lesson view
+1. Admin should be able to delete replies within the lesson view
 
 #### Incomplete
 
-1. Admin should be able to delete replies within the lesson view (current)
-1. Users should have to click a link to show (or hide) messages
+1. Users should have to click a link to show (or hide) messages (current)
 1. Admin should be able to view all chapters
 1. Admin should be able to add new chapters
 1. Unregistered users should have to enter an email and a numeric code to register and become an unverified user
@@ -109,6 +109,7 @@ Just a simple learning management system for textbook-like sites.
 1. Users should be able to view the total number of lessons in the course on the dashboard
 1. Users should be able to view the total number of enrolled students on the dashboard
 1. Admin should be warned if they are deleting a message that contains replies within the lesson view
+1. Admin should only be able to deactivate messages; they should not be deleted
 
 ### Todo
 

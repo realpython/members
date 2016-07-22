@@ -28,7 +28,7 @@
                     <span class="link-text reply-link" data-message-id="{{message.messageID}}">Reply</span>
                     <span>&nbsp;</span>
                     <!-- delete link -->
-                    <a href="/admin/messages/{{message.messageID}}/delete" class="delete-link">Delete</span>
+                    <span><a href="/admin/messages/{{message.messageID}}/delete?type=parent" class="delete-link">Delete</a></span>
                   </p>
                   <!-- reply input - hidden on page load -->
                   <div class="message-reply-input" id="message-reply-input-{{message.messageID}}" data-status="hidden">
@@ -53,6 +53,10 @@
                         <div class="col-md-10">
                           <p class="message-author">{{reply.userGithubDisplayName}} said:</p>
                           <p>{{reply.messageContent}}</p>
+                          {% if user.admin %}
+                            <!-- delete reply link -->
+                            <span><a href="/admin/messages/{{reply.messageID}}/delete?type=child" class="delete-link">Delete</a></span>
+                          {% endif %}
                         </div>
                       </div>
                     </div>

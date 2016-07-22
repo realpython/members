@@ -6,6 +6,20 @@ function getMessages() {
   .orderBy('created_at');
 }
 
+function getParentMessages() {
+  return knex('messages')
+  .select('*')
+  .where('parent_id', null)
+  .orderBy('created_at');
+}
+
+function getChildMessages() {
+  return knex('messages')
+  .select('*')
+  .whereNot('parent_id', null)
+  .orderBy('created_at');
+}
+
 function getMessagesFromLessonID(lessonID) {
   return knex('messages')
   .select('*')
@@ -34,7 +48,7 @@ function deleteChildMessagesFromParent(messageID) {
   .where('parent_id', parseInt(messageID));
 }
 
-function deleteParentMessage(messageID) {
+function deleteMessage(messageID) {
   return knex('messages')
   .del()
   .where('id', parseInt(messageID));
@@ -42,9 +56,11 @@ function deleteParentMessage(messageID) {
 
 module.exports = {
   getMessages: getMessages,
+  getParentMessages: getParentMessages,
+  getChildMessages: getChildMessages,
   getMessagesFromLessonID: getMessagesFromLessonID,
   addMessage: addMessage,
   messagesAndUsers: messagesAndUsers,
   deleteChildMessagesFromParent: deleteChildMessagesFromParent,
-  deleteParentMessage: deleteParentMessage
+  deleteMessage: deleteMessage
 };

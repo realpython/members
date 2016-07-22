@@ -121,6 +121,9 @@ describe('routes : lessons', function() {
             res.text.should.not.contain('Reply');
             res.text.should.not.contain('data-status="hidden"');
             res.text.should.not.contain('data-status="visible"');
+            res.text.should.not.contain('<!-- reply link -->');
+            res.text.should.not.contain('<!-- delete link -->');
+            res.text.should.not.contain('<!-- delete reply link -->');
             done();
           });
         });
@@ -341,6 +344,7 @@ describe('routes : lessons', function() {
             res.text.should.contain('Awesome lesson!');
             res.text.should.contain('<!-- reply link -->');
             res.text.should.contain('<!-- delete link -->');
+            res.text.should.contain('<!-- delete reply link -->');
             res.text.should.contain('data-status="hidden"');
             res.text.should.not.contain('data-status="visible"');
             done();
