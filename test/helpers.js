@@ -63,6 +63,17 @@ var duplicateUser = {
   admin: false
 };
 
+var updateUser = {
+  githubUsername: 'red',
+  githubID: 1234567,
+  githubDisplayName: 'red',
+  githubToken: '123456red',
+  githubAvatar: 'https://avatars.io/static/default_128.jpg',
+  email: 'red@red.com',
+  verified: false,
+  admin: false
+};
+
 var sampleChapter = {
   orderNumber: 9999,
   name: 'test chapter'
@@ -78,6 +89,7 @@ module.exports = {
   authenticateAdmin: authenticateAdmin,
   sampleUser: sampleUser,
   duplicateUser: duplicateUser,
+  updateUser: updateUser,
   sampleChapter: sampleChapter,
   duplicateChapter: duplicateChapter
 };

@@ -69,6 +69,7 @@ Just a simple learning management system for textbook-like sites.
 1. Users should have an avatar
 1. Users should be able to see who posted a particular message
 1. Users should be able to post new messages within the lesson view
+1. Users should be able to view a Github avatar on the navbar
 
 **Admin**
 
@@ -79,13 +80,11 @@ Just a simple learning management system for textbook-like sites.
 1. Admin should be able to delete replies within the lesson view
 1. Admin should be able to view all chapters
 1. Admin should be able to add new chapters
+1. Admin should be able to update users
 
 #### Incomplete
 
-1. Users should be able to hide/show the sidebar (current)
-1. Users should be able to view a Github avatar on the navbar
-1. Admin should be able to update users
-1. Users should be able to see their recent activity log on the dashboard
+1. Users should be able to see their recent activity log on the dashboard (current)
 1. Users should be able to view the chapter overview from the single chapter view
 1. Admin should be able to delete users
 1. Users should be able to contact support
@@ -109,6 +108,7 @@ Just a simple learning management system for textbook-like sites.
 1. Admin should only be able to deactivate messages; they should not be deleted
 1. Unregistered users should have to enter an email and a numeric code to register and become an unverified user
 1. Unverified users should have to connect their Github account to become verified
+1. Users should be able to hide/show the sidebar
 
 ### Todo
 

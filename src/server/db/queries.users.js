@@ -30,10 +30,18 @@ function makeAdmin(username, value) {
     .where('github_username', username);
 }
 
+function updateUser(userID, obj) {
+  return knex('users')
+    .update(obj)
+    .where('id', parseInt(userID))
+    .returning('*');
+}
+
 module.exports = {
   getUsers: getUsers,
   getSingleUser: getSingleUser,
   getSingleUserByUsername: getSingleUserByUsername,
   addUser: addUser,
-  makeAdmin: makeAdmin
+  makeAdmin: makeAdmin,
+  updateUser: updateUser
 };

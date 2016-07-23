@@ -50,11 +50,38 @@ describe('routes : admin : users', function() {
         });
       });
     });
+    describe('GET /admin/users/1', function() {
+      it('should redirect to log in page', function(done) {
+        chai.request(server)
+        .get('/admin/users/1')
+        .end(function(err, res) {
+          res.redirects.length.should.equal(1);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('try Textbook');
+          done();
+        });
+      });
+    });
     describe('POST /admin/users', function() {
       it('should redirect to log in page', function(done) {
         chai.request(server)
         .post('/admin/users')
         .send(testHelpers.sampleUser)
+        .end(function(err, res) {
+          res.redirects.length.should.equal(1);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('try Textbook');
+          done();
+        });
+      });
+    });
+    describe('PUT /admin/users/1', function() {
+      it('should redirect to log in page', function(done) {
+        chai.request(server)
+        .put('/admin/users/1')
+        .send(testHelpers.updateUser)
         .end(function(err, res) {
           res.redirects.length.should.equal(1);
           res.status.should.equal(200);
@@ -90,11 +117,44 @@ describe('routes : admin : users', function() {
         });
       });
     });
+    describe('GET /admin/users/1', function() {
+      it('should redirect to the dashboard', function(done) {
+        chai.request(server)
+        .get('/admin/users/1')
+        .end(function(err, res) {
+          res.redirects.length.should.equal(2);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('<h1>Dashboard</h1>');
+          res.text.should.contain(
+            '<p class="completed">0% Complete</p>');
+          res.text.should.not.contain('<h2>You are an admin.</h2>');
+          done();
+        });
+      });
+    });
     describe('POST /admin/users', function() {
       it('should redirect to dashboard', function(done) {
         chai.request(server)
         .post('/admin/users')
         .send(testHelpers.sampleUser)
+        .end(function(err, res) {
+          res.redirects.length.should.equal(2);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('<h1>Dashboard</h1>');
+          res.text.should.contain(
+            '<p class="completed">0% Complete</p>');
+          res.text.should.not.contain('<h2>You are an admin.</h2>');
+          done();
+        });
+      });
+    });
+    describe('PUT /admin/users/1', function() {
+      it('should redirect to dashboard', function(done) {
+        chai.request(server)
+        .put('/admin/users/1')
+        .send(testHelpers.updateUser)
         .end(function(err, res) {
           res.redirects.length.should.equal(2);
           res.status.should.equal(200);
@@ -131,6 +191,35 @@ describe('routes : admin : users', function() {
         });
       });
     });
+    describe('GET /admin/users/1', function() {
+      it('should return a response', function(done) {
+        chai.request(server)
+        .get('/admin/users/1')
+        .end(function(err, res) {
+          res.redirects.length.should.equal(0);
+          res.status.should.equal(200);
+          res.type.should.equal('application/json');
+          res.body.status.should.equal('success');
+          res.body.data.id.should.equal(1);
+          res.body.data.github_id.should.equal(987);
+          res.body.data.email.should.equal('michael@johnson.com');
+          done();
+        });
+      });
+    });
+    describe('GET /admin/users/999', function() {
+      it('should throw an error if user does not exist', function(done) {
+        chai.request(server)
+        .get('/admin/users/999')
+        .end(function(err, res) {
+          res.redirects.length.should.equal(0);
+          res.status.should.equal(500);
+          res.type.should.equal('application/json');
+          res.body.message.should.equal('Something went wrong.');
+          done();
+        });
+      });
+    });
     describe('POST /admin/users', function() {
       it('should return a 200 response', function(done) {
         chai.request(server)
@@ -162,6 +251,35 @@ describe('routes : admin : users', function() {
           res.text.should.contain(
             '<p class="completed">0% Complete</p>');
           res.text.should.not.contain('<h2>You are an admin.</h2>');
+          done();
+        });
+      });
+    });
+    describe('PUT /admin/users/1', function() {
+      it('should return a 200 response', function(done) {
+        chai.request(server)
+        .put('/admin/users/1')
+        .send(testHelpers.updateUser)
+        .end(function(err, res) {
+          res.redirects.length.should.equal(0);
+          res.status.should.equal(200);
+          res.type.should.equal('application/json');
+          res.body.status.should.equal('success');
+          res.body.message.should.equal('User updated.');
+          done();
+        });
+      });
+    });
+    describe('PUT /admin/users/999', function() {
+      it('should return a 200 response', function(done) {
+        chai.request(server)
+        .put('/admin/users/999')
+        .send(testHelpers.updateUser)
+        .end(function(err, res) {
+          res.redirects.length.should.equal(0);
+          res.status.should.equal(500);
+          res.type.should.equal('application/json');
+          res.body.message.should.equal('Something went wrong.');
           done();
         });
       });
