@@ -37,11 +37,21 @@ function updateUser(userID, obj) {
     .returning('*');
 }
 
+function deactivateUser(userID) {
+  return knex('users')
+    .update({
+      active: false
+    })
+    .where('id', parseInt(userID))
+    .returning('*');
+}
+
 module.exports = {
   getUsers: getUsers,
   getSingleUser: getSingleUser,
   getSingleUserByUsername: getSingleUserByUsername,
   addUser: addUser,
   makeAdmin: makeAdmin,
-  updateUser: updateUser
+  updateUser: updateUser,
+  deactivateUser: deactivateUser
 };

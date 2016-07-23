@@ -64,7 +64,8 @@ function(req, res, next) {
     github_avatar: payload.githubAvatar || 'https://avatars.io/static/default_128.jpg',
     email: payload.email,
     admin: payload.admin || false,
-    verified: payload.verified || false
+    verified: payload.verified || false,
+    active: payload.active || true
   };
   return userQueries.addUser(user)
   .then(function(response) {
@@ -96,7 +97,8 @@ function(req, res, next) {
     github_avatar: payload.githubAvatar,
     email: payload.email,
     admin: payload.admin,
-    verified: payload.verified
+    verified: payload.verified,
+    active: payload.active
   };
   return userQueries.updateUser(userID, userObject)
   .then(function(user) {
@@ -115,6 +117,33 @@ function(req, res, next) {
     return res.status(500).json({
       message: 'Something went wrong.'
     });
+  });
+});
+
+// *** deactivate user *** //
+router.get('/:userID/deactivate', authHelpers.ensureAdmin,
+function(req, res, next) {
+  // TODO: Add server side validation
+  var userID = parseInt(req.params.userID);
+  return userQueries.deactivateUser(userID)
+  .then(function(user) {
+    if (user.length) {
+      req.flash('messages', {
+        status: 'success',
+        value: 'User deactivated.'
+      });
+      return res.redirect('/admin/users');
+    } else {
+      req.flash('messages', {
+        status: 'success',
+        value: 'Sorry. That user does not exist.'
+      });
+      return res.redirect('/');
+    }
+  })
+  .catch(function(err) {
+    // TODO: be more specific with the errors
+    return next(err);
   });
 });
 

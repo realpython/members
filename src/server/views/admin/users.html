@@ -25,8 +25,9 @@
             <th>Email</th>
             <th>Admin</th>
             <th>Verified</th>
+            <th>Active</th>
             <th>Update</th>
-            <th>Delete</th>
+            <th>Deactivate</th>
           </tr>
         </thead>
         <tbody>
@@ -39,8 +40,9 @@
               <td>{{user.email}}</td>
               <td>{{user.admin}}</td>
               <td>{{user.verified}}</td>
+              <td>{{user.active}}</td>
               <td><button class="btn btn-warning btn-sm update-user-button" data-user-id="{{user.id}}" data-toggle="modal" data-target="#updateUserModal">&#10003;</button></td>
-              <td></td>
+              <td><a href="/admin/users/{{user.id}}/deactivate" class="btn btn-danger btn-sm">&#10005;</a></td>
             </tr>
           {% endfor %}
         </tbody>
@@ -78,6 +80,9 @@
             </div>
             <div class="checkbox">
               <label><input type="checkbox" name="verified"> Verified?</label>
+            </div>
+            <div class="checkbox">
+              <label><input type="checkbox" name="active" checked> Active?</label>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -128,6 +133,9 @@
             </div>
             <div class="checkbox">
               <label><input type="checkbox" name="verified" id="update-user-verified"> Verified?</label>
+            </div>
+            <div class="checkbox">
+              <label><input type="checkbox" name="active" id="update-user-active"> Active?</label>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

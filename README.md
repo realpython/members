@@ -81,12 +81,11 @@ Just a simple learning management system for textbook-like sites.
 1. Admin should be able to view all chapters
 1. Admin should be able to add new chapters
 1. Admin should be able to update users
+1. Admin should be able to delete (change `active` to `false`) users
 
 #### Incomplete
 
-1. Users should be able to see their recent activity log on the dashboard (current)
-1. Users should be able to view the chapter overview from the single chapter view
-1. Admin should be able to delete users
+1. Users should be active to view the content (current)
 1. Users should be able to contact support
 1. Admin should be able to view all lessons
 1. Users should be able to search across all lessons
@@ -102,6 +101,7 @@ Just a simple learning management system for textbook-like sites.
 1. Admin should be able to add an avatar link when adding a new user
 1. Users should be able to suggest new topics to be added to the course
 1. Users should be able to view a message and reply activity feed on the dashboard
+1. Users should be able to see their recent activity log on the dashboard
 1. Users should be able to view the total number of lessons in the course on the dashboard
 1. Users should be able to view the total number of enrolled students on the dashboard
 1. Admin should be warned if they are deleting a message that contains replies within the lesson view
@@ -109,6 +109,7 @@ Just a simple learning management system for textbook-like sites.
 1. Unregistered users should have to enter an email and a numeric code to register and become an unverified user
 1. Unverified users should have to connect their Github account to become verified
 1. Users should be able to hide/show the sidebar
+1. Users should be able to view the chapter overview from the single chapter view
 
 ### Todo
 

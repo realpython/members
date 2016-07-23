@@ -48,6 +48,9 @@ $(function() {
       if (data.verified) {
         $('#update-user-verified').prop('checked', true);
       }
+      if (data.active) {
+        $('#update-user-active').prop('checked', true);
+      }
     }).fail(function(error) {
       // TODO: handle this error better!
       console.log(error);
@@ -66,7 +69,8 @@ $(function() {
       githubAvatar: $('#update-github-avatar').val(),
       email: $('#update-user-email').val(),
       admin: $('#update-user-admin').prop('checked'),
-      verified: $('#update-user-verified').prop('checked')
+      verified: $('#update-user-verified').prop('checked'),
+      active: $('#update-user-active').prop('checked')
     };
     $.ajax({
       type: 'PUT',

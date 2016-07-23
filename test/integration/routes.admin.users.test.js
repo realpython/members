@@ -91,6 +91,19 @@ describe('routes : admin : users', function() {
         });
       });
     });
+    describe('GET /admin/users/1/deactivate', function() {
+      it('should redirect to log in page', function(done) {
+        chai.request(server)
+        .get('/admin/users/1/deactivate')
+        .end(function(err, res) {
+          res.redirects.length.should.equal(1);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('try Textbook');
+          done();
+        });
+      });
+    });
   });
 
   describe('if authenticated as a user', function() {
@@ -155,6 +168,22 @@ describe('routes : admin : users', function() {
         chai.request(server)
         .put('/admin/users/1')
         .send(testHelpers.updateUser)
+        .end(function(err, res) {
+          res.redirects.length.should.equal(2);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('<h1>Dashboard</h1>');
+          res.text.should.contain(
+            '<p class="completed">0% Complete</p>');
+          res.text.should.not.contain('<h2>You are an admin.</h2>');
+          done();
+        });
+      });
+    });
+    describe('GET /admin/users/1/deactivate', function() {
+      it('should redirect to dashboard', function(done) {
+        chai.request(server)
+        .get('/admin/users/1/deactivate')
         .end(function(err, res) {
           res.redirects.length.should.equal(2);
           res.status.should.equal(200);
@@ -235,22 +264,16 @@ describe('routes : admin : users', function() {
       });
     });
     describe('POST /admin/users', function() {
-      beforeEach(function(done) {
-        testHelpers.authenticateUser(done);
-      });
-      it('should redirect to dashboard when duplicate data is used',
+      it('should do nothing when duplicate data is used',
       function(done) {
         chai.request(server)
         .post('/admin/users')
         .send(testHelpers.duplicateUser)
         .end(function(err, res) {
-          res.redirects.length.should.equal(2);
+          res.redirects.length.should.equal(1);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
-          res.text.should.contain('<h1>Dashboard</h1>');
-          res.text.should.contain(
-            '<p class="completed">0% Complete</p>');
-          res.text.should.not.contain('<h2>You are an admin.</h2>');
+          res.text.should.contain('<h1>Users</h1>');
           done();
         });
       });
@@ -271,7 +294,8 @@ describe('routes : admin : users', function() {
       });
     });
     describe('PUT /admin/users/999', function() {
-      it('should return a 200 response', function(done) {
+      it('should throw an error if the user id does not exist',
+        function(done) {
         chai.request(server)
         .put('/admin/users/999')
         .send(testHelpers.updateUser)
@@ -280,6 +304,36 @@ describe('routes : admin : users', function() {
           res.status.should.equal(500);
           res.type.should.equal('application/json');
           res.body.message.should.equal('Something went wrong.');
+          done();
+        });
+      });
+    });
+    describe('GET /admin/users/1/deactivate', function() {
+      it('should return a 200 response', function(done) {
+        chai.request(server)
+        .get('/admin/users/1/deactivate')
+        .end(function(err, res) {
+          res.redirects.length.should.equal(1);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('<h1>Users</h1>');
+          done();
+        });
+      });
+    });
+    describe('GET /admin/users/999/deactivate', function() {
+      it('should redirect to dashboard if the user id does not exist',
+        function(done) {
+        chai.request(server)
+        .get('/admin/users/999/deactivate')
+        .end(function(err, res) {
+          res.redirects.length.should.equal(1);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('<h1>Dashboard</h1>');
+          res.text.should.not.contain(
+            '<p class="completed">0% Complete</p>');
+          res.text.should.contain('<h2>You are an admin.</h2>');
           done();
         });
       });

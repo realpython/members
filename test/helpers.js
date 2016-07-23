@@ -71,7 +71,8 @@ var updateUser = {
   githubAvatar: 'https://avatars.io/static/default_128.jpg',
   email: 'red@red.com',
   verified: false,
-  admin: false
+  admin: false,
+  active: false
 };
 
 var sampleChapter = {
