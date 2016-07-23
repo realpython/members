@@ -63,9 +63,21 @@ var duplicateUser = {
   admin: false
 };
 
+var sampleChapter = {
+  orderNumber: 9999,
+  name: 'test chapter'
+};
+
+var duplicateChapter = {
+  orderNumber: 1,
+  name: 'duplicate chapter'
+};
+
 module.exports = {
   authenticateUser: authenticateUser,
   authenticateAdmin: authenticateAdmin,
   sampleUser: sampleUser,
-  duplicateUser: duplicateUser
+  duplicateUser: duplicateUser,
+  sampleChapter: sampleChapter,
+  duplicateChapter: duplicateChapter
 };

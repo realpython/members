@@ -78,13 +78,11 @@ Just a simple learning management system for textbook-like sites.
 1. Admin should be able to delete messages, and all the respective replies, within the lesson view
 1. Admin should be able to delete replies within the lesson view
 1. Admin should be able to view all chapters
+1. Admin should be able to add new chapters
 
 #### Incomplete
 
-1. Admin should be able to add new chapters (current)
-1. Unregistered users should have to enter an email and a numeric code to register and become an unverified user
-1. Unverified users should have to connect their Github account to become verified
-1. Users should be able to hide/show the sidebar
+1. Users should be able to hide/show the sidebar (current)
 1. Users should be able to view a Github avatar on the navbar
 1. Admin should be able to update users
 1. Users should be able to see their recent activity log on the dashboard
@@ -94,7 +92,7 @@ Just a simple learning management system for textbook-like sites.
 1. Admin should be able to view all lessons
 1. Users should be able to search across all lessons
 1. Users should be able to hide/show lessons on the sidebar
-1. Admin should be able to add new lessons
+1. Admin should be able to add new lessons to an existing chapter
 1. Users should be able to view all standards
 1. Users should be able to view an about page detailing the relationship between chapters, lessons, standards, and exercises
 1. Users should be able to submit exercises for grading
@@ -109,6 +107,8 @@ Just a simple learning management system for textbook-like sites.
 1. Users should be able to view the total number of enrolled students on the dashboard
 1. Admin should be warned if they are deleting a message that contains replies within the lesson view
 1. Admin should only be able to deactivate messages; they should not be deleted
+1. Unregistered users should have to enter an email and a numeric code to register and become an unverified user
+1. Unverified users should have to connect their Github account to become verified
 
 ### Todo
 

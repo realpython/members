@@ -27,4 +27,29 @@ function(req, res, next) {
   });
 });
 
+// *** add new chapter *** //
+router.post('/', authHelpers.ensureAdmin,
+function(req, res, next) {
+  // TODO: Add server side validation
+  var payload = req.body;
+  var chapter = {
+    order_number: payload.orderNumber,
+    name: payload.name
+  };
+  return chapterQueries.addChapter(chapter)
+  .then(function(response) {
+    if (response.length) {
+      req.flash('messages', {
+        status: 'success',
+        value: 'Chapter added.'
+      });
+    }
+    return res.redirect('/admin/chapters');
+  })
+  .catch(function(err) {
+    // TODO: be more specific with the errors
+    return next(err);
+  });
+});
+
 module.exports = router;

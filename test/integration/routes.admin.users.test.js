@@ -153,7 +153,7 @@ describe('routes : admin : users', function() {
       function(done) {
         chai.request(server)
         .post('/admin/users')
-        .send(testHelpers.dupeUser)
+        .send(testHelpers.duplicateUser)
         .end(function(err, res) {
           res.redirects.length.should.equal(2);
           res.status.should.equal(200);

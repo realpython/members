@@ -22,14 +22,8 @@ function(req, res, next) {
         status: 'success',
         value: 'Message added.'
       });
-      return res.redirect('/lessons/' + payload.lesson);
-    } else {
-      req.flash('messages', {
-        status: 'danger',
-        value: 'Something went wrong.'
-      });
-      return res.redirect('/lessons/' + payload.lesson);
     }
+    return res.redirect('/lessons/' + payload.lesson);
   })
   .catch(function(err) {
     // TODO: be more specific with the errors

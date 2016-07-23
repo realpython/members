@@ -49,14 +49,8 @@ function(req, res, next) {
         status: 'success',
         value: 'User added.'
       });
-      return res.redirect('/admin/users');
-    } else {
-      req.flash('messages', {
-        status: 'danger',
-        value: 'Something went wrong.'
-      });
-      return res.redirect('/admin/users');
     }
+    return res.redirect('/admin/users');
   })
   .catch(function(err) {
     // TODO: be more specific with the errors

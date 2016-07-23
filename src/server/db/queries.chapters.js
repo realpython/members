@@ -30,10 +30,17 @@ function updateChapterReadStatus(chapterID, value) {
     .where('id', parseInt(chapterID));
 }
 
+function addChapter(obj) {
+  return knex('chapters')
+    .insert(obj)
+    .returning('*');
+}
+
 module.exports = {
   getChapters: getChapters,
   getSingleChapter: getSingleChapter,
   getSingleChapterFromOrder: getSingleChapterFromOrder,
   chaptersAndLessons: chaptersAndLessons,
-  updateChapterReadStatus: updateChapterReadStatus
+  updateChapterReadStatus: updateChapterReadStatus,
+  addChapter: addChapter
 };
