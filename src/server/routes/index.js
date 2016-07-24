@@ -11,8 +11,10 @@ router.get('/ping', function(req, res, next) {
 });
 
 // *** dashboard *** //
-router.get('/', authHelpers.ensureAuthenticated,
-function(req, res, next) {
+router.get('/',
+  authHelpers.ensureAuthenticated,
+  authHelpers.ensureActive,
+  function(req, res, next) {
   // get all chapters and associated lessons
   // for the sidebar and navbar
   chapterQueries.chaptersAndLessons()

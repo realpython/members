@@ -108,7 +108,7 @@ describe('routes : admin : users', function() {
 
   describe('if authenticated as a user', function() {
     beforeEach(function(done) {
-      testHelpers.authenticateUser(done);
+      testHelpers.authenticateActiveUser(done);
     });
     afterEach(function(done) {
       passportStub.logout();
@@ -192,6 +192,88 @@ describe('routes : admin : users', function() {
           res.text.should.contain(
             '<p class="completed">0% Complete</p>');
           res.text.should.not.contain('<h2>You are an admin.</h2>');
+          done();
+        });
+      });
+    });
+  });
+
+  describe('if authenticated as a user but inactive', function() {
+    beforeEach(function(done) {
+      testHelpers.authenticateInactiveUser(done);
+    });
+    afterEach(function(done) {
+      passportStub.logout();
+      done();
+    });
+    describe('GET /admin/users', function() {
+      it('should redirect to the inactive page', function(done) {
+        chai.request(server)
+        .get('/admin/users')
+        .end(function(err, res) {
+          res.redirects.length.should.equal(3);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('<h2>Your account is inactive.</h2>');
+          res.text.should.contain('<p>Please contact support.</p>');
+          done();
+        });
+      });
+    });
+    describe('GET /admin/users/1', function() {
+      it('should redirect to the inactive page', function(done) {
+        chai.request(server)
+        .get('/admin/users/1')
+        .end(function(err, res) {
+          res.redirects.length.should.equal(3);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('<h2>Your account is inactive.</h2>');
+          res.text.should.contain('<p>Please contact support.</p>');
+          done();
+        });
+      });
+    });
+    describe('POST /admin/users', function() {
+      it('should redirect to the inactive page', function(done) {
+        chai.request(server)
+        .post('/admin/users')
+        .send(testHelpers.sampleUser)
+        .end(function(err, res) {
+          res.redirects.length.should.equal(3);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('<h2>Your account is inactive.</h2>');
+          res.text.should.contain('<p>Please contact support.</p>');
+          done();
+        });
+      });
+    });
+    describe('PUT /admin/users/1', function() {
+      it('should redirect to the inactive page', function(done) {
+        chai.request(server)
+        .put('/admin/users/1')
+        .send(testHelpers.updateUser)
+        .end(function(err, res) {
+          res.redirects.length.should.equal(3);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('<h2>Your account is inactive.</h2>');
+          res.text.should.contain('<p>Please contact support.</p>');
+          done();
+        });
+      });
+    });
+    describe('GET /admin/users/1/deactivate', function() {
+      it('should redirect to the inactive page', function(done) {
+        chai.request(server)
+        .get('/admin/users/1/deactivate')
+        .end(function(err, res) {
+          res.redirects.length.should.equal(3);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('<h2>Your account is inactive.</h2>');
+          res.text.should.contain('<p>Please contact support.</p>');
           done();
         });
       });

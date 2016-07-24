@@ -68,7 +68,7 @@ describe('routes : users', function() {
 
   describe('if authenticated', function() {
     beforeEach(function(done) {
-      testHelpers.authenticateUser(done);
+      testHelpers.authenticateActiveUser(done);
     });
     afterEach(function(done) {
       passportStub.logout();
@@ -114,6 +114,46 @@ describe('routes : users', function() {
           res.body.message.should.equal(
             'You do not have permission to do that.');
           done();
+        });
+      });
+    });
+    describe('PUT /:username/active', function() {
+      it('should return a 200 response', function(done) {
+        chai.request(server)
+        .put('/users/michael/active')
+        .send({ active: true })
+        .end(function(err, res) {
+          res.status.should.equal(200);
+          res.type.should.equal('application/json');
+          res.body.message.should.equal('User active status updated.');
+          done();
+        });
+      });
+    });
+  });
+
+  describe('if authenticated but inactive', function() {
+    beforeEach(function(done) {
+      testHelpers.authenticateInactiveUser(done);
+    });
+    afterEach(function(done) {
+      passportStub.logout();
+      done();
+    });
+    describe('GET /:id/profile', function() {
+      it('should redirect to the inactive page', function(done) {
+        userQueries.getUsers()
+        .then(function(users) {
+          chai.request(server)
+          .get('/users/' + parseInt(users[0].id) + '/profile')
+          .end(function(err, res) {
+            res.redirects.length.should.equal(1);
+            res.status.should.equal(200);
+            res.type.should.equal('text/html');
+            res.text.should.contain('<h2>Your account is inactive.</h2>');
+            res.text.should.contain('<p>Please contact support.</p>');
+            done();
+          });
         });
       });
     });

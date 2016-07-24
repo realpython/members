@@ -20,7 +20,9 @@ Just a simple learning management system for textbook-like sites.
 ## Notes
 
 1. Make sure to drop the database before running the seed!
-1. Update a user's admin status (`development` and `testing` only): `curl -X PUT -d admin=true http://localhost:3000/users/<USERNAME>/admin`
+1. Updates (`development` and `testing` only):
+  - admin status: `curl -X PUT -d admin=true http://localhost:3000/users/<USERNAME>/admin`
+  - active status: `curl -X PUT -d active=true http://localhost:3000/users/<USERNAME>/active`
 1. Make sure to update the fixtures (*/test/fixtures/data.js*) whenever the DB schema is updated
 
 ## Development
@@ -70,6 +72,7 @@ Just a simple learning management system for textbook-like sites.
 1. Users should be able to see who posted a particular message
 1. Users should be able to post new messages within the lesson view
 1. Users should be able to view a Github avatar on the navbar
+1. Users should be active to view the course content
 
 **Admin**
 
@@ -85,8 +88,7 @@ Just a simple learning management system for textbook-like sites.
 
 #### Incomplete
 
-1. Users should be active to view the content (current)
-1. Users should be able to contact support
+1. Users should be able to contact support (current)
 1. Admin should be able to view all lessons
 1. Users should be able to search across all lessons
 1. Users should be able to hide/show lessons on the sidebar

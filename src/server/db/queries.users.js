@@ -26,7 +26,17 @@ function addUser(obj) {
 
 function makeAdmin(username, value) {
   return knex('users')
-    .update({ admin: value })
+    .update({
+      admin: value
+    })
+    .where('github_username', username);
+}
+
+function makeActive(username, value) {
+  return knex('users')
+    .update({
+      active: value
+    })
     .where('github_username', username);
 }
 
@@ -52,6 +62,7 @@ module.exports = {
   getSingleUserByUsername: getSingleUserByUsername,
   addUser: addUser,
   makeAdmin: makeAdmin,
+  makeActive: makeActive,
   updateUser: updateUser,
   deactivateUser: deactivateUser
 };

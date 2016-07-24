@@ -25,7 +25,8 @@ router.get('/github/callback',
 });
 
 // *** user log in *** //
-router.get('/log_in', authHelpers.loginRedirect,
+router.get('/log_in',
+  authHelpers.loginRedirect,
   function(req, res, next) {
   var renderObject = {
     title: 'Textbook LMS',
@@ -37,7 +38,8 @@ router.get('/log_in', authHelpers.loginRedirect,
 });
 
 // *** user log out *** //
-router.get('/log_out', authHelpers.ensureAuthenticated,
+router.get('/log_out',
+  authHelpers.ensureAuthenticated,
   function(req, res, next) {
   req.logout();
   req.flash('messages', {
@@ -45,6 +47,14 @@ router.get('/log_out', authHelpers.ensureAuthenticated,
     value: 'You successfully logged out.'
   });
   res.redirect('/auth/log_in');
+});
+
+// *** inactive user *** //
+router.get('/inactive',
+  authHelpers.ensureAuthenticated,
+  function(req, res, next) {
+  req.logout();
+  res.render('inactive');
 });
 
 module.exports = router;

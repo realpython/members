@@ -7,7 +7,9 @@ var userQueries = require('../db/queries.users');
 var routeHelpers = require('./_helpers');
 
 // *** get user profile *** //
-router.get('/:id/profile', authHelpers.ensureAuthenticated,
+router.get('/:id/profile',
+  authHelpers.ensureAuthenticated,
+  authHelpers.ensureActive,
   function(req, res, next) {
   var userID = parseInt(req.params.id);
   var renderObject = {
@@ -44,8 +46,8 @@ router.get('/:id/profile', authHelpers.ensureAuthenticated,
   });
 });
 
-// *** toggle admin status *** //
 if (process.env.NODE_ENV === 'development' || 'testing') {
+  // *** toggle admin status *** //
   router.put('/:username/admin', function(req, res, next) {
     var update = req.body;
     if (!('admin' in req.body)) {
@@ -62,6 +64,38 @@ if (process.env.NODE_ENV === 'development' || 'testing') {
             return res.status(200).json({
               status: 'success',
               message: 'User admin status updated.'
+            });
+          });
+        } else {
+          return res.status(400).json({
+            message: 'That user does not exist.'
+          });
+        }
+      })
+      .catch(function(err) {
+        return res.status(500).json({
+          message: 'Something went wrong.'
+        });
+      });
+    }
+  });
+  // *** toggle active status *** //
+  router.put('/:username/active', function(req, res, next) {
+    var update = req.body;
+    if (!('active' in req.body)) {
+      res.status(403);
+      res.json({
+        message: 'You do not have permission to do that.'
+      });
+    } else {
+      userQueries.getSingleUserByUsername(req.params.username)
+      .then(function(user) {
+        if (user.length) {
+          userQueries.makeActive(req.params.username, req.body.active)
+          .then(function(response) {
+            return res.status(200).json({
+              status: 'success',
+              message: 'User active status updated.'
             });
           });
         } else {

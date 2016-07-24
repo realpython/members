@@ -10,7 +10,9 @@ var routeHelpers = require('./_helpers');
 // TODO: refactor sql queries
 
 // *** get single lesson *** //
-router.get('/:id', authHelpers.ensureAuthenticated,
+router.get('/:id',
+  authHelpers.ensureAuthenticated,
+  authHelpers.ensureActive,
   function(req, res, next) {
   // get breadcrumbs
   var breadcrumbs = ['Chapters', 'Lessons'];
@@ -69,7 +71,9 @@ router.get('/:id', authHelpers.ensureAuthenticated,
 });
 
 // *** update lesson read status *** //
-router.post('/', authHelpers.ensureAuthenticated,
+router.post('/',
+  authHelpers.ensureAuthenticated,
+  authHelpers.ensureActive,
   function(req, res, next) {
   // TODO: add try/catch or validation
   var chapterID = parseInt(req.body.chapter);

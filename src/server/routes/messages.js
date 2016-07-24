@@ -5,8 +5,10 @@ var authHelpers = require('../auth/helpers');
 var messageQueries = require('../db/queries.messages');
 
 // *** add new message *** //
-router.post('/', authHelpers.ensureAuthenticated,
-function(req, res, next) {
+router.post('/',
+  authHelpers.ensureAuthenticated,
+  authHelpers.ensureActive,
+  function(req, res, next) {
   // TODO: Add server side validation
   var payload = req.body;
   var messageObject = {

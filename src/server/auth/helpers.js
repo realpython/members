@@ -40,15 +40,27 @@ function ensureAuthenticated(req, res, next) {
   }
 }
 
-function ensureVerified(req, res, next) {
-  if (req.user.verified) {
+// function ensureVerified(req, res, next) {
+//   if (req.user.verified) {
+//     return next();
+//   } else {
+//     req.flash('messages', {
+//       status: 'danger',
+//       value: 'Please verify your account.'
+//     });
+//     return res.redirect('/auth/log_in');
+//   }
+// }
+
+function ensureActive(req, res, next) {
+  if (req.user.active) {
     return next();
   } else {
     req.flash('messages', {
       status: 'danger',
-      value: 'Please verify your account.'
+      value: 'Your account is inactive.'
     });
-    return res.redirect('/auth/log_in');
+    return res.redirect('/auth/inactive');
   }
 }
 
@@ -75,6 +87,7 @@ function loginRedirect(req, res, next) {
 
 module.exports = {
   ensureAuthenticated: ensureAuthenticated,
+  ensureActive: ensureActive,
   ensureAdmin: ensureAdmin,
   loginRedirect: loginRedirect,
   githubCallback: githubCallback

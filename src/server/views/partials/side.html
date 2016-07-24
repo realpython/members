@@ -2,32 +2,34 @@
 <div class="collapse navbar-collapse navbar-ex1-collapse">
   <ul id="sidebar-chapters" class="nav navbar-nav side-nav">
     {% if user %}
-      {% if sortedChapters %}
-        <br>
-        {% for chapter in sortedChapters %}
-          <li>
-            <a href="/chapters/{{chapter.chapterID}}">
-              {{chapter.chapterName}}
-              {% if chapter.chapterRead %}
-                &nbsp;&nbsp;&nbsp;<i class="fa fa-check" data-chapter-read="true"></i></a>
+      {% if user.active %}
+        {% if sortedChapters %}
+          <br>
+          {% for chapter in sortedChapters %}
+            <li>
+              <a href="/chapters/{{chapter.chapterID}}">
+                {{chapter.chapterName}}
+                {% if chapter.chapterRead %}
+                  &nbsp;&nbsp;&nbsp;<i class="fa fa-check" data-chapter-read="true"></i></a>
+                {% endif %}
+              </a>
+              {% if chapter.lessons %}
+                <ul id="sidebar-chapter-{{loop.index}}" class="lesson-list">
+                  {% for lesson in chapter.lessons %}
+                    <li>
+                      <a href="/lessons/{{lesson.lessonID}}">
+                        {{lesson.lessonName}}
+                        {% if lesson.lessonRead %}
+                          &nbsp;&nbsp;&nbsp;<i class="fa fa-check" data-lesson-read="true"></i></a>
+                        {% endif %}
+                      </a>
+                    </li>
+                  {% endfor %}
+                </ul>
               {% endif %}
-            </a>
-            {% if chapter.lessons %}
-              <ul id="sidebar-chapter-{{loop.index}}" class="lesson-list">
-                {% for lesson in chapter.lessons %}
-                  <li>
-                    <a href="/lessons/{{lesson.lessonID}}">
-                      {{lesson.lessonName}}
-                      {% if lesson.lessonRead %}
-                        &nbsp;&nbsp;&nbsp;<i class="fa fa-check" data-lesson-read="true"></i></a>
-                      {% endif %}
-                    </a>
-                  </li>
-                {% endfor %}
-              </ul>
-            {% endif %}
-          </li>
-        {% endfor %}
+            </li>
+          {% endfor %}
+        {% endif %}
       {% endif %}
     {% endif %}
   </ul>

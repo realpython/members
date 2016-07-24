@@ -80,7 +80,7 @@ describe('routes : index', function() {
 
   describe('if authenticated as a user', function() {
     beforeEach(function(done) {
-      testHelpers.authenticateUser(done);
+      testHelpers.authenticateActiveUser(done);
     });
     afterEach(function(done) {
       passportStub.logout();
@@ -119,6 +119,50 @@ describe('routes : index', function() {
               res.text.should.contain('<h1>Dashboard</h1>');
               res.text.should.contain(
                 '<p class="completed">17% Complete</p>');
+              done();
+            });
+          });
+        });
+      });
+    });
+  });
+
+  describe('if authenticated as a user but inactive', function() {
+    beforeEach(function(done) {
+      testHelpers.authenticateInactiveUser(done);
+    });
+    afterEach(function(done) {
+      passportStub.logout();
+      done();
+    });
+    describe('GET /', function() {
+      it('should redirect to the inactive page', function(done) {
+        chai.request(server)
+        .get('/')
+        .end(function(err, res) {
+          res.redirects.length.should.equal(1);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('<h2>Your account is inactive.</h2>');
+          res.text.should.contain('<p>Please contact support.</p>');
+          done();
+        });
+      });
+    });
+    describe('GET /', function() {
+      it('should redirect to the inactive page', function(done) {
+        lessonQueries.getLessons()
+        .then(function(lessons) {
+          lessonQueries.updateLessonReadStatus(lessons[0].id, true)
+          .then(function(response) {
+            chai.request(server)
+            .get('/')
+            .end(function(err, res) {
+              res.redirects.length.should.equal(1);
+              res.status.should.equal(200);
+              res.type.should.equal('text/html');
+              res.text.should.contain('<h2>Your account is inactive.</h2>');
+              res.text.should.contain('<p>Please contact support.</p>');
               done();
             });
           });

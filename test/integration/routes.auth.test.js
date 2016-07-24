@@ -67,7 +67,7 @@ describe('routes : auth', function() {
 
   describe('if authenticated', function() {
     beforeEach(function(done) {
-      testHelpers.authenticateUser(done);
+      testHelpers.authenticateActiveUser(done);
     });
     afterEach(function(done) {
       passportStub.logout();
@@ -95,6 +95,43 @@ describe('routes : auth', function() {
           res.status.should.equal(200);
           res.type.should.equal('text/html');
           res.text.should.contain('<h1>Dashboard</h1>');
+          done();
+        });
+      });
+    });
+  });
+
+  describe('if authenticated but inactive', function() {
+    beforeEach(function(done) {
+      testHelpers.authenticateInactiveUser(done);
+    });
+    afterEach(function(done) {
+      passportStub.logout();
+      done();
+    });
+    describe('GET /auth/log_out', function() {
+      it('should log out and redirect to log in page', function(done) {
+        chai.request(server)
+        .get('/auth/log_out')
+        .end(function(err, res) {
+          res.redirects.length.should.equal(1);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('try Textbook');
+          done();
+        });
+      });
+    });
+    describe('GET /auth/log_in', function() {
+      it('should redirect to the inactive page', function(done) {
+        chai.request(server)
+        .get('/auth/log_in')
+        .end(function(err, res) {
+          res.redirects.length.should.equal(2);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('<h2>Your account is inactive.</h2>');
+          res.text.should.contain('<p>Please contact support.</p>');
           done();
         });
       });

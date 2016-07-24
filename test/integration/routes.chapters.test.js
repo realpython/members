@@ -55,7 +55,7 @@ describe('routes : chapters', function() {
 
   describe('if authenticated', function() {
     beforeEach(function(done) {
-      testHelpers.authenticateUser(done);
+      testHelpers.authenticateActiveUser(done);
     });
     afterEach(function(done) {
       passportStub.logout();
@@ -88,6 +88,48 @@ describe('routes : chapters', function() {
           res.status.should.equal(200);
           res.type.should.equal('text/html');
           res.text.should.contain('<h1>Dashboard</h1>');
+          done();
+        });
+      });
+    });
+  });
+
+  describe('if authenticated but inactive', function() {
+    beforeEach(function(done) {
+      testHelpers.authenticateInactiveUser(done);
+    });
+    afterEach(function(done) {
+      passportStub.logout();
+      done();
+    });
+    describe('GET /chapters/:id', function() {
+      it('should redirect to the inactive page', function(done) {
+        chapterQueries.getSingleChapterFromOrder(2)
+        .then(function(chapter) {
+          chai.request(server)
+          .get('/chapters/' + chapter[0].id)
+          .end(function(err, res) {
+            res.redirects.length.should.equal(1);
+            res.status.should.equal(200);
+            res.type.should.equal('text/html');
+            res.text.should.contain('<h2>Your account is inactive.</h2>');
+            res.text.should.contain('<p>Please contact support.</p>');
+            done();
+          });
+        });
+      });
+    });
+    describe('GET /chapters/:id', function() {
+      it('should redirect to the inactive page',
+        function(done) {
+        chai.request(server)
+        .get('/chapters/999')
+        .end(function(err, res) {
+          res.redirects.length.should.equal(1);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('<h2>Your account is inactive.</h2>');
+          res.text.should.contain('<p>Please contact support.</p>');
           done();
         });
       });

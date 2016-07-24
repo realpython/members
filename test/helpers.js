@@ -1,7 +1,7 @@
 var passportStub = require('passport-stub');
 var queries = require('../src/server/db/queries.users');
 
-function authenticateUser(done) {
+function authenticateActiveUser(done) {
   queries.addUser({
     github_username: 'michael',
     github_id: 123456,
@@ -10,7 +10,29 @@ function authenticateUser(done) {
     github_avatar: 'https://avatars.io/static/default_128.jpg',
     email: 'michael@realpython.com',
     verified: false,
-    admin: false
+    admin: false,
+    active: true
+  }).returning('id')
+  .then(function(userID) {
+    queries.getSingleUser(userID[0])
+    .then(function(user) {
+      passportStub.login(user[0]);
+      done();
+    });
+  });
+}
+
+function authenticateInactiveUser(done) {
+  queries.addUser({
+    github_username: 'michael',
+    github_id: 123456,
+    github_display_name: 'Michael Herman',
+    github_access_token: '123456',
+    github_avatar: 'https://avatars.io/static/default_128.jpg',
+    email: 'michael@realpython.com',
+    verified: false,
+    admin: false,
+    active: false
   }).returning('id')
   .then(function(userID) {
     queries.getSingleUser(userID[0])
@@ -86,7 +108,8 @@ var duplicateChapter = {
 };
 
 module.exports = {
-  authenticateUser: authenticateUser,
+  authenticateActiveUser: authenticateActiveUser,
+  authenticateInactiveUser: authenticateInactiveUser,
   authenticateAdmin: authenticateAdmin,
   sampleUser: sampleUser,
   duplicateUser: duplicateUser,

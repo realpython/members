@@ -75,7 +75,7 @@ describe('routes : lessons', function() {
 
   describe('if authenticated', function() {
     beforeEach(function(done) {
-      testHelpers.authenticateUser(done);
+      testHelpers.authenticateActiveUser(done);
     });
     afterEach(function(done) {
       passportStub.logout();
@@ -310,6 +310,206 @@ describe('routes : lessons', function() {
             res.redirects.length.should.equal(0);
             res.status.should.equal(500);
             res.type.should.equal('text/html');
+            done();
+          });
+        });
+      });
+    });
+  });
+
+  describe('if authenticated but inactive', function() {
+    beforeEach(function(done) {
+      testHelpers.authenticateInactiveUser(done);
+    });
+    afterEach(function(done) {
+      passportStub.logout();
+      done();
+    });
+    describe('GET /lessons/:id', function() {
+      it('should redirect to the inactive page', function(done) {
+        lessonQueries.getSingleLessonFromOrder(2)
+        .then(function(lesson) {
+          chai.request(server)
+          .get('/lessons/' + lesson[0].id)
+          .end(function(err, res) {
+            res.redirects.length.should.equal(1);
+            res.status.should.equal(200);
+            res.type.should.equal('text/html');
+            res.text.should.contain('<h2>Your account is inactive.</h2>');
+            res.text.should.contain('<p>Please contact support.</p>');
+            done();
+          });
+        });
+      });
+    });
+    describe('GET /lessons/:id', function() {
+      it('should redirect to the inactive page', function(done) {
+        lessonQueries.getSingleLessonFromLessonID(1)
+        .then(function(lesson) {
+          chai.request(server)
+          .get('/lessons/' + lesson[0].id)
+          .end(function(err, res) {
+            res.redirects.length.should.equal(1);
+            res.status.should.equal(200);
+            res.type.should.equal('text/html');
+            res.text.should.contain('<h2>Your account is inactive.</h2>');
+            res.text.should.contain('<p>Please contact support.</p>');
+            done();
+          });
+        });
+      });
+    });
+    describe('GET /lessons/:id', function() {
+      it('should redirect to the inactive page', function(done) {
+        lessonQueries.getSingleLessonFromLessonID(1)
+        .then(function(lesson) {
+          chai.request(server)
+          .post('/messages')
+          .send({
+            comment: 'testing a message',
+            lesson: lesson[0].id
+          })
+          .end(function(err, res) {
+            res.redirects.length.should.equal(1);
+            res.status.should.equal(200);
+            res.type.should.equal('text/html');
+            res.text.should.contain('<h2>Your account is inactive.</h2>');
+            res.text.should.contain('<p>Please contact support.</p>');
+            done();
+          });
+        });
+      });
+    });
+    describe('GET /lessons/:id', function() {
+      it('should redirect to the inactive page', function(done) {
+        lessonQueries.getSingleLessonFromLessonID(1)
+        .then(function(lesson) {
+          chai.request(server)
+          .get('/lessons/' + lesson[0].id)
+          .end(function(err, res) {
+            res.redirects.length.should.equal(1);
+            res.status.should.equal(200);
+            res.type.should.equal('text/html');
+            res.text.should.contain('<h2>Your account is inactive.</h2>');
+            res.text.should.contain('<p>Please contact support.</p>');
+            done();
+          });
+        });
+      });
+    });
+    describe('GET /lessons/:id', function() {
+      it('should redirect to the inactive page', function(done) {
+        lessonQueries.getSingleLessonFromOrder(1)
+        .then(function(lesson) {
+          chai.request(server)
+          .get('/lessons/' + lesson[0].id)
+          .end(function(err, res) {
+            res.redirects.length.should.equal(1);
+            res.status.should.equal(200);
+            res.type.should.equal('text/html');
+            res.text.should.contain('<h2>Your account is inactive.</h2>');
+            res.text.should.contain('<p>Please contact support.</p>');
+            done();
+          });
+        });
+      });
+    });
+    describe('GET /lessons/:id', function() {
+      it('should redirect to the inactive page', function(done) {
+        lessonQueries.getSingleLessonFromOrder(6)
+        .then(function(lesson) {
+          chai.request(server)
+          .get('/lessons/' + lesson[0].id)
+          .end(function(err, res) {
+            res.redirects.length.should.equal(1);
+            res.status.should.equal(200);
+            res.type.should.equal('text/html');
+            res.text.should.contain('<h2>Your account is inactive.</h2>');
+            res.text.should.contain('<p>Please contact support.</p>');
+            done();
+          });
+        });
+      });
+    });
+    describe('GET /lessons/:id', function() {
+      it('should redirect to the inactive page',
+        function(done) {
+        chai.request(server)
+        .get('/lessons/999')
+        .end(function(err, res) {
+          res.redirects.length.should.equal(1);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('<h2>Your account is inactive.</h2>');
+          res.text.should.contain('<p>Please contact support.</p>');
+          done();
+        });
+      });
+    });
+    describe('POST /lessons', function() {
+      it('should redirect to the inactive page', function(done) {
+        lessonQueries.getLessons()
+        .then(function(lessons) {
+          chai.request(server)
+          .post('/lessons')
+          .send({
+            chapter: lessons[0].chapter_id,
+            lesson: lessons[0].id,
+            read: 'true'
+          })
+          .end(function(err, res) {
+            res.redirects.length.should.equal(1);
+            res.status.should.equal(200);
+            res.type.should.equal('text/html');
+            res.text.should.contain('<h2>Your account is inactive.</h2>');
+            res.text.should.contain('<p>Please contact support.</p>');
+            done();
+          });
+        });
+      });
+    });
+    describe('POST /lessons', function() {
+      it('should redirect to the inactive page', function(done) {
+        chapterQueries.getSingleChapterFromOrder(2)
+        .then(function(chapter) {
+          lessonQueries.getLessonsFromChapterID(chapter[0].id)
+          .then(function(lessons) {
+            chai.request(server)
+            .post('/lessons')
+            .send({
+              chapter: lessons[0].chapter_id,
+              lesson: lessons[0].id,
+              read: 'true'
+            })
+            .end(function(err, res) {
+              res.redirects.length.should.equal(1);
+              res.status.should.equal(200);
+              res.type.should.equal('text/html');
+              res.text.should.contain('<h2>Your account is inactive.</h2>');
+              res.text.should.contain('<p>Please contact support.</p>');
+              done();
+            });
+          });
+        });
+      });
+    });
+    describe('POST /lessons', function() {
+      it('should redirect to the inactive page', function(done) {
+        lessonQueries.getLessons()
+        .then(function(lessons) {
+          chai.request(server)
+          .post('/lessons')
+          .send({
+            chapter: lessons[0].chapter_id,
+            lesson: lessons[0].id,
+            read: '999'
+          })
+          .end(function(err, res) {
+            res.redirects.length.should.equal(1);
+            res.status.should.equal(200);
+            res.type.should.equal('text/html');
+            res.text.should.contain('<h2>Your account is inactive.</h2>');
+            res.text.should.contain('<p>Please contact support.</p>');
             done();
           });
         });

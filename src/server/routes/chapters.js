@@ -6,7 +6,9 @@ var chapterQueries = require('../db/queries.chapters');
 var routeHelpers = require('./_helpers');
 
 // *** get single chapter *** //
-router.get('/:id', authHelpers.ensureAuthenticated,
+router.get('/:id',
+  authHelpers.ensureAuthenticated,
+  authHelpers.ensureActive,
   function(req, res, next) {
   var renderObject = {
     user: req.user,

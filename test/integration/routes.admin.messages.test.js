@@ -54,7 +54,7 @@ describe('routes : admin : messages', function() {
 
   describe('if authenticated as a user', function() {
     beforeEach(function(done) {
-      testHelpers.authenticateUser(done);
+      testHelpers.authenticateActiveUser(done);
     });
     afterEach(function(done) {
       passportStub.logout();
@@ -72,6 +72,30 @@ describe('routes : admin : messages', function() {
           res.text.should.contain(
             '<p class="completed">0% Complete</p>');
           res.text.should.not.contain('<h2>You are an admin.</h2>');
+          done();
+        });
+      });
+    });
+  });
+
+  describe('if authenticated as a user but inactive', function() {
+    beforeEach(function(done) {
+      testHelpers.authenticateInactiveUser(done);
+    });
+    afterEach(function(done) {
+      passportStub.logout();
+      done();
+    });
+    describe('GET /admin/messages/:id/delete?type=parent', function() {
+      it('should redirect to the inactive page', function(done) {
+        chai.request(server)
+        .get('/admin/messages/1/delete?type=parent')
+        .end(function(err, res) {
+          res.redirects.length.should.equal(3);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('<h2>Your account is inactive.</h2>');
+          res.text.should.contain('<p>Please contact support.</p>');
           done();
         });
       });
