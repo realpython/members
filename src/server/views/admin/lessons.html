@@ -7,30 +7,36 @@
 
   <div class="row">
     <div class="col-md-12">
-      <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#newChapterModal">Add New Chapter</button>
+      <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#newChapterModal">Add New Lesson</button>
     </div>
   </div>
 
   <br>
 
   <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-8">
       <table class="table">
         <thead>
           <tr>
-            <th>Order Number</th>
+            <th>Lesson Order #</th>
+            <th>Chapter Order #</th>
+            <th>Chapter ID</th>
             <th>Name</th>
+            <th>Content</th>
             <th>Read</th>
             <th>Created Date</th>
           </tr>
         </thead>
         <tbody>
-          {% for chapter in chapters %}
+          {% for lesson in lessons %}
             <tr>
-              <td>{{chapter.order_number}}</td>
-              <td>{{chapter.name}}</td>
-              <td>{{chapter.read}}</td>
-              <td>{{chapter.created_at|date('Y-m-d')}}</td>
+              <td>{{lesson.lesson_order_number}}</td>
+              <td>{{lesson.chapter_order_number}}</td>
+              <td>{{lesson.chapter_id}}</td>
+              <td>{{lesson.name}}</td>
+              <td>Link</td>
+              <td>{{lesson.read}}</td>
+              <td>{{lesson.created_at|date('Y-m-d')}}</td>
             </tr>
           {% endfor %}
         </tbody>

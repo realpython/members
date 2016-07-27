@@ -89,11 +89,11 @@ Just a simple learning management system for textbook-like sites.
 1. Admin should be able to add new chapters
 1. Admin should be able to update users
 1. Admin should be able to delete (change `active` to `false`) users
+1. Admin should be able to view all lessons
 
 #### Incomplete
 
-1. Admin should be able to view all lessons (current)
-1. Active users should be able to search across all lessons
+1. Active users should be able to search across all lessons (current)
 1. Active users should be able to hide/show lessons on the sidebar
 1. Admin should be able to add new lessons to an existing chapter
 1. Active users should be able to view all standards
