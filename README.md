@@ -77,6 +77,7 @@ Just a simple learning management system for textbook-like sites.
 1. Active users should be able to post new messages within the lesson view
 1. Active users should be able to view a Github avatar on the navbar
 1. Active users should be able to contact support
+1. Active users should be able to search across all lessons
 
 **Admin**
 
@@ -93,8 +94,7 @@ Just a simple learning management system for textbook-like sites.
 
 #### Incomplete
 
-1. Active users should be able to search across all lessons (current)
-1. Active users should be able to hide/show lessons on the sidebar
+1. Active users should be able to hide/show lessons on the sidebar (current)
 1. Admin should be able to add new lessons to an existing chapter
 1. Active users should be able to view all standards
 1. Active users should be able to view an about page detailing the relationship between chapters, lessons, standards, and exercises
@@ -124,3 +124,5 @@ Just a simple learning management system for textbook-like sites.
 1. Swagger docs for the handlers returning JSON
 1. Add front end tests with selenium
 1. Add flash to res object for testing purposes
+1. Add code quality/analysis tools
+1. Convert ORM to massive from knex

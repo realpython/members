@@ -17,13 +17,15 @@
     "express": "~4.13.1",
     "express-session": "^1.13.0",
     "knex": "^0.11.5",
+    "massive": "^2.4.0",
     "morgan": "~1.6.1",
     "nodemailer": "^2.5.0",
     "passport": "^0.3.2",
     "passport-github2": "^0.1.10",
     "pg": "^5.0.0",
     "serve-favicon": "~2.3.0",
-    "swig": "^1.4.2"
+    "swig": "^1.4.2",
+    "swig-extras": "0.0.1"
   },
   "devDependencies": {
     "chai": "^3.5.0",

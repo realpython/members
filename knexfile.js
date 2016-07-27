@@ -2,9 +2,7 @@ module.exports = {
 
   development: {
     client: 'postgresql',
-    connection: {
-      database: 'textbook'
-    },
+    connection: 'postgres://localhost:5432/textbook',
     migrations: {
       directory: __dirname + '/src/server/db/migrations'
     },
@@ -14,9 +12,7 @@ module.exports = {
   },
   test: {
     client: 'postgresql',
-    connection: {
-      database: 'textbook_test'
-    },
+    connection: 'postgres://localhost:5432/textbook_test',
     migrations: {
       directory: __dirname + '/src/server/db/migrations'
     },

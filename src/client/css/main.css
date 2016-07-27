@@ -144,6 +144,10 @@ footer {
   background-color: #3fb618;
 }
 
+.sidebar-search {
+  padding: 15px;
+}
+
 /* dashboard */
 
 .completed {
