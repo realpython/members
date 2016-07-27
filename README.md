@@ -52,27 +52,31 @@ Just a simple learning management system for textbook-like sites.
 
 **Users**
 
-1. Users should be able to view all the chapters
-1. Users should be able to view chapters on the sidebar
-1. Users should be able to view a single chapter
-1. Users should be able to view their profile
-1. Users should be able to view a single lesson
-1. Users should be able to view a chapter's lessons from the single chapter view
-1. Users should be able to view lessons on the sidebar
-1. Users should be able to view a checkmark next to read lessons on the sidebar
-1. Users should be able to mark a lesson as read or unread from the single lesson view
-1. Users should be able to view their overall progress on the dashboard (based on read lessons)
-1. Users should be able to view a checkmark next to read chapters on the sidebar after all lessons have been read
-1. Users should be able to move from lesson to lesson within the single lesson view
-1. Users should be able to view lessons on the sidebar in the correct order
-1. Users should be able to see the current chapter and lesson highlighted on the sidebar
-1. Users should be able to view a breadcrumb-like navigation
-1. Users should be able to view messages within the lesson view
-1. Users should have an avatar
-1. Users should be able to see who posted a particular message
-1. Users should be able to post new messages within the lesson view
-1. Users should be able to view a Github avatar on the navbar
 1. Users should be active to view the course content
+
+**Active Users**
+
+1. Active users should be able to view all the chapters
+1. Active users should be able to view chapters on the sidebar
+1. Active users should be able to view a single chapter
+1. Active users should be able to view their profile
+1. Active users should be able to view a single lesson
+1. Active users should be able to view a chapter's lessons from the single chapter view
+1. Active users should be able to view lessons on the sidebar
+1. Active users should be able to view a checkmark next to read lessons on the sidebar
+1. Active users should be able to mark a lesson as read or unread from the single lesson view
+1. Active users should be able to view their overall progress on the dashboard (based on read lessons)
+1. Active users should be able to view a checkmark next to read chapters on the sidebar after all lessons have been read
+1. Active users should be able to move from lesson to lesson within the single lesson view
+1. Active users should be able to view lessons on the sidebar in the correct order
+1. Active users should be able to see the current chapter and lesson highlighted on the sidebar
+1. Active users should be able to view a breadcrumb-like navigation
+1. Active users should be able to view messages within the lesson view
+1. Active users should have an avatar
+1. Active users should be able to see who posted a particular message
+1. Active users should be able to post new messages within the lesson view
+1. Active users should be able to view a Github avatar on the navbar
+1. Active users should be able to contact support
 
 **Admin**
 
@@ -88,30 +92,29 @@ Just a simple learning management system for textbook-like sites.
 
 #### Incomplete
 
-1. Users should be able to contact support (current)
-1. Admin should be able to view all lessons
-1. Users should be able to search across all lessons
-1. Users should be able to hide/show lessons on the sidebar
+1. Admin should be able to view all lessons (current)
+1. Active users should be able to search across all lessons
+1. Active users should be able to hide/show lessons on the sidebar
 1. Admin should be able to add new lessons to an existing chapter
-1. Users should be able to view all standards
-1. Users should be able to view an about page detailing the relationship between chapters, lessons, standards, and exercises
-1. Users should be able to submit exercises for grading
+1. Active users should be able to view all standards
+1. Active users should be able to view an about page detailing the relationship between chapters, lessons, standards, and exercises
+1. Active users should be able to submit exercises for grading
 1. Admin should be able to add new chapters
-1. Users should be able to update their avatar on the profile page
+1. Active users should be able to update their avatar on the profile page
 1. Admin should be able to move the order of messages within the lesson view
-1. Users should be able to view a tag next to a message if it's posted by an admin within the lesson view
+1. Active users should be able to view a tag next to a message if it's posted by an admin within the lesson view
 1. Admin should be able to add an avatar link when adding a new user
-1. Users should be able to suggest new topics to be added to the course
-1. Users should be able to view a message and reply activity feed on the dashboard
-1. Users should be able to see their recent activity log on the dashboard
-1. Users should be able to view the total number of lessons in the course on the dashboard
-1. Users should be able to view the total number of enrolled students on the dashboard
+1. Active users should be able to suggest new topics to be added to the course
+1. Active users should be able to view a message and reply activity feed on the dashboard
+1. Active users should be able to see their recent activity log on the dashboard
+1. Active users should be able to view the total number of lessons in the course on the dashboard
+1. Active users should be able to view the total number of enrolled students on the dashboard
 1. Admin should be warned if they are deleting a message that contains replies within the lesson view
 1. Admin should only be able to deactivate messages; they should not be deleted
 1. Unregistered users should have to enter an email and a numeric code to register and become an unverified user
 1. Unverified users should have to connect their Github account to become verified
-1. Users should be able to hide/show the sidebar
-1. Users should be able to view the chapter overview from the single chapter view
+1. Active users should be able to hide/show the sidebar
+1. Active users should be able to view the chapter overview from the single chapter view
 
 ### Todo
 
@@ -120,4 +123,4 @@ Just a simple learning management system for textbook-like sites.
 1. Separate API routes from server side templating routes
 1. Swagger docs for the handlers returning JSON
 1. Add front end tests with selenium
-
+1. Add flash to res object for testing purposes

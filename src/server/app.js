@@ -16,6 +16,7 @@ if (process.env.NODE_ENV !== 'production' || 'staging') {
 
 // *** routes *** //
 var routes = require('./routes/index');
+var contactRoutes = require('./routes/contact');
 var authRoutes = require('./routes/auth');
 var chapterRoutes = require('./routes/chapters');
 var lessonRoutes = require('./routes/lessons');
@@ -53,6 +54,7 @@ app.use(express.static(path.join(__dirname, '../client')));
 
 // *** main routes *** //
 app.use('/', routes);
+app.use('/contact', contactRoutes);
 app.use('/auth', authRoutes);
 app.use('/chapters', chapterRoutes);
 app.use('/lessons', lessonRoutes);
