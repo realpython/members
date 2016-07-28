@@ -96,10 +96,6 @@ Just a simple learning management system for textbook-like sites.
 
 1. Active users should be able to hide/show lessons on the sidebar (current)
 1. Admin should be able to add new lessons to an existing chapter
-1. Active users should be able to view all standards
-1. Active users should be able to view an about page detailing the relationship between chapters, lessons, standards, and exercises
-1. Active users should be able to submit exercises for grading
-1. Admin should be able to add new chapters
 1. Active users should be able to update their avatar on the profile page
 1. Admin should be able to move the order of messages within the lesson view
 1. Active users should be able to view a tag next to a message if it's posted by an admin within the lesson view
@@ -113,8 +109,7 @@ Just a simple learning management system for textbook-like sites.
 1. Admin should only be able to deactivate messages; they should not be deleted
 1. Unregistered users should have to enter an email and a numeric code to register and become an unverified user
 1. Unverified users should have to connect their Github account to become verified
-1. Active users should be able to hide/show the sidebar
-1. Active users should be able to view the chapter overview from the single chapter view
+1. Active users should be able to submit exercises for grading
 
 ### Todo
 
