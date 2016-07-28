@@ -35,7 +35,7 @@ function addMessage(obj) {
 
 function messagesAndUsers(lessonID) {
   return knex
-    .select('messages.id as messageID', 'messages.content as messageContent', 'messages.parent_id as messageParentID', 'messages.lesson_id as messageLessonID', 'messages.created_at as messageCreatedAt', 'messages.updated_at as messageUpdatedAt', 'users.id as userID', 'users.github_display_name as userGithubDisplayName', 'users.github_avatar as userGithubAvatar', 'users.created_at as userCreatedAt')
+    .select('messages.id as messageID', 'messages.content as messageContent', 'messages.parent_id as messageParentID', 'messages.lesson_id as messageLessonID', 'messages.created_at as messageCreatedAt', 'messages.updated_at as messageUpdatedAt', 'users.id as userID', 'users.github_display_name as userGithubDisplayName', 'users.github_avatar as userGithubAvatar', 'users.created_at as userCreatedAt', 'users.admin as userAdmin')
     .from('messages')
     .join('users', 'users.id', 'messages.user_id')
     .orderBy('messages.updated_at', 'desc')

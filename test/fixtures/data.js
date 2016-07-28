@@ -397,7 +397,8 @@ var messages = [
     userID: 1,
     userGithubDisplayName: 'Michael Johnson',
     userGithubAvatar: 'https://avatars.io/static/default_128.jpg',
-    userCreatedAt: '2016-07-17T21:04:34.977Z'
+    userCreatedAt: '2016-07-17T21:04:34.977Z',
+    userAdmin: false
   },
   {
     messageID: 1,
@@ -409,7 +410,8 @@ var messages = [
     userID: 1,
     userGithubDisplayName: 'Michael Johnson',
     userGithubAvatar: 'https://avatars.io/static/default_128.jpg',
-    userCreatedAt: '2016-07-17T21:04:34.977Z'
+    userCreatedAt: '2016-07-17T21:04:34.977Z',
+    userAdmin: false
   },
   {
     messageID: 4,
@@ -421,7 +423,8 @@ var messages = [
     userID: 1,
     userGithubDisplayName: 'Michael Johnson',
     userGithubAvatar: 'https://avatars.io/static/default_128.jpg',
-    userCreatedAt: '2016-07-17T21:04:34.977Z'
+    userCreatedAt: '2016-07-17T21:04:34.977Z',
+    userAdmin: false
   },
   {
     messageID: 5,
@@ -433,7 +436,8 @@ var messages = [
     userID: 1,
     userGithubDisplayName: 'Michael Johnson',
     userGithubAvatar: 'https://avatars.io/static/default_128.jpg',
-    userCreatedAt: '2016-07-17T21:04:34.977Z'
+    userCreatedAt: '2016-07-17T21:04:34.977Z',
+    userAdmin: false
   }
 ];
 
@@ -448,7 +452,8 @@ var parentMessages = [
     userID: 1,
     userGithubDisplayName: 'Michael Johnson',
     userGithubAvatar: 'https://avatars.io/static/default_128.jpg',
-    userCreatedAt: '2016-07-17T21:04:34.977Z'
+    userCreatedAt: '2016-07-17T21:04:34.977Z',
+    userAdmin: false
   },
   {
     messageID: 1,
@@ -460,7 +465,8 @@ var parentMessages = [
     userID: 1,
     userGithubDisplayName: 'Michael Johnson',
     userGithubAvatar: 'https://avatars.io/static/default_128.jpg',
-    userCreatedAt: '2016-07-17T21:04:34.977Z'
+    userCreatedAt: '2016-07-17T21:04:34.977Z',
+    userAdmin: false
   }
 ];
 
@@ -483,7 +489,8 @@ var childMessages = [
         userCreatedAt: '2016-07-17T21:04:34.977Z',
         userGithubAvatar: 'https://avatars.io/static/default_128.jpg',
         userGithubDisplayName: 'Michael Johnson',
-        userID: 1
+        userID: 1,
+        userAdmin: false
       },
       {
         messageContent: 'Just another reply',
@@ -495,13 +502,15 @@ var childMessages = [
         userCreatedAt: '2016-07-17T21:04:34.977Z',
         userGithubAvatar: 'https://avatars.io/static/default_128.jpg',
         userGithubDisplayName: 'Michael Johnson',
-        userID: 1
+        userID: 1,
+        userAdmin: false
       }
     ],
     userID: 1,
     userGithubDisplayName: 'Michael Johnson',
     userGithubAvatar: 'https://avatars.io/static/default_128.jpg',
-    userCreatedAt: '2016-07-17T21:04:34.977Z'
+    userCreatedAt: '2016-07-17T21:04:34.977Z',
+    userAdmin: false
   },
   {
     messageID: 1,
@@ -514,7 +523,8 @@ var childMessages = [
     userID: 1,
     userGithubDisplayName: 'Michael Johnson',
     userGithubAvatar: 'https://avatars.io/static/default_128.jpg',
-    userCreatedAt: '2016-07-17T21:04:34.977Z'
+    userCreatedAt: '2016-07-17T21:04:34.977Z',
+    userAdmin: false
   }
 ];
 

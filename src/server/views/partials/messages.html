@@ -20,7 +20,11 @@
                 <img src="{{message.userGithubAvatar}}" alt="User Avatar" class="message-avatar">
               </div>
               <div class="col-md-10">
-                <p class="message-author">{{message.userGithubDisplayName}} said:</p>
+                {% if message.userAdmin %}
+                  <p class="message-author">{{message.userGithubDisplayName}}&nbsp;<span class="badge">Admin</span>&nbsp;said:</p>
+                {% else %}
+                  <p class="message-author">{{message.userGithubDisplayName}} said:</p>
+                {% endif %}
                 <p>{{message.messageContent}}</p>
                 {% if user.admin %}
                   <p>

@@ -82,6 +82,7 @@ Just a simple learning management system for textbook-like sites.
 1. Active users should only be able to view active lessons
 1. Active users should be able to view their avatar link on the profile page
 1. Active users should be able to update their display name on the profile page
+1. Active users should be able to view a tag next to a message if it's posted by an admin within the lesson view
 
 **Admin**
 
@@ -101,8 +102,7 @@ Just a simple learning management system for textbook-like sites.
 
 #### Incomplete
 
-1. Active users should be able to view a tag next to a message if it's posted by an admin within the lesson view (current)
-1. Admin should be able to add an avatar link when adding a new user
+1. Admin should be able to add an avatar link when adding a new user (current)
 1. Active users should be able to suggest new topics to be added to the course
 1. Active users should be able to view a message and reply activity feed on the dashboard
 1. Active users should be able to see their recent activity log on the dashboard
@@ -125,6 +125,8 @@ Just a simple learning management system for textbook-like sites.
 
 ### Todo
 
+1. Update search to knex.js
+1. Convert ORM to massive.js from knex
 1. Set up error logging
 1. Add uncaught exception handler
 1. Separate API routes from server side templating routes
@@ -132,7 +134,6 @@ Just a simple learning management system for textbook-like sites.
 1. Add front end tests with selenium/webdriver
 1. Add flash to res object for testing purposes
 1. Add code quality/analysis tools
-1. Convert ORM to massive.js from knex
 1. Add server side validation
 1. Deploy to production
   - Add gulp for creating build/dist
