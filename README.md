@@ -78,6 +78,7 @@ Just a simple learning management system for textbook-like sites.
 1. Active users should be able to view a Github avatar on the navbar
 1. Active users should be able to contact support
 1. Active users should be able to search across all lessons
+1. Active users should be able to hide/show lessons on the sidebar
 
 **Admin**
 
@@ -94,8 +95,7 @@ Just a simple learning management system for textbook-like sites.
 
 #### Incomplete
 
-1. Active users should be able to hide/show lessons on the sidebar (current)
-1. Admin should be able to add new lessons to an existing chapter
+1. Admin should be able to add new lessons to an existing chapter (current)
 1. Active users should be able to update their avatar on the profile page
 1. Admin should be able to move the order of messages within the lesson view
 1. Active users should be able to view a tag next to a message if it's posted by an admin within the lesson view
@@ -113,6 +113,7 @@ Just a simple learning management system for textbook-like sites.
 
 ### Todo
 
+1. Update the design
 1. Set up error logging
 1. Add uncaught exception handler
 1. Separate API routes from server side templating routes

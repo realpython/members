@@ -288,7 +288,7 @@ describe('routes : lessons', function() {
               res.type.should.equal('text/html');
               res.text.should.contain('<h1>Dashboard</h1>');
               res.text.should.contain('&nbsp;&nbsp;&nbsp;<i class="fa fa-check" data-lesson-read="true"></i></a>');
-              res.text.should.contain('&nbsp;&nbsp;&nbsp;<i class="fa fa-check" data-chapter-read="true"></i></a>');
+              res.text.should.contain('data-status="true"');
               done();
             });
           });

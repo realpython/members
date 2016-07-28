@@ -117,8 +117,9 @@ footer {
   .side-nav a:hover,
   .side-nav a:focus {
     color: #ffffff;
-    background-color: #3fb618 !important;
+    background-color: black !important;
   }
+
 }
 
 .side-nav>li>ul {
@@ -141,7 +142,7 @@ footer {
 
 .active-side {
   color: #ffffff;
-  background-color: #3fb618;
+  background-color: black;
 }
 
 .sidebar-search {

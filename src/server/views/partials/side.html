@@ -16,17 +16,12 @@
         {% if sortedChapters %}
           <br>
           {% for chapter in sortedChapters %}
-            <li>
-              <a href="/chapters/{{chapter.chapterID}}">
-                {{chapter.chapterName}}
-                {% if chapter.chapterRead %}
-                  &nbsp;&nbsp;&nbsp;<i class="fa fa-check" data-chapter-read="true"></i></a>
-                {% endif %}
-              </a>
+          <li>
+            <a href="javascript:;" class="sidebar-chapter-name" data-toggle="collapse" data-target="#sidebar-chapter-{{loop.index}}" data-status="{{chapter.chapterRead}}" aria-expanded="true">{{chapter.chapterName}} <i class="fa fa-fw fa-caret-down"></i></a>
               {% if chapter.lessons %}
-                <ul id="sidebar-chapter-{{loop.index}}" class="lesson-list">
+                <ul id="sidebar-chapter-{{loop.index}}" class="lesson-list collapse" aria-expanded="true">
                   {% for lesson in chapter.lessons %}
-                    <li>
+                    <li class="side-nav-lessons">
                       <a href="/lessons/{{lesson.lessonID}}">
                         {{lesson.lessonName}}
                         {% if lesson.lessonRead %}
@@ -37,7 +32,7 @@
                   {% endfor %}
                 </ul>
               {% endif %}
-            </li>
+          </li>
           {% endfor %}
         {% endif %}
       {% endif %}

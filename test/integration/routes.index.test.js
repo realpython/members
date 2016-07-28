@@ -95,7 +95,7 @@ describe('routes : index', function() {
           res.status.should.equal(200);
           res.type.should.equal('text/html');
           res.text.should.contain('<h1>Dashboard</h1>');
-          res.text.should.contain('<ul id="sidebar-chapter-1" class="lesson-list">');
+          res.text.should.contain('<ul id="sidebar-chapter-1" class="lesson-list');
           res.text.should.contain(
             '<p class="completed">0% Complete</p>');
           res.text.should.contain('<a href="#" class="dropdown-toggle avatar-link" data-toggle="dropdown"><img class="avatar" src="https://avatars.io/static/default_128.jpg">&nbsp;Michael Herman <b class="caret"></b></a>');
