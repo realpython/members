@@ -38,7 +38,7 @@ describe('routes : users', function() {
   });
 
   describe('if unauthenticated', function() {
-    describe('PUT /:username/admin', function() {
+    describe('PUT /users/:username/admin', function() {
       it('should throw an error', function(done) {
         chai.request(server)
         .put('/users/michael/admin')
@@ -51,10 +51,26 @@ describe('routes : users', function() {
         });
       });
     });
-    describe('GET /:id/profile', function() {
+    describe('GET /users/:id/profile', function() {
       it('should redirect to log in page', function(done) {
         chai.request(server)
         .get('/users/1/profile')
+        .end(function(err, res) {
+          res.redirects.length.should.equal(1);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('try Textbook');
+          done();
+        });
+      });
+    });
+    describe('POST /users/:id/profile', function() {
+      it('should redirect to log in page', function(done) {
+        chai.request(server)
+        .post('/users/1/profile')
+        .send({
+          displayName: 'John Doe'
+        })
         .end(function(err, res) {
           res.redirects.length.should.equal(1);
           res.status.should.equal(200);
@@ -74,7 +90,7 @@ describe('routes : users', function() {
       passportStub.logout();
       done();
     });
-    describe('GET /:id/profile', function() {
+    describe('GET /users/:id/profile', function() {
       it('should return a 200 response', function(done) {
         userQueries.getUsers()
         .then(function(users) {
@@ -90,7 +106,7 @@ describe('routes : users', function() {
         });
       });
     });
-    describe('PUT /:username/admin', function() {
+    describe('PUT /users/:username/admin', function() {
       it('should return a 200 response', function(done) {
         chai.request(server)
         .put('/users/michael/admin')
@@ -103,7 +119,7 @@ describe('routes : users', function() {
         });
       });
     });
-    describe('PUT /:username/admin', function() {
+    describe('PUT /users/:username/admin', function() {
       it('should throw an error if "read" is not in the request body', function(done) {
         chai.request(server)
         .put('/users/michael/admin')
@@ -117,7 +133,7 @@ describe('routes : users', function() {
         });
       });
     });
-    describe('PUT /:username/active', function() {
+    describe('PUT /users/:username/active', function() {
       it('should return a 200 response', function(done) {
         chai.request(server)
         .put('/users/michael/active')
@@ -126,6 +142,24 @@ describe('routes : users', function() {
           res.status.should.equal(200);
           res.type.should.equal('application/json');
           res.body.message.should.equal('User active status updated.');
+          done();
+        });
+      });
+    });
+    describe('POST /users/:id/profile', function() {
+      it('should return a 200 response', function(done) {
+        chai.request(server)
+        .post('/users/1/profile')
+        .send({
+          displayName: 'John Doe'
+        })
+        .end(function(err, res) {
+          res.redirects.length.should.equal(1);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('<h1>User Profile');
+          res.text.should.contain('<dt>Email</dt>');
+          res.text.should.contain('<dd>John Doe</dd>');
           done();
         });
       });
@@ -140,7 +174,7 @@ describe('routes : users', function() {
       passportStub.logout();
       done();
     });
-    describe('GET /:id/profile', function() {
+    describe('GET /users/:id/profile', function() {
       it('should redirect to the inactive page', function(done) {
         userQueries.getUsers()
         .then(function(users) {
@@ -154,6 +188,23 @@ describe('routes : users', function() {
             res.text.should.contain('<p>Please contact support.</p>');
             done();
           });
+        });
+      });
+    });
+    describe('POST /users/:id/profile', function() {
+      it('should return a 200 response', function(done) {
+        chai.request(server)
+        .post('/users/1/profile')
+        .send({
+          displayName: 'John Doe'
+        })
+        .end(function(err, res) {
+          res.redirects.length.should.equal(1);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('<h2>Your account is inactive.</h2>');
+          res.text.should.contain('<p>Please contact support.</p>');
+          done();
         });
       });
     });

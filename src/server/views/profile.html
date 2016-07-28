@@ -5,27 +5,55 @@
 
 {% block content %}
 
-  <h3>Account Info:</h3>
+  <div class="row">
+    <div class="col-md-12">
+      <h3>Account Info:</h3>
+      <br>
+      <dl class="dl-horizontal">
+        <dt>Email</dt>
+        {% if user.email %}
+          <dd><a href="mailto:{{user.email}}">{{user.email}}</a></dd>
+        {% endif %}
+        <dt>GitHub Username</dt>
+        <dd><a href="https://github.com/{{user.username}}">{{user.github_username}}</a></dd>
+        <dt>Display Name</dt>
+        <dd>{{user.github_display_name}}</dd>
+        <dt>Role</dt>
+        {% if user.admin %}
+          <dd>admin</dd>
+        {% else %}
+          <dd>user</dd>
+        {% endif %}
+        <dt>Avatar URL</dt>
+        <dd><a href="{{user.github_avatar}}">{{user.github_avatar}}</a></dd>
+      </dl>
+      <br>
+      <button type="button" id="update-profile-button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#updateProfileModal" data-user-id={{user.id}}>Update Profile</button>
+    </div>
+  </div>
 
-  <br>
-
-  <dl class="dl-horizontal">
-    <dt>Email</dt>
-    {% if user.email %}
-      <dd><a href="mailto:{{user.email}}">{{user.email}}</a></dd>
-    {% endif %}
-    <dt>GitHub Username</dt>
-    <dd><a href="https://github.com/{{user.username}}">{{user.github_username}}</a></dd>
-    <dt>GitHub Display Name</dt>
-    <dd>{{user.github_display_name}}</dd>
-    <dt>Role</dt>
-    {% if user.admin %}
-      <dd>admin</dd>
-    {% else %}
-      <dd>user</dd>
-    {% endif %}
-    <dt>Avatar URL</dt>
-    <dd><a href="{{user.github_avatar}}">{{user.github_avatar}}</a></dd>
-  </dl>
+  <!-- update profile modal -->
+  <div class="modal fade" id="updateProfileModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Update your profile</h4>
+        </div>
+        <div class="modal-body">
+          <form id="update-profile-form" method="post" action="/users/{{user.id}}/profile" data-user-id="{{user.id}}">
+            <div class="form-group">
+              <label for="update-profile-display-name">Display Name</label>
+              <input type="text" name="displayName" class="form-control" id="update-profile-display-name" value="{{user.github_display_name}}" minlength="5" required>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Update Profile</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
 {% endblock %}

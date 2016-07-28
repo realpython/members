@@ -46,6 +46,30 @@ router.get('/:id/profile',
   });
 });
 
+// *** update user profile *** //
+router.post('/:id/profile',
+  authHelpers.ensureAuthenticated,
+  authHelpers.ensureActive,
+  function(req, res, next) {
+  var userID = parseInt(req.params.id);
+  var userObject = {
+    github_display_name: req.body.displayName
+  };
+  return userQueries.updateUser(userID, userObject)
+  .then(function(user) {
+    if (user.length) {
+      req.flash('messages', {
+        status: 'success',
+        value: 'Profile update.'
+      });
+      return res.redirect('/users/' + userID + '/profile');
+    }
+  })
+  .catch(function(err) {
+    return next(err);
+  });
+});
+
 if (process.env.NODE_ENV === 'development' || 'testing') {
   // *** toggle admin status *** //
   router.put('/:username/admin', function(req, res, next) {
