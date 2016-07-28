@@ -125,7 +125,6 @@ Just a simple learning management system for textbook-like sites.
 
 ### Todo
 
-1. Update the design
 1. Set up error logging
 1. Add uncaught exception handler
 1. Separate API routes from server side templating routes
