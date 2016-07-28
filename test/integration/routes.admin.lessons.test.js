@@ -50,6 +50,20 @@ describe('routes : admin : lessons', function() {
         });
       });
     });
+    describe('POST /admin/lessons', function() {
+      it('should redirect to log in page', function(done) {
+        chai.request(server)
+        .post('/admin/lessons')
+        .send(testHelpers.sampleLesson)
+        .end(function(err, res) {
+          res.redirects.length.should.equal(1);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('try Textbook');
+          done();
+        });
+      });
+    });
   });
 
   describe('if authenticated as a user', function() {
@@ -64,6 +78,23 @@ describe('routes : admin : lessons', function() {
       it('should redirect to the dashboard', function(done) {
         chai.request(server)
         .get('/admin/lessons')
+        .end(function(err, res) {
+          res.redirects.length.should.equal(2);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('<h1>Dashboard</h1>');
+          res.text.should.contain(
+            '<p class="completed">0% Complete</p>');
+          res.text.should.not.contain('<h2>You are an admin.</h2>');
+          done();
+        });
+      });
+    });
+    describe('POST /admin/lessons', function() {
+      it('should redirect to dashboard', function(done) {
+        chai.request(server)
+        .post('/admin/lessons')
+        .send(testHelpers.sampleLesson)
         .end(function(err, res) {
           res.redirects.length.should.equal(2);
           res.status.should.equal(200);
@@ -100,6 +131,21 @@ describe('routes : admin : lessons', function() {
         });
       });
     });
+    describe('POST /admin/lessons', function() {
+      it('should redirect to the inactive page', function(done) {
+        chai.request(server)
+        .post('/admin/lessons')
+        .send(testHelpers.sampleLesson)
+        .end(function(err, res) {
+          res.redirects.length.should.equal(3);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('<h2>Your account is inactive.</h2>');
+          res.text.should.contain('<p>Please contact support.</p>');
+          done();
+        });
+      });
+    });
   });
 
   describe('if authenticated as an admin', function() {
@@ -120,6 +166,35 @@ describe('routes : admin : lessons', function() {
           res.type.should.equal('text/html');
           res.text.should.contain('<h1>Lessons</h1>');
           res.text.should.contain('<!-- breadcrumbs -->');
+          done();
+        });
+      });
+    });
+    describe('POST /admin/lessons', function() {
+      it('should return a 200 response', function(done) {
+        chai.request(server)
+        .post('/admin/lessons')
+        .send(testHelpers.sampleLesson)
+        .end(function(err, res) {
+          res.redirects.length.should.equal(1);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('<h1>Lessons</h1>');
+          done();
+        });
+      });
+    });
+    describe('POST /admin/chapters', function() {
+      it('should throw an error when duplicate data is used',
+      function(done) {
+        chai.request(server)
+        .post('/admin/lessons')
+        .send(testHelpers.duplicateLesson)
+        .end(function(err, res) {
+          res.redirects.length.should.equal(0);
+          res.status.should.equal(500);
+          res.type.should.equal('text/html');
+          res.text.should.contain('<p>Something went wrong!</p>');
           done();
         });
       });

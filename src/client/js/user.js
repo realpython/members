@@ -22,7 +22,7 @@ function addActiveClass() {
 
 function expandFirstUnreadChapter() {
   var current = (location.pathname).split('/');
-  if (current[1] !== 'lessons') {
+  if (current[1] !== 'lessons' && current[1] !== 'search') {
     var elements = $('.sidebar-chapter-name');
     for (var i = 0; i < elements.length; i++) {
       if ($(elements[i]).attr('data-status') === 'false') {

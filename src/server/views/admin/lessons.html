@@ -7,7 +7,7 @@
 
   <div class="row">
     <div class="col-md-12">
-      <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#newChapterModal">Add New Lesson</button>
+      <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#newLessonModal">Add New Lesson</button>
     </div>
   </div>
 
@@ -24,6 +24,7 @@
             <th>Name</th>
             <th>Content</th>
             <th>Read</th>
+            <th>Active</th>
             <th>Created Date</th>
           </tr>
         </thead>
@@ -36,6 +37,7 @@
               <td>{{lesson.name}}</td>
               <td><a href="/lessons/{{lesson.id}}">Link</a></td>
               <td>{{lesson.read}}</td>
+              <td>{{lesson.active}}</td>
               <td>{{lesson.created_at|date('Y-m-d')}}</td>
             </tr>
           {% endfor %}
@@ -45,24 +47,38 @@
   </div>
 
 <!-- modal -->
-  <div class="modal fade" id="newChapterModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal fade" id="newLessonModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="myModalLabel">Add new chapter</h4>
+          <h4 class="modal-title" id="myModalLabel">Add new lesson</h4>
+          <br>
+          <p>The content input accepts markdown. Upon submission the lesson will be <em>inactive</em> and have default values for <em>lesson_order_number</em> and <em>chapter_order_number</em>. Please update.</p>
         </div>
         <div class="modal-body">
-          <form action="/admin/chapters" method="POST" id="add-chapter-form">
+          <form action="/admin/lessons" method="POST">
             <div class="form-group">
-              <input type="number" name="orderNumber" class="form-control" placeholder="Order Number" required>
+              <label for="add-lesson-chapter" class="control-label">Associated Chapter</label>
+              <select id="add-lesson-chapter" class="form-control" name="chapter" required>
+                {% if chapters.length %}
+                  {% for chapter in chapters %}
+                    <option value="{{chapter.id}}">{{chapter.name}}</option>
+                  {% endfor %}
+                {% endif %}
+              </select>
             </div>
             <div class="form-group">
-              <input type="text" name="name" class="form-control" placeholder="Name" required>
-            </div>
+              <label for="add-lesson-name" class="control-label">Content</label>
+          		<input type="text" id="add-lesson-name" class="form-control" name="name" required>
+          	</div>
+            <div class="form-group">
+          		<label for="add-lesson-content" class="control-label">Content</label>
+          		<textarea id="add-lesson-content" class="form-control" rows="4" name="content" required></textarea>
+          	</div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary" id="add-user-button">Add Chapter</button>
+              <button type="submit" class="btn btn-primary" id="add-user-button">Add Lesson</button>
             </div>
           </form>
         </div>

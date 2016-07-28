@@ -98,4 +98,19 @@ describe('routes : helpers', function() {
       done();
     });
   });
+  describe('getNextLessonOrderNum()', function() {
+    it('should not return the next order number', function(done) {
+      var result = routeHelpers.getNextLessonOrderNum(data.lessonOrders);
+      result.should.eql(9);
+      done();
+    });
+  });
+  describe('getNextChapterOrderNum()', function() {
+    it('should not return the next order number', function(done) {
+      var result = routeHelpers.getNextChapterOrderNum(
+        data.lessonChapterOrders);
+      result.should.eql(7);
+      done();
+    });
+  });
 });

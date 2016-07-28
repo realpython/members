@@ -128,6 +128,20 @@ function getChildMessages(parentMessages, allMessages) {
   return parentMessages;
 }
 
+function getNextLessonOrderNum(lessons) {
+  var numberArray = lessons.map(function(lesson) {
+    return parseInt(lesson.lesson_order_number);
+  });
+  return parseInt(Math.max.apply(Math, numberArray)) + 1;
+}
+
+function getNextChapterOrderNum(lessons) {
+  var numberArray = lessons.map(function(lesson) {
+    return parseInt(lesson.chapter_order_number);
+  });
+  return parseInt(Math.max.apply(Math, numberArray) + 1);
+}
+
 module.exports = {
   getTotalLessons: getTotalLessons,
   getCompletedLessons: getCompletedLessons,
@@ -140,5 +154,7 @@ module.exports = {
   getNextLesson: getNextLesson,
   getChapterReadStatus: getChapterReadStatus,
   getParentMessages: getParentMessages,
-  getChildMessages: getChildMessages
+  getChildMessages: getChildMessages,
+  getNextLessonOrderNum: getNextLessonOrderNum,
+  getNextChapterOrderNum: getNextChapterOrderNum
 };

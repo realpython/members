@@ -444,6 +444,26 @@ var childMessages = [
   }
 ];
 
+var lessonOrders = [
+  {lesson_order_number: 1},
+  {lesson_order_number: 2},
+  {lesson_order_number: 3},
+  {lesson_order_number: 4},
+  {lesson_order_number: 5},
+  {lesson_order_number: 6},
+  {lesson_order_number: 7},
+  {lesson_order_number:  8}
+];
+
+var lessonChapterOrders = [
+  {chapter_order_number: 1},
+  {chapter_order_number: 2},
+  {chapter_order_number: 3},
+  {chapter_order_number: 4},
+  {chapter_order_number: 5},
+  {chapter_order_number: 6}
+];
+
 module.exports = {
   base: base,
   reduced: reduced,
@@ -452,5 +472,7 @@ module.exports = {
   chapters: chapters,
   messages: messages,
   parentMessages: parentMessages,
-  childMessages: childMessages
+  childMessages: childMessages,
+  lessonOrders: lessonOrders,
+  lessonChapterOrders: lessonChapterOrders
 };

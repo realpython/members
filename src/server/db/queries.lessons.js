@@ -6,10 +6,23 @@ function getLessons() {
   .orderBy('lesson_order_number');
 }
 
+function getLessonOrderNumbers() {
+  return knex('lessons')
+  .select('lesson_order_number')
+  .orderBy('lesson_order_number');
+}
+
 function getLessonsFromChapterID(chapterID) {
   return knex('lessons')
   .select('*')
   .orderBy('lesson_order_number')
+  .where('chapter_id', parseInt(chapterID));
+}
+
+function getLessonChapterOrderNumsFromChapterID(chapterID) {
+  return knex('lessons')
+  .select('chapter_order_number')
+  .orderBy('chapter_order_number')
   .where('chapter_id', parseInt(chapterID));
 }
 
@@ -37,11 +50,20 @@ function updateLessonReadStatus(lessonID, value) {
     .where('id', parseInt(lessonID));
 }
 
+function addLesson(obj) {
+  return knex('lessons')
+    .insert(obj)
+    .returning('*');
+}
+
 module.exports = {
   getLessons: getLessons,
+  getLessonOrderNumbers: getLessonOrderNumbers,
   getLessonsFromChapterID: getLessonsFromChapterID,
+  getLessonChapterOrderNumsFromChapterID: getLessonChapterOrderNumsFromChapterID,
   getSingleLesson: getSingleLesson,
   getSingleLessonFromLessonID: getSingleLessonFromLessonID,
   getSingleLessonFromOrder: getSingleLessonFromOrder,
-  updateLessonReadStatus: updateLessonReadStatus
+  updateLessonReadStatus: updateLessonReadStatus,
+  addLesson: addLesson
 };

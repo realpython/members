@@ -107,6 +107,18 @@ var duplicateChapter = {
   name: 'duplicate chapter'
 };
 
+var sampleLesson = {
+  chapter: 1,
+  name: 'test lesson',
+  content: 'just some content'
+};
+
+var duplicateLesson = {
+  chapter: 1,
+  name: 'Lesson 1a',
+  content: 'just some content'
+};
+
 module.exports = {
   authenticateActiveUser: authenticateActiveUser,
   authenticateInactiveUser: authenticateInactiveUser,
@@ -115,5 +127,7 @@ module.exports = {
   duplicateUser: duplicateUser,
   updateUser: updateUser,
   sampleChapter: sampleChapter,
-  duplicateChapter: duplicateChapter
+  duplicateChapter: duplicateChapter,
+  sampleLesson: sampleLesson,
+  duplicateLesson: duplicateLesson
 };

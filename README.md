@@ -92,10 +92,12 @@ Just a simple learning management system for textbook-like sites.
 1. Admin should be able to update users
 1. Admin should be able to delete (change `active` to `false`) users
 1. Admin should be able to view all lessons
+1. Admin should be able to add new lessons to an existing chapter
 
 #### Incomplete
 
-1. Admin should be able to add new lessons to an existing chapter (current)
+1. Active users should only be able to view active lessons (current)
+1. Admin should be able to update lessons within the lesson view
 1. Active users should be able to update their avatar on the profile page
 1. Admin should be able to move the order of messages within the lesson view
 1. Active users should be able to view a tag next to a message if it's posted by an admin within the lesson view
@@ -110,9 +112,13 @@ Just a simple learning management system for textbook-like sites.
 1. Unregistered users should have to enter an email and a numeric code to register and become an unverified user
 1. Unverified users should have to connect their Github account to become verified
 1. Active users should be able to submit exercises for grading
+1. Active users should be able to change courses
+1. Admin should be able to switch courses
+1. Admin should be able to filter table columns in the lesson, chapter, and user views
 
 ### Todo
 
+1. Lesson content should accept markdown
 1. Update the design
 1. Set up error logging
 1. Add uncaught exception handler
@@ -122,3 +128,5 @@ Just a simple learning management system for textbook-like sites.
 1. Add flash to res object for testing purposes
 1. Add code quality/analysis tools
 1. Convert ORM to massive from knex
+1. Add server side validation
+1. Deploy to production
