@@ -67,7 +67,6 @@ Just a simple learning management system for textbook-like sites.
 1. Active users should be able to view a checkmark next to read lessons on the sidebar
 1. Active users should be able to mark a lesson as read or unread from the single lesson view
 1. Active users should be able to view their overall progress on the dashboard (based on read lessons)
-1. Active users should be able to view a checkmark next to read chapters on the sidebar after all lessons have been read
 1. Active users should be able to move from lesson to lesson within the single lesson view
 1. Active users should be able to view lessons on the sidebar in the correct order
 1. Active users should be able to see the current chapter and lesson highlighted on the sidebar
@@ -98,11 +97,11 @@ Just a simple learning management system for textbook-like sites.
 1. Admin should be able to view all lessons
 1. Admin should be able to add new lessons to an existing chapter
 1. Admin should be able to update lessons within the lesson view
+1. Admin should be able to move the order of messages within the lesson view
 
 #### Incomplete
 
-1. Admin should be able to move the order of messages within the lesson view (current)
-1. Active users should be able to view a tag next to a message if it's posted by an admin within the lesson view
+1. Active users should be able to view a tag next to a message if it's posted by an admin within the lesson view (current)
 1. Admin should be able to add an avatar link when adding a new user
 1. Active users should be able to suggest new topics to be added to the course
 1. Active users should be able to view a message and reply activity feed on the dashboard
@@ -113,27 +112,29 @@ Just a simple learning management system for textbook-like sites.
 1. Admin should only be able to deactivate messages; they should not be deleted
 1. Unregistered users should have to enter an email and a numeric code to register and become an unverified user
 1. Unverified users should have to connect their Github account to become verified
-1. Active users should be able to submit exercises for grading
 1. Active users should be able to change courses
-1. Admin should be able to switch courses
+1. Admin should be able to switch courses within the lesson and chapter views
 1. Admin should be able to filter table columns in the lesson, chapter, and user views
 1. Active users should only be able to view active chapters
 1. Admin should be able to delete (change `active` to `false`) lessons
+1. Admin should be able to update lesson `content` with markdown
 1. Active users should be able to update their email address on the profile page
+1. Active users should be able to submit exercises for grading
+1. Admin should be able to move the order of replies within the lesson view
+1. Active users should be able to view a checkmark next to read chapters on the sidebar after all lessons have been read
 
 ### Todo
 
-1. Lesson content should accept markdown
 1. Update the design
 1. Set up error logging
 1. Add uncaught exception handler
 1. Separate API routes from server side templating routes
 1. Swagger docs for the handlers returning JSON
-1. Add front end tests with selenium
+1. Add front end tests with selenium/webdriver
 1. Add flash to res object for testing purposes
 1. Add code quality/analysis tools
-1. Convert ORM to massive from knex
+1. Convert ORM to massive.js from knex
 1. Add server side validation
 1. Deploy to production
-  - Add gulp for creating build
+  - Add gulp for creating build/dist
 1. Add Amazon S3 Bucket for Avatars

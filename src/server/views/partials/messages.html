@@ -26,9 +26,12 @@
                   <p>
                     <!-- reply link -->
                     <span class="link-text reply-link" data-message-id="{{message.messageID}}">Reply</span>
-                    <span>&nbsp;</span>
                     <!-- delete link -->
+                    <span>&nbsp;&verbar;&nbsp;</span>
                     <span><a href="/admin/messages/{{message.messageID}}/delete?type=parent" class="delete-link">Delete</a></span>
+                    <!-- move message up link -->
+                    <span>&nbsp;&verbar;&nbsp;</span>
+                    <span><a href="/admin/messages/{{message.messageID}}/update" class="move-up-link">Move up</a></span>
                   </p>
                   <!-- reply input - hidden on page load -->
                   <div class="message-reply-input" id="message-reply-input-{{message.messageID}}" data-status="hidden">

@@ -50,6 +50,19 @@ describe('routes : admin : messages', function() {
         });
       });
     });
+    describe('GET /admin/messages/:id/update', function() {
+      it('should redirect to log in page', function(done) {
+        chai.request(server)
+        .get('/admin/messages/1/update')
+        .end(function(err, res) {
+          res.redirects.length.should.equal(1);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('try Textbook');
+          done();
+        });
+      });
+    });
   });
 
   describe('if authenticated as a user', function() {
@@ -76,6 +89,22 @@ describe('routes : admin : messages', function() {
         });
       });
     });
+    describe('GET /admin/messages/:id/update', function() {
+      it('should redirect to the dashboard', function(done) {
+        chai.request(server)
+        .get('/admin/messages/1/update')
+        .end(function(err, res) {
+          res.redirects.length.should.equal(2);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('<h1>Dashboard</h1>');
+          res.text.should.contain(
+            '<p class="completed">0% Complete</p>');
+          res.text.should.not.contain('<h2>You are an admin.</h2>');
+          done();
+        });
+      });
+    });
   });
 
   describe('if authenticated as a user but inactive', function() {
@@ -90,6 +119,20 @@ describe('routes : admin : messages', function() {
       it('should redirect to the inactive page', function(done) {
         chai.request(server)
         .get('/admin/messages/1/delete?type=parent')
+        .end(function(err, res) {
+          res.redirects.length.should.equal(3);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('<h2>Your account is inactive.</h2>');
+          res.text.should.contain('<p>Please contact support.</p>');
+          done();
+        });
+      });
+    });
+    describe('GET /admin/messages/:id/update', function() {
+      it('should redirect to the inactive page', function(done) {
+        chai.request(server)
+        .get('/admin/messages/1/update')
         .end(function(err, res) {
           res.redirects.length.should.equal(3);
           res.status.should.equal(200);
@@ -133,6 +176,23 @@ describe('routes : admin : messages', function() {
         .then(function(messages) {
           chai.request(server)
           .get('/admin/messages/' + messages[0].id + '/delete?type=parent')
+          .end(function(err, res) {
+            res.redirects.length.should.equal(1);
+            res.status.should.equal(200);
+            res.type.should.equal('text/html');
+            res.text.should.contain('<h1>Dashboard</h1>');
+            res.text.should.contain('<h2>You are an admin.</h2>');
+            done();
+          });
+        });
+      });
+    });
+    describe('GET /admin/messages/:id/update', function() {
+      it('should update messages', function(done) {
+        messageQueries.getParentMessages()
+        .then(function(messages) {
+          chai.request(server)
+          .get('/admin/messages/' + messages[0].id + '/update')
           .end(function(err, res) {
             res.redirects.length.should.equal(1);
             res.status.should.equal(200);

@@ -13,14 +13,16 @@ exports.seed = function(knex, Promise) {
           parent_id: null,
           lesson_id: 1,
           user_id: users[0][0].id,
-          created_at: new Date(2015, 06, 9)
+          created_at: new Date(2015, 06, 9),
+          updated_at: new Date(2015, 06, 9)
         }).returning('id'),
         knex('messages').insert({
           content: 'Sick!',
           lesson_id: 1,
           parent_id: null,
           user_id: users[0][0].id,
-          created_at: new Date(2016, 06, 9)
+          created_at: new Date(2016, 06, 9),
+          updated_at: new Date(2015, 06, 9)
         }),
         knex('messages').insert({
           content: 'Love it!',
@@ -49,4 +51,3 @@ exports.seed = function(knex, Promise) {
     });
   });
 };
-
