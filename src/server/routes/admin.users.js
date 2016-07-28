@@ -27,7 +27,7 @@ function(req, res, next) {
   });
 });
 
-// *** get single users *** //
+// *** get single user *** //
 router.get('/:id', authHelpers.ensureAdmin,
 function(req, res, next) {
   var userID = parseInt(req.params.id);

@@ -26,6 +26,8 @@
             <th>Read</th>
             <th>Active</th>
             <th>Created Date</th>
+            <th>Update</th>
+            <th>Deactivate</th>
           </tr>
         </thead>
         <tbody>
@@ -39,6 +41,8 @@
               <td>{{lesson.read}}</td>
               <td>{{lesson.active}}</td>
               <td>{{lesson.created_at|date('Y-m-d')}}</td>
+              <td><button class="btn btn-warning btn-sm update-lesson-button" data-lesson-id="{{lesson.id}}" data-toggle="modal" data-target="#updateLessonModal">&#10003;</button></td>
+              <td></td>
             </tr>
           {% endfor %}
         </tbody>
@@ -46,7 +50,7 @@
     </div>
   </div>
 
-<!-- modal -->
+<!-- add lesson modal -->
   <div class="modal fade" id="newLessonModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -78,7 +82,59 @@
           	</div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary" id="add-user-button">Add Lesson</button>
+              <button type="submit" class="btn btn-primary" id="add-lesson-button">Add Lesson</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- update lesson modal -->
+  <div class="modal fade" id="updateLessonModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Update lesson</h4>
+        </div>
+        <div class="modal-body">
+          <form id="update-lesson-form">
+            <div class="form-group">
+              <label for="update-lesson-order-number" class="control-label">Lesson Order Number</label>
+              <input type="number" name="order-number" class="form-control" id="update-lesson-order-number" min="0" step="1" required>
+            </div>
+            <div class="form-group">
+              <label for="update-lesson-chapter-number" class="control-label">Chapter Order Number</label>
+              <input type="number" name="chapter-order-number" class="form-control" id="update-lesson-chapter-number" min="0" step="1" required>
+            </div>
+            <div class="form-group">
+              <label for="update-lesson-name" class="control-label">Lesson Name</label>
+              <input type="text" name="name" class="form-control" id="update-lesson-name" required>
+            </div>
+            <div class="form-group">
+          		<label for="update-lesson-content" class="control-label">Content</label>
+          		<textarea id="update-lesson-content" class="form-control" rows="4" name="content" required></textarea>
+          	</div>
+            <div class="checkbox">
+              <label><input type="checkbox" name="read" id="update-lesson-read"> Read?</label>
+            </div>
+            <div class="checkbox">
+              <label><input type="checkbox" name="active" id="update-lesson-active"> Active?</label>
+            </div>
+            <div class="form-group">
+              <label for="update-lesson-chapter" class="control-label">Associated Chapter</label>
+              <select id="update-lesson-chapter" class="form-control" name="chapter" required>
+                {% if chapters.length %}
+                  {% for chapter in chapters %}
+                    <option value="{{chapter.id}}">{{chapter.name}}</option>
+                  {% endfor %}
+                {% endif %}
+              </select>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary" id="update-lesson-button">Update Lesson</button>
             </div>
           </form>
         </div>

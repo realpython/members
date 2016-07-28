@@ -1,6 +1,12 @@
 var knex = require('./knex');
 
-function getLessons() {
+function getAllLessons() {
+  return knex('lessons')
+  .select('*')
+  .orderBy('lesson_order_number');
+}
+
+function getActiveLessons() {
   return knex('lessons')
   .select('*')
   .orderBy('lesson_order_number')
@@ -59,8 +65,16 @@ function addLesson(obj) {
     .returning('*');
 }
 
+function updateLesson(lessonID, obj) {
+  return knex('lessons')
+    .update(obj)
+    .where('id', parseInt(lessonID))
+    .returning('*');
+}
+
 module.exports = {
-  getLessons: getLessons,
+  getAllLessons: getAllLessons,
+  getActiveLessons: getActiveLessons,
   getLessonOrderNumbers: getLessonOrderNumbers,
   getLessonsFromChapterID: getLessonsFromChapterID,
   getLessonChapterOrderNumsFromChapterID: getLessonChapterOrderNumsFromChapterID,
@@ -68,5 +82,6 @@ module.exports = {
   getSingleLessonFromLessonID: getSingleLessonFromLessonID,
   getSingleLessonFromOrder: getSingleLessonFromOrder,
   updateLessonReadStatus: updateLessonReadStatus,
-  addLesson: addLesson
+  addLesson: addLesson,
+  updateLesson: updateLesson
 };

@@ -85,4 +85,58 @@ $(function() {
     });
   });
 
+  // populate update lesson modal
+  $(document).on('click', '.update-lesson-button', function() {
+    var $this = $(this);
+    var lessonID = parseInt($this.data('lesson-id'));
+    $('#update-lesson-form')[0].reset();
+    $.ajax({
+      type: 'GET',
+      url: '/admin/lessons/' + lessonID
+    }).done(function(results) {
+      var data = results.data;
+      $('#update-lesson-form').data('lesson-id', data.id);
+      $('#update-lesson-order-number').val(data.lesson_order_number);
+      $('#update-lesson-chapter-number').val(data.chapter_order_number);
+      $('#update-lesson-name').val(data.name);
+      $('#update-lesson-content').val(data.content);
+      $('#update-lesson-chapter').val(data.chapter_id);
+      if (data.read) {
+        $('#update-lesson-read').prop('checked', true);
+      }
+      if (data.active) {
+        $('#update-lesson-active').prop('checked', true);
+      }
+    }).fail(function(error) {
+      // TODO: handle this error better!
+      console.log(error);
+    });
+  });
+
+  $('#update-lesson-form').on('submit', function(event) {
+    event.preventDefault();
+    var $this = $(this);
+    var lessonID = parseInt($this.data('lesson-id'));
+    var payload = {
+      lessonOrderNumber: $('#update-lesson-order-number').val(),
+      chapterOrderNumber: $('#update-lesson-chapter-number').val(),
+      lessonName: $('#update-lesson-name').val(),
+      lessonContent: $('#update-lesson-content').val(),
+      lessonRead: $('#update-lesson-read').val(),
+      lessonActive: $('#update-lesson-active').prop('checked'),
+      chapter: $('#update-lesson-chapter').val()
+    };
+    $.ajax({
+      type: 'PUT',
+      data: payload,
+      url: '/admin/lessons/' + lessonID
+    }).done(function(results) {
+      // TODO: flash success message
+      window.location.replace('/admin/lessons');
+    }).fail(function(error) {
+      // TODO: handle this error better!
+      console.log(error);
+    });
+  });
+
 });

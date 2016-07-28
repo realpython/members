@@ -107,7 +107,7 @@ describe('routes : index', function() {
     });
     describe('GET /', function() {
       it('should show the correct course status', function(done) {
-        lessonQueries.getLessons()
+        lessonQueries.getActiveLessons()
         .then(function(lessons) {
           lessonQueries.updateLessonReadStatus(lessons[0].id, true)
           .then(function(response) {
@@ -152,7 +152,7 @@ describe('routes : index', function() {
     });
     describe('GET /', function() {
       it('should redirect to the inactive page', function(done) {
-        lessonQueries.getLessons()
+        lessonQueries.getActiveLessons()
         .then(function(lessons) {
           lessonQueries.updateLessonReadStatus(lessons[0].id, true)
           .then(function(response) {

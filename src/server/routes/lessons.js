@@ -36,7 +36,7 @@ router.get('/:id',
       if (singleLesson.length && singleLesson[0].active) {
         var lessonObject = singleLesson[0];
         // get all lessons
-        return lessonQueries.getLessons()
+        return lessonQueries.getActiveLessons()
         .then(function(lessons) {
           renderObject.previousLesson = routeHelpers.getPrevLesson(
             lessonObject.lesson_order_number, lessons);

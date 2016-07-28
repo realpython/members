@@ -119,6 +119,16 @@ var duplicateLesson = {
   content: 'just some content'
 };
 
+var updateLesson = {
+  lessonOrderNumber: 1,
+  chapterOrderNumber: 1,
+  lessonName: 'Lesson 1aaaaaaa',
+  lessonContent: 'test',
+  lessonRead: 'true',
+  lessonActive: 'false',
+  chapter: 1
+};
+
 module.exports = {
   authenticateActiveUser: authenticateActiveUser,
   authenticateInactiveUser: authenticateInactiveUser,
@@ -129,5 +139,6 @@ module.exports = {
   sampleChapter: sampleChapter,
   duplicateChapter: duplicateChapter,
   sampleLesson: sampleLesson,
-  duplicateLesson: duplicateLesson
+  duplicateLesson: duplicateLesson,
+  updateLesson: updateLesson
 };

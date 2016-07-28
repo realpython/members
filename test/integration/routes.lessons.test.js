@@ -249,7 +249,7 @@ describe('routes : lessons', function() {
     });
     describe('POST /lessons', function() {
       it('should redirect to the dashboard', function(done) {
-        lessonQueries.getLessons()
+        lessonQueries.getActiveLessons()
         .then(function(lessons) {
           chai.request(server)
           .post('/lessons')
@@ -297,7 +297,7 @@ describe('routes : lessons', function() {
     });
     describe('POST /lessons', function() {
       it('should throw an error if the query string "read" is not a boolean', function(done) {
-        lessonQueries.getLessons()
+        lessonQueries.getActiveLessons()
         .then(function(lessons) {
           chai.request(server)
           .post('/lessons')
@@ -448,7 +448,7 @@ describe('routes : lessons', function() {
     });
     describe('POST /lessons', function() {
       it('should redirect to the inactive page', function(done) {
-        lessonQueries.getLessons()
+        lessonQueries.getActiveLessons()
         .then(function(lessons) {
           chai.request(server)
           .post('/lessons')
@@ -495,7 +495,7 @@ describe('routes : lessons', function() {
     });
     describe('POST /lessons', function() {
       it('should redirect to the inactive page', function(done) {
-        lessonQueries.getLessons()
+        lessonQueries.getActiveLessons()
         .then(function(lessons) {
           chai.request(server)
           .post('/lessons')

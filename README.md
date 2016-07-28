@@ -94,11 +94,11 @@ Just a simple learning management system for textbook-like sites.
 1. Admin should be able to delete (change `active` to `false`) users
 1. Admin should be able to view all lessons
 1. Admin should be able to add new lessons to an existing chapter
+1. Admin should be able to update lessons within the lesson view
 
 #### Incomplete
 
-1. Admin should be able to update lessons within the lesson view (current)
-1. Active users should be able to update their avatar on the profile page
+1. Active users should be able to update their avatar link on the profile page (current)
 1. Admin should be able to move the order of messages within the lesson view
 1. Active users should be able to view a tag next to a message if it's posted by an admin within the lesson view
 1. Admin should be able to add an avatar link when adding a new user
@@ -115,6 +115,8 @@ Just a simple learning management system for textbook-like sites.
 1. Active users should be able to change courses
 1. Admin should be able to switch courses
 1. Admin should be able to filter table columns in the lesson, chapter, and user views
+1. Active users should only be able to view active chapters
+1. Admin should be able to delete (change `active` to `false`) lessons
 
 ### Todo
 
@@ -131,3 +133,4 @@ Just a simple learning management system for textbook-like sites.
 1. Add server side validation
 1. Deploy to production
   - Add gulp for creating build
+1. Add Amazon S3 Bucket for Avatars
