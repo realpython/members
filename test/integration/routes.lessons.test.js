@@ -215,7 +215,7 @@ describe('routes : lessons', function() {
     });
     describe('GET /lessons/:id', function() {
       it('should show only previous lesson button', function(done) {
-        lessonQueries.getSingleLessonFromOrder(6)
+        lessonQueries.getSingleLessonFromOrder(7)
         .then(function(lesson) {
           chai.request(server)
           .get('/lessons/' + lesson[0].id)

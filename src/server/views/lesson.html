@@ -21,11 +21,11 @@
           <input type="hidden" name="read" value="true">
           <button type="submit" class="btn btn-default">Mark as Read</button>
         {% endif %}
-        {% if previousLesson.length %}
+        {% if previousLesson %}
           <!-- previous lesson button -->
           <a href="/lessons/{{previousLesson[0].id}}" type="button" class="btn btn-primary">« Prev Lesson</a>
         {% endif %}
-        {% if nextLesson.length %}
+        {% if nextLesson %}
           <!-- next lesson button -->
           <a href="/lessons/{{nextLesson[0].id}}" type="button" class="btn btn-primary">Next Lesson »</a>
         {% endif %}

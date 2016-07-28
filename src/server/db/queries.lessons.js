@@ -3,20 +3,23 @@ var knex = require('./knex');
 function getLessons() {
   return knex('lessons')
   .select('*')
-  .orderBy('lesson_order_number');
+  .orderBy('lesson_order_number')
+  .where('active', true);
 }
 
 function getLessonOrderNumbers() {
   return knex('lessons')
   .select('lesson_order_number')
-  .orderBy('lesson_order_number');
+  .orderBy('lesson_order_number')
+  .where('active', true);
 }
 
 function getLessonsFromChapterID(chapterID) {
   return knex('lessons')
   .select('*')
   .orderBy('lesson_order_number')
-  .where('chapter_id', parseInt(chapterID));
+  .where('chapter_id', parseInt(chapterID))
+  .where('active', true);
 }
 
 function getLessonChapterOrderNumsFromChapterID(chapterID) {

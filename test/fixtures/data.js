@@ -6,6 +6,7 @@ var base = [
     lessonName: 'Lesson 1a',
     lessonContent: 'test',
     lessonRead: false,
+    lessonActive: true,
     chapterID: 1,
     chapterOrder: 1,
     chapterName: 'Functions and Loops',
@@ -18,6 +19,7 @@ var base = [
     lessonName: 'Lesson 1c',
     lessonContent: 'test',
     lessonRead: false,
+    lessonActive: true,
     chapterID: 1,
     chapterOrder: 1,
     chapterName: 'Functions and Loops',
@@ -30,6 +32,7 @@ var base = [
     lessonName: 'Lesson 1b',
     lessonContent: 'test',
     lessonRead: false,
+    lessonActive: true,
     chapterID: 1,
     chapterOrder: 1,
     chapterName: 'Functions and Loops',
@@ -37,11 +40,12 @@ var base = [
   },
   {
     lessonID: 6,
-    lessonLessonOrder: 6,
+    lessonLessonOrder: 7,
     lessonChapterOrder: 2,
     lessonName: 'Lesson 3b',
     lessonContent: 'test',
     lessonRead: false,
+    lessonActive: true,
     chapterID: 2,
     chapterOrder: 3,
     chapterName: 'Lists and Dictionaries',
@@ -49,11 +53,12 @@ var base = [
   },
   {
     lessonID: 4,
-    lessonLessonOrder: 5,
+    lessonLessonOrder: 6,
     lessonChapterOrder: 1,
     lessonName: 'Lesson 3a',
     lessonContent: 'test',
     lessonRead: false,
+    lessonActive: true,
     chapterID: 2,
     chapterOrder: 3,
     chapterName: 'Lists and Dictionaries',
@@ -61,14 +66,28 @@ var base = [
   },
   {
     lessonID: 5,
-    lessonLessonOrder: 4,
+    lessonLessonOrder: 5,
     lessonChapterOrder: 1,
     lessonName: 'Lesson 2a',
     lessonContent: 'test',
     lessonRead: false,
+    lessonActive: true,
     chapterID: 3,
     chapterOrder: 2,
     chapterName: 'Conditional logic',
+    chapterRead: false
+  },
+  {
+    lessonID: 7,
+    lessonLessonOrder: 4,
+    lessonChapterOrder: 4,
+    lessonName: 'Lesson 1d',
+    lessonContent: 'test',
+    lessonRead: false,
+    lessonActive: false,
+    chapterID: 1,
+    chapterOrder: 1,
+    chapterName: 'Functions and Loops',
     chapterRead: false
   }
 ];
@@ -86,7 +105,8 @@ var reduced = {
         lessonID: 3,
         lessonLessonOrder: 1,
         lessonName: 'Lesson 1a',
-        lessonRead: false
+        lessonRead: false,
+        lessonActive: true
       },
       {
         lessonChapterOrder: 3,
@@ -94,7 +114,8 @@ var reduced = {
         lessonID: 2,
         lessonLessonOrder: 3,
         lessonName: 'Lesson 1c',
-        lessonRead: false
+        lessonRead: false,
+        lessonActive: true
       },
       {
         lessonChapterOrder: 2,
@@ -102,7 +123,17 @@ var reduced = {
         lessonID: 1,
         lessonLessonOrder: 2,
         lessonName: 'Lesson 1b',
-        lessonRead: false
+        lessonRead: false,
+        lessonActive: true
+      },
+      {
+        lessonChapterOrder: 4,
+        lessonContent: 'test',
+        lessonID: 7,
+        lessonLessonOrder: 4,
+        lessonName: 'Lesson 1d',
+        lessonRead: false,
+        lessonActive: false
       }
     ]
   },
@@ -116,17 +147,19 @@ var reduced = {
         lessonChapterOrder: 2,
         lessonContent: 'test',
         lessonID: 6,
-        lessonLessonOrder: 6,
+        lessonLessonOrder: 7,
         lessonName: 'Lesson 3b',
-        lessonRead: false
+        lessonRead: false,
+        lessonActive: true
       },
       {
         lessonChapterOrder: 1,
         lessonContent: 'test',
         lessonID: 4,
-        lessonLessonOrder: 5,
+        lessonLessonOrder: 6,
         lessonName: 'Lesson 3a',
-        lessonRead: false
+        lessonRead: false,
+        lessonActive: true
       }
     ]
   },
@@ -140,9 +173,10 @@ var reduced = {
         lessonChapterOrder: 1,
         lessonContent: 'test',
         lessonID: 5,
-        lessonLessonOrder: 4,
+        lessonLessonOrder: 5,
         lessonName: 'Lesson 2a',
-        lessonRead: false
+        lessonRead: false,
+        lessonActive: true
       }
     ]
   }
@@ -161,7 +195,8 @@ var converted = [
         lessonID: 3,
         lessonLessonOrder: 1,
         lessonName: 'Lesson 1a',
-        lessonRead: false
+        lessonRead: false,
+        lessonActive: true
       },
       {
         lessonChapterOrder: 3,
@@ -169,7 +204,8 @@ var converted = [
         lessonID: 2,
         lessonLessonOrder: 3,
         lessonName: 'Lesson 1c',
-        lessonRead: false
+        lessonRead: false,
+        lessonActive: true
       },
       {
         lessonChapterOrder: 2,
@@ -177,7 +213,17 @@ var converted = [
         lessonID: 1,
         lessonLessonOrder: 2,
         lessonName: 'Lesson 1b',
-        lessonRead: false
+        lessonRead: false,
+        lessonActive: true
+      },
+      {
+        lessonChapterOrder: 4,
+        lessonContent: 'test',
+        lessonID: 7,
+        lessonLessonOrder: 4,
+        lessonName: 'Lesson 1d',
+        lessonRead: false,
+        lessonActive: false
       }
     ]
   },
@@ -191,17 +237,19 @@ var converted = [
         lessonChapterOrder: 2,
         lessonContent: 'test',
         lessonID: 6,
-        lessonLessonOrder: 6,
+        lessonLessonOrder: 7,
         lessonName: 'Lesson 3b',
-        lessonRead: false
+        lessonRead: false,
+        lessonActive: true
       },
       {
         lessonChapterOrder: 1,
         lessonContent: 'test',
         lessonID: 4,
-        lessonLessonOrder: 5,
+        lessonLessonOrder: 6,
         lessonName: 'Lesson 3a',
-        lessonRead: false
+        lessonRead: false,
+        lessonActive: true
       }
     ]
   },
@@ -215,9 +263,10 @@ var converted = [
         lessonChapterOrder: 1,
         lessonContent: 'test',
         lessonID: 5,
-        lessonLessonOrder: 4,
+        lessonLessonOrder: 5,
         lessonName: 'Lesson 2a',
-        lessonRead: false
+        lessonRead: false,
+        lessonActive: true
       }
     ]
   }
@@ -236,7 +285,8 @@ var sorted = [
         lessonID: 3,
         lessonLessonOrder: 1,
         lessonName: 'Lesson 1a',
-        lessonRead: false
+        lessonRead: false,
+        lessonActive: true
       },
       {
         lessonChapterOrder: 2,
@@ -244,7 +294,8 @@ var sorted = [
         lessonID: 1,
         lessonLessonOrder: 2,
         lessonName: 'Lesson 1b',
-        lessonRead: false
+        lessonRead: false,
+        lessonActive: true
       },
       {
         lessonChapterOrder: 3,
@@ -252,7 +303,17 @@ var sorted = [
         lessonID: 2,
         lessonLessonOrder: 3,
         lessonName: 'Lesson 1c',
-        lessonRead: false
+        lessonRead: false,
+        lessonActive: true
+      },
+      {
+        lessonChapterOrder: 4,
+        lessonContent: 'test',
+        lessonID: 7,
+        lessonLessonOrder: 4,
+        lessonName: 'Lesson 1d',
+        lessonRead: false,
+        lessonActive: false
       }
     ]
   },
@@ -266,9 +327,10 @@ var sorted = [
         lessonChapterOrder: 1,
         lessonContent: 'test',
         lessonID: 5,
-        lessonLessonOrder: 4,
+        lessonLessonOrder: 5,
         lessonName: 'Lesson 2a',
-        lessonRead: false
+        lessonRead: false,
+        lessonActive: true
       }
     ]
   },
@@ -282,17 +344,19 @@ var sorted = [
         lessonChapterOrder: 1,
         lessonContent: 'test',
         lessonID: 4,
-        lessonLessonOrder: 5,
+        lessonLessonOrder: 6,
         lessonName: 'Lesson 3a',
-        lessonRead: false
+        lessonRead: false,
+        lessonActive: true
       },
       {
         lessonChapterOrder: 2,
         lessonContent: 'test',
         lessonID: 6,
-        lessonLessonOrder: 6,
+        lessonLessonOrder: 7,
         lessonName: 'Lesson 3b',
-        lessonRead: false
+        lessonRead: false,
+        lessonActive: true
       }
     ]
   }

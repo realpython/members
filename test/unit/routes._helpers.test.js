@@ -35,7 +35,7 @@ describe('routes : helpers', function() {
       var reducedResults = routeHelpers.reduceResults(data.base);
       var chapters = routeHelpers.convertArray(reducedResults);
       var sorted = routeHelpers.sortLessonsByOrderNumber(chapters);
-      routeHelpers.getTotalLessons(sorted).should.eql(6);
+      routeHelpers.getTotalLessons(sorted).should.eql(7);
       done();
     });
   });

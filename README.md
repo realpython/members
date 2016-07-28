@@ -79,6 +79,7 @@ Just a simple learning management system for textbook-like sites.
 1. Active users should be able to contact support
 1. Active users should be able to search across all lessons
 1. Active users should be able to hide/show lessons on the sidebar
+1. Active users should only be able to view active lessons
 
 **Admin**
 
@@ -96,8 +97,7 @@ Just a simple learning management system for textbook-like sites.
 
 #### Incomplete
 
-1. Active users should only be able to view active lessons (current)
-1. Admin should be able to update lessons within the lesson view
+1. Admin should be able to update lessons within the lesson view (current)
 1. Active users should be able to update their avatar on the profile page
 1. Admin should be able to move the order of messages within the lesson view
 1. Active users should be able to view a tag next to a message if it's posted by an admin within the lesson view
@@ -130,3 +130,4 @@ Just a simple learning management system for textbook-like sites.
 1. Convert ORM to massive from knex
 1. Add server side validation
 1. Deploy to production
+  - Add gulp for creating build

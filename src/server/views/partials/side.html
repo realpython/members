@@ -21,14 +21,16 @@
               {% if chapter.lessons %}
                 <ul id="sidebar-chapter-{{loop.index}}" class="lesson-list collapse" aria-expanded="true">
                   {% for lesson in chapter.lessons %}
-                    <li class="side-nav-lessons">
-                      <a href="/lessons/{{lesson.lessonID}}">
-                        {{lesson.lessonName}}
-                        {% if lesson.lessonRead %}
-                          &nbsp;&nbsp;&nbsp;<i class="fa fa-check" data-lesson-read="true"></i></a>
-                        {% endif %}
-                      </a>
-                    </li>
+                    {% if lesson.lessonActive %}
+                      <li class="side-nav-lessons">
+                        <a href="/lessons/{{lesson.lessonID}}">
+                          {{lesson.lessonName}}
+                          {% if lesson.lessonRead %}
+                            &nbsp;&nbsp;&nbsp;<i class="fa fa-check" data-lesson-read="true"></i></a>
+                          {% endif %}
+                        </a>
+                      </li>
+                    {% endif %}
                   {% endfor %}
                 </ul>
               {% endif %}

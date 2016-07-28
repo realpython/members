@@ -32,7 +32,8 @@ function reduceResults(results) {
       lessonChapterOrder: val.lessonChapterOrder,
       lessonName: val.lessonName,
       lessonContent: val.lessonContent,
-      lessonRead: val.lessonRead
+      lessonRead: val.lessonRead,
+      lessonActive: val.lessonActive
     });
     return acc;
   }, {});
@@ -86,15 +87,35 @@ function getNextChapter(orderID, chapters) {
 }
 
 function getPrevLesson(orderID, lessons) {
-  return lessons.filter(function(lesson) {
-    return parseInt(lesson.lesson_order_number) === parseInt(orderID - 1);
+  var numberArray = lessons.map(function(lesson) {
+    return parseInt(lesson.lesson_order_number);
   });
+  var index = numberArray.indexOf(parseInt(orderID));
+  var slicedArray = numberArray.slice(0, parseInt(index));
+  if (slicedArray.length) {
+    var lessonOrderNumber = parseInt(slicedArray.pop());
+    return lessons.filter(function(lesson) {
+      return parseInt(lesson.lesson_order_number) === lessonOrderNumber;
+    });
+  } else {
+    return false;
+  }
 }
 
 function getNextLesson(orderID, lessons) {
-  return lessons.filter(function(lesson) {
-    return parseInt(lesson.lesson_order_number) === parseInt(orderID + 1);
+  var numberArray = lessons.map(function(lesson) {
+    return parseInt(lesson.lesson_order_number);
   });
+  var index = numberArray.indexOf(parseInt(orderID));
+  var slicedArray = numberArray.slice(parseInt(index) + 1);
+  if (slicedArray.length) {
+    var lessonOrderNumber = parseInt(slicedArray[0]);
+    return lessons.filter(function(lesson) {
+      return parseInt(lesson.lesson_order_number) === lessonOrderNumber;
+    });
+  } else {
+    return false;
+  }
 }
 
 function getChapterReadStatus(lessons) {

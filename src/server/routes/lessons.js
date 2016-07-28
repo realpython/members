@@ -33,7 +33,7 @@ router.get('/:id',
     // get single lesson info
     return lessonQueries.getSingleLesson(parseInt(req.params.id))
     .then(function(singleLesson) {
-      if (singleLesson.length) {
+      if (singleLesson.length && singleLesson[0].active) {
         var lessonObject = singleLesson[0];
         // get all lessons
         return lessonQueries.getLessons()
