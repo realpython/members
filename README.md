@@ -80,6 +80,7 @@ Just a simple learning management system for textbook-like sites.
 1. Active users should be able to search across all lessons
 1. Active users should be able to hide/show lessons on the sidebar
 1. Active users should only be able to view active lessons
+1. Active users should be able to view their avatar link on the profile page
 
 **Admin**
 
@@ -98,7 +99,7 @@ Just a simple learning management system for textbook-like sites.
 
 #### Incomplete
 
-1. Active users should be able to update their avatar link on the profile page (current)
+1. Active users should be able to update their avatar link and display name on the profile page (current)
 1. Admin should be able to move the order of messages within the lesson view
 1. Active users should be able to view a tag next to a message if it's posted by an admin within the lesson view
 1. Admin should be able to add an avatar link when adding a new user
@@ -117,6 +118,7 @@ Just a simple learning management system for textbook-like sites.
 1. Admin should be able to filter table columns in the lesson, chapter, and user views
 1. Active users should only be able to view active chapters
 1. Admin should be able to delete (change `active` to `false`) lessons
+1. Active users should be able to update their email address on the profile page
 
 ### Todo
 

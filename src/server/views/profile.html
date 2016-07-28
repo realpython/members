@@ -24,6 +24,8 @@
     {% else %}
       <dd>user</dd>
     {% endif %}
+    <dt>Avatar URL</dt>
+    <dd><a href="{{user.github_avatar}}">{{user.github_avatar}}</a></dd>
   </dl>
 
 {% endblock %}
