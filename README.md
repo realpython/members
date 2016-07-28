@@ -99,11 +99,11 @@ Just a simple learning management system for textbook-like sites.
 1. Admin should be able to add new lessons to an existing chapter
 1. Admin should be able to update lessons within the lesson view
 1. Admin should be able to move the order of messages within the lesson view
+1. Admin should be able to add an avatar link when adding a new user
 
 #### Incomplete
 
-1. Admin should be able to add an avatar link when adding a new user (current)
-1. Active users should be able to suggest new topics to be added to the course
+1. Active users should be able to suggest new topics to be added to the course (current)
 1. Active users should be able to view a message and reply activity feed on the dashboard
 1. Active users should be able to see their recent activity log on the dashboard
 1. Active users should be able to view the total number of lessons in the course on the dashboard
