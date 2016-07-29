@@ -31,15 +31,16 @@ router.get('/',
     // get completed percentage
     var percentage = ((completed / totalLessons) * 100).toFixed(0);
     // get feed data
-    return userQueries.getFeedData()
-    .then(function(data) {
+    return userQueries.getMessageFeedData()
+    .then(function(messageFeedData) {
       var renderObject = {
         title: 'Textbook LMS - dashboard',
         pageTitle: 'Dashboard',
         user: req.user,
         sortedChapters: sortedChapters,
         completed: percentage,
-        feed: data,
+        feed: messageFeedData,
+        totalLessons: totalLessons,
         messages: req.flash('messages')
       };
       return res.render('dashboard', renderObject);

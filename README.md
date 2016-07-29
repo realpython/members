@@ -85,6 +85,7 @@ Just a simple learning management system for textbook-like sites.
 1. Active users should be able to view a tag next to a message if it's posted by an admin within the lesson view
 1. Active users should be able to suggest new topics to be added to the course
 1. Active users should be able to view a message and reply activity feed on the dashboard
+1. Active users should be able to view the total number of lessons in the course on the dashboard
 
 **Admin**
 
@@ -105,9 +106,7 @@ Just a simple learning management system for textbook-like sites.
 
 #### Incomplete
 
-1. Active users should be able to see their recent activity log (lessons read) on the dashboard (current)
-1. Active users should be able to view the total number of lessons in the course on the dashboard
-1. Active users should be able to view the total number of enrolled students on the dashboard
+1. Active users should be able to view the total number of enrolled students on the dashboard (current)
 1. Admin should be warned if they are deleting a message that contains replies within the lesson view
 1. Admin should only be able to deactivate messages; they should not be deleted
 1. Unregistered users should have to enter an email and a numeric code to register and become an unverified user
@@ -118,13 +117,13 @@ Just a simple learning management system for textbook-like sites.
 1. Active users should only be able to view active chapters
 1. Admin should be able to delete (change `active` to `false`) lessons
 1. Admin should be able to update lesson `content` with markdown
-1. Active users should be able to update their email address on the profile page
-1. Active users should be able to submit exercises for grading
 1. Admin should be able to move the order of replies within the lesson view
 1. Active users should be able to view a checkmark next to read chapters on the sidebar after all lessons have been read
 1. Active users should be able to view suggested topics
 1. Active users should be able to vote on suggested topics to be added to the course
 1. Active users should be able to view suggestions within the activity feed on the dashboard
+1. Active users should be able to update their email address on the profile page
+1. Active users should be able to submit exercises for grading
 
 ### Todo
 
@@ -141,3 +140,4 @@ Just a simple learning management system for textbook-like sites.
 1. Deploy to production
   - Add gulp for creating build/dist
 1. Add Amazon S3 Bucket for Avatars
+1. May need to refactor read status for chapters and lessons
