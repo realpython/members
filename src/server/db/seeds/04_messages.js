@@ -29,6 +29,13 @@ exports.seed = function(knex, Promise) {
           parent_id: null,
           lesson_id: 2,
           user_id: users[0][0].id
+        }),
+        knex('messages').insert({
+          content: 'Should not be visible.',
+          parent_id: null,
+          lesson_id: 2,
+          user_id: users[0][0].id,
+          active: false
         })
       ])
       .then(function(message) {

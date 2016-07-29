@@ -1,22 +1,31 @@
 var knex = require('./knex');
 
-function getMessages() {
+function getActiveMessages() {
+  return knex('messages')
+  .select('*')
+  .where('active', true)
+  .orderBy('updated_at', 'desc');
+}
+
+function getAllMessages() {
   return knex('messages')
   .select('*')
   .orderBy('updated_at', 'desc');
 }
 
-function getParentMessages() {
+function getActiveParentMessages() {
   return knex('messages')
   .select('*')
   .where('parent_id', null)
+  .where('active', true)
   .orderBy('updated_at', 'desc');
 }
 
-function getChildMessages() {
+function getActiveChildMessages() {
   return knex('messages')
   .select('*')
   .whereNot('parent_id', null)
+  .where('active', true)
   .orderBy('updated_at', 'desc');
 }
 
@@ -24,6 +33,7 @@ function getMessagesFromLessonID(lessonID) {
   return knex('messages')
   .select('*')
   .orderBy('updated_at', 'desc')
+  .where('active', true)
   .where('lesson_id', parseInt(lessonID));
 }
 
@@ -39,7 +49,8 @@ function messagesAndUsers(lessonID) {
     .from('messages')
     .join('users', 'users.id', 'messages.user_id')
     .orderBy('messages.updated_at', 'desc')
-    .where('messages.lesson_id', parseInt(lessonID));
+    .where('messages.lesson_id', parseInt(lessonID))
+    .where('messages.active', true);
 }
 
 function deleteChildMessagesFromParent(messageID) {
@@ -63,14 +74,36 @@ function updateMessageUpdatedAt(messageID) {
     .returning('*');
 }
 
+function deactivateMessage(messageID) {
+  return knex('messages')
+    .update({
+      active: false,
+      updated_at: new Date()
+    })
+    .where('id', parseInt(messageID))
+    .returning('*');
+}
+
+function deactivateChildMessagesFromParent(messageID) {
+  return knex('messages')
+  .update({
+    active: false,
+    updated_at: new Date()
+  })
+  .where('parent_id', parseInt(messageID));
+}
+
 module.exports = {
-  getMessages: getMessages,
-  getParentMessages: getParentMessages,
-  getChildMessages: getChildMessages,
+  getActiveMessages: getActiveMessages,
+  getAllMessages: getAllMessages,
+  getActiveParentMessages: getActiveParentMessages,
+  getActiveChildMessages: getActiveChildMessages,
   getMessagesFromLessonID: getMessagesFromLessonID,
   addMessage: addMessage,
   messagesAndUsers: messagesAndUsers,
   deleteChildMessagesFromParent: deleteChildMessagesFromParent,
   deleteMessage: deleteMessage,
-  updateMessageUpdatedAt: updateMessageUpdatedAt
+  updateMessageUpdatedAt: updateMessageUpdatedAt,
+  deactivateMessage: deactivateMessage,
+  deactivateChildMessagesFromParent: deactivateChildMessagesFromParent
 };

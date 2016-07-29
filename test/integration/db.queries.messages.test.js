@@ -28,9 +28,9 @@ describe('db : queries : messages', function() {
       done();
     });
   });
-  describe('getMessages()', function() {
+  describe('getAllMessages()', function() {
     it('should format data correctly', function(done) {
-      messageQueries.getMessages()
+      messageQueries.getAllMessages()
       .then(function(results) {
         results.length.should.equal(5);
         results[0].should.include.keys('id', 'content', 'parent_id', 'lesson_id', 'user_id', 'created_at', 'updated_at');
@@ -72,6 +72,80 @@ describe('db : queries : messages', function() {
         test.should.be.true; // jshint ignore:line
       });
       done();
+    });
+  });
+  describe('deleteMessage()', function() {
+    it('should delete a single, parent message', function(done) {
+      messageQueries.getActiveParentMessages()
+      .then(function(parentMessages) {
+        var parentMessageID = parseInt(parentMessages[0].id);
+        var parentMessagesLength = parseInt(parentMessages.length);
+        messageQueries.deleteMessage(parentMessageID)
+        .then(function(results) {
+          messageQueries.getActiveParentMessages()
+          .then(function(messages) {
+            var test = (parentMessagesLength - 1) === parseInt(messages.length);
+            test.should.be.true; // jshint ignore:line
+          });
+          done();
+        });
+      });
+    });
+  });
+  describe('deleteChildMessagesFromParent()', function() {
+    it('should delete all child messages', function(done) {
+      messageQueries.getActiveChildMessages()
+      .then(function(childMessages) {
+        var parentMessageID = parseInt(childMessages[0].parent_id);
+        var parentMessagesLength = parseInt(childMessages.length);
+        messageQueries.deleteChildMessagesFromParent(parentMessageID)
+        .then(function(numberOfDeleted) {
+          var firstTest = parentMessagesLength === parseInt(numberOfDeleted);
+          firstTest.should.be.true; // jshint ignore:line
+          messageQueries.getActiveChildMessages()
+          .then(function(messages) {
+            (messages.length).should.eq(0);
+            done();
+          });
+        });
+      });
+    });
+  });
+  describe('deactivateMessage()', function() {
+    it('should deactivate a single, parent message', function(done) {
+      messageQueries.getActiveParentMessages()
+      .then(function(parentMessages) {
+        var parentMessageID = parseInt(parentMessages[0].id);
+        var parentMessagesLength = parseInt(parentMessages.length);
+        messageQueries.deactivateMessage(parentMessageID)
+        .then(function(results) {
+          messageQueries.getActiveParentMessages()
+          .then(function(messages) {
+            var test = (parentMessagesLength - 1) === parseInt(messages.length);
+            test.should.be.true; // jshint ignore:line
+          });
+          done();
+        });
+      });
+    });
+  });
+  describe('deactivateChildMessagesFromParent()', function() {
+    it('should deactivate all child messages', function(done) {
+      messageQueries.getActiveChildMessages()
+      .then(function(childMessages) {
+        var parentMessageID = parseInt(childMessages[0].parent_id);
+        var parentMessagesLength = parseInt(childMessages.length);
+        messageQueries.deactivateChildMessagesFromParent(parentMessageID)
+        .then(function(numberOfDectivated) {
+          var firstTest = parentMessagesLength === parseInt(numberOfDectivated);
+          firstTest.should.be.true; // jshint ignore:line
+          messageQueries.getActiveChildMessages()
+          .then(function(messages) {
+            (messages.length).should.eq(0);
+            done();
+          });
+        });
+      });
     });
   });
 

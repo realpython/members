@@ -122,8 +122,8 @@ describe('routes : lessons', function() {
             res.text.should.not.contain('data-status="hidden"');
             res.text.should.not.contain('data-status="visible"');
             res.text.should.not.contain('<!-- reply link -->');
-            res.text.should.not.contain('<!-- delete link -->');
-            res.text.should.not.contain('<!-- delete reply link -->');
+            res.text.should.not.contain('<!-- deactivate link -->');
+            res.text.should.not.contain('<!-- deactivate reply link -->');
             done();
           });
         });
@@ -189,6 +189,35 @@ describe('routes : lessons', function() {
                 done();
               });
             });
+          });
+        });
+      });
+    });
+    describe('GET /lessons/:id', function() {
+      it('should not show an inactive message', function(done) {
+        lessonQueries.getSingleLessonFromLessonID(2)
+        .then(function(lesson) {
+          chai.request(server)
+          .get('/lessons/' + lesson[0].id)
+          .end(function(err, res) {
+            res.redirects.length.should.equal(0);
+            res.status.should.equal(200);
+            res.type.should.equal('text/html');
+            res.text.should.contain(
+              '<h1>' + lesson[0].name + '</h1>');
+            res.text.should.contain('<!-- next lesson button -->');
+            res.text.should.contain('<!-- breadcrumbs -->');
+            res.text.should.contain('<!-- user messages -->');
+            res.text.should.contain('<p class="message-author">Michael Johnson said:</p>');
+            res.text.should.contain('Love it!');
+            res.text.should.not.contain('Should not be visible.');
+            res.text.should.not.contain('Reply');
+            res.text.should.not.contain('data-status="hidden"');
+            res.text.should.not.contain('data-status="visible"');
+            res.text.should.not.contain('<!-- reply link -->');
+            res.text.should.not.contain('<!-- deactivate link -->');
+            res.text.should.not.contain('<!-- deactivate reply link -->');
+            done();
           });
         });
       });
@@ -543,8 +572,8 @@ describe('routes : lessons', function() {
             res.text.should.contain('<p class="message-author">Michael Johnson said:</p>');
             res.text.should.contain('Awesome lesson!');
             res.text.should.contain('<!-- reply link -->');
-            res.text.should.contain('<!-- delete link -->');
-            res.text.should.contain('<!-- delete reply link -->');
+            res.text.should.contain('<!-- deactivate link -->');
+            res.text.should.contain('<!-- deactivate reply link -->');
             res.text.should.contain('data-status="hidden"');
             res.text.should.not.contain('data-status="visible"');
             done();

@@ -37,10 +37,10 @@ describe('routes : admin : messages', function() {
     });
   });
   describe('if unauthenticated', function() {
-    describe('GET /admin/messages/:id/delete?type=parent', function() {
+    describe('GET /admin/messages/:id/deactivate?type=parent', function() {
       it('should redirect to log in page', function(done) {
         chai.request(server)
-        .get('/admin/messages/1/delete?type=parent')
+        .get('/admin/messages/1/deactivate?type=parent')
         .end(function(err, res) {
           res.redirects.length.should.equal(1);
           res.status.should.equal(200);
@@ -73,10 +73,10 @@ describe('routes : admin : messages', function() {
       passportStub.logout();
       done();
     });
-    describe('GET /admin/messages/:id/delete?type=parent', function() {
+    describe('GET /admin/messages/:id/deactivate?type=parent', function() {
       it('should redirect to the dashboard', function(done) {
         chai.request(server)
-        .get('/admin/messages/1/delete?type=parent')
+        .get('/admin/messages/1/deactivate?type=parent')
         .end(function(err, res) {
           res.redirects.length.should.equal(2);
           res.status.should.equal(200);
@@ -115,10 +115,10 @@ describe('routes : admin : messages', function() {
       passportStub.logout();
       done();
     });
-    describe('GET /admin/messages/:id/delete?type=parent', function() {
+    describe('GET /admin/messages/:id/deactivate?type=parent', function() {
       it('should redirect to the inactive page', function(done) {
         chai.request(server)
-        .get('/admin/messages/1/delete?type=parent')
+        .get('/admin/messages/1/deactivate?type=parent')
         .end(function(err, res) {
           res.redirects.length.should.equal(3);
           res.status.should.equal(200);
@@ -153,12 +153,12 @@ describe('routes : admin : messages', function() {
       passportStub.logout();
       done();
     });
-    describe('GET /admin/messages/:id/delete?type=parent', function() {
-      it('should delete parent and child messages', function(done) {
-        messageQueries.getParentMessages()
+    describe('GET /admin/messages/:id/deactivate?type=parent', function() {
+      it('should deactivate parent and child messages', function(done) {
+        messageQueries.getActiveParentMessages()
         .then(function(messages) {
           chai.request(server)
-          .get('/admin/messages/' + messages[0].id + '/delete?type=parent')
+          .get('/admin/messages/' + messages[0].id + '/deactivate?type=parent')
           .end(function(err, res) {
             res.redirects.length.should.equal(1);
             res.status.should.equal(200);
@@ -170,12 +170,12 @@ describe('routes : admin : messages', function() {
         });
       });
     });
-    describe('GET /admin/messages/:id/delete?type=child', function() {
-      it('should delete child messages', function(done) {
-        messageQueries.getChildMessages()
+    describe('GET /admin/messages/:id/deactivate?type=child', function() {
+      it('should deactivate child messages', function(done) {
+        messageQueries.getActiveChildMessages()
         .then(function(messages) {
           chai.request(server)
-          .get('/admin/messages/' + messages[0].id + '/delete?type=parent')
+          .get('/admin/messages/' + messages[0].id + '/deactivate?type=parent')
           .end(function(err, res) {
             res.redirects.length.should.equal(1);
             res.status.should.equal(200);
@@ -189,7 +189,7 @@ describe('routes : admin : messages', function() {
     });
     describe('GET /admin/messages/:id/update', function() {
       it('should update messages', function(done) {
-        messageQueries.getParentMessages()
+        messageQueries.getActiveParentMessages()
         .then(function(messages) {
           chai.request(server)
           .get('/admin/messages/' + messages[0].id + '/update')

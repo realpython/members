@@ -30,9 +30,9 @@
                   <p>
                     <!-- reply link -->
                     <span class="link-text reply-link" data-message-id="{{message.messageID}}">Reply</span>
-                    <!-- delete link -->
+                    <!-- deactivate link -->
                     <span>&nbsp;&verbar;&nbsp;</span>
-                    <span><a href="/admin/messages/{{message.messageID}}/delete?type=parent" class="delete-link delete-parent">Delete</a></span>
+                    <span><a href="/admin/messages/{{message.messageID}}/deactivate?type=parent" class="deactivate-link deactivate-parent">Deactivate</a></span>
                     <!-- move message up link -->
                     <span>&nbsp;&verbar;&nbsp;</span>
                     <span><a href="/admin/messages/{{message.messageID}}/update" class="move-up-link">Move up</a></span>
@@ -61,8 +61,8 @@
                           <p class="message-author">{{reply.userGithubDisplayName}} said:</p>
                           <p>{{reply.messageContent}}</p>
                           {% if user.admin %}
-                            <!-- delete reply link -->
-                            <span><a href="/admin/messages/{{reply.messageID}}/delete?type=child" class="delete-link">Delete</a></span>
+                            <!-- deactivate reply link -->
+                            <span><a href="/admin/messages/{{reply.messageID}}/deactivate?type=child" class="deactivate-link">deactivate</a></span>
                           {% endif %}
                         </div>
                       </div>

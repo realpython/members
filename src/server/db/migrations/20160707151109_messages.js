@@ -7,6 +7,7 @@ exports.up = function(knex, Promise) {
     table.integer('user_id').references('id').inTable('users').notNullable();
     table.timestamp('created_at').defaultTo(knex.fn.now());
     table.timestamp('updated_at').defaultTo(knex.fn.now());
+    table.boolean('active').notNullable().defaultTo(true);
   });
 };
 

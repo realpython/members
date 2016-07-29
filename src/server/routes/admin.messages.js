@@ -25,29 +25,29 @@ function(req, res, next) {
   });
 });
 
-// *** delete message *** //
-router.get('/:messageID/delete', authHelpers.ensureAdmin,
+// *** deactivate message *** //
+router.get('/:messageID/deactivate', authHelpers.ensureAdmin,
 function(req, res, next) {
   // TODO: Add server side validation
   // TODO: DRY code
   var messageType = req.query.type;
   var messageID = parseInt(req.params.messageID);
   var backURL = req.header('Referer') || '/';
-  return messageQueries.deleteMessage(messageID)
+  return messageQueries.deactivateMessage(messageID)
   .then(function(message) {
     if (messageType === 'parent') {
-      return messageQueries.deleteChildMessagesFromParent(messageID)
+      return messageQueries.deactivateChildMessagesFromParent(messageID)
       .then(function(messages) {
         req.flash('messages', {
           status: 'success',
-          value: 'Message(s) removed.'
+          value: 'Message(s) deactivated.'
         });
         return res.redirect(backURL);
       });
     } else {
       req.flash('messages', {
         status: 'success',
-        value: 'Message(s) removed.'
+        value: 'Message(s) deactivated.'
       });
       return res.redirect(backURL);
     }
@@ -57,5 +57,38 @@ function(req, res, next) {
     return next(err);
   });
 });
+
+// // *** delete message *** //
+// router.get('/:messageID/delete', authHelpers.ensureAdmin,
+// function(req, res, next) {
+//   // TODO: Add server side validation
+//   // TODO: DRY code
+//   var messageType = req.query.type;
+//   var messageID = parseInt(req.params.messageID);
+//   var backURL = req.header('Referer') || '/';
+//   return messageQueries.deleteMessage(messageID)
+//   .then(function(message) {
+//     if (messageType === 'parent') {
+//       return messageQueries.deleteChildMessagesFromParent(messageID)
+//       .then(function(messages) {
+//         req.flash('messages', {
+//           status: 'success',
+//           value: 'Message(s) removed.'
+//         });
+//         return res.redirect(backURL);
+//       });
+//     } else {
+//       req.flash('messages', {
+//         status: 'success',
+//         value: 'Message(s) removed.'
+//       });
+//       return res.redirect(backURL);
+//     }
+//   })
+//   .catch(function(err) {
+//     // TODO: be more specific with the errors
+//     return next(err);
+//   });
+// });
 
 module.exports = router;

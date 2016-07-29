@@ -15,12 +15,12 @@ $(function() {
     }
   });
 
-  // confirm delete message
-  $(document).on('click', '.delete-link', function() {
+  // confirm deactivate message
+  $(document).on('click', '.deactivate-link', function() {
     var $this = $(this);
     var result;
-    if ($this.hasClass('delete-parent')) {
-      result = confirm('Are you sure? This will delete all replies.');
+    if ($this.hasClass('deactivate-parent')) {
+      result = confirm('Are you sure? This will deactivate all replies.');
     } else {
       result = confirm('Are you sure?');
     }
