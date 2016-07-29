@@ -88,3 +88,5 @@
 1. Active users should be able to submit exercises for grading
 1. Active users should be able to rate a lesson
 1. Active users should be able to provide written feedback on a lesson
+1. Active users should be able to send a tweet when they complete a lesson
+1. Admin should be able to view statistics about how many users have completed an individual lesson 
