@@ -33,17 +33,22 @@ router.get('/',
     // get feed data
     return userQueries.getMessageFeedData()
     .then(function(messageFeedData) {
-      var renderObject = {
-        title: 'Textbook LMS - dashboard',
-        pageTitle: 'Dashboard',
-        user: req.user,
-        sortedChapters: sortedChapters,
-        completed: percentage,
-        feed: messageFeedData,
-        totalLessons: totalLessons,
-        messages: req.flash('messages')
-      };
-      return res.render('dashboard', renderObject);
+      // get total users
+      return userQueries.getTotalUsers()
+      .then(function(totalUsers) {
+        var renderObject = {
+          title: 'Textbook LMS - dashboard',
+          pageTitle: 'Dashboard',
+          user: req.user,
+          sortedChapters: sortedChapters,
+          completed: percentage,
+          feed: messageFeedData,
+          totalLessons: totalLessons,
+          totalUsers: totalUsers[0].count,
+          messages: req.flash('messages')
+        };
+        return res.render('dashboard', renderObject);
+      });
     });
   })
   .catch(function(err) {

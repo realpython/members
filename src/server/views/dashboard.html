@@ -31,13 +31,16 @@
         <p class="completed">{{completed}}% Complete</p>
         <!-- course stats -->
         <h3>Stats:</h3>
-        <p>{{totalLessons}} total lessons</p>
+        <ul class="dashboard-ul">
+          <li>{{totalLessons}} total lessons</li>
+          <li>{{totalUsers}} total registered users</li>
+        </ul>
       </div>
       <div class="col-md-6 col-md-offset-1">
         <h3>Recent Activity:</h3>
         {% if feed.length %}
           <!-- activity feed: comments -->
-          <ul>
+          <ul class="dashboard-ul">
           {% for data in feed %}
             <li><em>{{data.userGithubDisplayName}}<em> commented in <a href="/lessons/{{data.lessonID}}">{{data.lessonName}}</a></li>
           {% endfor %}

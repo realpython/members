@@ -5,6 +5,11 @@ function getUsers() {
     .select('*');
 }
 
+function getTotalUsers() {
+  return knex('users')
+    .count('*');
+}
+
 function getSingleUser(userID) {
   return knex('users')
     .select('*')
@@ -74,6 +79,7 @@ function getMessageFeedData() {
 
 module.exports = {
   getUsers: getUsers,
+  getTotalUsers: getTotalUsers,
   getSingleUser: getSingleUser,
   getSingleUserByUsername: getSingleUserByUsername,
   addUser: addUser,
