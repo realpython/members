@@ -31,3 +31,4 @@
   - Add gulp for creating build/dist
 1. Add Amazon S3 Bucket for Avatars
 1. May need to refactor read status for chapters and lessons
+1. Set up production mailer

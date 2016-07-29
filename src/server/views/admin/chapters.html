@@ -18,10 +18,12 @@
       <table class="table">
         <thead>
           <tr>
-            <th>Order Number</th>
+            <th>Order #</th>
             <th>Name</th>
             <th>Read</th>
+            <th>Active</th>
             <th>Created Date</th>
+            <th>Link</th>
           </tr>
         </thead>
         <tbody>
@@ -30,7 +32,9 @@
               <td>{{chapter.order_number}}</td>
               <td>{{chapter.name}}</td>
               <td>{{chapter.read}}</td>
+              <td>{{chapter.active}}</td>
               <td>{{chapter.created_at|date('Y-m-d')}}</td>
+              <td><a href="/chapters/{{chapter.id}}">/chapters/{{chapter.id}}</a></td>
             </tr>
           {% endfor %}
         </tbody>

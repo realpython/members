@@ -33,10 +33,11 @@ describe('db : queries : chapters', function() {
     it('should format data correctly', function(done) {
       chapterQueries.getChapters()
       .then(function(results) {
-        results.length.should.equal(3);
-        results[0].should.include.keys('id', 'order_number', 'name', 'read', 'created_at');
-        results[1].should.include.keys('id', 'order_number', 'name', 'read', 'created_at');
-        results[2].should.include.keys('id', 'order_number', 'name', 'read', 'created_at');
+        results.length.should.equal(4);
+        results[0].should.include.keys('id', 'order_number', 'name', 'read', 'created_at', 'active');
+        results[1].should.include.keys('id', 'order_number', 'name', 'read', 'created_at', 'active');
+        results[2].should.include.keys('id', 'order_number', 'name', 'read', 'created_at', 'active');
+        results[3].should.include.keys('id', 'order_number', 'name', 'read', 'created_at', 'active');
       });
       done();
     });

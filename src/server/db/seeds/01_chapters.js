@@ -14,6 +14,11 @@ exports.seed = function(knex, Promise) {
     knex('chapters').insert({
       order_number: 3,
       name: 'Lists and Dictionaries'
+    }),
+    knex('chapters').insert({
+      order_number: 4,
+      name: 'Inactive Chapter',
+      active: false
     })
   );
 };
