@@ -17,7 +17,13 @@ $(function() {
 
   // confirm delete message
   $(document).on('click', '.delete-link', function() {
-    var result = confirm('Are you sure?');
+    var $this = $(this);
+    var result;
+    if ($this.hasClass('delete-parent')) {
+      result = confirm('Are you sure? This will delete all replies.');
+    } else {
+      result = confirm('Are you sure?');
+    }
     if (result) {
       return true;
     } else {

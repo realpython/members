@@ -86,6 +86,7 @@ Just a simple learning management system for textbook-like sites.
 1. Active users should be able to suggest new topics to be added to the course
 1. Active users should be able to view a message and reply activity feed on the dashboard
 1. Active users should be able to view the total number of lessons in the course on the dashboard
+1. Active users should be able to view the total number of enrolled students on the dashboard
 
 **Admin**
 
@@ -103,12 +104,11 @@ Just a simple learning management system for textbook-like sites.
 1. Admin should be able to update lessons within the lesson view
 1. Admin should be able to move the order of messages within the lesson view
 1. Admin should be able to add an avatar link when adding a new user
+1. Admin should be warned if they are deleting a message that contains replies within the lesson view
 
 #### Incomplete
 
-1. Active users should be able to view the total number of enrolled students on the dashboard (current)
-1. Admin should be warned if they are deleting a message that contains replies within the lesson view
-1. Admin should only be able to deactivate messages; they should not be deleted
+1. Admin should only be able to deactivate messages; they should not be deleted (current)
 1. Unregistered users should have to enter an email and a numeric code to register and become an unverified user
 1. Unverified users should have to connect their Github account to become verified
 1. Active users should be able to change courses
