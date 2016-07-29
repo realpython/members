@@ -56,6 +56,16 @@ function deactivateUser(userID) {
     .returning('*');
 }
 
+function getFeedData() {
+  return knex
+    .select('users.github_display_name as userGithubDisplayName', 'lessons.id as lessonID', 'lessons.name as lessonName')
+    .from('messages')
+    .join('users', 'users.id', 'messages.user_id')
+    .join('lessons', 'lessons.id', 'messages.lesson_id')
+    .orderBy('messages.updated_at', 'desc')
+    .limit(10);
+}
+
 module.exports = {
   getUsers: getUsers,
   getSingleUser: getSingleUser,
@@ -64,5 +74,6 @@ module.exports = {
   makeAdmin: makeAdmin,
   makeActive: makeActive,
   updateUser: updateUser,
-  deactivateUser: deactivateUser
+  deactivateUser: deactivateUser,
+  getFeedData: getFeedData
 };

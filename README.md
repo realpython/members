@@ -84,6 +84,7 @@ Just a simple learning management system for textbook-like sites.
 1. Active users should be able to update their display name on the profile page
 1. Active users should be able to view a tag next to a message if it's posted by an admin within the lesson view
 1. Active users should be able to suggest new topics to be added to the course
+1. Active users should be able to view a message and reply activity feed on the dashboard
 
 **Admin**
 
@@ -104,8 +105,7 @@ Just a simple learning management system for textbook-like sites.
 
 #### Incomplete
 
-1. Active users should be able to view a message and reply activity feed on the dashboard (current)
-1. Active users should be able to see their recent activity log on the dashboard
+1. Active users should be able to see their recent activity log (lessons read) on the dashboard (current)
 1. Active users should be able to view the total number of lessons in the course on the dashboard
 1. Active users should be able to view the total number of enrolled students on the dashboard
 1. Admin should be warned if they are deleting a message that contains replies within the lesson view
@@ -124,6 +124,7 @@ Just a simple learning management system for textbook-like sites.
 1. Active users should be able to view a checkmark next to read chapters on the sidebar after all lessons have been read
 1. Active users should be able to view suggested topics
 1. Active users should be able to vote on suggested topics to be added to the course
+1. Active users should be able to view suggestions within the activity feed on the dashboard
 
 ### Todo
 
