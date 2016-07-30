@@ -91,6 +91,19 @@ describe('routes : admin : lessons', function() {
         });
       });
     });
+    describe('GET /admin/lessons/1/deactivate', function() {
+      it('should redirect to log in page', function(done) {
+        chai.request(server)
+        .get('/admin/lessons/1/deactivate')
+        .end(function(err, res) {
+          res.redirects.length.should.equal(1);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('try Textbook');
+          done();
+        });
+      });
+    });
   });
 
   describe('if authenticated as a user', function() {
@@ -155,6 +168,22 @@ describe('routes : admin : lessons', function() {
         chai.request(server)
         .put('/admin/lessons/1')
         .send(testHelpers.updateLesson)
+        .end(function(err, res) {
+          res.redirects.length.should.equal(2);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('<h1>Dashboard</h1>');
+          res.text.should.contain(
+            '<p class="completed">0% Complete</p>');
+          res.text.should.not.contain('<h2>You are an admin.</h2>');
+          done();
+        });
+      });
+    });
+    describe('GET /admin/lessons/1/deactivate', function() {
+      it('should redirect to dashboard', function(done) {
+        chai.request(server)
+        .get('/admin/lessons/1/deactivate')
         .end(function(err, res) {
           res.redirects.length.should.equal(2);
           res.status.should.equal(200);
@@ -343,6 +372,36 @@ describe('routes : admin : lessons', function() {
           res.status.should.equal(500);
           res.type.should.equal('application/json');
           res.body.message.should.equal('Something went wrong.');
+          done();
+        });
+      });
+    });
+    describe('GET /admin/lessons/1/deactivate', function() {
+      it('should return a 200 response', function(done) {
+        chai.request(server)
+        .get('/admin/lessons/1/deactivate')
+        .end(function(err, res) {
+          res.redirects.length.should.equal(1);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('<h1>Lessons</h1>');
+          done();
+        });
+      });
+    });
+    describe('GET /admin/lessons/999/deactivate', function() {
+      it('should redirect to dashboard if the user id does not exist',
+        function(done) {
+        chai.request(server)
+        .get('/admin/lessons/999/deactivate')
+        .end(function(err, res) {
+          res.redirects.length.should.equal(1);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('<h1>Dashboard</h1>');
+          res.text.should.not.contain(
+            '<p class="completed">0% Complete</p>');
+          res.text.should.contain('<h2>You are an admin.</h2>');
           done();
         });
       });

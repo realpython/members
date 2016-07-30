@@ -79,6 +79,15 @@ function updateLesson(lessonID, obj) {
     .returning('*');
 }
 
+function deactivateLesson(lessonID) {
+  return knex('lessons')
+    .update({
+      active: false
+    })
+    .where('id', parseInt(lessonID))
+    .returning('*');
+}
+
 module.exports = {
   getAllLessons: getAllLessons,
   getActiveLessons: getActiveLessons,
@@ -91,5 +100,6 @@ module.exports = {
   getSingleLessonFromOrder: getSingleLessonFromOrder,
   updateLessonReadStatus: updateLessonReadStatus,
   addLesson: addLesson,
-  updateLesson: updateLesson
+  updateLesson: updateLesson,
+  deactivateLesson: deactivateLesson
 };

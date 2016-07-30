@@ -67,11 +67,11 @@
 1. Admin should be warned if they are deleting a message that contains replies within the lesson view
 1. Admin should only be able to deactivate messages; they should not be deleted
 1. Admin should be able to add inactive chapters
+1. Admin should be able to deactivate lessons
 
 ### Incomplete
 
-1. Admin should be able to deactivate lessons (current)
-1. Admin should be able to update lesson `content` with markdown
+1. Admin should be able to update lesson `content` with markdown (current)
 1. Admin should be able to move the order of replies within the lesson view
 1. Active users should be able to view a checkmark next to read chapters on the sidebar after all lessons have been read
 1. Active users should be able to view suggested topics
@@ -97,3 +97,4 @@
 1. Admin should be able to filter table columns in the lesson, chapter, and user views
 1. Admin should be able to view inactive chapters
 1. Admin should be able to view inactive lessons
+1. Active users should be able to send a tweet when they purchase the course and become active

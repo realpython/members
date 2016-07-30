@@ -133,4 +133,31 @@ function(req, res, next) {
   });
 });
 
+// *** deactivate lesson *** //
+router.get('/:lessonID/deactivate', authHelpers.ensureAdmin,
+function(req, res, next) {
+  // TODO: Add server side validation
+  var lessonID = parseInt(req.params.lessonID);
+  return lessonQueries.deactivateLesson(lessonID)
+  .then(function(lesson) {
+    if (lesson.length) {
+      req.flash('messages', {
+        status: 'success',
+        value: 'Lesson deactivated.'
+      });
+      return res.redirect('/admin/lessons');
+    } else {
+      req.flash('messages', {
+        status: 'success',
+        value: 'Sorry. That lesson does not exist.'
+      });
+      return res.redirect('/');
+    }
+  })
+  .catch(function(err) {
+    // TODO: be more specific with the errors
+    return next(err);
+  });
+});
+
 module.exports = router;

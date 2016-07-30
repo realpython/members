@@ -32,3 +32,4 @@
 1. Add Amazon S3 Bucket for Avatars
 1. May need to refactor read status for chapters and lessons
 1. Set up production mailer
+1. Fix the async issues with the tests
