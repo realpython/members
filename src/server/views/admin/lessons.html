@@ -37,7 +37,7 @@
               <td>{{lesson.chapter_order_number}}</td>
               <td>{{lesson.chapter_id}}</td>
               <td>{{lesson.name}}</td>
-              <td><a href="/lessons/{{lesson.id}}">Link</a></td>
+              <td><a href="/lessons/{{lesson.id}}">/lessons/{{lesson.id}}</a></td>
               <td>{{lesson.read}}</td>
               <td>{{lesson.active}}</td>
               <td>{{lesson.created_at|date('Y-m-d')}}</td>
@@ -73,7 +73,7 @@
               </select>
             </div>
             <div class="form-group">
-              <label for="add-lesson-name" class="control-label">Content</label>
+              <label for="add-lesson-name" class="control-label">Name</label>
           		<input type="text" id="add-lesson-name" class="form-control" name="name" required>
           	</div>
             <div class="form-group">

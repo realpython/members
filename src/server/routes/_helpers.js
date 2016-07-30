@@ -160,7 +160,11 @@ function getNextChapterOrderNum(lessons) {
   var numberArray = lessons.map(function(lesson) {
     return parseInt(lesson.chapter_order_number);
   });
-  return parseInt(Math.max.apply(Math, numberArray) + 1);
+  if (numberArray.length) {
+    return parseInt(Math.max.apply(Math, numberArray) + 1);
+  } else {
+    return 1;
+  }
 }
 
 module.exports = {

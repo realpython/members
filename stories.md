@@ -45,6 +45,8 @@
 1. Active users should be able to view the total number of lessons in the course on the dashboard
 1. Active users should be able to view the total number of enrolled students on the dashboard
 1. Active users should only be able to view active chapters
+1. Active users should be able to view chapters if the chapter is active and there are lessons associated with it
+1. Active users should only be able to view lessons if the chapter is active
 
 ### Admin
 
@@ -68,9 +70,7 @@
 
 ### Incomplete
 
-1. Active users should be able to view chapters if the chapter is active and there are lessons associated with it (current)
-1. Active users should only be able to view lessons if the chapter is active
-1. Admin should be able to deactivate lessons
+1. Admin should be able to deactivate lessons (current)
 1. Admin should be able to update lesson `content` with markdown
 1. Admin should be able to move the order of replies within the lesson view
 1. Active users should be able to view a checkmark next to read chapters on the sidebar after all lessons have been read
@@ -80,6 +80,7 @@
 1. Unregistered users should have to enter an email and a numeric code to register and become an unverified user
 1. Unverified users should have to connect their Github account to become verified
 1. Admin should be able to deactivate chapters and all associated lessons at the same time
+1. Admin should be able to update chapters
 
 ## Beta Release
 
