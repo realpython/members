@@ -7,6 +7,13 @@ function getActiveMessages() {
   .orderBy('updated_at', 'desc');
 }
 
+function getInactiveMessages() {
+  return knex('messages')
+  .select('*')
+  .where('active', false)
+  .orderBy('updated_at', 'desc');
+}
+
 function getAllMessages() {
   return knex('messages')
   .select('*')
@@ -95,6 +102,7 @@ function deactivateChildMessagesFromParent(messageID) {
 
 module.exports = {
   getActiveMessages: getActiveMessages,
+  getInactiveMessages: getInactiveMessages,
   getAllMessages: getAllMessages,
   getActiveParentMessages: getActiveParentMessages,
   getActiveChildMessages: getActiveChildMessages,

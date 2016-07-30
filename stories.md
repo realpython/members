@@ -64,10 +64,11 @@
 1. Admin should be able to add an avatar link when adding a new user
 1. Admin should be warned if they are deleting a message that contains replies within the lesson view
 1. Admin should only be able to deactivate messages; they should not be deleted
+1. Admin should be able to add inactive chapters
 
 ### Incomplete
 
-1. Admin should be able to add inactive chapters (current)
+1. Active users should be able to view chapters if the chapter is active and there are lessons associated with it (current)
 1. Active users should only be able to view lessons if the chapter is active
 1. Admin should be able to deactivate lessons
 1. Admin should be able to update lesson `content` with markdown

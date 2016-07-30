@@ -13,6 +13,13 @@ function getActiveLessons() {
   .where('active', true);
 }
 
+function getInactiveLessons() {
+  return knex('lessons')
+  .select('*')
+  .orderBy('lesson_order_number')
+  .where('active', false);
+}
+
 function getLessonOrderNumbers() {
   return knex('lessons')
   .select('lesson_order_number')
@@ -75,6 +82,7 @@ function updateLesson(lessonID, obj) {
 module.exports = {
   getAllLessons: getAllLessons,
   getActiveLessons: getActiveLessons,
+  getInactiveLessons: getInactiveLessons,
   getLessonOrderNumbers: getLessonOrderNumbers,
   getLessonsFromChapterID: getLessonsFromChapterID,
   getLessonChapterOrderNumsFromChapterID: getLessonChapterOrderNumsFromChapterID,

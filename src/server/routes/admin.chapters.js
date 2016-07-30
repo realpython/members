@@ -34,7 +34,8 @@ function(req, res, next) {
   var payload = req.body;
   var chapter = {
     order_number: payload.orderNumber,
-    name: payload.name
+    name: payload.name,
+    active: payload.active || false
   };
   return chapterQueries.addChapter(chapter)
   .then(function(response) {

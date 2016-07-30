@@ -195,16 +195,14 @@ describe('routes : lessons', function() {
     });
     describe('GET /lessons/:id', function() {
       it('should not show an inactive message', function(done) {
-        lessonQueries.getSingleLessonFromLessonID(2)
-        .then(function(lesson) {
+        messageQueries.getInactiveMessages()
+        .then(function(messages) {
           chai.request(server)
-          .get('/lessons/' + lesson[0].id)
+          .get('/lessons/' + messages[0].lesson_id)
           .end(function(err, res) {
             res.redirects.length.should.equal(0);
             res.status.should.equal(200);
             res.type.should.equal('text/html');
-            res.text.should.contain(
-              '<h1>' + lesson[0].name + '</h1>');
             res.text.should.contain('<!-- next lesson button -->');
             res.text.should.contain('<!-- breadcrumbs -->');
             res.text.should.contain('<!-- user messages -->');
