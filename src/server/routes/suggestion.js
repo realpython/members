@@ -19,14 +19,19 @@ router.get('/',
     var reducedResults = routeHelpers.reduceResults(results);
     var chapters = routeHelpers.convertArray(reducedResults);
     var sortedChapters = routeHelpers.sortLessonsByOrderNumber(chapters);
-    var renderObject = {
-      title: 'Textbook LMS - contact',
-      pageTitle: 'Suggestions',
-      user: req.user,
-      sortedChapters: sortedChapters,
-      messages: req.flash('messages')
-    };
-    return res.render('suggestions', renderObject);
+    // get suggested topics
+    suggestionQueries.getAllSuggestions()
+    .then(function(suggestions) {
+      var renderObject = {
+        title: 'Textbook LMS - contact',
+        pageTitle: 'Suggestions',
+        user: req.user,
+        sortedChapters: sortedChapters,
+        suggestions: suggestions,
+        messages: req.flash('messages')
+      };
+      return res.render('suggestions', renderObject);
+    });
   })
   .catch(function(err) {
     return next(err);

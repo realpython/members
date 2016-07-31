@@ -1,5 +1,11 @@
 var knex = require('./knex');
 
+function getAllSuggestions() {
+  return knex('suggestions')
+  .select('*')
+  .orderBy('created_at');
+}
+
 function addSuggestion(obj) {
   return knex('suggestions')
     .insert(obj)
@@ -7,5 +13,6 @@ function addSuggestion(obj) {
 }
 
 module.exports = {
+  getAllSuggestions: getAllSuggestions,
   addSuggestion: addSuggestion
 };

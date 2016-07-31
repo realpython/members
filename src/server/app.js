@@ -36,6 +36,7 @@ var app = express();
 // *** view engine *** //
 // var swig = new swig.Swig();
 swigExtras.useFilter(swig, 'truncate');
+swigExtras.useFilter(swig, 'markdown');
 app.engine('html', swig.renderFile);
 app.set('view engine', 'html');
 app.set('views', path.join(__dirname, 'views'));

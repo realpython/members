@@ -27,6 +27,15 @@
       		</div>
       	</div>
       </form>
+      {% if suggestions.length %}
+        <br><hr><br>
+        {% for suggestion in suggestions %}
+          <h3>{{suggestion.title}}</h3>
+          <p>{{suggestion.description}}</p>
+          <br>
+        {% endfor %}
+      {% endif %}
+
     </div>
   </div>
 

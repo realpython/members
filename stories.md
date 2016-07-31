@@ -68,19 +68,15 @@
 1. Admin should only be able to deactivate messages; they should not be deleted
 1. Admin should be able to add inactive chapters
 1. Admin should be able to deactivate lessons
+1. Active users should be able to view suggested topics
 
 ### Incomplete
 
-1. Admin should be able to update lesson `content` with markdown (current)
-1. Admin should be able to move the order of replies within the lesson view
-1. Active users should be able to view a checkmark next to read chapters on the sidebar after all lessons have been read
-1. Active users should be able to view suggested topics
-1. Active users should be able to vote on suggested topics to be added to the course
-1. Active users should be able to view suggestions within the activity feed on the dashboard
-1. Unregistered users should have to enter an email and a numeric code to register and become an unverified user
+1. Unregistered users should have to enter an email and a numeric code to register and become an unverified user (current)
 1. Unverified users should have to connect their Github account to become verified
 1. Admin should be able to deactivate chapters and all associated lessons at the same time
 1. Admin should be able to update chapters
+1. Admin should be able to update lesson `content` with markdown
 
 ## Beta Release
 
@@ -98,3 +94,8 @@
 1. Admin should be able to view inactive chapters
 1. Admin should be able to view inactive lessons
 1. Active users should be able to send a tweet when they purchase the course and become active
+1. Admin should be able to move the order of replies within the lesson view
+1. Active users should be able to view a checkmark next to read chapters on the sidebar after all lessons have been read
+1. Active users should be able to view the search results in order by lesson
+1. Active users should be able to vote on suggested topics to be added to the course
+1. Active users should be able to view suggestions within the activity feed on the dashboard

@@ -89,6 +89,7 @@ describe('routes : suggestions', function() {
           res.status.should.equal(200);
           res.type.should.equal('text/html');
           res.text.should.contain('<h1>Suggestions</h1>');
+          res.text.should.contain('<h3>More Python!</h3>');
           done();
         });
       });

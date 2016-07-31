@@ -20,7 +20,7 @@ exports.seed = function(knex, Promise) {
         lessonName: 'Lesson 1a',
         lessonLessonOrder: 1,
         lessonChapterOrder: 1,
-        lessonContent: 'Man braid dreamcatcher deep v mlkshk williamsburg migas, tofu shoreditch drinking vinegar. Sriracha chillwave gluten-free, migas you probably haven\'t heard of them paleo actually biodiesel sustainable distillery. Marfa kale chips church-key locavore. Kale chips dreamcatcher kitsch asymmetrical wayfarers, +1 cliche put a bird on it yr tumblr. Kitsch tattooed wayfarers forage. Bicycle rights pitchfork photo booth, iPhone thundercats cliche sriracha gluten-free brunch squid migas. Beard DIY knausgaard venmo, pickled kombucha you probably haven\'t heard of them pinterest.',
+        lessonContent: '# Markdown test',
         lessonRead: false,
         chapterOrder: chapterOrder[0],
         lessonActive: true
