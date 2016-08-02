@@ -32,7 +32,8 @@ function addUser(obj) {
 function makeAdmin(username, value) {
   return knex('users')
     .update({
-      admin: value
+      admin: value,
+      active: true
     })
     .where('github_username', username);
 }
@@ -43,6 +44,15 @@ function makeActive(username, value) {
       active: value
     })
     .where('github_username', username);
+}
+
+function verifyUser(userID) {
+  return knex('users')
+    .update({
+      verified: true
+    })
+    .where('id', parseInt(userID))
+    .returning('*');
 }
 
 function updateUser(userID, obj) {
@@ -85,6 +95,7 @@ module.exports = {
   addUser: addUser,
   makeAdmin: makeAdmin,
   makeActive: makeActive,
+  verifyUser: verifyUser,
   updateUser: updateUser,
   deactivateUser: deactivateUser,
   getMessageFeedData: getMessageFeedData

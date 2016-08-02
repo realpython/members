@@ -8,6 +8,7 @@ var routeHelpers = require('./_helpers');
 
 // *** suggestions *** //
 router.get('/',
+  authHelpers.ensureVerified,
   authHelpers.ensureAuthenticated,
   authHelpers.ensureActive,
   function(req, res, next) {
@@ -39,6 +40,7 @@ router.get('/',
 });
 
 router.post('/',
+  authHelpers.ensureVerified,
   authHelpers.ensureAuthenticated,
   authHelpers.ensureActive,
   function(req, res, next) {

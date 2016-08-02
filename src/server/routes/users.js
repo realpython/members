@@ -8,6 +8,7 @@ var routeHelpers = require('./_helpers');
 
 // *** get user profile *** //
 router.get('/:id/profile',
+  authHelpers.ensureVerified,
   authHelpers.ensureAuthenticated,
   authHelpers.ensureActive,
   function(req, res, next) {
@@ -48,6 +49,7 @@ router.get('/:id/profile',
 
 // *** update user profile *** //
 router.post('/:id/profile',
+  authHelpers.ensureVerified,
   authHelpers.ensureAuthenticated,
   authHelpers.ensureActive,
   function(req, res, next) {

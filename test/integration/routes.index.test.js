@@ -78,9 +78,9 @@ describe('routes : index', function() {
     });
   });
 
-  describe('if authenticated as a user', function() {
+  describe('if authenticated, active, and verified', function() {
     beforeEach(function(done) {
-      testHelpers.authenticateActiveUser(done);
+      testHelpers.authenticateAndVerifyActiveUser(done);
     });
     afterEach(function(done) {
       passportStub.logout();
@@ -132,9 +132,9 @@ describe('routes : index', function() {
     });
   });
 
-  describe('if authenticated as a user but inactive', function() {
+  describe('if authenticated and verified but inactive', function() {
     beforeEach(function(done) {
-      testHelpers.authenticateInactiveUser(done);
+      testHelpers.authenticateActiveUser(done);
     });
     afterEach(function(done) {
       passportStub.logout();
@@ -148,8 +148,10 @@ describe('routes : index', function() {
           res.redirects.length.should.equal(1);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
-          res.text.should.contain('<h2>Your account is inactive.</h2>');
-          res.text.should.contain('<p>Please contact support.</p>');
+          res.text.should.contain(
+            '<h2>Please verify your account.</h2>');
+          res.text.should.not.contain(
+            '<h2>Your account is inactive.</h2>');
           done();
         });
       });
@@ -166,8 +168,58 @@ describe('routes : index', function() {
               res.redirects.length.should.equal(1);
               res.status.should.equal(200);
               res.type.should.equal('text/html');
-              res.text.should.contain('<h2>Your account is inactive.</h2>');
-              res.text.should.contain('<p>Please contact support.</p>');
+              res.text.should.contain(
+                '<h2>Please verify your account.</h2>');
+              res.text.should.not.contain(
+                '<h2>Your account is inactive.</h2>');
+              done();
+            });
+          });
+        });
+      });
+    });
+  });
+
+  describe('if authenticated and inactive but unverified', function() {
+    beforeEach(function(done) {
+      testHelpers.authenticateActiveUser(done);
+    });
+    afterEach(function(done) {
+      passportStub.logout();
+      done();
+    });
+    describe('GET /', function() {
+      it('should redirect to the not verified page', function(done) {
+        chai.request(server)
+        .get('/')
+        .end(function(err, res) {
+          res.redirects.length.should.equal(1);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain(
+            '<h2>Please verify your account.</h2>');
+          res.text.should.not.contain(
+            '<h2>Your account is inactive.</h2>');
+          done();
+        });
+      });
+    });
+    describe('GET /', function() {
+      it('should redirect to the not verified page', function(done) {
+        lessonQueries.getActiveLessons()
+        .then(function(lessons) {
+          lessonQueries.updateLessonReadStatus(lessons[0].id, true)
+          .then(function(response) {
+            chai.request(server)
+            .get('/')
+            .end(function(err, res) {
+              res.redirects.length.should.equal(1);
+              res.status.should.equal(200);
+              res.type.should.equal('text/html');
+              res.text.should.contain(
+                '<h2>Please verify your account.</h2>');
+              res.text.should.not.contain(
+                '<h2>Your account is inactive.</h2>');
               done();
             });
           });

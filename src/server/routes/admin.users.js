@@ -135,7 +135,7 @@ function(req, res, next) {
       return res.redirect('/admin/users');
     } else {
       req.flash('messages', {
-        status: 'success',
+        status: 'danger',
         value: 'Sorry. That user does not exist.'
       });
       return res.redirect('/');

@@ -11,6 +11,7 @@ var routeHelpers = require('./_helpers');
 
 // *** get single lesson *** //
 router.get('/:id',
+  authHelpers.ensureVerified,
   authHelpers.ensureAuthenticated,
   authHelpers.ensureActive,
   function(req, res, next) {
@@ -58,7 +59,7 @@ router.get('/:id',
         });
       } else {
         req.flash('messages', {
-          status: 'success',
+          status: 'danger',
           value: 'Sorry. That lesson does not exist.'
         });
         return res.redirect('/');
@@ -72,6 +73,7 @@ router.get('/:id',
 
 // *** update lesson read status *** //
 router.post('/',
+  authHelpers.ensureVerified,
   authHelpers.ensureAuthenticated,
   authHelpers.ensureActive,
   function(req, res, next) {

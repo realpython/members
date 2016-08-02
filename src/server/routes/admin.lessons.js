@@ -148,7 +148,7 @@ function(req, res, next) {
       return res.redirect('/admin/lessons');
     } else {
       req.flash('messages', {
-        status: 'success',
+        status: 'danger',
         value: 'Sorry. That lesson does not exist.'
       });
       return res.redirect('/');

@@ -8,9 +8,13 @@
 
 1. Unregistered users should be able to log in via Github
 
-### Users
+### Inactive Users
 
-1. Users should be active to view the course content
+1. Inactive sers should be active to view the course content
+
+### Unverified Users
+
+1. Unverified (but authenticated) users should have to enter a numeric code to become a verified user
 
 ### Active Users
 
@@ -47,6 +51,7 @@
 1. Active users should only be able to view active chapters
 1. Active users should be able to view chapters if the chapter is active and there are lessons associated with it
 1. Active users should only be able to view lessons if the chapter is active
+1. Active users should be able to view suggested topics
 
 ### Admin
 
@@ -68,15 +73,13 @@
 1. Admin should only be able to deactivate messages; they should not be deleted
 1. Admin should be able to add inactive chapters
 1. Admin should be able to deactivate lessons
-1. Active users should be able to view suggested topics
 
 ### Incomplete
 
-1. Unregistered users should have to enter an email and a numeric code to register and become an unverified user (current)
-1. Unverified users should have to connect their Github account to become verified
-1. Admin should be able to deactivate chapters and all associated lessons at the same time
+1. Admin should be able to deactivate chapters and all associated lessons at the same time (current)
 1. Admin should be able to update chapters
 1. Admin should be able to update lesson `content` with markdown
+1. Admin should be able to toggle whether users can activate
 
 ## Beta Release
 
@@ -99,3 +102,4 @@
 1. Active users should be able to view the search results in order by lesson
 1. Active users should be able to vote on suggested topics to be added to the course
 1. Active users should be able to view suggestions within the activity feed on the dashboard
+1. Unverified (but authenticated) users should have to enter an email and a numeric code to become a verified user

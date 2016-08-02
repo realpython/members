@@ -8,6 +8,7 @@ var routeHelpers = require('./_helpers');
 
 // *** search *** //
 router.get('/',
+  authHelpers.ensureVerified,
   authHelpers.ensureAuthenticated,
   authHelpers.ensureActive,
   function(req, res, next) {

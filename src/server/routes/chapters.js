@@ -7,6 +7,7 @@ var routeHelpers = require('./_helpers');
 
 // *** get single chapter *** //
 router.get('/:id',
+  authHelpers.ensureVerified,
   authHelpers.ensureAuthenticated,
   authHelpers.ensureActive,
   function(req, res, next) {
@@ -36,7 +37,7 @@ router.get('/:id',
       return res.render('chapter', renderObject);
     } else {
       req.flash('messages', {
-        status: 'success',
+        status: 'danger',
         value: 'Sorry. That chapter does not exist.'
       });
       return res.redirect('/');

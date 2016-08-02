@@ -51,7 +51,7 @@ describe('routes : auth', function() {
       });
     });
     describe('GET /auth/log_in', function() {
-      it('should return a response', function(done) {
+      it('should redirect to log in page', function(done) {
         chai.request(server)
         .get('/auth/log_in')
         .end(function(err, res) {
@@ -63,11 +63,27 @@ describe('routes : auth', function() {
         });
       });
     });
+    describe('POST /auth/verify', function() {
+      it('should redirect to log in page', function(done) {
+        chai.request(server)
+        .post('/auth/verify')
+        .send({
+          code: 21049144460970398511
+        })
+        .end(function(err, res) {
+          res.redirects.length.should.equal(1);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('try Textbook');
+          done();
+        });
+      });
+    });
   });
 
-  describe('if authenticated', function() {
+  describe('if authenticated, active, and verified', function() {
     beforeEach(function(done) {
-      testHelpers.authenticateActiveUser(done);
+      testHelpers.authenticateAndVerifyActiveUser(done);
     });
     afterEach(function(done) {
       passportStub.logout();
@@ -99,11 +115,59 @@ describe('routes : auth', function() {
         });
       });
     });
+    describe('POST /auth/log_in', function() {
+      it('should redirect to dashboard', function(done) {
+        chai.request(server)
+        .get('/auth/log_in')
+        .end(function(err, res) {
+          res.redirects.length.should.equal(1);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('<h1>Dashboard</h1>');
+          done();
+        });
+      });
+    });
+    describe('POST /auth/verify', function() {
+      it('should redirect to dashboard', function(done) {
+        chai.request(server)
+        .post('/auth/verify')
+        .send({
+          code: 21049144460970398511
+        })
+        .end(function(err, res) {
+          res.redirects.length.should.equal(1);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('<h1>Dashboard</h1>');
+          done();
+        });
+      });
+    });
+    describe('POST /auth/verify', function() {
+      it('should redirect to the inactive page if the code is incorrect', function(done) {
+        chai.request(server)
+        .post('/auth/verify')
+        .send({
+          code: 999
+        })
+        .end(function(err, res) {
+          res.redirects.length.should.equal(1);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain(
+            '<h2>Please verify your account.</h2>');
+          res.text.should.not.contain(
+            '<h2>Your account is inactive.</h2>');
+          done();
+        });
+      });
+    });
   });
 
-  describe('if authenticated but inactive', function() {
+  describe('if authenticated and verified but inactive', function() {
     beforeEach(function(done) {
-      testHelpers.authenticateInactiveUser(done);
+      testHelpers.authenticateAndVerifyInactiveUser(done);
     });
     afterEach(function(done) {
       passportStub.logout();
@@ -132,6 +196,81 @@ describe('routes : auth', function() {
           res.type.should.equal('text/html');
           res.text.should.contain('<h2>Your account is inactive.</h2>');
           res.text.should.contain('<p>Please contact support.</p>');
+          done();
+        });
+      });
+    });
+    describe('POST /auth/verify', function() {
+      it('should redirect to the inactive page', function(done) {
+        chai.request(server)
+        .post('/auth/verify')
+        .send({
+          code: 21049144460970398511
+        })
+        .end(function(err, res) {
+          res.redirects.length.should.equal(2);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('<h2>Your account is inactive.</h2>');
+          res.text.should.contain('<p>Please contact support.</p>');
+          done();
+        });
+      });
+    });
+  });
+
+  describe('if authenticated and inactive but unverified', function() {
+    beforeEach(function(done) {
+      testHelpers.authenticateActiveUser(done);
+    });
+    afterEach(function(done) {
+      passportStub.logout();
+      done();
+    });
+    describe('GET /auth/log_out', function() {
+      it('should log out and redirect to log in page', function(done) {
+        chai.request(server)
+        .get('/auth/log_out')
+        .end(function(err, res) {
+          res.redirects.length.should.equal(1);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('try Textbook');
+          done();
+        });
+      });
+    });
+    describe('GET /auth/log_in', function() {
+      it('should redirect to the not verified page', function(done) {
+        chai.request(server)
+        .get('/auth/log_in')
+        .end(function(err, res) {
+          res.redirects.length.should.equal(2);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain(
+            '<h2>Please verify your account.</h2>');
+          res.text.should.not.contain(
+            '<h2>Your account is inactive.</h2>');
+          done();
+        });
+      });
+    });
+    describe('POST /auth/verify', function() {
+      it('should redirect to the not verified page', function(done) {
+        chai.request(server)
+        .post('/auth/verify')
+        .send({
+          code: 21049144460970398511
+        })
+        .end(function(err, res) {
+          res.redirects.length.should.equal(2);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain(
+            '<h2>Please verify your account.</h2>');
+          res.text.should.not.contain(
+            '<h2>Your account is inactive.</h2>');
           done();
         });
       });

@@ -33,3 +33,6 @@
 1. May need to refactor read status for chapters and lessons
 1. Set up production mailer
 1. Fix the async issues with the tests
+1. Update auth helpers to actually check the database for permissions
+1. Update styles
+1. Add stripe/braintree for user verification in beta

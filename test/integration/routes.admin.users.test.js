@@ -106,9 +106,9 @@ describe('routes : admin : users', function() {
     });
   });
 
-  describe('if authenticated as a user', function() {
+  describe('if authenticated, active, and verified', function() {
     beforeEach(function(done) {
-      testHelpers.authenticateActiveUser(done);
+      testHelpers.authenticateAndVerifyActiveUser(done);
     });
     afterEach(function(done) {
       passportStub.logout();
@@ -198,9 +198,9 @@ describe('routes : admin : users', function() {
     });
   });
 
-  describe('if authenticated as a user but inactive', function() {
+  describe('if authenticated and verified but inactive', function() {
     beforeEach(function(done) {
-      testHelpers.authenticateInactiveUser(done);
+      testHelpers.authenticateAndVerifyInactiveUser(done);
     });
     afterEach(function(done) {
       passportStub.logout();
@@ -274,6 +274,98 @@ describe('routes : admin : users', function() {
           res.type.should.equal('text/html');
           res.text.should.contain('<h2>Your account is inactive.</h2>');
           res.text.should.contain('<p>Please contact support.</p>');
+          done();
+        });
+      });
+    });
+  });
+
+  describe('if authenticated and inactive but unverified', function() {
+    beforeEach(function(done) {
+      testHelpers.authenticateActiveUser(done);
+    });
+    afterEach(function(done) {
+      passportStub.logout();
+      done();
+    });
+    describe('GET /admin/users', function() {
+      it('should redirect to the not verified page', function(done) {
+        chai.request(server)
+        .get('/admin/users')
+        .end(function(err, res) {
+          res.redirects.length.should.equal(3);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain(
+            '<h2>Please verify your account.</h2>');
+          res.text.should.not.contain(
+            '<h2>Your account is inactive.</h2>');
+          done();
+        });
+      });
+    });
+    describe('GET /admin/users/1', function() {
+      it('should redirect to the not verified page', function(done) {
+        chai.request(server)
+        .get('/admin/users/1')
+        .end(function(err, res) {
+          res.redirects.length.should.equal(3);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain(
+            '<h2>Please verify your account.</h2>');
+          res.text.should.not.contain(
+            '<h2>Your account is inactive.</h2>');
+          done();
+        });
+      });
+    });
+    describe('POST /admin/users', function() {
+      it('should redirect to the not verified page', function(done) {
+        chai.request(server)
+        .post('/admin/users')
+        .send(testHelpers.sampleUser)
+        .end(function(err, res) {
+          res.redirects.length.should.equal(3);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain(
+            '<h2>Please verify your account.</h2>');
+          res.text.should.not.contain(
+            '<h2>Your account is inactive.</h2>');
+          done();
+        });
+      });
+    });
+    describe('PUT /admin/users/1', function() {
+      it('should redirect to the not verified page', function(done) {
+        chai.request(server)
+        .put('/admin/users/1')
+        .send(testHelpers.updateUser)
+        .end(function(err, res) {
+          res.redirects.length.should.equal(3);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain(
+            '<h2>Please verify your account.</h2>');
+          res.text.should.not.contain(
+            '<h2>Your account is inactive.</h2>');
+          done();
+        });
+      });
+    });
+    describe('GET /admin/users/1/deactivate', function() {
+      it('should redirect to the not verified page', function(done) {
+        chai.request(server)
+        .get('/admin/users/1/deactivate')
+        .end(function(err, res) {
+          res.redirects.length.should.equal(3);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain(
+            '<h2>Please verify your account.</h2>');
+          res.text.should.not.contain(
+            '<h2>Your account is inactive.</h2>');
           done();
         });
       });

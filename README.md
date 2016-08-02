@@ -25,6 +25,7 @@ Just a simple learning management system for textbook-like sites.
   - admin status: `curl -X PUT -d admin=true http://localhost:3000/users/<USERNAME>/admin`
   - active status: `curl -X PUT -d active=true http://localhost:3000/users/<USERNAME>/active`
 1. Make sure to update the fixtures (*/test/fixtures/data.js*) whenever the DB schema is updated
+1. User auth flow -> unregistered -> unverified -> active
 
 ## Development
 

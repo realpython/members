@@ -22,7 +22,7 @@ function authenticateActiveUser(done) {
   });
 }
 
-function authenticateInactiveUser(done) {
+function authenticateAndVerifyActiveUser(done) {
   queries.addUser({
     github_username: 'michael',
     github_id: 123456,
@@ -30,7 +30,28 @@ function authenticateInactiveUser(done) {
     github_access_token: '123456',
     github_avatar: 'https://avatars.io/static/default_128.jpg',
     email: 'michael@realpython.com',
-    verified: false,
+    verified: true,
+    admin: false,
+    active: true
+  }).returning('id')
+  .then(function(userID) {
+    queries.getSingleUser(userID[0])
+    .then(function(user) {
+      passportStub.login(user[0]);
+      done();
+    });
+  });
+}
+
+function authenticateAndVerifyInactiveUser(done) {
+  queries.addUser({
+    github_username: 'michael',
+    github_id: 123456,
+    github_display_name: 'Michael Herman',
+    github_access_token: '123456',
+    github_avatar: 'https://avatars.io/static/default_128.jpg',
+    email: 'michael@realpython.com',
+    verified: true,
     admin: false,
     active: false
   }).returning('id')
@@ -51,7 +72,7 @@ function authenticateAdmin(done) {
     github_access_token: '654321',
     github_avatar: 'https://avatars.io/static/default_128.jpg',
     email: 'jeremy@realpython.com',
-    verified: false,
+    verified: true,
     admin: true
   }).returning('id')
   .then(function(userID) {
@@ -131,7 +152,8 @@ var updateLesson = {
 
 module.exports = {
   authenticateActiveUser: authenticateActiveUser,
-  authenticateInactiveUser: authenticateInactiveUser,
+  authenticateAndVerifyActiveUser: authenticateAndVerifyActiveUser,
+  authenticateAndVerifyInactiveUser: authenticateAndVerifyInactiveUser,
   authenticateAdmin: authenticateAdmin,
   sampleUser: sampleUser,
   duplicateUser: duplicateUser,

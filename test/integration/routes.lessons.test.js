@@ -73,9 +73,9 @@ describe('routes : lessons', function() {
     });
   });
 
-  describe('if authenticated', function() {
+  describe('if authenticated, active, and verified', function() {
     beforeEach(function(done) {
-      testHelpers.authenticateActiveUser(done);
+      testHelpers.authenticateAndVerifyActiveUser(done);
     });
     afterEach(function(done) {
       passportStub.logout();
@@ -344,9 +344,9 @@ describe('routes : lessons', function() {
     });
   });
 
-  describe('if authenticated but inactive', function() {
+  describe('if authenticated and verified but inactive', function() {
     beforeEach(function(done) {
-      testHelpers.authenticateInactiveUser(done);
+      testHelpers.authenticateAndVerifyInactiveUser(done);
     });
     afterEach(function(done) {
       passportStub.logout();
@@ -537,6 +537,226 @@ describe('routes : lessons', function() {
             res.type.should.equal('text/html');
             res.text.should.contain('<h2>Your account is inactive.</h2>');
             res.text.should.contain('<p>Please contact support.</p>');
+            done();
+          });
+        });
+      });
+    });
+  });
+
+  describe('if authenticated and inactive but unverified', function() {
+    beforeEach(function(done) {
+      testHelpers.authenticateActiveUser(done);
+    });
+    afterEach(function(done) {
+      passportStub.logout();
+      done();
+    });
+    describe('GET /lessons/:id', function() {
+      it('should redirect to the not verified page', function(done) {
+        lessonQueries.getSingleLessonFromOrder(2)
+        .then(function(lesson) {
+          chai.request(server)
+          .get('/lessons/' + lesson[0].id)
+          .end(function(err, res) {
+            res.redirects.length.should.equal(1);
+            res.status.should.equal(200);
+            res.type.should.equal('text/html');
+            res.text.should.contain(
+              '<h2>Please verify your account.</h2>');
+            res.text.should.not.contain(
+              '<h2>Your account is inactive.</h2>');
+            done();
+          });
+        });
+      });
+    });
+    describe('GET /lessons/:id', function() {
+      it('should redirect to the not verified page', function(done) {
+        lessonQueries.getSingleLessonFromLessonID(1)
+        .then(function(lesson) {
+          chai.request(server)
+          .get('/lessons/' + lesson[0].id)
+          .end(function(err, res) {
+            res.redirects.length.should.equal(1);
+            res.status.should.equal(200);
+            res.type.should.equal('text/html');
+            res.text.should.contain(
+              '<h2>Please verify your account.</h2>');
+            res.text.should.not.contain(
+              '<h2>Your account is inactive.</h2>');
+            done();
+          });
+        });
+      });
+    });
+    describe('GET /lessons/:id', function() {
+      it('should redirect to the not verified page', function(done) {
+        lessonQueries.getSingleLessonFromLessonID(1)
+        .then(function(lesson) {
+          chai.request(server)
+          .post('/messages')
+          .send({
+            comment: 'testing a message',
+            lesson: lesson[0].id
+          })
+          .end(function(err, res) {
+            res.redirects.length.should.equal(1);
+            res.status.should.equal(200);
+            res.type.should.equal('text/html');
+            res.text.should.contain(
+              '<h2>Please verify your account.</h2>');
+            res.text.should.not.contain(
+              '<h2>Your account is inactive.</h2>');
+            done();
+          });
+        });
+      });
+    });
+    describe('GET /lessons/:id', function() {
+      it('should redirect to the not verified page', function(done) {
+        lessonQueries.getSingleLessonFromLessonID(1)
+        .then(function(lesson) {
+          chai.request(server)
+          .get('/lessons/' + lesson[0].id)
+          .end(function(err, res) {
+            res.redirects.length.should.equal(1);
+            res.status.should.equal(200);
+            res.type.should.equal('text/html');
+            res.text.should.contain(
+              '<h2>Please verify your account.</h2>');
+            res.text.should.not.contain(
+              '<h2>Your account is inactive.</h2>');
+            done();
+          });
+        });
+      });
+    });
+    describe('GET /lessons/:id', function() {
+      it('should redirect to the not verified page', function(done) {
+        lessonQueries.getSingleLessonFromOrder(1)
+        .then(function(lesson) {
+          chai.request(server)
+          .get('/lessons/' + lesson[0].id)
+          .end(function(err, res) {
+            res.redirects.length.should.equal(1);
+            res.status.should.equal(200);
+            res.type.should.equal('text/html');
+            res.text.should.contain(
+              '<h2>Please verify your account.</h2>');
+            res.text.should.not.contain(
+              '<h2>Your account is inactive.</h2>');
+            done();
+          });
+        });
+      });
+    });
+    describe('GET /lessons/:id', function() {
+      it('should redirect to the not verified page', function(done) {
+        lessonQueries.getSingleLessonFromOrder(6)
+        .then(function(lesson) {
+          chai.request(server)
+          .get('/lessons/' + lesson[0].id)
+          .end(function(err, res) {
+            res.redirects.length.should.equal(1);
+            res.status.should.equal(200);
+            res.type.should.equal('text/html');
+            res.text.should.contain(
+              '<h2>Please verify your account.</h2>');
+            res.text.should.not.contain(
+              '<h2>Your account is inactive.</h2>');
+            done();
+          });
+        });
+      });
+    });
+    describe('GET /lessons/:id', function() {
+      it('should redirect to the not verified page',
+        function(done) {
+        chai.request(server)
+        .get('/lessons/999')
+        .end(function(err, res) {
+          res.redirects.length.should.equal(1);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain(
+            '<h2>Please verify your account.</h2>');
+          res.text.should.not.contain(
+            '<h2>Your account is inactive.</h2>');
+          done();
+        });
+      });
+    });
+    describe('POST /lessons', function() {
+      it('should redirect to the not verified page', function(done) {
+        lessonQueries.getActiveLessons()
+        .then(function(lessons) {
+          chai.request(server)
+          .post('/lessons')
+          .send({
+            chapter: lessons[0].chapter_id,
+            lesson: lessons[0].id,
+            read: 'true'
+          })
+          .end(function(err, res) {
+            res.redirects.length.should.equal(1);
+            res.status.should.equal(200);
+            res.type.should.equal('text/html');
+            res.text.should.contain(
+              '<h2>Please verify your account.</h2>');
+            res.text.should.not.contain(
+              '<h2>Your account is inactive.</h2>');
+            done();
+          });
+        });
+      });
+    });
+    describe('POST /lessons', function() {
+      it('should redirect to the not verified page', function(done) {
+        chapterQueries.getSingleChapterFromOrder(2)
+        .then(function(chapter) {
+          lessonQueries.getLessonsFromChapterID(chapter[0].id)
+          .then(function(lessons) {
+            chai.request(server)
+            .post('/lessons')
+            .send({
+              chapter: lessons[0].chapter_id,
+              lesson: lessons[0].id,
+              read: 'true'
+            })
+            .end(function(err, res) {
+              res.redirects.length.should.equal(1);
+              res.status.should.equal(200);
+              res.type.should.equal('text/html');
+              res.text.should.contain(
+                '<h2>Please verify your account.</h2>');
+              res.text.should.not.contain(
+                '<h2>Your account is inactive.</h2>');
+              done();
+            });
+          });
+        });
+      });
+    });
+    describe('POST /lessons', function() {
+      it('should redirect to the not verified page', function(done) {
+        lessonQueries.getActiveLessons()
+        .then(function(lessons) {
+          chai.request(server)
+          .post('/lessons')
+          .send({
+            chapter: lessons[0].chapter_id,
+            lesson: lessons[0].id,
+            read: '999'
+          })
+          .end(function(err, res) {
+            res.redirects.length.should.equal(1);
+            res.status.should.equal(200);
+            res.type.should.equal('text/html');
+            res.text.should.contain(
+              '<h2>Please verify your account.</h2>');
+            res.text.should.not.contain(
+              '<h2>Your account is inactive.</h2>');
             done();
           });
         });

@@ -14,6 +14,7 @@ router.get('/ping', function(req, res, next) {
 // *** dashboard *** //
 router.get('/',
   authHelpers.ensureAuthenticated,
+  authHelpers.ensureVerified,
   authHelpers.ensureActive,
   function(req, res, next) {
   // get all chapters and associated lessons

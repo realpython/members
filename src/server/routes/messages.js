@@ -6,6 +6,7 @@ var messageQueries = require('../db/queries.messages');
 
 // *** add new message *** //
 router.post('/',
+  authHelpers.ensureVerified,
   authHelpers.ensureAuthenticated,
   authHelpers.ensureActive,
   function(req, res, next) {

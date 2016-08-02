@@ -40,17 +40,21 @@ function ensureAuthenticated(req, res, next) {
   }
 }
 
-// function ensureVerified(req, res, next) {
-//   if (req.user.verified) {
-//     return next();
-//   } else {
-//     req.flash('messages', {
-//       status: 'danger',
-//       value: 'Please verify your account.'
-//     });
-//     return res.redirect('/auth/log_in');
-//   }
-// }
+function ensureVerified(req, res, next) {
+  if (req.user) {
+    if (req.user.verified) {
+      return next();
+    } else {
+      return res.redirect('/auth/verify');
+    }
+  } else {
+    req.flash('messages', {
+      status: 'danger',
+      value: 'You need to sign in before continuing.'
+    });
+    return res.redirect('/auth/log_in');
+  }
+}
 
 function ensureActive(req, res, next) {
   if (req.user.active) {
@@ -87,6 +91,7 @@ function loginRedirect(req, res, next) {
 
 module.exports = {
   ensureAuthenticated: ensureAuthenticated,
+  ensureVerified: ensureVerified,
   ensureActive: ensureActive,
   ensureAdmin: ensureAdmin,
   loginRedirect: loginRedirect,

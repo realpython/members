@@ -3,6 +3,7 @@ var router = express.Router();
 
 var githubAuth = require('../auth/github');
 var authHelpers = require('../auth/helpers');
+var userQueries = require('../db/queries.users');
 
 // *** authenticate with github *** //
 router.get('/github',
@@ -51,10 +52,54 @@ router.get('/log_out',
 
 // *** inactive user *** //
 router.get('/inactive',
+  authHelpers.ensureVerified,
   authHelpers.ensureAuthenticated,
   function(req, res, next) {
   req.logout();
+  var renderObject = {
+    title: 'Textbook LMS - inactive',
+    messages: req.flash('messages')
+  };
   res.render('inactive');
+});
+
+// *** unverified user *** //
+router.get('/verify',
+  authHelpers.ensureAuthenticated,
+  function(req, res, next) {
+  var renderObject = {
+    title: 'Textbook LMS - verify',
+    messages: req.flash('messages')
+  };
+  res.render('unverified', renderObject);
+});
+
+// *** verify user *** //
+router.post('/verify',
+  authHelpers.ensureAuthenticated,
+  function(req, res, next) {
+  // TODO: add server-side validation
+  var registrationCode = parseInt(req.body.code);
+  var userId = parseInt(req.user.id);
+  if (registrationCode === 21049144460970398511) {
+    return userQueries.verifyUser(userId)
+    .then(function() {
+      req.flash('messages', {
+        status: 'success',
+        value: 'User verified.'
+      });
+      return res.redirect('/');
+    })
+    .catch(function(err) {
+      return next(err);
+    });
+  } else {
+    req.flash('messages', {
+      status: 'danger',
+      value: 'Sorry. That code is not correct.'
+    });
+    return res.redirect('/auth/verify');
+  }
 });
 
 module.exports = router;
