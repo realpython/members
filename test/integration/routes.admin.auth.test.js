@@ -1,4 +1,5 @@
 process.env.NODE_ENV = 'test';
+process.env.CAN_VERIFY = 1;
 
 var chai = require('chai');
 var chaiHttp = require('chai-http');
