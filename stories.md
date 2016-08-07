@@ -73,11 +73,11 @@
 1. Admin should only be able to deactivate messages; they should not be deleted
 1. Admin should be able to add inactive chapters
 1. Admin should be able to deactivate lessons
+1. Admin should be able to deactivate chapters and all associated lessons at the same time
 
 ### Incomplete
 
-1. Admin should be able to deactivate chapters and all associated lessons at the same time (current)
-1. Admin should be able to update chapters
+1. Admin should be able to update chapters (current)
 1. Admin should be able to update lesson `content` with markdown
 1. Admin should be able to toggle whether users can activate
 

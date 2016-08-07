@@ -64,6 +64,19 @@ describe('routes : admin : chapters', function() {
         });
       });
     });
+    describe('GET /admin/chapters/1/deactivate', function() {
+      it('should redirect to log in page', function(done) {
+        chai.request(server)
+        .get('/admin/chapters/1/deactivate')
+        .end(function(err, res) {
+          res.redirects.length.should.equal(1);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('try Textbook');
+          done();
+        });
+      });
+    });
   });
 
   describe('if authenticated, active, and verified as a user',
@@ -108,6 +121,22 @@ describe('routes : admin : chapters', function() {
         });
       });
     });
+    describe('GET /admin/chapters/1/deactivate', function() {
+      it('should redirect to dashboard', function(done) {
+        chai.request(server)
+        .get('/admin/chapters/1/deactivate')
+        .end(function(err, res) {
+          res.redirects.length.should.equal(2);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('<h1>Dashboard</h1>');
+          res.text.should.contain(
+            '<p class="completed">0% Complete</p>');
+          res.text.should.not.contain('<h2>You are an admin.</h2>');
+          done();
+        });
+      });
+    });
   });
 
   describe('if authenticated and verified but inactive', function() {
@@ -137,6 +166,20 @@ describe('routes : admin : chapters', function() {
         chai.request(server)
         .post('/admin/chapters')
         .send(testHelpers.sampleChapter)
+        .end(function(err, res) {
+          res.redirects.length.should.equal(3);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('<h2>Your account is inactive.</h2>');
+          res.text.should.contain('<p>Please contact support.</p>');
+          done();
+        });
+      });
+    });
+    describe('GET /admin/chapters/1/deactivate', function() {
+      it('should redirect to dashboard', function(done) {
+        chai.request(server)
+        .get('/admin/chapters/1/deactivate')
         .end(function(err, res) {
           res.redirects.length.should.equal(3);
           res.status.should.equal(200);
@@ -239,6 +282,36 @@ describe('routes : admin : chapters', function() {
           res.status.should.equal(500);
           res.type.should.equal('text/html');
           res.text.should.contain('<p>Something went wrong!</p>');
+          done();
+        });
+      });
+    });
+    describe('GET /admin/chapters/1/deactivate', function() {
+      it('should return a 200 response', function(done) {
+        chai.request(server)
+        .get('/admin/chapters/1/deactivate')
+        .end(function(err, res) {
+          res.redirects.length.should.equal(1);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('<h1>Chapters</h1>');
+          done();
+        });
+      });
+    });
+    describe('GET /admin/chapters/999/deactivate', function() {
+      it('should redirect to dashboard if the user id does not exist',
+        function(done) {
+        chai.request(server)
+        .get('/admin/chapters/999/deactivate')
+        .end(function(err, res) {
+          res.redirects.length.should.equal(1);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('<h1>Dashboard</h1>');
+          res.text.should.not.contain(
+            '<p class="completed">0% Complete</p>');
+          res.text.should.contain('<h2>You are an admin.</h2>');
           done();
         });
       });

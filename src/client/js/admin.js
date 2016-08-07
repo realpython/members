@@ -31,6 +31,17 @@ $(function() {
     }
   });
 
+  // confirm deactivate chapter
+  $(document).on('click', '.deactivate-chapter-link', function() {
+    var $this = $(this);
+    var result = confirm('Are you sure? This will deactivate all associated lessons.');
+    if (result) {
+      return true;
+    } else {
+      return false;
+    }
+  });
+
   // populate update user modal
   $(document).on('click', '.update-user-button', function() {
     var $this = $(this);

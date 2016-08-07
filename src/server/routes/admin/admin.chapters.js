@@ -1,8 +1,9 @@
 var express = require('express');
 var router = express.Router();
 
-var authHelpers = require('../auth/helpers');
-var chapterQueries = require('../db/queries.chapters');
+var authHelpers = require('../../auth/helpers');
+var chapterQueries = require('../../db/queries.chapters');
+var lessonQueries = require('../../db/queries.lessons');
 
 // *** get all chapters *** //
 router.get('/', authHelpers.ensureAdmin,
@@ -46,6 +47,36 @@ function(req, res, next) {
       });
     }
     return res.redirect('/admin/chapters');
+  })
+  .catch(function(err) {
+    // TODO: be more specific with the errors
+    return next(err);
+  });
+});
+
+// *** deactivate chapter *** //
+router.get('/:chapterID/deactivate', authHelpers.ensureAdmin,
+function(req, res, next) {
+  // TODO: Add server side validation
+  var chapterID = parseInt(req.params.chapterID);
+  return chapterQueries.deactivateChapter(chapterID)
+  .then(function(chapter) {
+    if (chapter.length) {
+      return lessonQueries.deactivateLessonsFromChapterID(chapterID)
+      .then(function(lessons) {
+        req.flash('messages', {
+          status: 'success',
+          value: 'Chapter deactivated.'
+        });
+        return res.redirect('/admin/chapters');
+      });
+    } else {
+      req.flash('messages', {
+        status: 'danger',
+        value: 'Sorry. That chapter does not exist.'
+      });
+      return res.redirect('/');
+    }
   })
   .catch(function(err) {
     // TODO: be more specific with the errors

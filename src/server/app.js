@@ -25,10 +25,12 @@ var userRoutes = require('./routes/users');
 var messageRoutes = require('./routes/messages');
 var searchRoutes = require('./routes/search');
 var suggestionRoutes = require('./routes/suggestion');
-var adminUserRoutes = require('./routes/admin.users');
-var adminMessageRoutes = require('./routes/admin.messages');
-var adminChapterRoutes = require('./routes/admin.chapters');
-var adminLessonRoutes = require('./routes/admin.lessons');
+
+// *** admin routes *** //
+var adminUserRoutes = require('./routes/admin/admin.users');
+var adminMessageRoutes = require('./routes/admin/admin.messages');
+var adminChapterRoutes = require('./routes/admin/admin.chapters');
+var adminLessonRoutes = require('./routes/admin/admin.lessons');
 
 // *** express instance *** //
 var app = express();

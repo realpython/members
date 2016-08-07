@@ -1,8 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
-var authHelpers = require('../auth/helpers');
-var userQueries = require('../db/queries.users');
+var authHelpers = require('../../auth/helpers');
+var userQueries = require('../../db/queries.users');
 
 // *** get all users *** //
 router.get('/', authHelpers.ensureAdmin,

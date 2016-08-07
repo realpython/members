@@ -1,10 +1,10 @@
 var express = require('express');
 var router = express.Router();
 
-var authHelpers = require('../auth/helpers');
-var lessonQueries = require('../db/queries.lessons');
-var chapterQueries = require('../db/queries.chapters');
-var routeHelpers = require('./_helpers');
+var authHelpers = require('../../auth/helpers');
+var lessonQueries = require('../../db/queries.lessons');
+var chapterQueries = require('../../db/queries.chapters');
+var routeHelpers = require('../_helpers');
 
 // *** get all lessons *** //
 router.get('/', authHelpers.ensureAdmin,

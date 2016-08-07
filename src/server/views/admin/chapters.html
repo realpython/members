@@ -14,7 +14,7 @@
   <br>
 
   <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-7">
       <table class="table">
         <thead>
           <tr>
@@ -24,6 +24,7 @@
             <th>Active</th>
             <th>Created Date</th>
             <th>Link</th>
+            <th>Deactivate</th>
           </tr>
         </thead>
         <tbody>
@@ -35,6 +36,7 @@
               <td>{{chapter.active}}</td>
               <td>{{chapter.created_at|date('Y-m-d')}}</td>
               <td><a href="/chapters/{{chapter.id}}">/chapters/{{chapter.id}}</a></td>
+              <td><a href="/admin/chapters/{{chapter.id}}/deactivate" class="btn btn-danger btn-sm deactivate-chapter-link">&#10005;</a></td>
             </tr>
           {% endfor %}
         </tbody>

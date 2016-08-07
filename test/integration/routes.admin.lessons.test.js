@@ -264,6 +264,20 @@ describe('routes : admin : lessons', function() {
         });
       });
     });
+    describe('GET /admin/lessons/1/deactivate', function() {
+      it('should redirect to dashboard', function(done) {
+        chai.request(server)
+        .get('/admin/lessons/1/deactivate')
+        .end(function(err, res) {
+          res.redirects.length.should.equal(3);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('<h2>Your account is inactive.</h2>');
+          res.text.should.contain('<p>Please contact support.</p>');
+          done();
+        });
+      });
+    });
   });
 
   describe('if authenticated and inactive but unverified', function() {
