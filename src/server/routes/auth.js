@@ -66,37 +66,51 @@ router.get('/inactive',
 // *** unverified user *** //
 router.get('/verify',
   authHelpers.ensureAuthenticated,
+  authHelpers.ensureActive,
   function(req, res, next) {
   var renderObject = {
     title: 'Textbook LMS - verify',
     messages: req.flash('messages')
   };
-  res.render('unverified', renderObject);
+  if (parseInt(process.env.CAN_VERIFY) === 1) {
+    res.render('unverified', renderObject);
+  } else {
+    res.render('closed', renderObject);
+  }
 });
 
 // *** verify user *** //
 router.post('/verify',
   authHelpers.ensureAuthenticated,
+  authHelpers.ensureActive,
   function(req, res, next) {
   // TODO: add server-side validation
-  var registrationCode = parseInt(req.body.code);
-  var userId = parseInt(req.user.id);
-  if (registrationCode === 21049144460970398511) {
-    return userQueries.verifyUser(userId)
-    .then(function() {
-      req.flash('messages', {
-        status: 'success',
-        value: 'User verified.'
+  if (parseInt(process.env.CAN_VERIFY) === 1) {
+    var registrationCode = parseInt(req.body.code);
+    var userId = parseInt(req.user.id);
+    if (registrationCode === 21049144460970398511) {
+      return userQueries.verifyUser(userId)
+      .then(function() {
+        req.flash('messages', {
+          status: 'success',
+          value: 'User verified.'
+        });
+        return res.redirect('/');
+      })
+      .catch(function(err) {
+        return next(err);
       });
-      return res.redirect('/');
-    })
-    .catch(function(err) {
-      return next(err);
-    });
+    } else {
+      req.flash('messages', {
+        status: 'danger',
+        value: 'Sorry. That code is not correct.'
+      });
+      return res.redirect('/auth/verify');
+    }
   } else {
     req.flash('messages', {
       status: 'danger',
-      value: 'Sorry. That code is not correct.'
+      value: 'Sorry. You cannot verify at this time.'
     });
     return res.redirect('/auth/verify');
   }

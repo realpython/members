@@ -11,7 +11,13 @@
         <h2>You are an admin.</h2>
         <br>
         <section>
-          <p>Choose a resource:</p>
+          {% if verify %}
+            <p>Verification status: <strong>true</strong></p>
+          {% else %}
+            <p>Verification status: <strong>false</strong></p>
+          {% endif %}
+          <p><a href="/admin/auth/verification/toggle" class="btn btn-success btn-sm">Toggle Verification Status</a></p>
+          <br>
           <ul>
             <li><a href="/admin/users">Users</a></li>
             <li><a href="/admin/chapters">Chapters</a></li>

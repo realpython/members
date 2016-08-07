@@ -48,6 +48,11 @@ router.get('/',
           totalUsers: totalUsers[0].count,
           messages: req.flash('messages')
         };
+        if (req.user.admin) {
+          if (parseInt(process.env.CAN_VERIFY) === 1) {
+            renderObject.verify = true;
+          }
+        }
         return res.render('dashboard', renderObject);
       });
     });

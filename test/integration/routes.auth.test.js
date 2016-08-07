@@ -79,6 +79,32 @@ describe('routes : auth', function() {
         });
       });
     });
+    describe('GET /auth/inactive', function() {
+      it('should redirect to log in page', function(done) {
+        chai.request(server)
+        .get('/auth/inactive')
+        .end(function(err, res) {
+          res.redirects.length.should.equal(1);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('try Textbook');
+          done();
+        });
+      });
+    });
+    describe('GET /auth/verify', function() {
+      it('should redirect to log in page', function(done) {
+        chai.request(server)
+        .get('/auth/verify')
+        .end(function(err, res) {
+          res.redirects.length.should.equal(1);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('try Textbook');
+          done();
+        });
+      });
+    });
   });
 
   describe('if authenticated, active, and verified', function() {
@@ -163,6 +189,81 @@ describe('routes : auth', function() {
         });
       });
     });
+    describe('POST /auth/verify', function() {
+      it('should redirect to the closed page if verification status is 0', function(done) {
+        process.env.CAN_VERIFY = 0;
+        chai.request(server)
+        .post('/auth/verify')
+        .send({
+          code: 999
+        })
+        .end(function(err, res) {
+          res.redirects.length.should.equal(1);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('<h2>We are closed.</h2>');
+          res.text.should.not.contain(
+            '<h2>Please verify your account.</h2>');
+          res.text.should.not.contain(
+            '<h2>Your account is inactive.</h2>');
+          res.text.should.not.contain('try Textbook');
+          process.env.CAN_VERIFY = 1;
+          done();
+        });
+      });
+    });
+    describe('GET /auth/inactive', function() {
+      it('should log out and redirect to log in page', function(done) {
+        chai.request(server)
+        .get('/auth/inactive')
+        .end(function(err, res) {
+          res.redirects.length.should.equal(0);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('<h2>Your account is inactive.</h2>');
+          res.text.should.contain('<p>Please contact support.</p>');
+          done();
+        });
+      });
+    });
+    describe('GET /auth/verify', function() {
+      it('should redirect to the not verified page', function(done) {
+        chai.request(server)
+        .get('/auth/verify')
+        .end(function(err, res) {
+          res.redirects.length.should.equal(0);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain(
+            '<h2>Please verify your account.</h2>');
+          res.text.should.not.contain(
+            '<h2>Your account is inactive.</h2>');
+          res.text.should.not.contain('try Textbook');
+          done();
+        });
+      });
+    });
+    describe('GET /auth/verify', function() {
+      it('should redirect to the closed page if verification status is 0',
+      function(done) {
+        process.env.CAN_VERIFY = 0;
+        chai.request(server)
+        .get('/auth/verify')
+        .end(function(err, res) {
+          res.redirects.length.should.equal(0);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('<h2>We are closed.</h2>');
+          res.text.should.not.contain(
+            '<h2>Please verify your account.</h2>');
+          res.text.should.not.contain(
+            '<h2>Your account is inactive.</h2>');
+          res.text.should.not.contain('try Textbook');
+          process.env.CAN_VERIFY = 1;
+          done();
+        });
+      });
+    });
   });
 
   describe('if authenticated and verified but inactive', function() {
@@ -208,7 +309,35 @@ describe('routes : auth', function() {
           code: 21049144460970398511
         })
         .end(function(err, res) {
-          res.redirects.length.should.equal(2);
+          res.redirects.length.should.equal(1);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('<h2>Your account is inactive.</h2>');
+          res.text.should.contain('<p>Please contact support.</p>');
+          done();
+        });
+      });
+    });
+    describe('GET /auth/inactive', function() {
+      it('should redirect to the inactive page', function(done) {
+        chai.request(server)
+        .get('/auth/inactive')
+        .end(function(err, res) {
+          res.redirects.length.should.equal(0);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('<h2>Your account is inactive.</h2>');
+          res.text.should.contain('<p>Please contact support.</p>');
+          done();
+        });
+      });
+    });
+    describe('GET /auth/verify', function() {
+      it('should redirect to the inactive page', function(done) {
+        chai.request(server)
+        .get('/auth/verify')
+        .end(function(err, res) {
+          res.redirects.length.should.equal(1);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
           res.text.should.contain('<h2>Your account is inactive.</h2>');
@@ -271,6 +400,42 @@ describe('routes : auth', function() {
             '<h2>Please verify your account.</h2>');
           res.text.should.not.contain(
             '<h2>Your account is inactive.</h2>');
+          done();
+        });
+      });
+    });
+    describe('GET /auth/inactive', function() {
+      it('should redirect to the not verified page',
+      function(done) {
+        chai.request(server)
+        .get('/auth/inactive')
+        .end(function(err, res) {
+          res.redirects.length.should.equal(1);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain(
+            '<h2>Please verify your account.</h2>');
+          res.text.should.not.contain(
+            '<h2>Your account is inactive.</h2>');
+          res.text.should.not.contain('try Textbook');
+          done();
+        });
+      });
+    });
+    describe('GET /auth/verify', function() {
+      it('should redirect to the not verified page',
+      function(done) {
+        chai.request(server)
+        .get('/auth/verify')
+        .end(function(err, res) {
+          res.redirects.length.should.equal(0);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain(
+            '<h2>Please verify your account.</h2>');
+          res.text.should.not.contain(
+            '<h2>Your account is inactive.</h2>');
+          res.text.should.not.contain('try Textbook');
           done();
         });
       });
