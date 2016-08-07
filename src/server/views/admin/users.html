@@ -28,6 +28,7 @@
             <th>Active</th>
             <th>Update</th>
             <th>Deactivate</th>
+            <th>Unverify</th>
           </tr>
         </thead>
         <tbody>
@@ -43,6 +44,7 @@
               <td>{{user.active}}</td>
               <td><button class="btn btn-warning btn-sm update-user-button" data-user-id="{{user.id}}" data-toggle="modal" data-target="#updateUserModal">&#10003;</button></td>
               <td><a href="/admin/users/{{user.id}}/deactivate" class="btn btn-danger btn-sm">&#10005;</a></td>
+              <td><a href="/admin/users/{{user.id}}/unverify" class="btn btn-danger btn-sm">&#10005;</a></td>
             </tr>
           {% endfor %}
         </tbody>

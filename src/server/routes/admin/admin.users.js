@@ -147,4 +147,31 @@ function(req, res, next) {
   });
 });
 
+// *** unverify user *** //
+router.get('/:userID/unverify', authHelpers.ensureAdmin,
+function(req, res, next) {
+  // TODO: Add server side validation
+  var userID = parseInt(req.params.userID);
+  return userQueries.unverifyUser(userID)
+  .then(function(user) {
+    if (user.length) {
+      req.flash('messages', {
+        status: 'success',
+        value: 'User unverified.'
+      });
+      return res.redirect('/admin/users');
+    } else {
+      req.flash('messages', {
+        status: 'danger',
+        value: 'Sorry. That user does not exist.'
+      });
+      return res.redirect('/');
+    }
+  })
+  .catch(function(err) {
+    // TODO: be more specific with the errors
+    return next(err);
+  });
+});
+
 module.exports = router;

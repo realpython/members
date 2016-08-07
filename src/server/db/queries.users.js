@@ -71,6 +71,15 @@ function deactivateUser(userID) {
     .returning('*');
 }
 
+function unverifyUser(userID) {
+  return knex('users')
+    .update({
+      verified: false
+    })
+    .where('id', parseInt(userID))
+    .returning('*');
+}
+
 function getMessageFeedData() {
   return knex
     .select(
@@ -98,5 +107,6 @@ module.exports = {
   verifyUser: verifyUser,
   updateUser: updateUser,
   deactivateUser: deactivateUser,
+  unverifyUser: unverifyUser,
   getMessageFeedData: getMessageFeedData
 };
