@@ -74,12 +74,12 @@
 1. Admin should be able to add inactive chapters
 1. Admin should be able to deactivate lessons
 1. Admin should be able to deactivate chapters and all associated lessons at the same time
+1. Admin should be able to update chapters
 
 ### Incomplete
 
-1. Admin should be able to update chapters (current)
+1. Admin should be able to toggle whether users can activate (current)
 1. Admin should be able to update lesson `content` with markdown
-1. Admin should be able to toggle whether users can activate
 
 ## Beta Release
 

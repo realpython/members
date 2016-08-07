@@ -46,6 +46,13 @@ function deactivateChapter(chapterID) {
     .returning('*');
 }
 
+function updateChapter(chapterID, obj) {
+  return knex('chapters')
+    .update(obj)
+    .where('id', parseInt(chapterID))
+    .returning('*');
+}
+
 module.exports = {
   getChapters: getChapters,
   getSingleChapter: getSingleChapter,
@@ -53,5 +60,6 @@ module.exports = {
   chaptersAndLessons: chaptersAndLessons,
   updateChapterReadStatus: updateChapterReadStatus,
   addChapter: addChapter,
-  deactivateChapter: deactivateChapter
+  deactivateChapter: deactivateChapter,
+  updateChapter: updateChapter
 };

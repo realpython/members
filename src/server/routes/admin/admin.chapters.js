@@ -28,6 +28,31 @@ function(req, res, next) {
   });
 });
 
+// *** get single chapter *** //
+router.get('/:id',
+authHelpers.ensureAdmin,
+function(req, res, next) {
+  var chapterID = parseInt(req.params.id);
+  return chapterQueries.getSingleChapter(chapterID)
+  .then(function(chapter) {
+    if (chapter.length) {
+      return res.status(200).json({
+        status: 'success',
+        data: chapter[0]
+      });
+    } else {
+      return res.status(500).json({
+        message: 'Something went wrong.'
+      });
+    }
+  })
+  .catch(function(err) {
+    return res.status(500).json({
+      message: 'Something went wrong.'
+    });
+  });
+});
+
 // *** add new chapter *** //
 router.post('/', authHelpers.ensureAdmin,
 function(req, res, next) {
@@ -51,6 +76,37 @@ function(req, res, next) {
   .catch(function(err) {
     // TODO: be more specific with the errors
     return next(err);
+  });
+});
+
+// *** update chapter *** //
+router.put('/:id', authHelpers.ensureAdmin,
+function(req, res, next) {
+  // TODO: Add server side validation
+  var chapterID = parseInt(req.params.id);
+  var payload = req.body;
+  var chapterObject = {
+    order_number: parseInt(payload.chapterOrderNumber),
+    name: payload.chapterName,
+    active: payload.chapterActive
+  };
+  return chapterQueries.updateChapter(chapterID, chapterObject)
+  .then(function(chapter) {
+    if (chapter.length) {
+      return res.status(200).json({
+        status: 'success',
+        message: 'Chapter updated.'
+      });
+    } else {
+      return res.status(500).json({
+        message: 'Something went wrong.'
+      });
+    }
+  })
+  .catch(function(err) {
+    return res.status(500).json({
+      message: 'Something went wrong.'
+    });
   });
 });
 

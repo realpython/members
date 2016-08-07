@@ -150,6 +150,12 @@ var updateLesson = {
   chapter: 1
 };
 
+var updateChapter = {
+  chapterOrderNumber: 22,
+  chapterName: 'Chapter Blah',
+  chapterActive: 'false'
+};
+
 module.exports = {
   authenticateActiveUser: authenticateActiveUser,
   authenticateAndVerifyActiveUser: authenticateAndVerifyActiveUser,
@@ -162,5 +168,6 @@ module.exports = {
   duplicateChapter: duplicateChapter,
   sampleLesson: sampleLesson,
   duplicateLesson: duplicateLesson,
-  updateLesson: updateLesson
+  updateLesson: updateLesson,
+  updateChapter: updateChapter
 };

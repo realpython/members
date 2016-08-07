@@ -51,6 +51,19 @@ describe('routes : chapters', function() {
         });
       });
     });
+    describe('GET /chapters/:id', function() {
+      it('should redirect to log in page', function(done) {
+        chai.request(server)
+        .get('/chapters/1')
+        .end(function(err, res) {
+          res.redirects.length.should.equal(1);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('try Textbook');
+          done();
+        });
+      });
+    });
   });
 
   describe('if authenticated, active, and verified', function() {

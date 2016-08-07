@@ -14,7 +14,7 @@
   <br>
 
   <div class="row">
-    <div class="col-md-7">
+    <div class="col-md-9">
       <table class="table">
         <thead>
           <tr>
@@ -24,6 +24,7 @@
             <th>Active</th>
             <th>Created Date</th>
             <th>Link</th>
+            <th>Update</th>
             <th>Deactivate</th>
           </tr>
         </thead>
@@ -36,6 +37,7 @@
               <td>{{chapter.active}}</td>
               <td>{{chapter.created_at|date('Y-m-d')}}</td>
               <td><a href="/chapters/{{chapter.id}}">/chapters/{{chapter.id}}</a></td>
+              <td><button class="btn btn-warning btn-sm update-chapter-button" data-chapter-id="{{chapter.id}}" data-toggle="modal" data-target="#updateChapterModal">&#10003;</button></td>
               <td><a href="/admin/chapters/{{chapter.id}}/deactivate" class="btn btn-danger btn-sm deactivate-chapter-link">&#10005;</a></td>
             </tr>
           {% endfor %}
@@ -44,7 +46,7 @@
     </div>
   </div>
 
-<!-- modal -->
+<!-- add chapter modal -->
   <div class="modal fade" id="newChapterModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -61,11 +63,42 @@
               <input type="text" name="name" class="form-control" placeholder="Name" required>
             </div>
             <div class="checkbox">
-              <label><input type="checkbox" name="active" id="update-lesson-active" checked> Active?</label>
+              <label><input type="checkbox" name="active" checked> Active?</label>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
               <button type="submit" class="btn btn-primary" id="add-chapter-button">Add Chapter</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- update chapter modal -->
+  <div class="modal fade" id="updateChapterModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Update chapter</h4>
+        </div>
+        <div class="modal-body">
+          <form id="update-chapter-form">
+            <div class="form-group">
+              <label for="update-chapter-order-number" class="control-label">Order Number</label>
+              <input type="number" name="order-number" class="form-control" id="update-chapter-order-number" min="0" step="1" required>
+            </div>
+            <div class="form-group">
+              <label for="update-chapter-name" class="control-label">Chapter Name</label>
+              <input type="text" name="name" class="form-control" id="update-chapter-name" required>
+            </div>
+            <div class="checkbox">
+              <label><input type="checkbox" name="active" id="update-chapter-active"> Active?</label>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary" id="update-chapter-button">Update Chapter</button>
             </div>
           </form>
         </div>
