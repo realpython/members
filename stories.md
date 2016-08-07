@@ -10,7 +10,7 @@
 
 ### Inactive Users
 
-1. Inactive sers should be active to view the course content
+1. Inactive users should be active to view the course content
 
 ### Unverified Users
 

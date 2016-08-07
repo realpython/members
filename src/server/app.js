@@ -82,6 +82,7 @@ app.use(function(req, res, next) {
 });
 app.use(function(err, req, res, next) {
   console.error(err.message); // set up error logging
+  // log non-priority errors to log file, send email if priorty
   res.status(err.status || 500);
   res.render('error', {
     message: err.customMessage || 'Something went wrong!',
