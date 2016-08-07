@@ -348,7 +348,7 @@ describe('routes : auth', function() {
     });
   });
 
-  describe('if authenticated and inactive but unverified', function() {
+  describe('if authenticated and active but unverified', function() {
     beforeEach(function(done) {
       testHelpers.authenticateActiveUser(done);
     });
