@@ -5,7 +5,7 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/752d6403c16544b4aef8dca5ed6c2bb5)](https://www.codacy.com/app/hermanmu/textbook?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mjhea0/textbook&amp;utm_campaign=Badge_Grade)
 [![bitHound Overall Score](https://www.bithound.io/github/mjhea0/textbook/badges/score.svg)](https://www.bithound.io/github/mjhea0/textbook)
 [![Code Climate](https://codeclimate.com/github/mjhea0/textbook/badges/gpa.svg)](https://codeclimate.com/github/mjhea0/textbook)
-![Dependencies Status](https://david-dm.org/mjhea0/textbook.svg)
+[![dependencies Status](https://david-dm.org/mjhea0/textbook/status.svg)](https://david-dm.org/mjhea0/textbook)
 [![devDependencies Status](https://david-dm.org/mjhea0/textbook/dev-status.svg)](https://david-dm.org/mjhea0/textbook?type=dev)
 
 Just a simple learning management system for textbook-like sites.
