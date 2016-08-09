@@ -20,10 +20,10 @@
 ### Alpha
 
 1. Refactor read status for chapters and lessons
+  - join table vs json field?
 1. Update search to knex.js
 1. Set up error logging
 1. Add uncaught exception handler
-1. Add code quality/analysis tools
 1. Set up production mailer
 1. Update auth helpers to actually check the database for permissions
 1. Update styles
@@ -39,3 +39,5 @@
 1. Add flash to res object for testing purposes
 1. Add server side validation
 1. Add Amazon S3 Bucket for Avatars
+1. Convert Swig to Nunjucks
+1. Add [sonar](http://xseignard.github.io/2013/04/25/quality-analysis-on-node.js-projects-with-mocha-istanbul-and-sonar/)
