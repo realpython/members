@@ -76,10 +76,9 @@
 1. Admin should be able to deactivate chapters and all associated lessons at the same time
 1. Admin should be able to update chapters
 1. Admin should be able to toggle whether users can activate
+1. Admin should be able to update lesson `content` with html
 
 ### Incomplete
-
-1. Admin should be able to update lesson `content` with markdown (current)
 
 ## Beta Release
 
@@ -103,3 +102,4 @@
 1. Active users should be able to vote on suggested topics to be added to the course
 1. Active users should be able to view suggestions within the activity feed on the dashboard
 1. Unverified (but authenticated) users should have to enter an email and a numeric code to become a verified user
+1. Admin should be able to update lesson `content` with Markdown (markdown and HTML should be supported)

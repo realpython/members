@@ -8,7 +8,7 @@
   <div class="row">
     <div class="col-md-12">
       <!-- lesson content -->
-      <p>{{singleLesson.content|markdown}}</p>
+      <p>{{singleLesson.content|safe}}</p>
       <!-- mark read/unread -->
       <br>
       <form action="/lessons" method="POST">

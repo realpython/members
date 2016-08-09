@@ -342,6 +342,27 @@ describe('routes : lessons', function() {
         });
       });
     });
+    describe('GET /lessons/:id', function() {
+      it('should display the content as HTML', function(done) {
+        lessonQueries.getSingleLessonFromOrder(7)
+        .then(function(lesson) {
+          chai.request(server)
+          .get('/lessons/' + lesson[0].id)
+          .end(function(err, res) {
+            res.redirects.length.should.equal(0);
+            res.status.should.equal(200);
+            res.type.should.equal('text/html');
+            res.text.should.contain(
+              '<h1>' + lesson[0].name + '</h1>');
+            res.text.should.contain(lesson[0].content);
+            res.text.should.contain('<!-- previous lesson button -->');
+            res.text.should.not.contain('<!-- next lesson button -->');
+            res.text.should.contain('<!-- breadcrumbs -->');
+            done();
+          });
+        });
+      });
+    });
   });
 
   describe('if authenticated and verified but inactive', function() {
