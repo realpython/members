@@ -27,12 +27,12 @@ body {
 
 .link-text {
   cursor: pointer;
-  color: #dd4814;
+  color: #008cba;
 }
 
 .link-text:hover,
 .link-text:focus {
-  color: #165ba8;
+  color: #008cba;
   text-decoration: underline;
 }
 
@@ -83,8 +83,8 @@ footer {
 }
 
 .avatar {
-  width: 30px;
-  height: 30px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
 }
 
@@ -110,10 +110,15 @@ footer {
     border: none;
     border-radius: 0;
     overflow-y: auto;
-    background-color: #222;
+    background-color: #333333;
     bottom: 0;
     overflow-x: hidden;
     padding-bottom: 40px;
+  }
+
+  .side-btn {
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
   }
 
   .side-bar>ul {
@@ -127,7 +132,7 @@ footer {
   .side-nav a:hover,
   .side-nav a:focus {
     color: #ffffff;
-    background-color: black !important;
+    background-color: #272727 !important;
   }
 
 }

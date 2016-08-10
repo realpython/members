@@ -21,7 +21,6 @@
 
 1. Refactor read status for chapters and lessons
   - join table vs json field?
-1. Update search to knex.js
 1. Set up error logging
 1. Add uncaught exception handler
 1. Set up production mailer
