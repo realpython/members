@@ -41,3 +41,7 @@
 1. Add Amazon S3 Bucket for Avatars
 1. Convert Swig to Nunjucks
 1. Add [sonar](http://xseignard.github.io/2013/04/25/quality-analysis-on-node.js-projects-with-mocha-istanbul-and-sonar/)
+1. Refactor into es6
+1. Update all dependencies
+1. Address code complexity issues
+1. Format search results page
