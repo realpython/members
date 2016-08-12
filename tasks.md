@@ -24,9 +24,10 @@
 1. Set up error logging
 1. Add uncaught exception handler
 1. Set up production mailer
-1. Update auth helpers to actually check the database for permissions
-1. Update styles
 1. Deploy to production
+  - add gulp
+  - add build process
+1. Update lesson seed
 
 ### Beta
 
