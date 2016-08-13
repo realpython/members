@@ -3,12 +3,16 @@ process.env.NODE_ENV = 'test';
 var chai = require('chai');
 var chaiHttp = require('chai-http');
 var passportStub = require('passport-stub');
+var path = require('path');
+var fs = require('fs');
 
 var knex = require('../../src/server/db/knex');
 var testHelpers = require('../helpers');
 var server = require('../../src/server/app');
 var chapterQueries = require('../../src/server/db/queries.chapters');
 var lessonQueries = require('../../src/server/db/queries.lessons');
+var logFileName = path.join(
+  __dirname, '..', '..', 'src', 'server', 'logs', 'test-logs.log');
 
 var should = chai.should();
 
@@ -71,11 +75,32 @@ describe('routes : index', function() {
         .end(function(err, res) {
           res.status.should.equal(404);
           res.type.should.equal('text/html');
-          res.text.should.contain('<p>That page cannot be found.</p>');
+          res.text.should.contain('<p>Sorry. That page cannot be found.</p>');
           done();
         });
       });
     });
+    describe('GET /doesnotexist', function() {
+      it('should create log file', function(done) {
+        chai.request(server)
+        .get('/doesnotexist')
+        .end(function(err, res) {
+          res.status.should.equal(404);
+          res.type.should.equal('text/html');
+          res.text.should.contain('<p>Sorry. That page cannot be found.</p>');
+          fs.stat(logFileName, function (err, stats) {
+            if (!err) {
+              fs.unlink(logFileName, function(err) {
+                if (!err) {
+                  done();
+                }
+              });
+            }
+          });
+        });
+      });
+    });
+
   });
 
   describe('if authenticated, active, and verified', function() {
