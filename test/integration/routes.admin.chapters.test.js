@@ -126,7 +126,7 @@ describe('routes : admin : chapters', function() {
           res.type.should.equal('text/html');
           res.text.should.contain('<h1>Dashboard</h1>');
           res.text.should.contain(
-            '<p class="completed">0% Complete</p>');
+            '<p><span class="completed">0% Complete</span><span>&nbsp;(0 lessons)</p>');
           res.text.should.not.contain('<h2>You are an admin.</h2>');
           done();
         });
@@ -142,7 +142,7 @@ describe('routes : admin : chapters', function() {
           res.type.should.equal('text/html');
           res.text.should.contain('<h1>Dashboard</h1>');
           res.text.should.contain(
-            '<p class="completed">0% Complete</p>');
+            '<p><span class="completed">0% Complete</span><span>&nbsp;(0 lessons)</p>');
           res.text.should.not.contain('<h2>You are an admin.</h2>');
           done();
         });
@@ -159,7 +159,7 @@ describe('routes : admin : chapters', function() {
           res.type.should.equal('text/html');
           res.text.should.contain('<h1>Dashboard</h1>');
           res.text.should.contain(
-            '<p class="completed">0% Complete</p>');
+            '<p><span class="completed">0% Complete</span><span>&nbsp;(0 lessons)</p>');
           res.text.should.not.contain('<h2>You are an admin.</h2>');
           done();
         });
@@ -176,7 +176,7 @@ describe('routes : admin : chapters', function() {
           res.type.should.equal('text/html');
           res.text.should.contain('<h1>Dashboard</h1>');
           res.text.should.contain(
-            '<p class="completed">0% Complete</p>');
+            '<p><span class="completed">0% Complete</span><span>&nbsp;(0 lessons)</p>');
           res.text.should.not.contain('<h2>You are an admin.</h2>');
           done();
         });
@@ -192,7 +192,7 @@ describe('routes : admin : chapters', function() {
           res.type.should.equal('text/html');
           res.text.should.contain('<h1>Dashboard</h1>');
           res.text.should.contain(
-            '<p class="completed">0% Complete</p>');
+            '<p><span class="completed">0% Complete</span><span>&nbsp;(0 lessons)</p>');
           res.text.should.not.contain('<h2>You are an admin.</h2>');
           done();
         });
@@ -393,7 +393,6 @@ describe('routes : admin : chapters', function() {
             res.body.status.should.equal('success');
             res.body.data.id.should.equal(chapter[0].id);
             res.body.data.name.should.contain(chapter[0].name);
-            res.body.data.read.should.equal(chapter[0].read);
             done();
           });
         });
@@ -495,7 +494,7 @@ describe('routes : admin : chapters', function() {
           res.type.should.equal('text/html');
           res.text.should.contain('<h1>Dashboard</h1>');
           res.text.should.not.contain(
-            '<p class="completed">0% Complete</p>');
+            '<p><span class="completed">0% Complete</span><span>&nbsp;(0 lessons)</p>');
           res.text.should.contain('<h2>You are an admin.</h2>');
           done();
         });

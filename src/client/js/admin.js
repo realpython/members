@@ -176,9 +176,6 @@ $(document).on('click', '.update-lesson-button', function() {
     $('#update-lesson-name').val(data.name);
     $('#update-lesson-content').val(data.content);
     $('#update-lesson-chapter').val(data.chapter_id);
-    if (data.read) {
-      $('#update-lesson-read').prop('checked', true);
-    }
     if (data.active) {
       $('#update-lesson-active').prop('checked', true);
     }
@@ -197,7 +194,6 @@ $('#update-lesson-form').on('submit', function(event) {
     chapterOrderNumber: $('#update-lesson-chapter-number').val(),
     lessonName: $('#update-lesson-name').val(),
     lessonContent: $('#update-lesson-content').val(),
-    lessonRead: $('#update-lesson-read').val(),
     lessonActive: $('#update-lesson-active').prop('checked'),
     chapter: $('#update-lesson-chapter').val()
   };

@@ -122,7 +122,7 @@ describe('routes : index', function() {
           res.text.should.contain('<h1>Dashboard</h1>');
           res.text.should.contain('<ul id="sidebar-chapter-1" class="lesson-list');
           res.text.should.contain(
-            '<p class="completed">0% Complete</p>');
+            '<p><span class="completed">0% Complete</span><span>&nbsp;(0 lessons)</p>');
           res.text.should.contain('<a href="#" class="dropdown-toggle avatar-link" data-toggle="dropdown"><img class="avatar" src="https://avatars.io/static/default_128.jpg">&nbsp;Michael Herman <b class="caret"></b></a>');
           res.text.should.contain('<!-- course status -->');
           res.text.should.contain('<!-- course stats -->');
@@ -131,27 +131,6 @@ describe('routes : index', function() {
           res.text.should.not.contain('Inactive Chapter');
           res.text.should.not.contain('Lesson 1d');
           done();
-        });
-      });
-    });
-    describe('GET /', function() {
-      it('should show the correct course status', function(done) {
-        lessonQueries.getActiveLessons()
-        .then(function(lessons) {
-          lessonQueries.updateLessonReadStatus(lessons[0].id, true)
-          .then(function(response) {
-            chai.request(server)
-            .get('/')
-            .end(function(err, res) {
-              res.redirects.length.should.equal(0);
-              res.status.should.equal(200);
-              res.type.should.equal('text/html');
-              res.text.should.contain('<h1>Dashboard</h1>');
-              res.text.should.contain(
-                '<p class="completed">17% Complete</p>');
-              done();
-            });
-          });
         });
       });
     });
@@ -181,28 +160,6 @@ describe('routes : index', function() {
         });
       });
     });
-    describe('GET /', function() {
-      it('should redirect to the inactive page', function(done) {
-        lessonQueries.getActiveLessons()
-        .then(function(lessons) {
-          lessonQueries.updateLessonReadStatus(lessons[0].id, true)
-          .then(function(response) {
-            chai.request(server)
-            .get('/')
-            .end(function(err, res) {
-              res.redirects.length.should.equal(1);
-              res.status.should.equal(200);
-              res.type.should.equal('text/html');
-              res.text.should.contain(
-                '<h2>Please verify your account.</h2>');
-              res.text.should.not.contain(
-                '<h2>Your account is inactive.</h2>');
-              done();
-            });
-          });
-        });
-      });
-    });
   });
 
   describe('if authenticated and active but unverified', function() {
@@ -226,28 +183,6 @@ describe('routes : index', function() {
           res.text.should.not.contain(
             '<h2>Your account is inactive.</h2>');
           done();
-        });
-      });
-    });
-    describe('GET /', function() {
-      it('should redirect to the not verified page', function(done) {
-        lessonQueries.getActiveLessons()
-        .then(function(lessons) {
-          lessonQueries.updateLessonReadStatus(lessons[0].id, true)
-          .then(function(response) {
-            chai.request(server)
-            .get('/')
-            .end(function(err, res) {
-              res.redirects.length.should.equal(1);
-              res.status.should.equal(200);
-              res.type.should.equal('text/html');
-              res.text.should.contain(
-                '<h2>Please verify your account.</h2>');
-              res.text.should.not.contain(
-                '<h2>Your account is inactive.</h2>');
-              done();
-            });
-          });
         });
       });
     });

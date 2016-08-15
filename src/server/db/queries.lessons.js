@@ -60,12 +60,6 @@ function getSingleLessonFromOrder(lessonOrderNum) {
     .where('lesson_order_number', parseInt(lessonOrderNum));
 }
 
-function updateLessonReadStatus(lessonID, value) {
-  return knex('lessons')
-    .update('read', value)
-    .where('id', parseInt(lessonID));
-}
-
 function addLesson(obj) {
   return knex('lessons')
     .insert(obj)
@@ -107,7 +101,6 @@ module.exports = {
   getSingleLesson: getSingleLesson,
   getSingleLessonFromLessonID: getSingleLessonFromLessonID,
   getSingleLessonFromOrder: getSingleLessonFromOrder,
-  updateLessonReadStatus: updateLessonReadStatus,
   addLesson: addLesson,
   updateLesson: updateLesson,
   deactivateLesson: deactivateLesson,

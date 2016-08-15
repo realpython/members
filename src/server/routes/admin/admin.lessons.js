@@ -4,6 +4,8 @@ var router = express.Router();
 var authHelpers = require('../../auth/helpers');
 var lessonQueries = require('../../db/queries.lessons');
 var chapterQueries = require('../../db/queries.chapters');
+var userQueries = require('../../db/queries.users');
+var lessonAndUserQueries = require('../../db/queries.users_lessons');
 var routeHelpers = require('../_helpers');
 
 // *** get all lessons *** //
@@ -83,9 +85,26 @@ function(req, res, next) {
       return lessonQueries.addLesson(lesson)
       .then(function(response) {
         if (response.length) {
-          req.flash('messages', {
-            status: 'success',
-            value: 'Lesson added.'
+          var lessonID = parseInt(response[0].id);
+          // update users_lessons
+          // 1 - get all users
+          return userQueries.getUsers()
+          .then(function(users) {
+            // 2 - update users_lessons
+            users.forEach(function(user) {
+              return lessonAndUserQueries.addRow({
+                user_id: user.id,
+                lesson_id: lessonID
+              })
+              .then(function(results) {
+                // console.log(results);
+              });
+            });
+            req.flash('messages', {
+              status: 'success',
+              value: 'Lesson added.'
+            });
+            return res.redirect('/admin/lessons');
           });
         }
         return res.redirect('/admin/lessons');
@@ -109,7 +128,6 @@ function(req, res, next) {
     chapter_order_number: payload.chapterOrderNumber,
     name: payload.lessonName,
     content: payload.lessonContent,
-    read: payload.lessonRead,
     active: payload.lessonActive,
     chapter_id: payload.chapter
   };

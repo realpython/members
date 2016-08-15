@@ -12,19 +12,16 @@ router.get('/',
   authHelpers.ensureAuthenticated,
   authHelpers.ensureActive,
   function(req, res, next) {
-  // get all chapters and associated lessons
-  // for the sidebar and navbar
-  chapterQueries.chaptersAndLessons()
-  .then(function(results) {
-    // filter, reduce, and sort the results
-    var reducedResults = routeHelpers.reduceResults(results);
-    var chapters = routeHelpers.convertArray(reducedResults);
-    var sortedChapters = routeHelpers.sortLessonsByOrderNumber(chapters);
+  var userID = req.user.id;
+  // get all side bar data
+  routeHelpers.getSideBarData(userID)
+  .then(function(data) {
     var renderObject = {
       title: 'Textbook LMS - search',
       pageTitle: 'Search',
       user: req.user,
-      sortedChapters: sortedChapters,
+      sortedChapters: data.sortedChapters,
+      completedArray: data.completed,
       messages: req.flash('messages')
     };
     if ((req.query.term).length) {

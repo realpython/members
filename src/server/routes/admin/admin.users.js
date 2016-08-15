@@ -3,6 +3,8 @@ var router = express.Router();
 
 var authHelpers = require('../../auth/helpers');
 var userQueries = require('../../db/queries.users');
+var lessonQueries = require('../../db/queries.lessons');
+var lessonAndUserQueries = require('../../db/queries.users_lessons');
 
 // *** get all users *** //
 router.get('/', authHelpers.ensureAdmin,
@@ -68,14 +70,30 @@ function(req, res, next) {
     active: payload.active || true
   };
   return userQueries.addUser(user)
-  .then(function(response) {
-    if (response.length) {
-      req.flash('messages', {
-        status: 'success',
-        value: 'User added.'
+  .then(function(user) {
+    if (user.length) {
+      var userID = parseInt(user[0].id);
+      // update users_lessons
+      // 1 - get all lessons
+      return lessonQueries.getAllLessons()
+      .then(function(lessons) {
+        // 2 - update users_lessons
+        lessons.forEach(function(lesson) {
+          return lessonAndUserQueries.addRow({
+            user_id: userID,
+            lesson_id: lesson.id
+          })
+          .then(function(results) {
+            // console.log(results);
+          });
+        });
+        req.flash('messages', {
+          status: 'success',
+          value: 'User added.'
+        });
+        return res.redirect('/admin/users');
       });
     }
-    return res.redirect('/admin/users');
   })
   .catch(function(err) {
     // TODO: be more specific with the errors

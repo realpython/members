@@ -1,18 +1,16 @@
-function getTotalLessons(chapters) {
-  var total = chapters.reduce(function(acc, chapter) {
-    return acc.concat(chapter.lessons);
-  }, []);
-  return total.length;
-}
+var Promise = require('es6-promise').Promise;
 
-function getCompletedLessons(chapters) {
-  var lessons = chapters.reduce(function(acc, chapter) {
-    return acc.concat(chapter.lessons);
+var chapterQueries = require('../db/queries.chapters');
+var userQueries = require('../db/queries.users');
+
+function getTotalActiveLessons(chapters) {
+  var total = chapters.reduce(function(acc, chapter) {
+    var active = (chapter.lessons).filter(function(lesson) {
+      return lesson.lessonActive;
+    });
+    return acc.concat(active);
   }, []);
-  var total = lessons.filter(function(lesson) {
-    return lesson.lessonRead;
-  });
-  return total.length;
+  return total;
 }
 
 function reduceResults(results) {
@@ -22,7 +20,6 @@ function reduceResults(results) {
         chapterID: val.chapterID,
         chapterOrder: val.chapterOrder,
         chapterName: val.chapterName,
-        chapterRead: val.chapterRead,
         lessons: []
       };
     }
@@ -32,7 +29,6 @@ function reduceResults(results) {
       lessonChapterOrder: val.lessonChapterOrder,
       lessonName: val.lessonName,
       lessonContent: val.lessonContent,
-      lessonRead: val.lessonRead,
       lessonActive: val.lessonActive
     });
     return acc;
@@ -167,9 +163,54 @@ function getNextChapterOrderNum(lessons) {
   }
 }
 
+function getTotalActiveCompletedLessons(activeLessons, completedLessons) {
+  var complete = [];
+  completedLessons.forEach(function(completedLesson) {
+    activeLessons.forEach(function(active) {
+      if (completedLesson.lesson_id === active.lessonID) {
+        complete.push(completedLesson);
+      }
+    });
+  });
+  return complete;
+}
+
+function getSideBarData(userID) {
+  return new Promise(function(resolve, reject) {
+    // get all chapters and associated lessons
+    // for the sidebar and navbar
+    return chapterQueries.chaptersAndLessons()
+    .then(function(results) {
+      // filter, reduce, and sort the results
+      var reducedResults = reduceResults(results);
+      var chapters = convertArray(reducedResults);
+      var sortedChapters = sortLessonsByOrderNumber(chapters);
+      // get total active lessons
+      var totalActiveLessons = getTotalActiveLessons(
+        sortedChapters);
+      // get read lessons
+      return userQueries.getReadLessons(userID)
+      .then(function(lessons) {
+        // get active and read lessons
+        var totalCompletedLessons = lessons;
+        var completed = getTotalActiveCompletedLessons(
+          totalActiveLessons, totalCompletedLessons);
+        var returnObject = {
+          sortedChapters: sortedChapters,
+          completed: completed,
+          totalActiveLessons: totalActiveLessons
+        };
+        resolve(returnObject);
+      });
+    })
+    .catch(function(err) {
+      reject(err);
+    });
+  });
+}
+
 module.exports = {
-  getTotalLessons: getTotalLessons,
-  getCompletedLessons: getCompletedLessons,
+  getTotalActiveLessons: getTotalActiveLessons,
   reduceResults: reduceResults,
   convertArray: convertArray,
   sortLessonsByOrderNumber: sortLessonsByOrderNumber,
@@ -181,5 +222,7 @@ module.exports = {
   getParentMessages: getParentMessages,
   getChildMessages: getChildMessages,
   getNextLessonOrderNum: getNextLessonOrderNum,
-  getNextChapterOrderNum: getNextChapterOrderNum
+  getNextChapterOrderNum: getNextChapterOrderNum,
+  getTotalActiveCompletedLessons: getTotalActiveCompletedLessons,
+  getSideBarData: getSideBarData
 };

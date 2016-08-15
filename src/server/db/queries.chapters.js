@@ -19,16 +19,10 @@ function getSingleChapterFromOrder(orderNum) {
 }
 
 function chaptersAndLessons() {
-  return knex.select('lessons.id as lessonID', 'lessons.lesson_order_number as lessonLessonOrder', 'lessons.chapter_order_number as lessonChapterOrder', 'lessons.name as lessonName', 'lessons.content as lessonContent', 'lessons.read as lessonRead', 'lessons.active as lessonActive', 'chapters.id as chapterID', 'chapters.order_number as chapterOrder', 'chapters.name as chapterName', 'chapters.read as chapterRead')
+  return knex.select('lessons.id as lessonID', 'lessons.lesson_order_number as lessonLessonOrder', 'lessons.chapter_order_number as lessonChapterOrder', 'lessons.name as lessonName', 'lessons.content as lessonContent', 'lessons.active as lessonActive', 'chapters.id as chapterID', 'chapters.order_number as chapterOrder', 'chapters.name as chapterName')
     .from('chapters')
     .join('lessons', 'lessons.chapter_id', 'chapters.id')
     .where('lessons.active', true);
-}
-
-function updateChapterReadStatus(chapterID, value) {
-  return knex('chapters')
-    .update('read', value)
-    .where('id', parseInt(chapterID));
 }
 
 function addChapter(obj) {
@@ -53,13 +47,20 @@ function updateChapter(chapterID, obj) {
     .returning('*');
 }
 
+function updateChapterReadStatus(chapterID, value) {
+  return knex('chapters')
+    .update('read', value)
+    .where('id', parseInt(chapterID))
+    .returning('*');
+}
+
 module.exports = {
   getChapters: getChapters,
   getSingleChapter: getSingleChapter,
   getSingleChapterFromOrder: getSingleChapterFromOrder,
   chaptersAndLessons: chaptersAndLessons,
-  updateChapterReadStatus: updateChapterReadStatus,
   addChapter: addChapter,
   deactivateChapter: deactivateChapter,
-  updateChapter: updateChapter
+  updateChapter: updateChapter,
+  updateChapterReadStatus: updateChapterReadStatus
 };

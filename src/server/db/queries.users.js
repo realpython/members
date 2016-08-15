@@ -96,6 +96,15 @@ function getMessageFeedData() {
     .limit(10);
 }
 
+function getReadLessons(userID) {
+  return knex('users_lessons')
+  .where({
+    user_id: parseInt(userID),
+    lesson_read: true
+  })
+  .returning('*');
+}
+
 module.exports = {
   getUsers: getUsers,
   getTotalUsers: getTotalUsers,
@@ -108,5 +117,6 @@ module.exports = {
   updateUser: updateUser,
   deactivateUser: deactivateUser,
   unverifyUser: unverifyUser,
-  getMessageFeedData: getMessageFeedData
+  getMessageFeedData: getMessageFeedData,
+  getReadLessons: getReadLessons
 };

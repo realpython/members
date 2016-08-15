@@ -83,7 +83,7 @@ describe('routes : admin : messages', function() {
           res.type.should.equal('text/html');
           res.text.should.contain('<h1>Dashboard</h1>');
           res.text.should.contain(
-            '<p class="completed">0% Complete</p>');
+            '<p><span class="completed">0% Complete</span><span>&nbsp;(0 lessons)</p>');
           res.text.should.not.contain('<h2>You are an admin.</h2>');
           done();
         });
@@ -99,7 +99,7 @@ describe('routes : admin : messages', function() {
           res.type.should.equal('text/html');
           res.text.should.contain('<h1>Dashboard</h1>');
           res.text.should.contain(
-            '<p class="completed">0% Complete</p>');
+            '<p><span class="completed">0% Complete</span><span>&nbsp;(0 lessons)</p>');
           res.text.should.not.contain('<h2>You are an admin.</h2>');
           done();
         });

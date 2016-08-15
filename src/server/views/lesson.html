@@ -14,10 +14,10 @@
       <form action="/lessons" method="POST">
         <input type="hidden" name="chapter" value="{{singleLesson.chapter_id}}">
         <input type="hidden" name="lesson" value="{{singleLesson.id}}">
-        {% if singleLesson.read %}
+        {% if lessonRead %}
           <input type="hidden" name="read" value="false">
           <button type="submit" class="btn btn-default">Mark as Unread</button>
-        {% elseif !singleLesson.read %}
+        {% elseif !lessonRead %}
           <input type="hidden" name="read" value="true">
           <button type="submit" class="btn btn-default">Mark as Read</button>
         {% endif %}

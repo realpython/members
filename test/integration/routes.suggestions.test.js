@@ -56,7 +56,7 @@ describe('routes : suggestions', function() {
     describe('POST /suggestions', function() {
       it('should redirect to log in page', function(done) {
         chai.request(server)
-        .post('/lessons')
+        .post('/suggestions')
         .send({
           title: 'Test in a test',
           description: 'Test suggest'

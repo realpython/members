@@ -4,6 +4,7 @@ var router = express.Router();
 var authHelpers = require('../auth/helpers');
 var chapterQueries = require('../db/queries.chapters');
 var lessonQueries = require('../db/queries.lessons');
+var lessonAndUserQueries = require('../db/queries.users_lessons');
 var messageQueries = require('../db/queries.messages');
 var routeHelpers = require('./_helpers');
 
@@ -20,19 +21,18 @@ router.get('/:id',
   var renderObject = {
     user: req.user,
     breadcrumbs: breadcrumbs,
-    messages: req.flash('messages')
+    messages: req.flash('messages'),
+    lessonRead: false
   };
-  // get all chapters and associated lessons
-  // for the sidebar and navbar
-  return chapterQueries.chaptersAndLessons()
-  .then(function(results) {
-    // filter, reduce, and sort the results
-    var reducedResults = routeHelpers.reduceResults(results);
-    var chapters = routeHelpers.convertArray(reducedResults);
-    var sortedChapters = routeHelpers.sortLessonsByOrderNumber(chapters);
-    renderObject.sortedChapters = sortedChapters;
+  var lessonID = req.params.id;
+  var userID = req.user.id;
+  // get all side bar data
+  routeHelpers.getSideBarData(userID)
+  .then(function(data) {
+    renderObject.sortedChapters = data.sortedChapters;
+    renderObject.completedArray = data.completed;
     // get single lesson info
-    return lessonQueries.getSingleLesson(parseInt(req.params.id))
+    return lessonQueries.getSingleLesson(parseInt(lessonID))
     .then(function(singleLesson) {
       if (singleLesson.length && singleLesson[0].active) {
         var lessonObject = singleLesson[0];
@@ -46,15 +46,26 @@ router.get('/:id',
           return messageQueries.messagesAndUsers(
             parseInt(lessonObject.id))
           .then(function(messages) {
-            // filter, reduce, and sort the results
-            var parentMessages = routeHelpers.getParentMessages(messages);
-            var formattedMessages = routeHelpers.getChildMessages(
-              parentMessages, messages);
-            renderObject.userMessages = formattedMessages;
-            renderObject.title = 'Textbook LMS - ' + lessonObject.name;
-            renderObject.pageTitle = lessonObject.name;
-            renderObject.singleLesson = lessonObject;
-            return res.render('lesson', renderObject);
+            // check if lesson is read
+            return lessonAndUserQueries.getSingleLesson(
+              parseInt(lessonID), parseInt(userID))
+            .then(function(singeLesson) {
+              if (singeLesson[0].lesson_read) {
+                renderObject.lessonRead = true;
+              } else {
+                var lessonRead = false;
+              }
+              var totalCompletedLessons = lessons;
+              // filter, reduce, and sort the results
+              var parentMessages = routeHelpers.getParentMessages(messages);
+              var formattedMessages = routeHelpers.getChildMessages(
+                parentMessages, messages);
+              renderObject.userMessages = formattedMessages;
+              renderObject.title = 'Textbook LMS - ' + lessonObject.name;
+              renderObject.pageTitle = lessonObject.name;
+              renderObject.singleLesson = lessonObject;
+              return res.render('lesson', renderObject);
+            });
           });
         });
       } else {
@@ -80,26 +91,29 @@ router.post('/',
   // TODO: add try/catch or validation
   var chapterID = parseInt(req.body.chapter);
   var lessonID = parseInt(req.body.lesson);
+  var userID = parseInt(req.user.id);
   var read = req.body.read;
   // toggle read status
-  return lessonQueries.updateLessonReadStatus(lessonID, read)
-  .then(function() {
-    // get all lessons from associated chapter
-    return lessonQueries.getLessonsFromChapterID(chapterID)
-    .then(function(lessons) {
-      // check chapter read status
-      var chapterStatus = routeHelpers.getChapterReadStatus(lessons);
-      // update chapter status
-      return chapterQueries.updateChapterReadStatus(
-        chapterID, chapterStatus)
-      .then(function() {
+  return lessonAndUserQueries.findAndUpdateLessonReadStatus(
+    lessonID, userID, read)
+  .then(function(lesson) {
+    if (lesson.length) {
+      // get all lessons from associated chapter
+      return lessonQueries.getLessonsFromChapterID(chapterID)
+      .then(function(lessons) {
         req.flash('messages', {
           status: 'success',
           value: 'Status updated.'
         });
         return res.redirect('/');
       });
-    });
+    } else {
+      req.flash('messages', {
+        status: 'danger',
+        value: 'Sorry. That lesson does not exist.'
+      });
+      return res.redirect('/');
+    }
   })
   .catch(function(err) {
     return res.status(500).render('error', {

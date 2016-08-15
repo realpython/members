@@ -14,14 +14,22 @@
 1. Deploy to staging server
   - heroku run knex migrate:latest --env staging
   - heroku run knex seed:run --env staging
+
+--
+
 1. Set up error logging
 
 ## Todo
 
 ### Alpha
 
-1. Refactor read status for chapters and lessons
-  - join table vs json field?
+1. Refactor read status for chapters and lessons (added join table)
+  - ensure rows are added to users_lessons when githubCallback() fires
+  - ensure rows are added to users_lessons when an admin adds a new user
+  - ensure rows are added to users_lessons when an admin adds a new lesson
+  - ensure no lessons are read after seed
+  - ensure rows are updated to users_lessons when an user marks a lesson as read or unread
+  - ensure getTotalLessons only returns active lessons
 1. Add uncaught exception handler
 1. Set up production mailer
 1. Deploy to production
@@ -52,3 +60,5 @@
 1. Add express-validator
 1. Update error pages
 1. Add more/better tests for error handling
+1. Modularize code
+1. Compotenize project structure

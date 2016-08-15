@@ -5,7 +5,6 @@ exports.up = function(knex, Promise) {
     table.integer('chapter_order_number').notNullable();
     table.string('name').unique().notNullable();
     table.text('content').notNullable();
-    table.boolean('read').notNullable().defaultTo(false);
     table.boolean('active').notNullable().defaultTo(true);
     table.integer('chapter_id').references('id').inTable('chapters').notNullable();
     table.timestamp('created_at').defaultTo(knex.fn.now());

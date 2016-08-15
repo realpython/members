@@ -53,24 +53,6 @@ describe('routes : lessons', function() {
         });
       });
     });
-    describe('POST /lessons', function() {
-      it('should redirect to log in page', function(done) {
-        chai.request(server)
-        .post('/lessons')
-        .send({
-          chapter: 1,
-          lesson: 1,
-          read: 'true'
-        })
-        .end(function(err, res) {
-          res.redirects.length.should.equal(1);
-          res.status.should.equal(200);
-          res.type.should.equal('text/html');
-          res.text.should.contain('try Textbook');
-          done();
-        });
-      });
-    });
   });
 
   describe('if authenticated, active, and verified', function() {
@@ -274,74 +256,6 @@ describe('routes : lessons', function() {
         });
       });
     });
-    describe('POST /lessons', function() {
-      it('should redirect to the dashboard', function(done) {
-        lessonQueries.getActiveLessons()
-        .then(function(lessons) {
-          chai.request(server)
-          .post('/lessons')
-          .send({
-            chapter: lessons[0].chapter_id,
-            lesson: lessons[0].id,
-            read: 'true'
-          })
-          .end(function(err, res) {
-            res.redirects.length.should.equal(1);
-            res.status.should.equal(200);
-            res.type.should.equal('text/html');
-            res.text.should.contain('<h1>Dashboard</h1>');
-            res.text.should.contain('&nbsp;&nbsp;&nbsp;<i class="fa fa-check" data-lesson-read="true"></i></a>');
-            done();
-          });
-        });
-      });
-    });
-    describe('POST /lessons', function() {
-      it('should mark chapter as read', function(done) {
-        chapterQueries.getSingleChapterFromOrder(2)
-        .then(function(chapter) {
-          lessonQueries.getLessonsFromChapterID(chapter[0].id)
-          .then(function(lessons) {
-            chai.request(server)
-            .post('/lessons')
-            .send({
-              chapter: lessons[0].chapter_id,
-              lesson: lessons[0].id,
-              read: 'true'
-            })
-            .end(function(err, res) {
-              res.redirects.length.should.equal(1);
-              res.status.should.equal(200);
-              res.type.should.equal('text/html');
-              res.text.should.contain('<h1>Dashboard</h1>');
-              res.text.should.contain('&nbsp;&nbsp;&nbsp;<i class="fa fa-check" data-lesson-read="true"></i></a>');
-              res.text.should.contain('data-status="true"');
-              done();
-            });
-          });
-        });
-      });
-    });
-    describe('POST /lessons', function() {
-      it('should throw an error if the query string "read" is not a boolean', function(done) {
-        lessonQueries.getActiveLessons()
-        .then(function(lessons) {
-          chai.request(server)
-          .post('/lessons')
-          .send({
-            chapter: lessons[0].chapter_id,
-            lesson: lessons[0].id,
-            read: '999'
-          })
-          .end(function(err, res) {
-            res.redirects.length.should.equal(0);
-            res.status.should.equal(500);
-            res.type.should.equal('text/html');
-            done();
-          });
-        });
-      });
-    });
     describe('GET /lessons/:id', function() {
       it('should display the content as HTML', function(done) {
         lessonQueries.getSingleLessonFromOrder(7)
@@ -494,75 +408,6 @@ describe('routes : lessons', function() {
         });
       });
     });
-    describe('POST /lessons', function() {
-      it('should redirect to the inactive page', function(done) {
-        lessonQueries.getActiveLessons()
-        .then(function(lessons) {
-          chai.request(server)
-          .post('/lessons')
-          .send({
-            chapter: lessons[0].chapter_id,
-            lesson: lessons[0].id,
-            read: 'true'
-          })
-          .end(function(err, res) {
-            res.redirects.length.should.equal(1);
-            res.status.should.equal(200);
-            res.type.should.equal('text/html');
-            res.text.should.contain('<h2>Your account is inactive.</h2>');
-            res.text.should.contain('<p>Please contact support.</p>');
-            done();
-          });
-        });
-      });
-    });
-    describe('POST /lessons', function() {
-      it('should redirect to the inactive page', function(done) {
-        chapterQueries.getSingleChapterFromOrder(2)
-        .then(function(chapter) {
-          lessonQueries.getLessonsFromChapterID(chapter[0].id)
-          .then(function(lessons) {
-            chai.request(server)
-            .post('/lessons')
-            .send({
-              chapter: lessons[0].chapter_id,
-              lesson: lessons[0].id,
-              read: 'true'
-            })
-            .end(function(err, res) {
-              res.redirects.length.should.equal(1);
-              res.status.should.equal(200);
-              res.type.should.equal('text/html');
-              res.text.should.contain('<h2>Your account is inactive.</h2>');
-              res.text.should.contain('<p>Please contact support.</p>');
-              done();
-            });
-          });
-        });
-      });
-    });
-    describe('POST /lessons', function() {
-      it('should redirect to the inactive page', function(done) {
-        lessonQueries.getActiveLessons()
-        .then(function(lessons) {
-          chai.request(server)
-          .post('/lessons')
-          .send({
-            chapter: lessons[0].chapter_id,
-            lesson: lessons[0].id,
-            read: '999'
-          })
-          .end(function(err, res) {
-            res.redirects.length.should.equal(1);
-            res.status.should.equal(200);
-            res.type.should.equal('text/html');
-            res.text.should.contain('<h2>Your account is inactive.</h2>');
-            res.text.should.contain('<p>Please contact support.</p>');
-            done();
-          });
-        });
-      });
-    });
   });
 
   describe('if authenticated and active but unverified', function() {
@@ -705,81 +550,6 @@ describe('routes : lessons', function() {
           res.text.should.not.contain(
             '<h2>Your account is inactive.</h2>');
           done();
-        });
-      });
-    });
-    describe('POST /lessons', function() {
-      it('should redirect to the not verified page', function(done) {
-        lessonQueries.getActiveLessons()
-        .then(function(lessons) {
-          chai.request(server)
-          .post('/lessons')
-          .send({
-            chapter: lessons[0].chapter_id,
-            lesson: lessons[0].id,
-            read: 'true'
-          })
-          .end(function(err, res) {
-            res.redirects.length.should.equal(1);
-            res.status.should.equal(200);
-            res.type.should.equal('text/html');
-            res.text.should.contain(
-              '<h2>Please verify your account.</h2>');
-            res.text.should.not.contain(
-              '<h2>Your account is inactive.</h2>');
-            done();
-          });
-        });
-      });
-    });
-    describe('POST /lessons', function() {
-      it('should redirect to the not verified page', function(done) {
-        chapterQueries.getSingleChapterFromOrder(2)
-        .then(function(chapter) {
-          lessonQueries.getLessonsFromChapterID(chapter[0].id)
-          .then(function(lessons) {
-            chai.request(server)
-            .post('/lessons')
-            .send({
-              chapter: lessons[0].chapter_id,
-              lesson: lessons[0].id,
-              read: 'true'
-            })
-            .end(function(err, res) {
-              res.redirects.length.should.equal(1);
-              res.status.should.equal(200);
-              res.type.should.equal('text/html');
-              res.text.should.contain(
-                '<h2>Please verify your account.</h2>');
-              res.text.should.not.contain(
-                '<h2>Your account is inactive.</h2>');
-              done();
-            });
-          });
-        });
-      });
-    });
-    describe('POST /lessons', function() {
-      it('should redirect to the not verified page', function(done) {
-        lessonQueries.getActiveLessons()
-        .then(function(lessons) {
-          chai.request(server)
-          .post('/lessons')
-          .send({
-            chapter: lessons[0].chapter_id,
-            lesson: lessons[0].id,
-            read: '999'
-          })
-          .end(function(err, res) {
-            res.redirects.length.should.equal(1);
-            res.status.should.equal(200);
-            res.type.should.equal('text/html');
-            res.text.should.contain(
-              '<h2>Please verify your account.</h2>');
-            res.text.should.not.contain(
-              '<h2>Your account is inactive.</h2>');
-            done();
-          });
         });
       });
     });

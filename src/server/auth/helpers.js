@@ -1,5 +1,7 @@
 var knex = require('../db/knex');
 var userQueries = require('../db/queries.users');
+var lessonQueries = require('../db/queries.lessons');
+var lessonAndUserQueries = require('../db/queries.users_lessons');
 
 function githubCallback(
   accessToken, refreshToken, profile, done) {
@@ -20,7 +22,23 @@ function githubCallback(
         email: email
       }).returning('*')
       .then(function(response) {
-        done(null, response[0]);
+        var res = response;
+        // update users_lessons
+        // 1 - get all lessons
+        return lessonQueries.getAllLessons()
+        .then(function(lessons) {
+          // 2 - update users_lessons
+          lessons.forEach(function(lesson) {
+            return lessonAndUserQueries.addRow({
+              user_id: parseInt(res[0].id),
+              lesson_id: lesson.id
+            })
+            .then(function(results) {
+              // console.log(results);
+            });
+          });
+          done(null, res[0]);
+        });
       });
     }
   })

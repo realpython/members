@@ -1,5 +1,8 @@
 var passportStub = require('passport-stub');
+
+var knex = require('../src/server/db/knex');
 var queries = require('../src/server/db/queries.users');
+var Promise = require('es6-promise').Promise;
 
 function authenticateActiveUser(done) {
   queries.addUser({
@@ -13,11 +16,33 @@ function authenticateActiveUser(done) {
     admin: false,
     active: true
   }).returning('id')
-  .then(function(userID) {
-    queries.getSingleUser(userID[0])
-    .then(function(user) {
-      passportStub.login(user[0]);
-      done();
+  .then(function(singleUser) {
+    var userID = parseInt(singleUser[0]);
+    return Promise.all([
+      knex('lessons').select('*')
+    ])
+    .then(function(lessons) {
+      Promise.all(
+      lessons[0].map(function(lesson) {
+        return new Promise(function(resolve, reject) {
+          return knex('users_lessons')
+          .insert({
+            user_id: userID,
+            lesson_id: lesson.id,
+            lesson_read: false
+          }).returning('*')
+          .then(function(results) {
+            resolve();
+          });
+        });
+      }))
+      .then(function() {
+        queries.getSingleUser(userID)
+        .then(function(user) {
+          passportStub.login(user[0]);
+          done();
+        });
+      });
     });
   });
 }
@@ -34,11 +59,33 @@ function authenticateAndVerifyActiveUser(done) {
     admin: false,
     active: true
   }).returning('id')
-  .then(function(userID) {
-    queries.getSingleUser(userID[0])
-    .then(function(user) {
-      passportStub.login(user[0]);
-      done();
+  .then(function(singleUser) {
+    var userID = parseInt(singleUser[0]);
+    return Promise.all([
+      knex('lessons').select('*')
+    ])
+    .then(function(lessons) {
+      Promise.all(
+      lessons[0].map(function(lesson) {
+        return new Promise(function(resolve, reject) {
+          return knex('users_lessons')
+          .insert({
+            user_id: userID,
+            lesson_id: lesson.id,
+            lesson_read: false
+          }).returning('*')
+          .then(function(results) {
+            resolve();
+          });
+        });
+      }))
+      .then(function() {
+        queries.getSingleUser(userID)
+        .then(function(user) {
+          passportStub.login(user[0]);
+          done();
+        });
+      });
     });
   });
 }
@@ -55,11 +102,27 @@ function authenticateAndVerifyInactiveUser(done) {
     admin: false,
     active: false
   }).returning('id')
-  .then(function(userID) {
-    queries.getSingleUser(userID[0])
-    .then(function(user) {
-      passportStub.login(user[0]);
-      done();
+  .then(function(singleUser) {
+    var userID = parseInt(singleUser[0]);
+    return Promise.all([
+      knex('lessons').select('*')
+    ])
+    .then(function(lessons) {
+      // update users_lessons
+      lessons[0].forEach(function(lesson) {
+        knex('users_lessons')
+        .insert({
+          user_id: userID,
+          lesson_id: lesson.id,
+          lesson_read: false
+        }).returning('*')
+        .then(function(results) {});
+      });
+      queries.getSingleUser(userID)
+      .then(function(user) {
+        passportStub.login(user[0]);
+        done();
+      });
     });
   });
 }
@@ -75,11 +138,33 @@ function authenticateAdmin(done) {
     verified: true,
     admin: true
   }).returning('id')
-  .then(function(userID) {
-    queries.getSingleUser(userID[0])
-    .then(function(user) {
-      passportStub.login(user[0]);
-      done();
+  .then(function(singleUser) {
+    var userID = parseInt(singleUser[0]);
+    return Promise.all([
+      knex('lessons').select('*')
+    ])
+    .then(function(lessons) {
+      Promise.all(
+      lessons[0].map(function(lesson) {
+        return new Promise(function(resolve, reject) {
+          return knex('users_lessons')
+          .insert({
+            user_id: userID,
+            lesson_id: lesson.id,
+            lesson_read: false
+          }).returning('*')
+          .then(function(results) {
+            resolve();
+          });
+        });
+      }))
+      .then(function() {
+        queries.getSingleUser(userID)
+        .then(function(user) {
+          passportStub.login(user[0]);
+          done();
+        });
+      });
     });
   });
 }
@@ -145,7 +230,6 @@ var updateLesson = {
   chapterOrderNumber: 1,
   lessonName: 'Lesson 1aaaaaaa',
   lessonContent: 'test',
-  lessonRead: 'true',
   lessonActive: 'false',
   chapter: 1
 };

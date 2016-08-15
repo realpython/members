@@ -34,10 +34,10 @@ describe('db : queries : chapters', function() {
       chapterQueries.getChapters()
       .then(function(results) {
         results.length.should.equal(4);
-        results[0].should.include.keys('id', 'order_number', 'name', 'read', 'created_at', 'active');
-        results[1].should.include.keys('id', 'order_number', 'name', 'read', 'created_at', 'active');
-        results[2].should.include.keys('id', 'order_number', 'name', 'read', 'created_at', 'active');
-        results[3].should.include.keys('id', 'order_number', 'name', 'read', 'created_at', 'active');
+        results[0].should.include.keys('id', 'order_number', 'name', 'created_at', 'active');
+        results[1].should.include.keys('id', 'order_number', 'name', 'created_at', 'active');
+        results[2].should.include.keys('id', 'order_number', 'name', 'created_at', 'active');
+        results[3].should.include.keys('id', 'order_number', 'name', 'created_at', 'active');
       });
       done();
     });
@@ -47,7 +47,7 @@ describe('db : queries : chapters', function() {
       chapterQueries.getSingleChapter(1)
       .then(function(results) {
         results.length.should.equal(1);
-        results[0].should.include.keys('id', 'order_number', 'name', 'read', 'created_at');
+        results[0].should.include.keys('id', 'order_number', 'name',  'created_at');
       });
       done();
     });

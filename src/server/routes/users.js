@@ -18,15 +18,11 @@ router.get('/:id/profile',
     pageTitle: 'User Profile',
     messages: req.flash('messages')
   };
-  // get all chapters and associated lessons
-  // for the sidebar and navbar
-  return chapterQueries.chaptersAndLessons()
-  .then(function(results) {
-    // filter, reduce, and sort the results
-    var reducedResults = routeHelpers.reduceResults(results);
-    var chapters = routeHelpers.convertArray(reducedResults);
-    var sortedChapters = routeHelpers.sortLessonsByOrderNumber(chapters);
-    renderObject.sortedChapters = sortedChapters;
+  // get all side bar data
+  routeHelpers.getSideBarData(userID)
+  .then(function(data) {
+    renderObject.sortedChapters = data.sortedChapters;
+    renderObject.completedArray = data.completed;
     // get single user
     return userQueries.getSingleUser(userID)
     .then(function(user) {

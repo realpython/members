@@ -25,9 +25,12 @@ function expandFirstUnreadChapter() {
   if (current[1] !== 'lessons' && current[1] !== 'search') {
     var elements = $('.sidebar-chapter-name');
     for (var i = 0; i < elements.length; i++) {
-      if ($(elements[i]).attr('data-status') === 'false') {
-        $($(elements[i]).attr('data-target')).addClass('in');
-        return true;
+      var lessonReadElements = $(elements[i]).next().find('.side-nav-lessons');
+      for (var j = 0; j < lessonReadElements.length; j++) {
+        if (!($(lessonReadElements[j]).find('i').length)) {
+          $($(elements[i]).attr('data-target')).addClass('in');
+          return true;
+        }
       }
     }
     $($(elements[0]).attr('data-target')).addClass('in');

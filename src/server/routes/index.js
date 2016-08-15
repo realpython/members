@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 
 var authHelpers = require('../auth/helpers');
-var chapterQueries = require('../db/queries.chapters');
 var userQueries = require('../db/queries.users');
 var routeHelpers = require('./_helpers');
 
@@ -17,20 +16,16 @@ router.get('/',
   authHelpers.ensureVerified,
   authHelpers.ensureActive,
   function(req, res, next) {
-  // get all chapters and associated lessons
-  // for the sidebar and navbar
-  return chapterQueries.chaptersAndLessons()
-  .then(function(results) {
-    // filter, reduce, and sort the results
-    var reducedResults = routeHelpers.reduceResults(results);
-    var chapters = routeHelpers.convertArray(reducedResults);
-    var sortedChapters = routeHelpers.sortLessonsByOrderNumber(chapters);
-    // get total lessons
-    var totalLessons = routeHelpers.getTotalLessons(sortedChapters);
-    // get completed lessons
-    var completed = routeHelpers.getCompletedLessons(sortedChapters);
+  var userID = parseInt(req.user.id);
+  // get all side bar data
+  routeHelpers.getSideBarData(userID)
+  .then(function(data) {
+    var sortedChapters = data.sortedChapters;
+    var completed = data.completed;
+    var totalActiveLessons = data.totalActiveLessons;
     // get completed percentage
-    var percentage = ((completed / totalLessons) * 100).toFixed(0);
+    var percentage = ((completed.length / totalActiveLessons.length) *
+      100).toFixed(0);
     // get feed data
     return userQueries.getMessageFeedData()
     .then(function(messageFeedData) {
@@ -43,8 +38,10 @@ router.get('/',
           user: req.user,
           sortedChapters: sortedChapters,
           completed: percentage,
+          completeNum: completed.length,
+          completedArray: completed,
           feed: messageFeedData,
-          totalLessons: totalLessons,
+          totalLessons: totalActiveLessons.length,
           totalUsers: totalUsers[0].count,
           messages: req.flash('messages')
         };

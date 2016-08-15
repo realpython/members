@@ -15,17 +15,14 @@ router.get('/:id',
     user: req.user,
     messages: req.flash('messages')
   };
-  // get all chapters and associated lessons
-  // for the sidebar and navbar
-  chapterQueries.chaptersAndLessons()
-  .then(function(results) {
-    // filter, reduce, and sort the results
-    var reducedResults = routeHelpers.reduceResults(results);
-    var chapters = routeHelpers.convertArray(reducedResults);
-    var sortedChapters = routeHelpers.sortLessonsByOrderNumber(chapters);
-    renderObject.sortedChapters = sortedChapters;
+  var userID = req.user.id;
+  // get all side bar data
+  routeHelpers.getSideBarData(userID)
+  .then(function(data) {
+    renderObject.sortedChapters = data.sortedChapters;
+    renderObject.completedArray = data.completed;
     // get single chapter info
-    var singleChapter = sortedChapters.filter(function(chapter) {
+    var singleChapter = (data.sortedChapters).filter(function(chapter) {
       return parseInt(chapter.chapterID) === parseInt(req.params.id);
     });
     // render

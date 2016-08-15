@@ -5,12 +5,10 @@ var base = [
     lessonChapterOrder: 1,
     lessonName: 'Lesson 1a',
     lessonContent: 'test',
-    lessonRead: false,
     lessonActive: true,
     chapterID: 1,
     chapterOrder: 1,
-    chapterName: 'Functions and Loops',
-    chapterRead: false
+    chapterName: 'Functions and Loops'
   },
   {
     lessonID: 2,
@@ -18,12 +16,10 @@ var base = [
     lessonChapterOrder: 3,
     lessonName: 'Lesson 1c',
     lessonContent: 'test',
-    lessonRead: false,
     lessonActive: true,
     chapterID: 1,
     chapterOrder: 1,
-    chapterName: 'Functions and Loops',
-    chapterRead: false
+    chapterName: 'Functions and Loops'
   },
   {
     lessonID: 1,
@@ -31,12 +27,10 @@ var base = [
     lessonChapterOrder: 2,
     lessonName: 'Lesson 1b',
     lessonContent: 'test',
-    lessonRead: false,
     lessonActive: true,
     chapterID: 1,
     chapterOrder: 1,
-    chapterName: 'Functions and Loops',
-    chapterRead: false
+    chapterName: 'Functions and Loops'
   },
   {
     lessonID: 6,
@@ -44,12 +38,10 @@ var base = [
     lessonChapterOrder: 2,
     lessonName: 'Lesson 3b',
     lessonContent: 'test',
-    lessonRead: false,
     lessonActive: true,
     chapterID: 2,
     chapterOrder: 3,
-    chapterName: 'Lists and Dictionaries',
-    chapterRead: false
+    chapterName: 'Lists and Dictionaries'
   },
   {
     lessonID: 4,
@@ -57,12 +49,10 @@ var base = [
     lessonChapterOrder: 1,
     lessonName: 'Lesson 3a',
     lessonContent: 'test',
-    lessonRead: false,
     lessonActive: true,
     chapterID: 2,
     chapterOrder: 3,
-    chapterName: 'Lists and Dictionaries',
-    chapterRead: false
+    chapterName: 'Lists and Dictionaries'
   },
   {
     lessonID: 5,
@@ -70,12 +60,10 @@ var base = [
     lessonChapterOrder: 1,
     lessonName: 'Lesson 2a',
     lessonContent: 'test',
-    lessonRead: false,
     lessonActive: true,
     chapterID: 3,
     chapterOrder: 2,
-    chapterName: 'Conditional logic',
-    chapterRead: false
+    chapterName: 'Conditional logic'
   },
   {
     lessonID: 7,
@@ -83,12 +71,10 @@ var base = [
     lessonChapterOrder: 4,
     lessonName: 'Lesson 1d',
     lessonContent: 'test',
-    lessonRead: false,
     lessonActive: false,
     chapterID: 1,
     chapterOrder: 1,
-    chapterName: 'Functions and Loops',
-    chapterRead: false
+    chapterName: 'Functions and Loops'
   }
 ];
 
@@ -97,7 +83,6 @@ var reduced = {
     chapterID: 1,
     chapterName: 'Functions and Loops',
     chapterOrder: 1,
-    chapterRead: false,
     lessons: [
       {
         lessonChapterOrder: 1,
@@ -105,7 +90,6 @@ var reduced = {
         lessonID: 3,
         lessonLessonOrder: 1,
         lessonName: 'Lesson 1a',
-        lessonRead: false,
         lessonActive: true
       },
       {
@@ -114,7 +98,6 @@ var reduced = {
         lessonID: 2,
         lessonLessonOrder: 3,
         lessonName: 'Lesson 1c',
-        lessonRead: false,
         lessonActive: true
       },
       {
@@ -123,7 +106,6 @@ var reduced = {
         lessonID: 1,
         lessonLessonOrder: 2,
         lessonName: 'Lesson 1b',
-        lessonRead: false,
         lessonActive: true
       },
       {
@@ -132,7 +114,6 @@ var reduced = {
         lessonID: 7,
         lessonLessonOrder: 4,
         lessonName: 'Lesson 1d',
-        lessonRead: false,
         lessonActive: false
       }
     ]
@@ -141,7 +122,6 @@ var reduced = {
     chapterID: 2,
     chapterName: 'Lists and Dictionaries',
     chapterOrder: 3,
-    chapterRead: false,
     lessons: [
       {
         lessonChapterOrder: 2,
@@ -149,7 +129,6 @@ var reduced = {
         lessonID: 6,
         lessonLessonOrder: 7,
         lessonName: 'Lesson 3b',
-        lessonRead: false,
         lessonActive: true
       },
       {
@@ -158,7 +137,6 @@ var reduced = {
         lessonID: 4,
         lessonLessonOrder: 6,
         lessonName: 'Lesson 3a',
-        lessonRead: false,
         lessonActive: true
       }
     ]
@@ -167,7 +145,6 @@ var reduced = {
     chapterID: 3,
     chapterName: 'Conditional logic',
     chapterOrder: 2,
-    chapterRead: false,
     lessons: [
       {
         lessonChapterOrder: 1,
@@ -175,7 +152,6 @@ var reduced = {
         lessonID: 5,
         lessonLessonOrder: 5,
         lessonName: 'Lesson 2a',
-        lessonRead: false,
         lessonActive: true
       }
     ]
@@ -187,7 +163,6 @@ var converted = [
     chapterID: 1,
     chapterName: 'Functions and Loops',
     chapterOrder: 1,
-    chapterRead: false,
     lessons: [
       {
         lessonChapterOrder: 1,
@@ -195,7 +170,6 @@ var converted = [
         lessonID: 3,
         lessonLessonOrder: 1,
         lessonName: 'Lesson 1a',
-        lessonRead: false,
         lessonActive: true
       },
       {
@@ -204,7 +178,6 @@ var converted = [
         lessonID: 2,
         lessonLessonOrder: 3,
         lessonName: 'Lesson 1c',
-        lessonRead: false,
         lessonActive: true
       },
       {
@@ -213,7 +186,6 @@ var converted = [
         lessonID: 1,
         lessonLessonOrder: 2,
         lessonName: 'Lesson 1b',
-        lessonRead: false,
         lessonActive: true
       },
       {
@@ -222,7 +194,6 @@ var converted = [
         lessonID: 7,
         lessonLessonOrder: 4,
         lessonName: 'Lesson 1d',
-        lessonRead: false,
         lessonActive: false
       }
     ]
@@ -231,7 +202,6 @@ var converted = [
     chapterID: 2,
     chapterName: 'Lists and Dictionaries',
     chapterOrder: 3,
-    chapterRead: false,
     lessons: [
       {
         lessonChapterOrder: 2,
@@ -239,7 +209,6 @@ var converted = [
         lessonID: 6,
         lessonLessonOrder: 7,
         lessonName: 'Lesson 3b',
-        lessonRead: false,
         lessonActive: true
       },
       {
@@ -248,7 +217,6 @@ var converted = [
         lessonID: 4,
         lessonLessonOrder: 6,
         lessonName: 'Lesson 3a',
-        lessonRead: false,
         lessonActive: true
       }
     ]
@@ -257,7 +225,6 @@ var converted = [
     chapterID: 3,
     chapterName: 'Conditional logic',
     chapterOrder: 2,
-    chapterRead: false,
     lessons: [
       {
         lessonChapterOrder: 1,
@@ -265,7 +232,6 @@ var converted = [
         lessonID: 5,
         lessonLessonOrder: 5,
         lessonName: 'Lesson 2a',
-        lessonRead: false,
         lessonActive: true
       }
     ]
@@ -277,7 +243,6 @@ var sorted = [
     chapterID: 1,
     chapterName: 'Functions and Loops',
     chapterOrder: 1,
-    chapterRead: false,
     lessons: [
       {
         lessonChapterOrder: 1,
@@ -285,7 +250,6 @@ var sorted = [
         lessonID: 3,
         lessonLessonOrder: 1,
         lessonName: 'Lesson 1a',
-        lessonRead: false,
         lessonActive: true
       },
       {
@@ -294,7 +258,6 @@ var sorted = [
         lessonID: 1,
         lessonLessonOrder: 2,
         lessonName: 'Lesson 1b',
-        lessonRead: false,
         lessonActive: true
       },
       {
@@ -303,7 +266,6 @@ var sorted = [
         lessonID: 2,
         lessonLessonOrder: 3,
         lessonName: 'Lesson 1c',
-        lessonRead: false,
         lessonActive: true
       },
       {
@@ -312,7 +274,6 @@ var sorted = [
         lessonID: 7,
         lessonLessonOrder: 4,
         lessonName: 'Lesson 1d',
-        lessonRead: false,
         lessonActive: false
       }
     ]
@@ -321,7 +282,6 @@ var sorted = [
     chapterID: 3,
     chapterName: 'Conditional logic',
     chapterOrder: 2,
-    chapterRead: false,
     lessons: [
       {
         lessonChapterOrder: 1,
@@ -329,7 +289,6 @@ var sorted = [
         lessonID: 5,
         lessonLessonOrder: 5,
         lessonName: 'Lesson 2a',
-        lessonRead: false,
         lessonActive: true
       }
     ]
@@ -338,7 +297,6 @@ var sorted = [
     chapterID: 2,
     chapterName: 'Lists and Dictionaries',
     chapterOrder: 3,
-    chapterRead: false,
     lessons: [
       {
         lessonChapterOrder: 1,
@@ -346,7 +304,6 @@ var sorted = [
         lessonID: 4,
         lessonLessonOrder: 6,
         lessonName: 'Lesson 3a',
-        lessonRead: false,
         lessonActive: true
       },
       {
@@ -355,7 +312,6 @@ var sorted = [
         lessonID: 6,
         lessonLessonOrder: 7,
         lessonName: 'Lesson 3b',
-        lessonRead: false,
         lessonActive: true
       }
     ]
@@ -367,21 +323,18 @@ var chapters = [
     id: 1,
     order_number: 1,
     name: 'Functions and Loops',
-    read: false,
     created_at: '2016-07-08T23:49:03.267Z'
   },
   {
     id: 3,
     order_number: 2,
     name: 'Conditional logic',
-    read: false,
     created_at: '2016-07-08T23:49:03.268Z'
   },
   {
     id: 2,
     order_number: 3,
     name: 'Lists and Dictionaries',
-    read: false,
     created_at: '2016-07-08T23:49:03.267Z '
   }
 ];
