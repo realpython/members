@@ -23,16 +23,12 @@ Just a simple learning management system for textbook-like sites.
 1. Run development migrations:
   - `knex migrate:latest --env development`
 1. Run seed
-  - knex seed:run --env development
+  - `knex seed:run --env development`
 1. Run server
 
 ## Create build
 
-Run:
-
-```sh
-gulp build
-```
+Run: `gulp build`
 
 This will minify and uglify code, copy all files over to a *dist* directory, and then run a development server.
 
