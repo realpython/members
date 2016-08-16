@@ -7,6 +7,9 @@ var passportStub = require('passport-stub');
 var knex = require('../../src/server/db/knex');
 var testHelpers = require('../helpers');
 var server = require('../../src/server/app');
+var userQueries = require('../../src/server/db/queries.users');
+var usersAndLessonsQueries = require(
+  '../../src/server/db/queries.users_lessons');
 
 var should = chai.should();
 
@@ -497,17 +500,90 @@ describe('routes : admin : users', function() {
       });
     });
     describe('POST /admin/users', function() {
-      it('should do nothing when duplicate data is used',
+      it('should add new rows to the \'users_lessons\' table',
       function(done) {
-        chai.request(server)
-        .post('/admin/users')
-        .send(testHelpers.duplicateUser)
-        .end(function(err, res) {
-          res.redirects.length.should.equal(1);
-          res.status.should.equal(200);
-          res.type.should.equal('text/html');
-          res.text.should.contain('<h1>Users</h1>');
-          done();
+        usersAndLessonsQueries.getAllUsersAndLessons()
+        .then(function(results) {
+          results.length.should.equal(14);
+          chai.request(server)
+          .post('/admin/users')
+          .send(testHelpers.sampleUser)
+          .end(function(err, res) {
+            res.redirects.length.should.equal(1);
+            res.status.should.equal(200);
+            res.type.should.equal('text/html');
+            res.text.should.contain('<h1>Users</h1>');
+            // check database for added rows to users_queries
+            userQueries.getSingleUserByUsername(
+              testHelpers.sampleUser.githubDisplayName)
+            .then(function(user) {
+              var userID = parseInt(user[0].id);
+              usersAndLessonsQueries.getUsersAndLessonsByUserID(userID)
+              .then(function(results) {
+                results.length.should.equal(7);
+                usersAndLessonsQueries.getAllUsersAndLessons()
+                .then(function(results) {
+                  results.length.should.equal(21);
+                  done();
+                });
+              });
+            });
+          });
+        });
+      });
+    });
+    describe('POST /admin/users', function() {
+      it('should throw 500 error when duplicate data is used',
+      function(done) {
+        userQueries.getTotalUsers()
+        .then(function(totalUsers) {
+          totalUsers[0].count.should.equal('2');
+          chai.request(server)
+          .post('/admin/users')
+          .send(testHelpers.duplicateUser)
+          .end(function(err, res) {
+            res.redirects.length.should.equal(0);
+            res.status.should.equal(500);
+            res.type.should.equal('text/html');
+            res.text.should.contain('<p>Something went wrong!</p>');
+            res.text.should.not.contain('<h1>Users</h1>');
+            userQueries.getTotalUsers()
+            .then(function(totalUsers) {
+              totalUsers[0].count.should.equal('2');
+              done();
+              // TODO: does this log an error to the logger file?
+            });
+          });
+        });
+      });
+    });
+    describe('POST /admin/users', function() {
+      it('should not add new rows to the \'users_lessons\' table when duplicate data is used',
+      function(done) {
+        usersAndLessonsQueries.getAllUsersAndLessons()
+        .then(function(results) {
+          results.length.should.equal(14);
+          chai.request(server)
+          .post('/admin/users')
+          .send(testHelpers.duplicateUser)
+          .end(function(err, res) {
+            res.redirects.length.should.equal(0);
+            res.status.should.equal(500);
+            res.type.should.equal('text/html');
+            res.text.should.contain('<p>Something went wrong!</p>');
+            res.text.should.not.contain('<h1>Users</h1>');
+            // check database for added rows to users_queries
+            userQueries.getSingleUserByUsername(
+              testHelpers.duplicateUser.githubDisplayName)
+            .then(function(user) {
+              user.length.should.equal(0);
+              usersAndLessonsQueries.getAllUsersAndLessons()
+              .then(function(results) {
+                results.length.should.equal(14);
+                done();
+              });
+            });
+          });
         });
       });
     });

@@ -128,6 +128,8 @@ describe('routes : index', function() {
           res.text.should.contain('<!-- course stats -->');
           res.text.should.contain('<!-- activity feed: comments -->');
           res.text.should.not.contain('<h2>You are an admin.</h2>');
+          // no lessons are read
+          res.text.should.not.contain('data-lesson-read="true"');
           res.text.should.not.contain('Inactive Chapter');
           res.text.should.not.contain('Lesson 1d');
           done();

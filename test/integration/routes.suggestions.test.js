@@ -135,7 +135,7 @@ describe('routes : suggestions', function() {
         });
       });
     });
-    describe('POST /lessons', function() {
+    describe('POST /suggestions', function() {
       it('should redirect to the inactive page', function(done) {
         chai.request(server)
         .post('/suggestions')

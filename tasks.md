@@ -23,13 +23,6 @@
 
 ### Alpha
 
-1. Refactor read status for chapters and lessons (added join table)
-  - ensure rows are added to users_lessons when githubCallback() fires
-  - ensure rows are added to users_lessons when an admin adds a new user
-  - ensure rows are added to users_lessons when an admin adds a new lesson
-  - ensure no lessons are read after seed
-  - ensure rows are updated to users_lessons when an user marks a lesson as read or unread
-  - ensure getTotalLessons only returns active lessons
 1. Add uncaught exception handler`
 1. Deploy to production
   - add gulp

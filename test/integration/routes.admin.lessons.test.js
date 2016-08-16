@@ -7,6 +7,9 @@ var passportStub = require('passport-stub');
 var knex = require('../../src/server/db/knex');
 var testHelpers = require('../helpers');
 var server = require('../../src/server/app');
+var lessonQueries = require('../../src/server/db/queries.lessons');
+var usersAndLessonsQueries = require(
+  '../../src/server/db/queries.users_lessons');
 
 var should = chai.should();
 
@@ -408,30 +411,96 @@ describe('routes : admin : lessons', function() {
     });
     describe('POST /admin/lessons', function() {
       it('should return a 200 response', function(done) {
-        chai.request(server)
-        .post('/admin/lessons')
-        .send(testHelpers.sampleLesson)
-        .end(function(err, res) {
-          res.redirects.length.should.equal(1);
-          res.status.should.equal(200);
-          res.type.should.equal('text/html');
-          res.text.should.contain('<h1>Lessons</h1>');
-          done();
+        lessonQueries.getAllLessons()
+        .then(function(lessons) {
+          var totalLessonsCount = parseInt(lessons.length);
+          chai.request(server)
+          .post('/admin/lessons')
+          .send(testHelpers.sampleLesson)
+          .end(function(err, res) {
+            res.redirects.length.should.equal(1);
+            res.status.should.equal(200);
+            res.type.should.equal('text/html');
+            res.text.should.contain('<h1>Lessons</h1>');
+            lessonQueries.getAllLessons()
+            .then(function(lessons) {
+              var newCount = parseInt(lessons.length);
+              newCount.should.equal(totalLessonsCount + 1);
+              done();
+            });
+          });
         });
       });
     });
-    describe('POST /admin/chapters', function() {
+    describe('POST /admin/lessons', function() {
+      it('should add new rows to the \'users_lessons\' table',
+      function(done) {
+        usersAndLessonsQueries.getAllUsersAndLessons()
+        .then(function(results) {
+          results.length.should.equal(14);
+          chai.request(server)
+          .post('/admin/lessons')
+          .send(testHelpers.sampleLesson)
+          .end(function(err, res) {
+            res.redirects.length.should.equal(1);
+            res.status.should.equal(200);
+            res.type.should.equal('text/html');
+            res.text.should.contain('<h1>Lessons</h1>');
+            // check database for added rows to users_queries
+            usersAndLessonsQueries.getAllUsersAndLessons()
+            .then(function(results) {
+              results.length.should.equal(16);
+              done();
+            });
+          });
+        });
+      });
+    });
+    describe('POST /admin/lessons', function() {
       it('should throw an error when duplicate data is used',
       function(done) {
-        chai.request(server)
-        .post('/admin/lessons')
-        .send(testHelpers.duplicateLesson)
-        .end(function(err, res) {
-          res.redirects.length.should.equal(0);
-          res.status.should.equal(500);
-          res.type.should.equal('text/html');
-          res.text.should.contain('<p>Something went wrong!</p>');
-          done();
+        lessonQueries.getAllLessons()
+        .then(function(lessons) {
+          var totalLessonsCount = parseInt(lessons.length);
+          chai.request(server)
+          .post('/admin/lessons')
+          .send(testHelpers.duplicateLesson)
+          .end(function(err, res) {
+            res.redirects.length.should.equal(0);
+            res.status.should.equal(500);
+            res.type.should.equal('text/html');
+            res.text.should.contain('<p>Something went wrong!</p>');
+            lessonQueries.getAllLessons()
+            .then(function(lessons) {
+              var newCount = parseInt(lessons.length);
+              newCount.should.equal(totalLessonsCount);
+              done();
+            });
+          });
+        });
+      });
+    });
+    describe('POST /admin/lessons', function() {
+      it('should not add new rows to the \'users_lessons\' table when duplicate data is used',
+      function(done) {
+        usersAndLessonsQueries.getAllUsersAndLessons()
+        .then(function(results) {
+          var totalLessonsCount = parseInt(results.length);
+          chai.request(server)
+          .post('/admin/lessons')
+          .send(testHelpers.duplicateLesson)
+          .end(function(err, res) {
+            res.redirects.length.should.equal(0);
+            res.status.should.equal(500);
+            res.type.should.equal('text/html');
+            res.text.should.contain('<p>Something went wrong!</p>');
+            usersAndLessonsQueries.getAllUsersAndLessons()
+            .then(function(lessons) {
+              var newCount = parseInt(lessons.length);
+              newCount.should.equal(totalLessonsCount);
+              done();
+            });
+          });
         });
       });
     });

@@ -181,7 +181,7 @@ var sampleUser = {
 };
 
 var duplicateUser = {
-  githubUsername: 'michael',
+  githubUsername: 'Michael',
   githubID: 123456,
   githubDisplayName: 'Michael Herman',
   githubToken: '123456',
@@ -240,6 +240,18 @@ var updateChapter = {
   chapterActive: 'false'
 };
 
+var lessonRead = {
+  chapter: 1,
+  lesson: 2,
+  read: true
+};
+
+var lessonUnread = {
+  chapter: 1,
+  lesson: 2,
+  read: false
+};
+
 module.exports = {
   authenticateActiveUser: authenticateActiveUser,
   authenticateAndVerifyActiveUser: authenticateAndVerifyActiveUser,
@@ -253,5 +265,7 @@ module.exports = {
   sampleLesson: sampleLesson,
   duplicateLesson: duplicateLesson,
   updateLesson: updateLesson,
-  updateChapter: updateChapter
+  updateChapter: updateChapter,
+  lessonRead: lessonRead,
+  lessonUnread: lessonUnread
 };
