@@ -40,4 +40,14 @@ describe('db : queries : lessons', function() {
     });
   });
 
+  describe('getLessonsFromChapterID(1)', function() {
+    it('should format data correctly', function(done) {
+      lessonQueries.getLessonsFromChapterID(1)
+      .then(function(results) {
+        results[0].should.include.keys('id', 'lesson_order_number', 'chapter_order_number', 'name', 'content', 'active', 'chapter_id', 'created_at');
+      });
+      done();
+    });
+  });
+
 });

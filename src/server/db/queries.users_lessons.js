@@ -5,6 +5,12 @@ function getAllUsersAndLessons() {
     .select('*');
 }
 
+function getUsersAndLessonsByUserID(userID) {
+  return knex('users_lessons')
+  .where('user_id', parseInt(userID))
+  .returning('*');
+}
+
 function findAndUpdateLessonReadStatus(lessonID, userID, value) {
   return knex('users_lessons')
     .update({
@@ -30,6 +36,7 @@ function getSingleLesson(lessonID, userID) {
 
 module.exports = {
   getAllUsersAndLessons: getAllUsersAndLessons,
+  getUsersAndLessonsByUserID: getUsersAndLessonsByUserID,
   findAndUpdateLessonReadStatus: findAndUpdateLessonReadStatus,
   addRow: addRow,
   getSingleLesson: getSingleLesson

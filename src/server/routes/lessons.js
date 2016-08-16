@@ -4,7 +4,7 @@ var router = express.Router();
 var authHelpers = require('../auth/helpers');
 var chapterQueries = require('../db/queries.chapters');
 var lessonQueries = require('../db/queries.lessons');
-var lessonAndUserQueries = require('../db/queries.users_lessons');
+var userAndLessonQueries = require('../db/queries.users_lessons');
 var messageQueries = require('../db/queries.messages');
 var routeHelpers = require('./_helpers');
 
@@ -47,7 +47,7 @@ router.get('/:id',
             parseInt(lessonObject.id))
           .then(function(messages) {
             // check if lesson is read
-            return lessonAndUserQueries.getSingleLesson(
+            return userAndLessonQueries.getSingleLesson(
               parseInt(lessonID), parseInt(userID))
             .then(function(singeLesson) {
               if (singeLesson[0].lesson_read) {
@@ -94,7 +94,7 @@ router.post('/',
   var userID = parseInt(req.user.id);
   var read = req.body.read;
   // toggle read status
-  return lessonAndUserQueries.findAndUpdateLessonReadStatus(
+  return userAndLessonQueries.findAndUpdateLessonReadStatus(
     lessonID, userID, read)
   .then(function(lesson) {
     if (lesson.length) {

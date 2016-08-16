@@ -30,24 +30,57 @@ describe('routes : helpers', function() {
       done();
     });
   });
-  // describe('getTotalActiveCompletedLessons()', function() {
-  //   it('should format data correctly', function(done) {
-  //     var reducedResults = routeHelpers.reduceResults(data.base);
-  //     var chapters = routeHelpers.convertArray(reducedResults);
-  //     var sorted = routeHelpers.sortLessonsByOrderNumber(chapters);
-  //     routeHelpers.getTotalActiveCompletedLessons(sorted).should.eql(7);
-  //     done();
-  //   });
-  // });
-  // describe('getCompletedLessons()', function() {
-  //   it('should format data correctly', function(done) {
-  //     var reducedResults = routeHelpers.reduceResults(data.base);
-  //     var chapters = routeHelpers.convertArray(reducedResults);
-  //     var sorted = routeHelpers.sortLessonsByOrderNumber(chapters);
-  //     routeHelpers.getCompletedLessons(sorted).should.eql(0);
-  //     done();
-  //   });
-  // });
+  describe('getTotalActiveCompletedLessons()', function() {
+    it('should format data correctly', function(done) {
+      var reducedResults = routeHelpers.reduceResults(data.base);
+      var chapters = routeHelpers.convertArray(reducedResults);
+      var sorted = routeHelpers.sortLessonsByOrderNumber(chapters);
+      var active = routeHelpers.getTotalActiveLessons(sorted);
+      var completedLessons = [
+        { id: 8, user_id: 1, lesson_id: 1, lesson_read: true },
+        { id: 9, user_id: 1, lesson_id: 4, lesson_read: true },
+        { id: 10, user_id: 1, lesson_id: 3, lesson_read: true }
+      ];
+      var expectedResults = routeHelpers.getTotalActiveCompletedLessons(
+        active, completedLessons);
+      var actualResults = [
+        {
+          id: 8,
+          lesson_id: 1,
+          lesson_read: true,
+          user_id: 1
+        },
+        {
+          id: 9,
+          lesson_id: 4,
+          lesson_read: true,
+          user_id: 1
+        },
+        {
+          id: 10,
+          lesson_id: 3,
+          lesson_read: true,
+          user_id: 1
+        }
+      ];
+      expectedResults.should.eql(actualResults);
+      done();
+    });
+  });
+  describe('getTotalActiveCompletedLessons()', function() {
+    it('should format data correctly', function(done) {
+      var reducedResults = routeHelpers.reduceResults(data.base);
+      var chapters = routeHelpers.convertArray(reducedResults);
+      var sorted = routeHelpers.sortLessonsByOrderNumber(chapters);
+      var active = routeHelpers.getTotalActiveLessons(sorted);
+      var completedLessons = [];
+      var expectedResults = routeHelpers.getTotalActiveCompletedLessons(
+        active, completedLessons);
+      expectedResults.should.eql([]);
+      done();
+    });
+  });
+
   describe('getPrevChapter()', function() {
     it('should return the previous chapter', function(done) {
       var result = routeHelpers.getPrevChapter(2, data.chapters);

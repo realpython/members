@@ -114,15 +114,6 @@ function getNextLesson(orderID, lessons) {
   }
 }
 
-function getChapterReadStatus(lessons) {
-  for (var i = 0; i < lessons.length; i++) {
-    if (!lessons[i].read) {
-      return false;
-    }
-  }
-  return true;
-}
-
 function getParentMessages(messages) {
   return messages.filter(function(message) {
     return !message.messageParentID;
@@ -218,11 +209,10 @@ module.exports = {
   getNextChapter: getNextChapter,
   getPrevLesson: getPrevLesson,
   getNextLesson: getNextLesson,
-  getChapterReadStatus: getChapterReadStatus,
-  getParentMessages: getParentMessages,
   getChildMessages: getChildMessages,
   getNextLessonOrderNum: getNextLessonOrderNum,
   getNextChapterOrderNum: getNextChapterOrderNum,
   getTotalActiveCompletedLessons: getTotalActiveCompletedLessons,
-  getSideBarData: getSideBarData
+  getSideBarData: getSideBarData,
+  getParentMessages: getParentMessages
 };

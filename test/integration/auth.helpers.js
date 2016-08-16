@@ -1,9 +1,12 @@
 process.env.NODE_ENV = 'test';
 
 var chai = require('chai');
+var Promise = require('es6-promise').Promise;
 
 var knex = require('../../src/server/db/knex');
 var authHelpers = require('../../src/server/auth/helpers');
+var userQueries = require('../../src/server/db/queries.users.js');
+var userAndLessonQueries = require('../../src/server/db/queries.users_lessons');
 
 var should = chai.should();
 
@@ -98,6 +101,50 @@ describe('auth : helpers', function() {
       .then(function(results) {
         results.statusCode.should.equal(403);
         done();
+      });
+    });
+  });
+
+  // TODO: Add test for an existing user (should not add new rows)
+  describe('githubCallback()', function() {
+    it('should add a user and rows to the users_lessons for a new user',
+    function(done) {
+      var newUser = {
+        accessToken: 123456789,
+        refreshToken: undefined,
+        profile: {
+          id: '123456789',
+          _json: {
+            email: '123456789@123456789.com',
+            avatar_url: 'https://avatars.io/static/default_128.jpg'
+          },
+          displayName: '123456789',
+          username: '123456789'
+        },
+        done: function verified() {}
+      };
+      new Promise(function(resolve, reject) {
+        authHelpers.githubCallback(
+          newUser.accessToken,
+          newUser.refreshToken,
+          newUser.profile,
+          newUser.done
+        );
+        resolve();
+      }).then(function() {
+        setTimeout(function() {
+          userQueries.getSingleUserByUsername(newUser.profile.displayName)
+          .then(function(user) {
+            user.length.should.equal(1);
+            user[0].github_username.should.equal(newUser.profile.displayName);
+            userAndLessonQueries.getUsersAndLessonsByUserID(parseInt(user[0].id))
+            .then(function(results) {
+              results.length.should.equal(7);
+              results[0].user_id.should.equal(parseInt(user[0].id));
+              done();
+            });
+          });
+        }, 500);
       });
     });
   });
