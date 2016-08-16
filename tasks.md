@@ -15,20 +15,17 @@
   - heroku run knex migrate:latest --env staging
   - heroku run knex seed:run --env staging
 
---
-
-1. Set up error logging
-
 ## Todo
 
 ### Alpha
 
-1. Add uncaught exception handler`
 1. Deploy to production
   - add gulp
   - add build process
+  - update testing directory
   - set up production mailer
 1. Update lesson seed
+1. Styles
 
 ### Beta
 

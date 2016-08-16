@@ -33,12 +33,19 @@
     "chai": "^3.5.0",
     "chai-http": "^2.0.1",
     "coveralls": "^2.11.9",
+    "gulp": "^3.9.1",
+    "gulp-clean-css": "^2.0.12",
+    "gulp-concat": "^2.6.0",
+    "gulp-nodemon": "^2.1.0",
+    "gulp-uglify": "^2.0.0",
     "jscs": "^3.0.4",
+    "jshint": "^2.9.2",
     "jshint-stylish": "^2.2.0",
     "mocha": "^2.5.3",
     "mocha-jscs": "^5.0.1",
     "mocha-jshint": "^2.3.1",
     "mocha-lcov-reporter": "^1.2.0",
-    "passport-stub": "^1.1.1"
+    "passport-stub": "^1.1.1",
+    "run-sequence": "^1.2.2"
   }
 }

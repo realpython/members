@@ -17,10 +17,24 @@ Just a simple learning management system for textbook-like sites.
 
 1. Install dependencies
 1. Rename *.env-sample* to *.env* and then update
-1. Create the Postgres DB
-1. Run migrations
+1. Create the development and test Postgres DBs:
+  - `createdb textbook`
+  - `createdb textbook_test`
+1. Run development migrations:
+  - `knex migrate:latest --env development`
 1. Run seed
+  - knex seed:run --env development
 1. Run server
+
+## Create build
+
+Run:
+
+```sh
+gulp build
+```
+
+This will minify and uglify code, copy all files over to a *dist* directory, and then run a development server.
 
 ## Notes
 
