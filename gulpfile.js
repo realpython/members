@@ -23,7 +23,7 @@ var nodemonConfig = {
   ext: 'html js css',
   ignore: ['node_modules'],
   env: {
-    'NODE_ENV': 'development'
+    NODE_ENV: 'development'
   }
 };
 
