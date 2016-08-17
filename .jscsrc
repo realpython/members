@@ -59,6 +59,6 @@
   "excludeFiles": [
     "node_modules/**",
     "coverage/*",
-    "dist/client/*"
+    "build/client/*"
   ]
 }

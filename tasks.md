@@ -23,7 +23,7 @@
   - add gulp
   - add build process
   - update testing directory
-  - prep 'dist' directory
+  - prep 'build'
   - forward domain
   - update contact page
   - add list of verify codes to .env
