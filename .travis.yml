@@ -5,7 +5,7 @@ node_js:
 services:
 - postgresql
 addons:
-  postgresql: "9.4"
+  postgresql: '9.4'
 env:
   global:
   - NODE_ENV=test
@@ -20,3 +20,12 @@ script:
 - npm run build
 after_script:
 - npm run coveralls
+deploy:
+  provider: heroku
+  api_key:
+    secure: OImywoAMocksIklcMApS4qYGKGCzoZEkVi5AK3OoPK8EJ8H488btoMMkyOGeLXStM0COwndMTfaQj5FVT5Nn7mfVP4hs0dhfO5XvHZHw/QOnjhEvbcslSkZERk04/xUHCJettudqJGOBk7venmgmQufpFg3VCs5zDO7Li0mKgyBWNQsCefR4zja/LfKOajecPe5XA4dTgX386TT26JV8FAPJexODitKzxB/ld4Uc6fkYytY3VHJMp3qbjYlKbve4ug5ytwTZ/oCJSM6xbt97PoMWfIPerlcTJ3DoYV0tDBfG2oKkC27WGBHUY2F2Rxl2dL2NpxCSiYDek4lmB629EOYYih94QscSLUSzi1faUgSwDyouUvnIeAU2mBJKs1sZ/rx1oPR+zDHq26zcvOUrtAxEOJmFNUw3bJ3RlN/OKp7pf9LycGzcvKlL6FA2jp6a4Ofzdlzf79lnj2oQbAYZLSoH0qaAYskmQgijZcC+CNH1D7XYpARxABYx7lxX/Fw5sdCSf3D4DsVUPCEm2lnA8CN4oA5sxXHdtoXqT5gRq6iPbkUkCV9CQHnQj9w+p5bkqdLwE0+97O0ge4mOpGFTWfK5AF9Co2nOfOevz3hQBvYF5jCWwvlild/eDigEl/vR5YgPET5K5jOl6m/Ilg90afnrn3XFlNXgBbVNnvNrlM4=
+  app: fast-mesa-25213
+  on:
+    repo: realpython/members
+    branch: master
+    node: '6'
