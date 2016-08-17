@@ -1,6 +1,0 @@
-test/index.js
-test/jshint.spec.js
-test/config.test.js
-test/integration/*.js
-test/unit/*.js
---bail 

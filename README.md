@@ -22,15 +22,22 @@ Just a simple learning management system for textbook-like sites.
   - `createdb textbook_test`
 1. Run development migrations:
   - `knex migrate:latest --env development`
-1. Run seed
+1. Run seed:
   - `knex seed:run --env development`
+1. Run tests:
+  - 'npm test'
 1. Run server
+  - 'gulp'
 
 ## Create build
 
 Run: `gulp build`
 
-This will minify and uglify code, copy all files over to a *dist* directory, and then run a development server.
+This will minify and uglify code, copy all files over to a *build* directory, and then run a development server.
+
+Then run the tests:
+- 'npm run build'
+- 'npm run coverage'
 
 ## Notes
 

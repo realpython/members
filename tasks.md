@@ -23,8 +23,11 @@
   - add gulp
   - add build process
   - update testing directory
-  - set up production mailer
-1. Update lesson seed
+  - prep 'dist' directory
+  - forward domain
+  - update contact page
+  - add list of verify codes to .env
+  - seed
 1. Styles
 
 ### Beta
@@ -52,3 +55,4 @@
 1. Add more/better tests for error handling
 1. Modularize code
 1. Compotenize project structure
+1. set up production mailer

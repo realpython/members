@@ -3,10 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./src/server/bin/www",
-    "test": "mocha ./test/",
-    "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha",
-    "coveralls": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
+    "start": "node ./build/server/bin/www",
+    "test": "mocha ./src/test/**/*.js",
+    "build": "mocha ./build/test/**/*.js",
+    "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha ./build/test/**/*.js"
   },
   "dependencies": {
     "body-parser": "~1.13.2",

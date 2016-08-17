@@ -1,0 +1,16 @@
+{"level":"info","message":"Configuring Express...","timestamp":"2016-08-16T22:27:05.188Z"}
+{"level":"info","message":"Express configured!","timestamp":"2016-08-16T22:27:05.722Z"}
+{"level":"info","message":"Configuring routes...","timestamp":"2016-08-16T22:27:05.722Z"}
+{"level":"info","message":"Configuring error handling...","timestamp":"2016-08-16T22:27:07.162Z"}
+{"level":"info","message":"Configuring Express...","timestamp":"2016-08-17T05:52:45.864Z"}
+{"level":"info","message":"Express configured!","timestamp":"2016-08-17T05:52:46.373Z"}
+{"level":"info","message":"Configuring routes...","timestamp":"2016-08-17T05:52:46.373Z"}
+{"level":"info","message":"Configuring error handling...","timestamp":"2016-08-17T05:52:47.723Z"}
+{"level":"info","message":"::ffff:127.0.0.1 - - [17/Aug/2016:05:52:54 +0000] \"GET / HTTP/1.1\" 302 68 \"-\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36\"\n","timestamp":"2016-08-17T05:52:54.571Z"}
+{"level":"info","message":"::ffff:127.0.0.1 - - [17/Aug/2016:05:52:54 +0000] \"GET /auth/log_in HTTP/1.1\" 304 - \"-\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36\"\n","timestamp":"2016-08-17T05:52:54.618Z"}
+{"level":"info","message":"::ffff:127.0.0.1 - - [17/Aug/2016:05:52:54 +0000] \"GET /css/main.css HTTP/1.1\" 200 1688 \"http://127.0.0.1:3000/auth/log_in\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36\"\n","timestamp":"2016-08-17T05:52:54.842Z"}
+{"level":"info","message":"::ffff:127.0.0.1 - - [17/Aug/2016:05:52:56 +0000] \"GET /auth/github HTTP/1.1\" 302 0 \"http://127.0.0.1:3000/auth/log_in\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36\"\n","timestamp":"2016-08-17T05:52:56.393Z"}
+{"level":"info","message":"::ffff:127.0.0.1 - - [17/Aug/2016:05:52:58 +0000] \"GET /auth/github/callback?code=4c83448e6e924d415a7b HTTP/1.1\" 302 46 \"http://127.0.0.1:3000/auth/log_in\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36\"\n","timestamp":"2016-08-17T05:52:58.096Z"}
+{"level":"info","message":"::ffff:127.0.0.1 - - [17/Aug/2016:05:52:58 +0000] \"GET / HTTP/1.1\" 200 8963 \"http://127.0.0.1:3000/auth/log_in\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36\"\n","timestamp":"2016-08-17T05:52:58.178Z"}
+{"level":"info","message":"::ffff:127.0.0.1 - - [17/Aug/2016:05:52:58 +0000] \"GET /css/main.css HTTP/1.1\" 304 - \"http://127.0.0.1:3000/\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36\"\n","timestamp":"2016-08-17T05:52:58.284Z"}
+{"level":"info","message":"::ffff:127.0.0.1 - - [17/Aug/2016:05:52:58 +0000] \"GET /js/user.js HTTP/1.1\" 200 756 \"http://127.0.0.1:3000/\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36\"\n","timestamp":"2016-08-17T05:52:58.306Z"}

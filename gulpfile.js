@@ -14,18 +14,36 @@ var nodemon = require('gulp-nodemon');
 var paths = {
   styles: './src/client/css/*.css',
   scripts: './src/client/js/*.js',
-  distDirectory: './dist',
-  server: './dist/server/bin/www'
+  buildDirectory: './build',
+  buildServer: './build/server/bin/www',
+  sourceServer: './src/server/bin/www'
 };
 
-var nodemonConfig = {
-  script: paths.server,
+var nodemonBuildConfig = {
+  script: paths.buildServer,
   ext: 'html js css',
   ignore: ['node_modules'],
   env: {
     NODE_ENV: 'development'
   }
 };
+
+var nodemonSourceConfig = {
+  script: paths.sourceServer,
+  ext: 'html js css',
+  ignore: ['node_modules'],
+  env: {
+    NODE_ENV: 'development'
+  }
+};
+
+// *** default *** //
+
+gulp.task('default', function() {
+  runSequence(
+    ['nodemonSource']
+  );
+});
 
 // *** create build for deployment *** //
 
@@ -35,14 +53,15 @@ gulp.task('build', function() {
     ['minify-css'],
     ['minify-js'],
     ['copy-server-files'],
-    ['nodemon']
+    ['copy-tests'],
+    ['nodemonBuild']
   );
 });
 
 // *** sub tasks ** //
 
 gulp.task('clean', function (cb) {
-  rimraf(paths.distDirectory, cb);
+  rimraf(paths.buildDirectory, cb);
 });
 
 gulp.task('minify-css', function() {
@@ -51,7 +70,7 @@ gulp.task('minify-css', function() {
     .pipe(cleanCSS({debug: true}))
     .pipe(gulp.dest(path.join(
       __dirname,
-      paths.distDirectory,
+      paths.buildDirectory,
       '/client/css/'
     )));
 });
@@ -62,16 +81,25 @@ gulp.task('minify-js', function() {
     .pipe(uglify())
     .pipe(gulp.dest(path.join(
       __dirname,
-      paths.distDirectory,
+      paths.buildDirectory,
       '/client/js/'
     )));
 });
 
 gulp.task('copy-server-files', function () {
   gulp.src('./src/server/**/*')
-    .pipe(gulp.dest('./dist/server/'));
+    .pipe(gulp.dest('./build/server/'));
 });
 
-gulp.task('nodemon', function () {
-  return nodemon(nodemonConfig);
+gulp.task('copy-tests', function () {
+  gulp.src('./src/test/**/*')
+    .pipe(gulp.dest('./build/test/'));
+});
+
+gulp.task('nodemonBuild', function () {
+  return nodemon(nodemonBuildConfig);
+});
+
+gulp.task('nodemonSource', function () {
+  return nodemon(nodemonSourceConfig);
 });
