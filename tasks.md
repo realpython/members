@@ -24,11 +24,13 @@
   - add build process
   - update testing directory
   - prep 'build'
-  - forward domain
+  - set up production server
+  
   - update contact page
+  - style/rebrand for real python
+  - forward domain
   - add list of verify codes to .env
   - seed
-1. Styles
 
 ### Beta
 
