@@ -1,0 +1,34 @@
+<!-- Sidebar -->
+<div class="col-md-3">
+  <p class="lead">About</p>
+  <div class="well">
+    <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
+  </div>
+  {% if user %}
+    {% if sortedChapters %}
+      <p class="lead">Chapters</p>
+      <ul class="list-group" id="chapter-list">
+        {% for chapter in sortedChapters %}
+          <li class="list-group-item">
+            {% if chapter.chapterRead %}
+              <span class="badge" data-chapter-read="true"><i class="fa fa-check" aria-hidden="true"></i></span>
+            {% endif %}
+            <a href="/chapters/{{chapter.chapterID}}">{{chapter.chapterName}}</a>
+            {% if chapter.lessons %}
+              <ul class="lesson-list">
+                {% for lesson in chapter.lessons %}
+                  <li class="list-group-item">
+                    {% if lesson.lessonRead %}
+                      <span class="badge" data-lesson-read="true"><i class="fa fa-check" aria-hidden="true"></i></span>
+                    {% endif %}
+                    <a href="/lessons/{{lesson.lessonID}}">{{lesson.lessonName}}</a>
+                  </li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endif %}
+</div>

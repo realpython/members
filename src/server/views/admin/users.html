@@ -1,0 +1,155 @@
+{% extends '../_base.html' %}
+
+{% block title %}{% endblock %}
+
+
+{% block content %}
+
+  <div class="row">
+    <div class="col-md-12">
+      <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#newUserModal">Add New User</button>
+    </div>
+  </div>
+
+  <br>
+
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Github Username</th>
+            <th>Github ID</th>
+            <th>Github Display Name</th>
+            <th>Github Avatar</th>
+            <th>Email</th>
+            <th>Admin</th>
+            <th>Verified</th>
+            <th>Active</th>
+            <th>Update</th>
+            <th>Deactivate</th>
+            <th>Unverify</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in users %}
+            <tr>
+              <td>{{user.github_username}}</td>
+              <td>{{user.github_id}}</td>
+              <td>{{user.github_display_name}}</td>
+              <td><img src="{{user.github_avatar}}" alt="github avatar" class="avatar"></td>
+              <td>{{user.email}}</td>
+              <td>{{user.admin}}</td>
+              <td>{{user.verified}}</td>
+              <td>{{user.active}}</td>
+              <td><button class="btn btn-warning btn-sm update-user-button" data-user-id="{{user.id}}" data-toggle="modal" data-target="#updateUserModal">&#10003;</button></td>
+              <td><a href="/admin/users/{{user.id}}/deactivate" class="btn btn-danger btn-sm">&#10005;</a></td>
+              <td><a href="/admin/users/{{user.id}}/unverify" class="btn btn-danger btn-sm">&#10005;</a></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- add user modal -->
+  <div class="modal fade" id="newUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Add new user</h4>
+        </div>
+        <div class="modal-body">
+          <form action="/admin/users" method="POST" id="add-user-form">
+            <div class="form-group">
+              <input type="text" name="githubUsername" class="form-control" placeholder="Github Username" required>
+            </div>
+            <div class="form-group">
+              <input type="number" name="githubID" class="form-control" placeholder="Github ID" required>
+            </div>
+            <div class="form-group">
+              <input type="text" name="githubDisplayName" class="form-control" placeholder="Github Display Name" required>
+            </div>
+            <div class="form-group">
+              <input type="url" name="githubAvatar" class="form-control" placeholder="Avatar" required>
+            </div>
+            <div class="form-group">
+              <input type="email" name="email" class="form-control" placeholder="Email" required>
+            </div>
+            <div class="form-group">
+              <input type="text" name="githubToken" class="form-control" placeholder="Github Access Token" required>
+            </div>
+            <div class="checkbox">
+              <label><input type="checkbox" name="admin"> Admin?</label>
+            </div>
+            <div class="checkbox">
+              <label><input type="checkbox" name="verified"> Verified?</label>
+            </div>
+            <div class="checkbox">
+              <label><input type="checkbox" name="active" checked> Active?</label>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary" id="add-user-button">Add User</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- update user modal -->
+  <div class="modal fade" id="updateUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Update user</h4>
+        </div>
+        <div class="modal-body">
+          <form id="update-user-form">
+            <div class="form-group">
+              <label for="update-github-username">Github Username</label>
+              <input type="text" name="githubUsername" class="form-control" id="update-github-username" required>
+            </div>
+            <div class="form-group">
+              <label for="update-github-id">Github ID</label>
+              <input type="number" name="githubID" id="update-github-id" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label for="update-github-display-name">Github Display Name</label>
+              <input type="text" name="githubDisplayName" class="form-control" id="update-github-display-name" required>
+            </div>
+            <div class="form-group">
+              <label for="update-github-avatar">Github Avatar</label>
+              <input type="text" name="githubAvatar" class="form-control" id="update-github-avatar" required>
+            </div>
+            <div class="form-group">
+              <label for="update-user-email">Email</label>
+              <input type="email" name="email" class="form-control" id="update-user-email" required>
+            </div>
+            <div class="form-group">
+              <label for="update-github-token">Github Token</label>
+              <input type="text" name="githubToken" class="form-control" id="update-github-token" required>
+            </div>
+            <div class="checkbox">
+              <label><input type="checkbox" name="admin" id="update-user-admin"> Admin?</label>
+            </div>
+            <div class="checkbox">
+              <label><input type="checkbox" name="verified" id="update-user-verified"> Verified?</label>
+            </div>
+            <div class="checkbox">
+              <label><input type="checkbox" name="active" id="update-user-active"> Active?</label>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary" id="update-user-button">Update User</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

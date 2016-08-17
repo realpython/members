@@ -1,0 +1,4 @@
+{"level":"info","message":"Configuring Express...","timestamp":"2016-08-16T22:27:05.188Z"}
+{"level":"info","message":"Express configured!","timestamp":"2016-08-16T22:27:05.722Z"}
+{"level":"info","message":"Configuring routes...","timestamp":"2016-08-16T22:27:05.722Z"}
+{"level":"info","message":"Configuring error handling...","timestamp":"2016-08-16T22:27:07.162Z"}

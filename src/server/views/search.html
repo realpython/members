@@ -1,0 +1,22 @@
+{% extends '_base.html' %}
+
+{% block title %}{% endblock %}
+
+
+{% block content %}
+
+  <div class="row">
+    <div class="col-md-12">
+      {% if results %}
+        {% for result in results %}
+          <h1><a href="/lessons/{{result.id}}">{{result.name}}</a></h1>
+          <p>{{result.content|safe|truncate(1000)}}</p>
+          <br><br>
+        {% endfor %}
+      {% else %}
+        <p>Nothing found.</p>
+      {% endif %}
+    </div>
+  </div>
+
+{% endblock %}

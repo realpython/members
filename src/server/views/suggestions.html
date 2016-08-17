@@ -1,0 +1,41 @@
+{% extends '_base.html' %}
+
+{% block title %}{% endblock %}
+
+
+{% block content %}
+
+  <div class="row">
+    <div class="col-md-12">
+      <p>Please let us know what courses and/or topics you'd like to see us cover in the future</p>
+      <form class="form-horizontal" method="POST" action="/suggestions">
+      	<div class="form-group">
+      		<label for="title" class="col-md-1 control-label">Title</label>
+      		<div class="col-md-11">
+      			<input type="text" class="form-control" id="title" name="title" required>
+      		</div>
+      	</div>
+      	<div class="form-group">
+      		<label for="description" class="col-md-1 control-label">Description</label>
+      		<div class="col-md-11">
+      			<textarea class="form-control" id="description" rows="4" name="description" required></textarea>
+      		</div>
+      	</div>
+      	<div class="form-group">
+      		<div class="col-md-11 col-md-offset-1">
+      			<input type="submit" value="Submit" class="btn btn-primary">
+      		</div>
+      	</div>
+      </form>
+      {% if suggestions.length %}
+        <br><hr><br>
+        {% for suggestion in suggestions %}
+          <h3>{{suggestion.title}}</h3>
+          <p>{{suggestion.description}}</p>
+          <br>
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+
+{% endblock %}

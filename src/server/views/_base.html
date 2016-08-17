@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    {% if title %}
+      <title>{{ title }}</title>
+    {% else %}
+      <title>Textbook LMS</title>
+    {% endif %}
+    <!-- stylesheets -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.7/yeti/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/main.css">
+  </head>
+  <body>
+    <div id="wrapper">
+      {% include "./partials/nav.html" %}
+      <div id="page-wrapper">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-12">
+              <h1>{{pageTitle}}</h1>
+              <hr>
+              {% if breadcrumbs.length %}
+                <!-- breadcrumbs -->
+                <ol class="breadcrumb">
+                  {% for crumb in breadcrumbs %}
+                    <li>{{crumb}}</li>
+                  {% endfor %}
+                </ol>
+                <br>
+              {% endif %}
+              {% include "./partials/flash.html" %}
+              {% block content %}
+              {% endblock %}
+              {% include './partials/footer.html' %}
+            </div>
+          </div>
+        </div>
+        <!-- /.container-fluid -->
+      </div>
+      <!-- /#page-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+    <!-- scripts -->
+    <script type="text/javascript" src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    {% if user %}
+      <script type="text/javascript" src="/js/user.js"></script>
+    {% endif %}
+    {% if user.admin %}
+      <script type="text/javascript" src="/js/admin.js"></script>
+    {% endif %}
+    {% block scripts %}{% endblock %}
+  </body>
+</html>

@@ -1,0 +1,61 @@
+{% extends '_base.html' %}
+
+{% block title %}{% endblock %}
+
+
+{% block content %}
+
+  {% if user.admin %}
+    <div class="row">
+      <div class="col-md-12">
+        <h2>You are an admin.</h2>
+        <br>
+        <section>
+          {% if verify %}
+            <p>Verification status: <strong>true</strong></p>
+          {% else %}
+            <p>Verification status: <strong>false</strong></p>
+          {% endif %}
+          <p><a href="/admin/auth/verification/toggle" class="btn btn-success btn-sm">Toggle Verification Status</a></p>
+          <br>
+          <ul>
+            <li><a href="/admin/users">Users</a></li>
+            <li><a href="/admin/chapters">Chapters</a></li>
+            <li><a href="/admin/lessons">Lessons</a></li>
+          </ul>
+        </section>
+      </div>
+    </div>
+  {% else %}
+    <div class="row">
+      <div class="col-md-4">
+        <!-- course status -->
+        <h3>Course Status:</h3>
+        <div class="progress custom-progress-bar">
+          <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="{{completed}}" aria-valuemin="0" aria-valuemax="100" style="width:{{completed}}%"></div>
+        </div>
+        <p><span class="completed">{{completed}}% Complete</span><span>&nbsp;({{completeNum}} lessons)</p>
+        <!-- course stats -->
+        <h3>Stats:</h3>
+        <ul class="dashboard-ul">
+          <li>{{totalLessons}} total lessons</li>
+          <li>{{totalUsers}} total registered users</li>
+        </ul>
+      </div>
+      <div class="col-md-6 col-md-offset-1">
+        <h3>Recent Activity:</h3>
+        {% if feed.length %}
+          <!-- activity feed: comments -->
+          <ul class="dashboard-ul">
+          {% for data in feed %}
+            <li><em>{{data.userGithubDisplayName}}<em> commented in <a href="/lessons/{{data.lessonID}}">{{data.lessonName}}</a></li>
+          {% endfor %}
+          </ul>
+        {% else %}
+          <p>Nothing as of late.</p>
+        {% endif %}
+      </div>
+    </div>
+  {% endif %}
+
+{% endblock %}
