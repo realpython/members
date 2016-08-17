@@ -25,10 +25,9 @@
   - update testing directory
   - prep 'build'
   - set up production server
-  
   - update contact page
   - style/rebrand for real python
-  - forward domain
+  - add verify codes to users
   - add list of verify codes to .env
   - seed
 
@@ -58,3 +57,4 @@
 1. Modularize code
 1. Compotenize project structure
 1. set up production mailer
+1. Install https://github.com/RafalWilinski/express-status-monitor

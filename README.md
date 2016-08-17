@@ -1,25 +1,18 @@
-# Textbook
+# Members
 
-[![Build Status](https://travis-ci.org/mjhea0/textbook.svg?branch=master)](https://travis-ci.org/mjhea0/textbook)
-[![Coverage Status](https://coveralls.io/repos/github/mjhea0/textbook/badge.svg?branch=master)](https://coveralls.io/github/mjhea0/textbook?branch=master)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/752d6403c16544b4aef8dca5ed6c2bb5)](https://www.codacy.com/app/hermanmu/textbook?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mjhea0/textbook&amp;utm_campaign=Badge_Grade)
-[![bitHound Overall Score](https://www.bithound.io/github/mjhea0/textbook/badges/score.svg)](https://www.bithound.io/github/mjhea0/textbook)
-[![Code Climate](https://codeclimate.com/github/mjhea0/textbook/badges/gpa.svg)](https://codeclimate.com/github/mjhea0/textbook)
-[![dependencies Status](https://david-dm.org/mjhea0/textbook/status.svg)](https://david-dm.org/mjhea0/textbook)
-[![devDependencies Status](https://david-dm.org/mjhea0/textbook/dev-status.svg)](https://david-dm.org/mjhea0/textbook?type=dev)
+Just a simple learning management system for textbook-like sites, powering Real Python.
 
-Just a simple learning management system for textbook-like sites.
-
-1. [Staging Server](http://textbook-lms.herokuapp.com/)
-1. [Production](http://fullweb.co/)
+1. [Staging Server]()
+1. [Production]()
 
 ## Getting Started
 
+1. Fork/Clone
 1. Install dependencies
 1. Rename *.env-sample* to *.env* and then update
 1. Create the development and test Postgres DBs:
-  - `createdb textbook`
-  - `createdb textbook_test`
+  - `createdb members`
+  - `createdb members_test`
 1. Run development migrations:
   - `knex migrate:latest --env development`
 1. Run seed:
