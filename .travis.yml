@@ -18,3 +18,5 @@ before_script:
 - npm install -g istanbul
 script:
 - npm run build
+after_script:
+- npm run coveralls

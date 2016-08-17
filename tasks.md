@@ -58,3 +58,4 @@
 1. Compotenize project structure
 1. set up production mailer
 1. Install https://github.com/RafalWilinski/express-status-monitor
+1. Close source the repo
