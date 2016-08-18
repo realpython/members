@@ -48,7 +48,7 @@ Then run the tests:
 1. Make sure to update the fixtures (*/test/fixtures/data.js*) whenever the DB schema is updated
 1. User auth flow -> unregistered -> unverified -> active
 
-## Development
+## Development Notes
 
 1. [Tasks](./tasks.md)
 1. [User stories](./stories.md)

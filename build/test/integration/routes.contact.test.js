@@ -87,7 +87,7 @@ describe('routes : contact', function() {
           res.redirects.length.should.equal(0);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
-          res.text.should.contain('class="contact-form"');
+          res.text.should.contain('<a href="mailto:info@realpython.com">info@realpython.com</a>');
           res.text.should.contain('<a href="#" class="dropdown-toggle avatar-link" data-toggle="dropdown"><img class="avatar" src="https://avatars.io/static/default_128.jpg">&nbsp;Michael Herman <b class="caret"></b></a>');
           done();
         });
