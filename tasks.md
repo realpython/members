@@ -12,8 +12,11 @@
 1. Add code coverage
 1. Add JSHint
 1. Deploy to staging server
-  - heroku run knex migrate:latest --env staging
-  - heroku run knex seed:run --env staging
+  - heroku run knex migrate:latest --env staging --remote stage
+  - heroku run knex seed:run --env staging --remote stage
+1. Deploy to production server
+  - heroku run knex migrate:latest --env staging --remote prod
+  - heroku run knex seed:run --env staging --remote prod
 
 ## Todo
 
@@ -29,7 +32,7 @@
   - style/rebrand for real python
   - add verify codes to users
   - add list of verify codes to .env
-  - seed
+  - update production seed
 
 ### Beta
 
