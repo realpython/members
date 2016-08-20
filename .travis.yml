@@ -18,7 +18,7 @@ before_script:
 - psql -c 'create database members_test;' -U postgres
 - npm install -g istanbul
 script:
-- npm run build
+- npm run test-build
 after_script:
 - npm run coveralls
 deploy:
