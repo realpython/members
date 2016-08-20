@@ -20,7 +20,7 @@ function getSingleUserByUsername(username) {
   return knex('users')
     .select('*')
     .where('github_username', username)
-    .returning('username');
+    .returning('*');
 }
 
 function addUser(obj) {
@@ -46,10 +46,11 @@ function makeActive(username, value) {
     .where('github_username', username);
 }
 
-function verifyUser(userID) {
+function verifyUser(userID, code) {
   return knex('users')
     .update({
-      verified: true
+      verified: true,
+      verify_code: code
     })
     .where('id', parseInt(userID))
     .returning('*');

@@ -29,9 +29,12 @@
   - prep 'build'
   - set up production server
   - update contact page
+  - verification
+    - add verify codes to users
+    - add list of verify codes to .env
+    - update admin users page
   - style/rebrand for real python
-  - add verify codes to users
-  - add list of verify codes to .env
+  - update gulp tasks
   - update production seed
 
 ### Beta

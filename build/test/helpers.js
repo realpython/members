@@ -37,11 +37,50 @@ function authenticateActiveUser(done) {
         });
       }))
       .then(function() {
-        queries.getSingleUser(userID)
+        return queries.getSingleUser(userID)
         .then(function(user) {
           passportStub.login(user[0]);
           done();
         });
+      });
+    });
+  });
+}
+
+function authenticateActiveUserDuplicate(done) {
+  queries.addUser({
+    github_username: 'jeremy',
+    github_id: 987654321,
+    github_display_name: 'Jeremy Johnson',
+    github_access_token: '987654321',
+    github_avatar: 'https://avatars.io/static/default_128.jpg',
+    email: 'jeremy@realpython.com',
+    verified: false,
+    admin: false,
+    active: true
+  }).returning('id')
+  .then(function(singleUser) {
+    var userID = parseInt(singleUser[0]);
+    return Promise.all([
+      knex('lessons').select('*')
+    ])
+    .then(function(lessons) {
+      Promise.all(
+      lessons[0].map(function(lesson) {
+        return new Promise(function(resolve, reject) {
+          return knex('users_lessons')
+          .insert({
+            user_id: userID,
+            lesson_id: lesson.id,
+            lesson_read: false
+          }).returning('*')
+          .then(function(results) {
+            resolve();
+          });
+        });
+      }))
+      .then(function() {
+        done();
       });
     });
   });
@@ -57,7 +96,8 @@ function authenticateAndVerifyActiveUser(done) {
     email: 'michael@realpython.com',
     verified: true,
     admin: false,
-    active: true
+    active: true,
+    verify_code: 21049144460970398511
   }).returning('id')
   .then(function(singleUser) {
     var userID = parseInt(singleUser[0]);
@@ -100,7 +140,8 @@ function authenticateAndVerifyInactiveUser(done) {
     email: 'michael@realpython.com',
     verified: true,
     admin: false,
-    active: false
+    active: false,
+    verify_code: 21049144460970398511
   }).returning('id')
   .then(function(singleUser) {
     var userID = parseInt(singleUser[0]);
@@ -191,6 +232,17 @@ var duplicateUser = {
   admin: false
 };
 
+var duplicateVerificationCodeUser = {
+  githubUsername: 'Michael',
+  githubID: 123456,
+  githubDisplayName: 'Michael Herman',
+  githubToken: '123456',
+  githubAvatar: 'https://avatars.io/static/default_128.jpg',
+  email: 'michael@realpython.com',
+  verified: false,
+  admin: false
+};
+
 var updateUser = {
   githubUsername: 'red',
   githubID: 1234567,
@@ -254,6 +306,7 @@ var lessonUnread = {
 
 module.exports = {
   authenticateActiveUser: authenticateActiveUser,
+  authenticateActiveUserDuplicate: authenticateActiveUserDuplicate,
   authenticateAndVerifyActiveUser: authenticateAndVerifyActiveUser,
   authenticateAndVerifyInactiveUser: authenticateAndVerifyInactiveUser,
   authenticateAdmin: authenticateAdmin,

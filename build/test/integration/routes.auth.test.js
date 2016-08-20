@@ -7,6 +7,8 @@ var passportStub = require('passport-stub');
 var knex = require('../../server/db/knex');
 var server = require('../../server/app');
 var testHelpers = require('../helpers');
+var userQueries = require('../../server/db/queries.users');
+
 
 var should = chai.should();
 
@@ -129,19 +131,6 @@ describe('routes : auth', function() {
       });
     });
     describe('GET /auth/log_in', function() {
-      it('should redirect to dashboard', function(done) {
-        chai.request(server)
-        .get('/auth/log_in')
-        .end(function(err, res) {
-          res.redirects.length.should.equal(1);
-          res.status.should.equal(200);
-          res.type.should.equal('text/html');
-          res.text.should.contain('<h1>Dashboard</h1>');
-          done();
-        });
-      });
-    });
-    describe('POST /auth/log_in', function() {
       it('should redirect to dashboard', function(done) {
         chai.request(server)
         .get('/auth/log_in')
@@ -386,21 +375,76 @@ describe('routes : auth', function() {
       });
     });
     describe('POST /auth/verify', function() {
-      it('should redirect to the not verified page', function(done) {
+      it('should verify and then redirect to /', function(done) {
         chai.request(server)
         .post('/auth/verify')
         .send({
           code: 21049144460970398511
         })
-        .end(function(err, res) {
-          res.redirects.length.should.equal(2);
-          res.status.should.equal(200);
-          res.type.should.equal('text/html');
-          res.text.should.contain(
-            '<h2>Please verify your account.</h2>');
-          res.text.should.not.contain(
-            '<h2>Your account is inactive.</h2>');
-          done();
+        .end(function() {
+          chai.request(server)
+          .get('/auth/log_out')
+          .end(function() {
+            return userQueries.getSingleUserByUsername('michael')
+            .then(function(user) {
+              passportStub.login(user[0]);
+              chai.request(server)
+              .get('/')
+              .end(function(err, res) {
+                res.redirects.length.should.equal(0);
+                res.status.should.equal(200);
+                res.type.should.equal('text/html');
+                res.text.should.contain('<h1>Dashboard</h1>');
+                res.text.should.not.contain(
+                  '<h2>Please verify your account.</h2>');
+                res.text.should.not.contain(
+                  '<h2>Your account is inactive.</h2>');
+                done();
+              });
+            });
+          });
+        });
+      });
+    });
+    describe('POST /auth/verify', function() {
+      beforeEach(function(done) {
+        testHelpers.authenticateActiveUserDuplicate(done);
+      });
+      afterEach(function(done) {
+        passportStub.logout();
+        done();
+      });
+      it('should throw an error if a duplicate verify code is used',
+      function(done) {
+        chai.request(server)
+        .post('/auth/verify')
+        .send({
+          code: 21049144460970398511
+        })
+        .end(function() {
+          passportStub.logout();
+          return userQueries.getSingleUserByUsername('jeremy')
+          .then(function(user) {
+            passportStub.login(user[0]);
+            chai.request(server)
+            .post('/auth/verify')
+            .send({
+              code: 21049144460970398511
+            })
+            .end(function(err, res) {
+              res.redirects.length.should.equal(0);
+              res.status.should.equal(500);
+              res.type.should.equal('text/html');
+              res.text.should.contain('<p>Something went wrong!</p>');
+              res.text.should.not.contain('<h1>Dashboard</h1>');
+              return userQueries.getSingleUserByUsername('jeremy')
+              .then(function(user) {
+                user[0].verified.should.equal(false);
+                should.not.exist(user[0].verify_code);
+                done();
+              });
+            });
+          });
         });
       });
     });

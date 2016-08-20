@@ -88,7 +88,8 @@ function ensureVerified(req, res, next) {
       .then(function(user) {
         if (
           user.length &&
-          parseInt(user[0].id) === parseInt(userID)
+          parseInt(user[0].id) === parseInt(userID) &&
+          user[0].verify_code === req.user.verify_code
         ) {
           return next();
         } else {

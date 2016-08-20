@@ -87,10 +87,10 @@ router.post('/verify',
   // TODO: add server-side validation
   if (parseInt(process.env.CAN_VERIFY) === 1) {
     var registrationCode = parseInt(req.body.code);
-    var userId = parseInt(req.user.id);
+    var userID = parseInt(req.user.id);
     if (registrationCode === 21049144460970398511) {
-      return userQueries.verifyUser(userId)
-      .then(function() {
+      return userQueries.verifyUser(userID, registrationCode)
+      .then(function(user) {
         req.flash('messages', {
           status: 'success',
           value: 'User verified.'

@@ -11,6 +11,7 @@ exports.up = function(knex, Promise) {
     table.boolean('verified').notNullable().defaultTo(false);
     table.boolean('active').notNullable().defaultTo(true);
     table.timestamp('created_at').defaultTo(knex.fn.now());
+    table.string('verify_code').unique();
   });
 };
 
