@@ -8,6 +8,7 @@ var concat = require('gulp-concat');
 var runSequence = require('run-sequence');
 var path = require('path');
 var nodemon = require('gulp-nodemon');
+var shell = require('gulp-shell');
 
 // *** config *** //
 
@@ -37,11 +38,37 @@ var nodemonSourceConfig = {
   }
 };
 
-// *** default *** //
+// *** run dev server from 'src' *** //
 
 gulp.task('default', function() {
   runSequence(
     ['nodemonSource']
+  );
+});
+
+// *** create build, run tests *** //
+
+gulp.task('test', function() {
+  runSequence(
+    ['clean'],
+    ['minify-css'],
+    ['minify-js'],
+    ['copy-server-files'],
+    ['copy-tests'],
+    ['run-tests']
+  );
+});
+
+// *** create build, run tests with coverage *** //
+
+gulp.task('coverage', function() {
+  runSequence(
+    ['clean'],
+    ['minify-css'],
+    ['minify-js'],
+    ['copy-server-files'],
+    ['copy-tests'],
+    ['run-coverage']
   );
 });
 
@@ -53,14 +80,13 @@ gulp.task('build', function() {
     ['minify-css'],
     ['minify-js'],
     ['copy-server-files'],
-    ['copy-tests'],
-    ['nodemonBuild']
+    ['copy-tests']
   );
 });
 
 // *** sub tasks ** //
 
-gulp.task('clean', function (cb) {
+gulp.task('clean', function(cb) {
   rimraf(paths.buildDirectory, cb);
 });
 
@@ -86,20 +112,28 @@ gulp.task('minify-js', function() {
     )));
 });
 
-gulp.task('copy-server-files', function () {
+gulp.task('copy-server-files', function() {
   gulp.src('./src/server/**/*')
     .pipe(gulp.dest('./build/server/'));
 });
 
-gulp.task('copy-tests', function () {
+gulp.task('copy-tests', function() {
   gulp.src('./src/test/**/*')
     .pipe(gulp.dest('./build/test/'));
 });
 
-gulp.task('nodemonBuild', function () {
+gulp.task('nodemonBuild', function() {
   return nodemon(nodemonBuildConfig);
 });
 
-gulp.task('nodemonSource', function () {
+gulp.task('nodemonSource', function() {
   return nodemon(nodemonSourceConfig);
 });
+
+gulp.task('run-tests', shell.task([
+  'npm run test-build'
+]));
+
+gulp.task('run-coverage', shell.task([
+  'npm run coverage'
+]));

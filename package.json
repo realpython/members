@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node ./build/server/bin/www",
     "test": "mocha ./src/test/**/*.js",
-    "build": "mocha ./build/test/**/*.js",
+    "test-build": "mocha ./build/test/**/*.js --colors",
     "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha ./build/test/**/*.js",
     "coveralls": "istanbul cover ./node_modules/mocha/bin/_mocha ./build/test/**/*.js --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
   },
@@ -38,6 +38,8 @@
     "gulp-clean-css": "^2.0.12",
     "gulp-concat": "^2.6.0",
     "gulp-nodemon": "^2.1.0",
+    "gulp-run": "^1.7.1",
+    "gulp-shell": "^0.5.2",
     "gulp-uglify": "^2.0.0",
     "jscs": "^3.0.4",
     "jshint": "^2.9.2",

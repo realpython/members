@@ -24,20 +24,15 @@ Just a simple learning management system for textbook-like sites, powering Real 
   - `knex migrate:latest --env development`
 1. Run seed:
   - `knex seed:run --env development`
-1. Run tests:
-  - `npm test`
 1. Run server
   - `gulp`
 
-## Create build
+## Commands
 
-Run: `gulp build`
-
-This will minify and uglify code, copy all files over to a *build* directory, and then run a development server.
-
-Then run the tests:
-- `npm run build`
-- `npm run coverage`
+1. Run dev server: `gulp`
+1. Run tests: `gulp test`
+1. Run tests with coverage: `gulp coverage`
+1. Create build: `gulp build`
 
 ## Notes
 

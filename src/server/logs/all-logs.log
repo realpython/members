@@ -95,3 +95,7 @@
 {"level":"info","message":"::ffff:127.0.0.1 - - [19/Aug/2016:23:11:26 +0000] \"GET / HTTP/1.1\" 200 8464 \"http://127.0.0.1:3000/auth/verify\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36\"\n","timestamp":"2016-08-19T23:11:26.754Z"}
 {"level":"info","message":"::ffff:127.0.0.1 - - [19/Aug/2016:23:11:26 +0000] \"GET /css/main.css HTTP/1.1\" 304 - \"http://127.0.0.1:3000/\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36\"\n","timestamp":"2016-08-19T23:11:26.868Z"}
 {"level":"info","message":"::ffff:127.0.0.1 - - [19/Aug/2016:23:11:26 +0000] \"GET /js/user.js HTTP/1.1\" 304 - \"http://127.0.0.1:3000/\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36\"\n","timestamp":"2016-08-19T23:11:26.873Z"}
+{"level":"info","message":"Configuring Express...","timestamp":"2016-08-20T17:13:53.677Z"}
+{"level":"info","message":"Express configured!","timestamp":"2016-08-20T17:13:54.222Z"}
+{"level":"info","message":"Configuring routes...","timestamp":"2016-08-20T17:13:54.223Z"}
+{"level":"info","message":"Configuring error handling...","timestamp":"2016-08-20T17:13:55.922Z"}
