@@ -1,11 +1,12 @@
 var passportStub = require('passport-stub');
 
 var knex = require('../server/db/knex');
-var queries = require('../server/db/queries.users');
+var userQueries = require('../server/db/queries.users');
+var codeQueries = require('../server/db/queries.codes');
 var Promise = require('es6-promise').Promise;
 
 function authenticateActiveUser(done) {
-  queries.addUser({
+  userQueries.addUser({
     github_username: 'michael',
     github_id: 123456,
     github_display_name: 'Michael Herman',
@@ -37,7 +38,7 @@ function authenticateActiveUser(done) {
         });
       }))
       .then(function() {
-        return queries.getSingleUser(userID)
+        return userQueries.getSingleUser(userID)
         .then(function(user) {
           passportStub.login(user[0]);
           done();
@@ -48,7 +49,7 @@ function authenticateActiveUser(done) {
 }
 
 function authenticateActiveUserDuplicate(done) {
-  queries.addUser({
+  userQueries.addUser({
     github_username: 'jeremy',
     github_id: 987654321,
     github_display_name: 'Jeremy Johnson',
@@ -87,17 +88,17 @@ function authenticateActiveUserDuplicate(done) {
 }
 
 function authenticateAndVerifyActiveUser(done) {
-  queries.addUser({
-    github_username: 'michael',
-    github_id: 123456,
-    github_display_name: 'Michael Herman',
-    github_access_token: '123456',
+  userQueries.addUser({
+    github_username: 'fletcher',
+    github_id: 99887766,
+    github_display_name: 'Fletcher Heisler',
+    github_access_token: '99887766',
     github_avatar: 'https://avatars.io/static/default_128.jpg',
-    email: 'michael@realpython.com',
+    email: 'fletcher@realpython.com',
     verified: true,
     admin: false,
     active: true,
-    verify_code: 21049144460970398511
+    verify_code: '21049144460970398511'
   }).returning('id')
   .then(function(singleUser) {
     var userID = parseInt(singleUser[0]);
@@ -120,10 +121,66 @@ function authenticateAndVerifyActiveUser(done) {
         });
       }))
       .then(function() {
-        queries.getSingleUser(userID)
-        .then(function(user) {
-          passportStub.login(user[0]);
-          done();
+        var codeObject = {
+          verify_code: '21049144460970398511'
+        };
+        codeQueries.addCode(codeObject)
+        .then(function(test) {
+          userQueries.getSingleUser(userID)
+          .then(function(user) {
+            passportStub.login(user[0]);
+            done();
+          });
+        });
+      });
+    });
+  });
+}
+
+function authenticateAndVerifyActiveAdminUser(done) {
+  userQueries.addUser({
+    github_username: 'fletcher',
+    github_id: 99887766,
+    github_display_name: 'Fletcher Heisler',
+    github_access_token: '99887766',
+    github_avatar: 'https://avatars.io/static/default_128.jpg',
+    email: 'fletcher@realpython.com',
+    verified: true,
+    admin: true,
+    active: true,
+    verify_code: '21049144460970398511'
+  }).returning('id')
+  .then(function(singleUser) {
+    var userID = parseInt(singleUser[0]);
+    return Promise.all([
+      knex('lessons').select('*')
+    ])
+    .then(function(lessons) {
+      Promise.all(
+      lessons[0].map(function(lesson) {
+        return new Promise(function(resolve, reject) {
+          return knex('users_lessons')
+          .insert({
+            user_id: userID,
+            lesson_id: lesson.id,
+            lesson_read: false
+          }).returning('*')
+          .then(function(results) {
+            resolve();
+          });
+        });
+      }))
+      .then(function() {
+        var codeObject = {
+          verify_code: '21049144460970398511'
+        };
+        codeQueries.addCode(codeObject)
+        .then(function(test) {
+          userQueries.getSingleUser(userID)
+          .then(function(user) {
+            passportStub.login(user[0]);
+            done();
+          });
         });
       });
     });
@@ -131,7 +188,7 @@ function authenticateAndVerifyActiveUser(done) {
 }
 
 function authenticateAndVerifyInactiveUser(done) {
-  queries.addUser({
+  userQueries.addUser({
     github_username: 'michael',
     github_id: 123456,
     github_display_name: 'Michael Herman',
@@ -141,7 +198,7 @@ function authenticateAndVerifyInactiveUser(done) {
     verified: true,
     admin: false,
     active: false,
-    verify_code: 21049144460970398511
+    verify_code: '21049144460970398511'
   }).returning('id')
   .then(function(singleUser) {
     var userID = parseInt(singleUser[0]);
@@ -159,17 +216,23 @@ function authenticateAndVerifyInactiveUser(done) {
         }).returning('*')
         .then(function(results) {});
       });
-      queries.getSingleUser(userID)
-      .then(function(user) {
-        passportStub.login(user[0]);
-        done();
+      var codeObject = {
+        verify_code: '21049144460970398511'
+      };
+      codeQueries.addCode(codeObject)
+      .then(function(test) {
+        userQueries.getSingleUser(userID)
+        .then(function(user) {
+          passportStub.login(user[0]);
+          done();
+        });
       });
     });
   });
 }
 
 function authenticateAdmin(done) {
-  queries.addUser({
+  userQueries.addUser({
     github_username: 'admin',
     github_id: 654321,
     github_display_name: 'Jeremy Johnson',
@@ -200,7 +263,7 @@ function authenticateAdmin(done) {
         });
       }))
       .then(function() {
-        queries.getSingleUser(userID)
+        userQueries.getSingleUser(userID)
         .then(function(user) {
           passportStub.login(user[0]);
           done();

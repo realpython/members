@@ -4,7 +4,8 @@ exports.seed = function(knex, Promise) {
     knex('suggestions').del()
   ]).then(function() {
     return Promise.all([
-      knex('users').select('*')
+      knex('users')
+      .select('*')
     ])
     .then(function(users) {
       return Promise.all([

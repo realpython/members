@@ -123,7 +123,7 @@ describe('routes : index', function() {
           res.text.should.contain('<ul id="sidebar-chapter-1" class="lesson-list');
           res.text.should.contain(
             '<p><span class="completed">0% Complete</span><span>&nbsp;(0 lessons)</p>');
-          res.text.should.contain('<a href="#" class="dropdown-toggle avatar-link" data-toggle="dropdown"><img class="avatar" src="https://avatars.io/static/default_128.jpg">&nbsp;Michael Herman <b class="caret"></b></a>');
+          res.text.should.contain('<a href="#" class="dropdown-toggle avatar-link" data-toggle="dropdown"><img class="avatar" src="https://avatars.io/static/default_128.jpg">&nbsp;Fletcher Heisler <b class="caret"></b></a>');
           res.text.should.contain('<!-- course status -->');
           res.text.should.contain('<!-- course stats -->');
           res.text.should.contain('<!-- activity feed: comments -->');
@@ -131,7 +131,6 @@ describe('routes : index', function() {
           // no lessons are read
           res.text.should.not.contain('data-lesson-read="true"');
           res.text.should.not.contain('Inactive Chapter');
-          res.text.should.not.contain('Lesson 1d');
           done();
         });
       });

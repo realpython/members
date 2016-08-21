@@ -8,6 +8,7 @@ var knex = require('../../server/db/knex');
 var server = require('../../server/app');
 var testHelpers = require('../helpers');
 var userQueries = require('../../server/db/queries.users');
+var codeQueries = require('../../server/db/queries.codes');
 
 
 var should = chai.should();
@@ -144,18 +145,23 @@ describe('routes : auth', function() {
       });
     });
     describe('POST /auth/verify', function() {
-      it('should redirect to dashboard', function(done) {
-        chai.request(server)
-        .post('/auth/verify')
-        .send({
-          code: 21049144460970398511
-        })
-        .end(function(err, res) {
-          res.redirects.length.should.equal(1);
-          res.status.should.equal(200);
-          res.type.should.equal('text/html');
-          res.text.should.contain('<h1>Dashboard</h1>');
-          done();
+      it('should throw an error', function(done) {
+        codeQueries.getUnunsedCodes()
+        .then(function(codes) {
+          chai.request(server)
+          .post('/auth/verify')
+          .send({
+            code: codes[0].verify_code
+          })
+          .end(function(err, res) {
+            res.redirects.length.should.equal(1);
+            res.status.should.equal(200);
+            res.type.should.equal('text/html');
+            res.text.should.contain('<h1>Dashboard</h1');
+            res.text.should.not.contain(
+              '<h2>Your account is inactive.</h2>');
+            done();
+          });
         });
       });
     });
@@ -172,12 +178,34 @@ describe('routes : auth', function() {
           res.type.should.equal('text/html');
           res.text.should.contain(
             '<h2>Please verify your account.</h2>');
+          res.text.should.not.contain('<h1>Dashboard</h1>');
+          res.text.should.contain(
+            '<h2>Please verify your account.</h2>');
           res.text.should.not.contain(
             '<h2>Your account is inactive.</h2>');
           done();
         });
       });
     });
+    // describe('POST /auth/verify', function() {
+    //   it('should redirect to the inactive page if the code is a duplicate', function(done) {
+    //     chai.request(server)
+    //     .post('/auth/verify')
+    //     .send({
+    //       code: 999
+    //     })
+    //     .end(function(err, res) {
+    //       res.redirects.length.should.equal(1);
+    //       res.status.should.equal(200);
+    //       res.type.should.equal('text/html');
+    //       res.text.should.contain(
+    //         '<h2>Please verify your account.</h2>');
+    //       res.text.should.not.contain(
+    //         '<h2>Your account is inactive.</h2>');
+    //       done();
+    //     });
+    //   });
+    // });
     describe('POST /auth/verify', function() {
       it('should redirect to the closed page if verification status is 0', function(done) {
         process.env.CAN_VERIFY = 0;
@@ -376,30 +404,33 @@ describe('routes : auth', function() {
     });
     describe('POST /auth/verify', function() {
       it('should verify and then redirect to /', function(done) {
-        chai.request(server)
-        .post('/auth/verify')
-        .send({
-          code: 21049144460970398511
-        })
-        .end(function() {
+        codeQueries.getUnunsedCodes()
+        .then(function(codes) {
           chai.request(server)
-          .get('/auth/log_out')
+          .post('/auth/verify')
+          .send({
+            code: codes[0].verify_code
+          })
           .end(function() {
-            return userQueries.getSingleUserByUsername('michael')
-            .then(function(user) {
-              passportStub.login(user[0]);
-              chai.request(server)
-              .get('/')
-              .end(function(err, res) {
-                res.redirects.length.should.equal(0);
-                res.status.should.equal(200);
-                res.type.should.equal('text/html');
-                res.text.should.contain('<h1>Dashboard</h1>');
-                res.text.should.not.contain(
-                  '<h2>Please verify your account.</h2>');
-                res.text.should.not.contain(
-                  '<h2>Your account is inactive.</h2>');
-                done();
+            chai.request(server)
+            .get('/auth/log_out')
+            .end(function() {
+              return userQueries.getSingleUserByUsername('michael')
+              .then(function(user) {
+                passportStub.login(user[0]);
+                chai.request(server)
+                .get('/')
+                .end(function(err, res) {
+                  res.redirects.length.should.equal(0);
+                  res.status.should.equal(200);
+                  res.type.should.equal('text/html');
+                  res.text.should.contain('<h1>Dashboard</h1>');
+                  res.text.should.not.contain(
+                    '<h2>Please verify your account.</h2>');
+                  res.text.should.not.contain(
+                    '<h2>Your account is inactive.</h2>');
+                  done();
+                });
               });
             });
           });
@@ -414,34 +445,125 @@ describe('routes : auth', function() {
         passportStub.logout();
         done();
       });
-      it('should throw an error if a duplicate verify code is used',
+      it('should throw an error if a duplicate verify code is used with a different user',
       function(done) {
-        chai.request(server)
-        .post('/auth/verify')
-        .send({
-          code: 21049144460970398511
-        })
-        .end(function() {
-          passportStub.logout();
-          return userQueries.getSingleUserByUsername('jeremy')
-          .then(function(user) {
-            passportStub.login(user[0]);
+        codeQueries.getUnunsedCodes()
+        .then(function(codes) {
+          chai.request(server)
+          .post('/auth/verify')
+          .send({
+            code: codes[0].verify_code
+          })
+          .end(function() {
+            passportStub.logout();
+            return userQueries.getSingleUserByUsername('michael')
+            .then(function(user) {
+              passportStub.login(user[0]);
+              chai.request(server)
+              .post('/auth/verify')
+              .send({
+                code: codes[0].verify_code
+              })
+              .end(function(err, res) {
+                res.redirects.length.should.equal(1);
+                res.status.should.equal(200);
+                res.type.should.equal('text/html');
+                res.text.should.contain(
+                  '<h2>Please verify your account.</h2>');
+                res.text.should.not.contain(
+                  '<h2>Your account is inactive.</h2>');
+                res.text.should.not.contain('try Textbook');
+                res.text.should.not.contain('<h1>Dashboard</h1>');
+                return userQueries.getSingleUserByUsername('jeremy')
+                .then(function(user) {
+                  user[0].verified.should.equal(false);
+                  should.not.exist(user[0].verify_code);
+                  done();
+                });
+              });
+            });
+          });
+        });
+      });
+    });
+    describe('POST /auth/verify', function() {
+      beforeEach(function(done) {
+        testHelpers.authenticateActiveUserDuplicate(done);
+      });
+      afterEach(function(done) {
+        passportStub.logout();
+        done();
+      });
+      it('should throw an error if a duplicate verify code is used with the same user',
+      function(done) {
+        codeQueries.getUnunsedCodes()
+        .then(function(codes) {
+          chai.request(server)
+          .post('/auth/verify')
+          .send({
+            code: codes[0].verify_code
+          })
+          .end(function() {
+            passportStub.logout();
+            return userQueries.getSingleUserByUsername('jeremy')
+            .then(function(user) {
+              passportStub.login(user[0]);
+              chai.request(server)
+              .post('/auth/verify')
+              .send({
+                code: codes[0].verify_code
+              })
+              .end(function(err, res) {
+                res.redirects.length.should.equal(1);
+                res.status.should.equal(200);
+                res.type.should.equal('text/html');
+                res.text.should.contain(
+                  '<h2>Please verify your account.</h2>');
+                res.text.should.not.contain(
+                  '<h2>Your account is inactive.</h2>');
+                res.text.should.not.contain('try Textbook');
+                res.text.should.not.contain('<h1>Dashboard</h1>');
+                return userQueries.getSingleUserByUsername('jeremy')
+                .then(function(user) {
+                  user[0].verified.should.equal(false);
+                  should.not.exist(user[0].verify_code);
+                  done();
+                });
+              });
+            });
+          });
+        });
+      });
+    });
+    describe('POST /auth/verify', function() {
+      it('should throw an error if an incorrect code is used', function(done) {
+        codeQueries.getUnunsedCodes()
+        .then(function(codes) {
+          chai.request(server)
+          .post('/auth/verify')
+          .send({
+            code: 999
+          })
+          .end(function() {
             chai.request(server)
-            .post('/auth/verify')
-            .send({
-              code: 21049144460970398511
-            })
-            .end(function(err, res) {
-              res.redirects.length.should.equal(0);
-              res.status.should.equal(500);
-              res.type.should.equal('text/html');
-              res.text.should.contain('<p>Something went wrong!</p>');
-              res.text.should.not.contain('<h1>Dashboard</h1>');
-              return userQueries.getSingleUserByUsername('jeremy')
+            .get('/auth/log_out')
+            .end(function() {
+              return userQueries.getSingleUserByUsername('michael')
               .then(function(user) {
-                user[0].verified.should.equal(false);
-                should.not.exist(user[0].verify_code);
-                done();
+                passportStub.login(user[0]);
+                chai.request(server)
+                .get('/')
+                .end(function(err, res) {
+                  res.redirects.length.should.equal(1);
+                  res.status.should.equal(200);
+                  res.type.should.equal('text/html');
+                  res.text.should.not.contain('<h1>Dashboard</h1>');
+                  res.text.should.contain(
+                    '<h2>Please verify your account.</h2>');
+                  res.text.should.not.contain(
+                    '<h2>Your account is inactive.</h2>');
+                  done();
+                });
               });
             });
           });

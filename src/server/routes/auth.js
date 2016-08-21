@@ -4,6 +4,7 @@ var router = express.Router();
 var githubAuth = require('../auth/github');
 var authHelpers = require('../auth/helpers');
 var userQueries = require('../db/queries.users');
+var codeQueries = require('../db/queries.codes');
 
 // *** authenticate with github *** //
 router.get('/github',
@@ -84,29 +85,83 @@ router.post('/verify',
   authHelpers.ensureAuthenticated,
   authHelpers.ensureActive,
   function(req, res, next) {
+  // TODO: refactor!
   // TODO: add server-side validation
   if (parseInt(process.env.CAN_VERIFY) === 1) {
-    var registrationCode = parseInt(req.body.code);
+    var registrationCode = req.body.code;
     var userID = parseInt(req.user.id);
-    if (registrationCode === 21049144460970398511) {
-      return userQueries.verifyUser(userID, registrationCode)
-      .then(function(user) {
+    // check if code is valid
+    return codeQueries.getCodeFromVerifyCode(registrationCode)
+    .then(function(code) {
+      if (!code.length) {
         req.flash('messages', {
-          status: 'success',
-          value: 'User verified.'
+          status: 'danger',
+          value: 'Sorry. That code is not correct.'
         });
-        return res.redirect('/');
-      })
-      .catch(function(err) {
-        return next(err);
-      });
-    } else {
-      req.flash('messages', {
-        status: 'danger',
-        value: 'Sorry. That code is not correct.'
-      });
-      return res.redirect('/auth/verify');
-    }
+        return res.redirect('/auth/verify');
+      }
+      if (code[0].used) {
+        req.flash('messages', {
+          status: 'danger',
+          value: 'Sorry. That code is not correct.'
+        });
+        return res.redirect('/auth/verify');
+      }
+      var codeFromDB = code[0].verify_code;
+      if (codeFromDB === registrationCode) {
+        if (req.user.verified) {
+          req.flash('messages', {
+            status: 'success',
+            value: 'User verified.'
+          });
+          return res.redirect('/');
+        }
+        return userQueries.verifyUser(userID, codeFromDB)
+        .then(function(user) {
+          // update code
+          return codeQueries.updateCodeFromVerifyCode(codeFromDB)
+          .then(function(updatedCode) {
+            if (updatedCode.length) {
+              // update user
+              var updateObject = {
+                verify_code: codeFromDB
+              };
+              return userQueries.updateUser(userID, updateObject)
+              .then(function(updatedUser) {
+                if (updatedUser.length) {
+                  req.flash('messages', {
+                    status: 'success',
+                    value: 'User verified.'
+                  });
+                  return res.redirect('/');
+                }
+              })
+              .catch(function(err) {
+                return next(err);
+              });
+            } else {
+              req.flash('messages', {
+                status: 'danger',
+                value: 'Sorry. That code is not correct.'
+              });
+              return res.redirect('/auth/verify');
+            }
+          });
+        })
+        .catch(function(err) {
+          return next(err);
+        });
+      } else {
+        req.flash('messages', {
+          status: 'danger',
+          value: 'Sorry. That code is not correct.'
+        });
+        return res.redirect('/auth/verify');
+      }
+    })
+    .catch(function(err) {
+      return next(err);
+    });
   } else {
     req.flash('messages', {
       status: 'danger',

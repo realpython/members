@@ -86,12 +86,17 @@ function ensureVerified(req, res, next) {
       var userID = req.user.id;
       return userQueries.getSingleUser(parseInt(userID))
       .then(function(user) {
-        if (
-          user.length &&
-          parseInt(user[0].id) === parseInt(userID) &&
-          user[0].verify_code === req.user.verify_code
-        ) {
-          return next();
+        if (user.length && parseInt(user[0].id) === parseInt(userID)) {
+          if (!user[0].verify && user[0].verify_code === req.user.verify_code) {
+            return next();
+          } else {
+            // TODO: handle this error better
+            res.status(403);
+            res.json({
+              message: 'verification code is incorrect.'
+            });
+            return res;
+          }
         } else {
           // TODO: handle this error better
           res.status(403);

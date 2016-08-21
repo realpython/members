@@ -31,10 +31,11 @@
   - update contact page
   - verification
     - add verify codes to users
-    - add list of verify codes to .env
+    - add verify codes to new db table
     - update admin users page
   - style/rebrand for real python
   - update gulp tasks
+  - add gulp help
   - update production seed
 
 ### Beta
@@ -65,3 +66,4 @@
 1. set up production mailer
 1. Install https://github.com/RafalWilinski/express-status-monitor
 1. Close source the repo
+1. Ensure user is redirected if verified and they try to go to the verify GET or POST routes

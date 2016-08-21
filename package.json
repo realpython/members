@@ -38,7 +38,6 @@
     "gulp-clean-css": "^2.0.12",
     "gulp-concat": "^2.6.0",
     "gulp-nodemon": "^2.1.0",
-    "gulp-run": "^1.7.1",
     "gulp-shell": "^0.5.2",
     "gulp-uglify": "^2.0.0",
     "jscs": "^3.0.4",

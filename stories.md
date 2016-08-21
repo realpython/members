@@ -104,3 +104,7 @@
 1. Unverified (but authenticated) users should have to enter an email and a numeric code to become a verified user
 1. Admin should be able to update lesson `content` with Markdown (markdown and HTML should be supported)
 1. Admin should be able to toggle lesson read status within users and lessons
+1. Admin should be able to view all verification codes
+1. Admin should be able to add new verification codes
+1. Admin should be able to update verification codes
+1. Admin should be able to remove/deactivate verification codes
