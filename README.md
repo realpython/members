@@ -34,6 +34,8 @@ Just a simple learning management system for textbook-like sites, powering Real 
 1. Run tests with coverage: `gulp coverage`
 1. Create build: `gulp build`
 
+> Run `gulp help` to list all available commands
+
 ## Notes
 
 1. Make sure to drop the database before running the seed!

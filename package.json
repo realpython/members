@@ -37,6 +37,7 @@
     "gulp": "^3.9.1",
     "gulp-clean-css": "^2.0.12",
     "gulp-concat": "^2.6.0",
+    "gulp-help": "^1.6.1",
     "gulp-nodemon": "^2.1.0",
     "gulp-shell": "^0.5.2",
     "gulp-uglify": "^2.0.0",

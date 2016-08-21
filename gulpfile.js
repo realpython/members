@@ -1,6 +1,6 @@
 // *** dependencies *** //
 
-var gulp = require('gulp');
+var gulp = require('gulp-help')(require('gulp'));
 var rimraf = require('rimraf');
 var cleanCSS = require('gulp-clean-css');
 var uglify = require('gulp-uglify');
@@ -40,7 +40,7 @@ var nodemonSourceConfig = {
 
 // *** run dev server from 'src' *** //
 
-gulp.task('default', function() {
+gulp.task('default', 'Run development server from "src"', function() {
   runSequence(
     ['nodemonSource']
   );
@@ -48,7 +48,7 @@ gulp.task('default', function() {
 
 // *** create build, run tests *** //
 
-gulp.task('test', function() {
+gulp.task('test', 'Create build, run tests from "build"', function() {
   runSequence(
     ['clean'],
     ['minify-css'],
@@ -61,7 +61,8 @@ gulp.task('test', function() {
 
 // *** create build, run tests with coverage *** //
 
-gulp.task('coverage', function() {
+gulp.task('coverage', 'Create build, run tests with coverage from "build"',
+function() {
   runSequence(
     ['clean'],
     ['minify-css'],
@@ -74,7 +75,7 @@ gulp.task('coverage', function() {
 
 // *** create build for deployment *** //
 
-gulp.task('build', function() {
+gulp.task('build', 'Create build for deployment', function() {
   runSequence(
     ['clean'],
     ['minify-css'],
@@ -86,11 +87,11 @@ gulp.task('build', function() {
 
 // *** sub tasks ** //
 
-gulp.task('clean', function(cb) {
+gulp.task('clean', false, function(cb) {
   rimraf(paths.buildDirectory, cb);
 });
 
-gulp.task('minify-css', function() {
+gulp.task('minify-css', false, function() {
   var opts = {keepSpecialComments:'*'};
   return gulp.src(paths.styles)
     .pipe(cleanCSS({debug: true}))
@@ -101,7 +102,7 @@ gulp.task('minify-css', function() {
     )));
 });
 
-gulp.task('minify-js', function() {
+gulp.task('minify-js', false, function() {
   gulp.src(paths.scripts)
     // .pipe(concat('main.js'))
     .pipe(uglify())
@@ -112,28 +113,28 @@ gulp.task('minify-js', function() {
     )));
 });
 
-gulp.task('copy-server-files', function() {
+gulp.task('copy-server-files', false, function() {
   gulp.src('./src/server/**/*')
     .pipe(gulp.dest('./build/server/'));
 });
 
-gulp.task('copy-tests', function() {
+gulp.task('copy-tests', false, function() {
   gulp.src('./src/test/**/*')
     .pipe(gulp.dest('./build/test/'));
 });
 
-gulp.task('nodemonBuild', function() {
+gulp.task('nodemonBuild', false, function() {
   return nodemon(nodemonBuildConfig);
 });
 
-gulp.task('nodemonSource', function() {
+gulp.task('nodemonSource', false, function() {
   return nodemon(nodemonSourceConfig);
 });
 
-gulp.task('run-tests', shell.task([
+gulp.task('run-tests', false, shell.task([
   'npm run test-build'
 ]));
 
-gulp.task('run-coverage', shell.task([
+gulp.task('run-coverage', false, shell.task([
   'npm run coverage'
 ]));
