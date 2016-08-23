@@ -85,6 +85,7 @@ router.post('/verify',
   authHelpers.ensureAuthenticated,
   authHelpers.ensureActive,
   function(req, res, next) {
+  // TODO: refactor!
   // TODO: add server-side validation
   if (parseInt(process.env.CAN_VERIFY) === 1) {
     var registrationCode = req.body.code;
