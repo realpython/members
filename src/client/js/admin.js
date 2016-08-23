@@ -115,6 +115,22 @@ $(document).on('click', '.update-user-button', function() {
     $('#update-github-avatar').val(data.github_avatar);
     $('#update-user-email').val(data.email);
     $('#update-github-token').val(data.github_access_token);
+    // clear old append (if necessary)
+    $("#update-verify-code > option").each(function() {
+      if ($(this).attr('selected')) {
+        $(this).remove();
+      }
+    });
+    // append current code and id to select
+    if (data.verify_code_id === null) {
+      data.verify_code_id = '';
+    } else {
+      $('#update-verify-code')
+        .append($('<option></option>')
+        .attr('value', data.verify_code_id)
+        .attr('selected', 'selected')
+        .text(data.verify_code));
+    }
     if (data.admin) {
       $('#update-user-admin').prop('checked', true);
     }
@@ -143,7 +159,8 @@ $('#update-user-form').on('submit', function(event) {
     email: $('#update-user-email').val(),
     admin: $('#update-user-admin').prop('checked'),
     verified: $('#update-user-verified').prop('checked'),
-    active: $('#update-user-active').prop('checked')
+    active: $('#update-user-active').prop('checked'),
+    verify_code: $('#update-verify-code').val()
   };
   $.ajax({
     type: 'PUT',
@@ -151,6 +168,7 @@ $('#update-user-form').on('submit', function(event) {
     url: '/admin/users/' + userID
   }).done(function(results) {
     // TODO: flash success message
+    console.log('success!');
     window.location.replace('/admin/users');
   }).fail(function(error) {
     // TODO: handle this error better!
