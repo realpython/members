@@ -32,7 +32,7 @@
   - verification
     - add verify codes to users
     - add verify codes to new db table
-    - update admin users page
+    -
   - style/rebrand for real python
   - update gulp tasks
   - add gulp help
@@ -50,7 +50,7 @@
 1. Add server side validation
 1. Add Amazon S3 Bucket for Avatars
 1. Convert Swig to Nunjucks
-1. Add [sonar](http://xseignard.github.io/2013/04/25/quality-analysis-on-node.js-projects-with-mocha-istanbul-and-sonar/)
+1. Add [sonar](http://xseignard.github.io/2013/04/25/quality-analysis-on-node.js-projects-with-mocha-istanbul-and-sonar/) and [semile](https://github.com/r-kan/semile)
 1. Refactor into es6
 1. Update all dependencies
 1. Address code complexity issues
@@ -62,8 +62,9 @@
 1. Update error pages
 1. Add more/better tests for error handling
 1. Modularize code
-1. Compotenize project structure
+1. Compotenize project structure (https://github.com/dylanpyle/node-api-boilerplate)
 1. set up production mailer
 1. Install https://github.com/RafalWilinski/express-status-monitor
 1. Close source the repo
 1. Ensure user is redirected if verified and they try to go to the verify GET or POST routes
+1. Update admin users page to handle verify codes
