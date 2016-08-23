@@ -27,8 +27,6 @@ Just a simple learning management system for textbook-like sites, powering Real 
 1. Run server
   - `gulp`
 
-> Use oGvufQsOUL7264B8M0g4J5lkr1VcyYiR to verify in development (works only for a single user).
-
 ## Commands
 
 1. Run dev server: `gulp`

@@ -93,7 +93,7 @@ function ensureVerified(req, res, next) {
             // TODO: handle this error better
             res.status(403);
             res.json({
-              message: 'Verification code is incorrect.'
+              message: 'verification code is incorrect.'
             });
             return res;
           }

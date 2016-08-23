@@ -23,13 +23,6 @@ function getSingleUserByUsername(username) {
     .returning('*');
 }
 
-function getSingleUserByID(userID) {
-  return knex('users')
-    .select('*')
-    .where('id', userID)
-    .returning('*');
-}
-
 function addUser(obj) {
   return knex('users')
     .insert(obj)
@@ -118,7 +111,6 @@ module.exports = {
   getTotalUsers: getTotalUsers,
   getSingleUser: getSingleUser,
   getSingleUserByUsername: getSingleUserByUsername,
-  getSingleUserByID: getSingleUserByID,
   addUser: addUser,
   makeAdmin: makeAdmin,
   makeActive: makeActive,
