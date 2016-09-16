@@ -70,3 +70,4 @@
 1. Update admin users page to handle verify codes
 1. Add referral method
 1. Secure! https://github.com/w3cj/node-security
+1. refactor using wes' project
