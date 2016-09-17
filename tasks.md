@@ -32,7 +32,6 @@
   - verification
     - add verify codes to users
     - add verify codes to new db table
-    -
   - style/rebrand for real python
   - update gulp tasks
   - add gulp help
