@@ -7,15 +7,19 @@ var suggestionQueries = require('../db/queries.suggestions');
 var routeHelpers = require('./_helpers');
 
 // *** suggestions *** //
-router.get('/',
+router.get(
+  '/',
   authHelpers.ensureVerified,
   authHelpers.ensureAuthenticated,
   authHelpers.ensureActive,
-  function(req, res, next) {
-  var userID = req.user.id;
+  getSuggestions
+);
+
+function getSuggestions(req, res, next) {
+  var userID = parseInt(req.user.id);
   // get all side bar data
-  routeHelpers.getSideBarData(userID)
-  .then(function(data) {
+  routeHelpers.getSideBarData(userID, (err, data) => {
+    if (err) return next(err);
     // get suggested topics
     suggestionQueries.getAllSuggestions()
     .then(function(suggestions) {
@@ -34,7 +38,7 @@ router.get('/',
   .catch(function(err) {
     return next(err);
   });
-});
+}
 
 router.post('/',
   authHelpers.ensureVerified,

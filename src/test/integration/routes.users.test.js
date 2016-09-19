@@ -38,12 +38,12 @@ describe('routes : users', () => {
 
   describe('if !authenticated', () => {
     describe('PUT /users/:username/admin', () => {
-      it('should throw an error', (done) => {
+      it('should throw an error if the user does not exist', (done) => {
         chai.request(server)
         .put('/users/fletcher/admin')
         .send({ admin: true })
         .end((err, res) => {
-          should.not.exist(err);
+          should.exist(err);
           res.status.should.equal(400);
           res.type.should.equal('application/json');
           res.body.message.should.equal('That user does not exist.');
@@ -99,8 +99,7 @@ describe('routes : users', () => {
     });
     describe('GET /users/:id/profile', () => {
       it('should return a 200 response', (done) => {
-        userQueries.getUsers()
-        .then((users) => {
+        userQueries.getUsers((err, users) => {
           chai.request(server)
           .get('/users/' + parseInt(users[0].id) + '/profile')
           .end((err, res) => {
@@ -134,7 +133,7 @@ describe('routes : users', () => {
         .put('/users/michael/admin')
         .send({ admin: true })
         .end((err, res) => {
-          should.not.exist(err);
+          should.exist(err);
           res.status.should.equal(400);
           res.type.should.equal('application/json');
           res.body.message.should.equal('That user does not exist.');
@@ -148,7 +147,7 @@ describe('routes : users', () => {
         .put('/users/fletcher/admin')
         .send({ unknown: true })
         .end((err, res) => {
-          should.not.exist(err);
+          should.exist(err);
           res.status.should.equal(403);
           res.type.should.equal('application/json');
           res.body.message.should.equal(
@@ -207,8 +206,7 @@ describe('routes : users', () => {
     });
     describe('GET /users/:id/profile', () => {
       it('should redirect to the inactive page', (done) => {
-        userQueries.getUsers()
-        .then((users) => {
+        userQueries.getUsers((err, users) => {
           chai.request(server)
           .get('/users/' + parseInt(users[0].id) + '/profile')
           .end((err, res) => {
@@ -258,8 +256,7 @@ describe('routes : users', () => {
     });
     describe('GET /users/:id/profile', () => {
       it('should redirect to the not verified page', (done) => {
-        userQueries.getUsers()
-        .then((users) => {
+        userQueries.getUsers((err, users) => {
           chai.request(server)
           .get('/users/' + parseInt(users[0].id) + '/profile')
           .end((err, res) => {
