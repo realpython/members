@@ -1,5 +1,5 @@
-exports.up = function(knex, Promise) {
-  return knex.schema.createTable('messages', function(table) {
+exports.up = (knex, Promise) => {
+  return knex.schema.createTable('messages', (table) => {
     table.increments();
     table.text('content').notNullable();
     table.integer('parent_id').defaultTo(null);
@@ -11,6 +11,6 @@ exports.up = function(knex, Promise) {
   });
 };
 
-exports.down = function(knex, Promise) {
+exports.down = (knex, Promise) => {
   return knex.schema.dropTable('messages');
 };
