@@ -7,7 +7,7 @@ const passportStub = require('passport-stub');
 
 const knex = require('../../server/db/knex');
 const server = require('../../server/app');
-const testHelpers = require('../helpers');
+const testHelpers = require('../_helpers');
 
 const should = chai.should();
 

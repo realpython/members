@@ -44,7 +44,7 @@ describe('db : queries : messages', () => {
       done();
     });
   });
-  describe('getMessagesFromLessonID(1)', () => {
+  describe('getMessagesFromLessonID()', () => {
     it('should format data correctly', (done) => {
       messageQueries.getMessagesFromLessonID(1)
       .then((results) => {

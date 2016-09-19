@@ -9,7 +9,7 @@ const server = require('../../server/app');
 const lessonQueries = require('../../server/db/queries.lessons');
 const chapterQueries = require('../../server/db/queries.chapters');
 const messageQueries = require('../../server/db/queries.messages');
-const testHelpers = require('../helpers');
+const testHelpers = require('../_helpers');
 
 const should = chai.should();
 

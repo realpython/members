@@ -8,27 +8,32 @@ const usersLessonsQueries = require('../db/queries.users_lessons');
 function githubCallback(accessToken, refreshToken, profile, done) {
   // does the user already exist?
   userQueries.getSingleUserByGithubID(profile.id, (err, user) => {
-    if (err) done(err);
+    if (err) {
+      done(err);
+    }
     // yes?
-    if (user.length) done(null, user[0]);
-    // no? => add the new user
-    const newUserObject = {};
-    newUserObject.github_username = profile.username;
-    newUserObject.github_id = parseInt(profile.id);
-    newUserObject.github_display_name = profile.displayName || profile.username;
-    newUserObject.github_access_token = accessToken;
-    newUserObject.github_avatar = profile._json.avatar_url || 'https://avatars.io/static/default_128.jpg';
-    newUserObject.email = profile._json.email || null;
-    lessonQueries.addUser(newUserObject, (err, response) => {
-      if (err) done(err);
-      const newUser = response[0];
-      // update users_lessons join table
-      usersLessonsQueries.addNewUser(
-        parseInt(newUser.id), (err, res) => {
+    if (user.length) {
+      done(null, user[0]);
+    } else {
+      // no? => add the new user
+      const newUserObject = {};
+      newUserObject.github_username = profile.username;
+      newUserObject.github_id = parseInt(profile.id);
+      newUserObject.github_display_name = profile.displayName || profile.username;
+      newUserObject.github_access_token = accessToken;
+      newUserObject.github_avatar = profile._json.avatar_url || 'https://avatars.io/static/default_128.jpg';
+      newUserObject.email = profile._json.email || null;
+      lessonQueries.addUser(newUserObject, (err, response) => {
         if (err) done(err);
-        done(null, newUser);
+        const newUser = response[0];
+        // update users_lessons join table
+        usersLessonsQueries.addNewUser(
+          parseInt(newUser.id), (err, res) => {
+          if (err) done(err);
+          done(null, newUser);
+        });
       });
-    });
+    }
   });
 }
 

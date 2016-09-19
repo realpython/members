@@ -71,4 +71,5 @@
 1. Secure! https://github.com/w3cj/node-security
 1. refactor using wes' project
 1. caching
-1. Ensure unit tests have adequte coverage
+1. Ensure unit tests have adequate coverage
+1. Add redis for caching and storing sessions

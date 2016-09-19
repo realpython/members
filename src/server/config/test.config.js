@@ -1,27 +1,25 @@
-(function (appConfig) {
+((appConfig) => {
 
   // *** main dependencies *** //
-  var path = require('path');
-  var cookieParser = require('cookie-parser');
-  var bodyParser = require('body-parser');
-  var swig = require('swig');
-  var swigExtras = require('swig-extras');
-  var session = require('express-session');
-  var flash = require('connect-flash');
-  var passport = require('passport');
-  var morgan = require('morgan');
+  const path = require('path');
+  const cookieParser = require('cookie-parser');
+  const bodyParser = require('body-parser');
+  const swig = require('swig');
+  const swigExtras = require('swig-extras');
+  const session = require('express-session');
+  const flash = require('connect-flash');
+  const passport = require('passport');
+  const morgan = require('morgan');
 
   // *** .env *** //
   if (process.env.NODE_ENV !== 'production' || 'staging') {
     require('dotenv').config();
   }
 
-  appConfig.init = function (app, express) {
-
-    var logger = require('../utils/logger.js');
+  appConfig.init = (app, express) => {
 
     // *** view engine *** //
-    // var swig = new swig.Swig();
+    // const swig = new swig.Swig();
     swigExtras.useFilter(swig, 'truncate');
     swigExtras.useFilter(swig, 'markdown');
     app.engine('html', swig.renderFile);

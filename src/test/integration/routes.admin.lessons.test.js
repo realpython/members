@@ -8,7 +8,7 @@ const knex = require('../../server/db/knex');
 const server = require('../../server/app');
 const lessonQueries = require('../../server/db/queries.lessons');
 const usersLessonsQueries = require('../../server/db/queries.users_lessons');
-const testHelpers = require('../helpers');
+const testHelpers = require('../_helpers');
 
 const should = chai.should();
 
