@@ -60,8 +60,8 @@ describe('db : queries : messages', () => {
   describe('messagesAndUsers()', () => {
     it('should format data correctly', (done) => {
       messageQueries.messagesAndUsers(1, (err, results) => {
-        let d1;
-        let d2;
+        var d1;
+        var d2;
         if (results[0].messageContent === 'Awesome lesson!') {
           d1 = Date.parse(results[0].messageCreatedAt);
           d2 = Date.parse(results[1].messageCreatedAt);

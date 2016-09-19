@@ -1,21 +1,15 @@
-exports.seed = function(knex, Promise) {
-  return Promise.all([
-    // deletes ALL existing entries
-    knex('lessons').del()
-  ]).then(function() {
-    return Promise.all([
-      knex('chapters')
-        .select('*')
-        .orderBy('order_number')
-        .returning('*')
-    ]);
-  }).then(function(chapters) {
+exports.seed = (knex, Promise) => {
+  return knex('chapters')
+  .select('*')
+  .orderBy('order_number')
+  .returning('*')
+  .then((chapters) => {
     // get chapter order number
-    var chapterOrder = chapters[0].map(function(chapter) {
+    const chapterOrder = chapters[0].map(function(chapter) {
       return chapter.order_number;
     });
     // link lesson name to order number
-    var chapterLessons = [
+    const chapterLessons = [
       {
         lessonName: 'Lesson 1a',
         lessonLessonOrder: 1,
@@ -74,9 +68,9 @@ exports.seed = function(knex, Promise) {
       }
     ];
     // get chapter ID from order number, add new lesson
-    return Promise.all(chapterLessons.map(function(el) {
+    return Promise.all(chapterLessons.map((el) => {
       return getChapterID(el.chapterOrder, knex, Promise)
-      .then(function(chapter) {
+      .then((chapter) => {
         return createLesson(
           el.lessonLessonOrder,
           el.lessonChapterOrder,
@@ -93,11 +87,11 @@ exports.seed = function(knex, Promise) {
 };
 
 function getChapterID(chapterOrder, knex, Promise) {
-  return new Promise(function(resolve, reject) {
+  return new Promise((resolve, reject) => {
     knex('chapters')
       .select('id')
       .where('order_number', parseInt(chapterOrder))
-      .then(function(chapter) {
+      .then((chapter) => {
         resolve(chapter[0]);
       });
   });
@@ -108,7 +102,7 @@ function createLesson(
   lessonContent, chapterID, lessonActive,
   knex, Promise
 ) {
-  return new Promise(function(resolve, reject) {
+  return new Promise((resolve, reject) => {
     knex('lessons')
       .insert({
         lesson_order_number: parseInt(lessonOrder),
@@ -118,7 +112,7 @@ function createLesson(
         chapter_id: chapterID,
         active: lessonActive
       })
-      .then(function() {
+      .then(() => {
         resolve();
       });
   });
