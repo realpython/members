@@ -1,7 +1,8 @@
-var Promise = require('es6-promise').Promise;
-
-var chapterQueries = require('../db/queries.chapters');
-var userQueries = require('../db/queries.users');
+const chapterQueries = require('../db/queries.chapters');
+const userQueries = require('../db/queries.users');
+const lessonQueries = require('../db/queries.lessons');
+const messageQueries = require('../db/queries.messages');
+const usersLessonsQueries = require('../db/queries.users_lessons');
 
 function getTotalActiveLessons(chapters) {
   var total = chapters.reduce(function(acc, chapter) {
@@ -166,41 +167,171 @@ function getTotalActiveCompletedLessons(activeLessons, completedLessons) {
   return complete;
 }
 
-function getSideBarData(userID) {
-  return new Promise(function(resolve, reject) {
-    // get all chapters and associated lessons
-    // for the sidebar and navbar
-    return chapterQueries.chaptersAndLessons()
-    .then(function(results) {
+function getSideBarData(userID, callback) {
+  // get all chapters and associated lessons for the sidebar and navbar
+  return new Promise((resolve, reject) => {
+    chapterQueries.chaptersAndLessons((err, results) => {
+      if (err) reject(err);
       // filter, reduce, and sort the results
-      var reducedResults = reduceResults(results);
-      var chapters = convertArray(reducedResults);
-      var sortedChapters = sortLessonsByOrderNumber(chapters);
+      const reducedResults = reduceResults(results);
+      const chapters = convertArray(reducedResults);
+      const sortedChapters = sortLessonsByOrderNumber(chapters);
       // get total active lessons
-      var totalActiveLessons = getTotalActiveLessons(
-        sortedChapters);
+      const totalActiveLessons = getTotalActiveLessons(sortedChapters);
       // get read lessons
-      return userQueries.getReadLessons(userID)
-      .then(function(lessons) {
+      userQueries.getReadLessons(userID, (err, lessons) => {
+        if (err) reject(err);
         // get active and read lessons
-        var totalCompletedLessons = lessons;
-        var completed = getTotalActiveCompletedLessons(
+        const totalCompletedLessons = lessons;
+        const completed = getTotalActiveCompletedLessons(
           totalActiveLessons, totalCompletedLessons);
-        var returnObject = {
+        const returnObject = {
           sortedChapters: sortedChapters,
           completed: completed,
           totalActiveLessons: totalActiveLessons
         };
         resolve(returnObject);
       });
-    })
-    .catch(function(err) {
-      reject(err);
+    });
+  })
+  .then((data) => {
+    const sortedChapters = data.sortedChapters;
+    const completed = data.completed;
+    const totalActiveLessons = data.totalActiveLessons;
+    // get completed percentage
+    const percentage = (
+      (completed.length / totalActiveLessons.length) * 100).toFixed(0);
+    // get feed data
+    userQueries.getMessageFeedData((err, messageFeedData) => {
+      if (err) callback(err);
+      // get total users
+      userQueries.getTotalUsers((err, totalUsers) => {
+        if (err) callback(err);
+        const allData = {
+          sortedChapters,
+          percentage,
+          completed,
+          messageFeedData,
+          totalActiveLessons,
+          totalUsers
+        };
+        callback(null, allData);
+      });
+    });
+  })
+  .catch((err) => {
+    callback(err);
+  });
+}
+
+function addNewLesson(lessonObject, callback) {
+  // get order numbers for active lessons
+  lessonQueries.getActiveLessonOrderNumbers((err, lessonOrders) => {
+    if (err) callback(err);
+    const lessonOrderNum = getNextLessonOrderNum(lessonOrders);
+    lessonObject.lesson_order_number = parseInt(lessonOrderNum);
+    // get lessons from associated chapter
+    lessonQueries.getLessonChapterOrderNumsFromChapterID(
+      lessonObject.chapter_id, (err, lessons) => {
+      if (err) callback(err);
+      const chapterOrderNum = getNextChapterOrderNum(lessons);
+      lessonObject.chapter_order_number = parseInt(chapterOrderNum);
+      // add lesson
+      lessonQueries.addLesson(lessonObject, (err, lesson) => {
+        if (err) callback(err);
+        callback(null, lesson);
+      });
     });
   });
 }
 
+function addNewUser(userObject, callback) {
+  userQueries.addUser(userObject, (err, user) => {
+    if(err) {
+      callback(err);
+    } else if (user) {
+      if (user.length) {
+        const userID = parseInt(user[0].id);
+        lessonQueries.getAllLessons((err, lessons) => {
+          if(err) callback(err);
+          lessons.forEach(function(lesson) {
+            const newRow = {
+              user_id: userID,
+              lesson_id: lesson.id
+            };
+            usersLessonsQueries.addRow(newRow, (err, row) => {
+              if(err) callback(err);
+            });
+          });
+          callback(null, user);
+        });
+      }
+    }
+  });
+}
+
+// TODO: Major refactor!
+function getSingleLessonInfo(lessonID, userID, callback) {
+  lessonQueries.getSingleLesson(parseInt(lessonID), (err, singleLesson) => {
+    if (err) {
+      callback(err);
+    } else if(singleLesson) {
+      if (singleLesson.length && singleLesson[0].active) {
+        const lessonObject = singleLesson[0];
+        // get all lessons
+        lessonQueries.getActiveLessons((err, lessons) => {
+          if (err) {
+            callback(err);
+          } else if(lessons) {
+            if (lessons.length) {
+              const returnObject = {};
+              returnObject.previousLesson = getPrevLesson(
+                lessonObject.lesson_order_number, lessons);
+              returnObject.nextLesson = getNextLesson(
+                lessonObject.lesson_order_number, lessons);
+              // get all associated messages, replies, and user info
+              return messageQueries.messagesAndUsers(
+                parseInt(lessonObject.id), (err, messages) => {
+                // check if lesson is read
+                usersLessonsQueries.getSingleLesson(
+                  parseInt(lessonID), parseInt(userID), (err, singeLesson) => {
+                  if (err) {
+                    callback(err);
+                  } else if (singeLesson) {
+                    if (singeLesson[0].lesson_read) {
+                      returnObject.lessonRead = true;
+                    } else {
+                      returnObject.lessonRead = false;
+                    }
+                    const totalCompletedLessons = lessons;
+                    // filter, reduce, and sort the results
+                    const parentMessages = getParentMessages(messages);
+                    const formattedMessages = getChildMessages(
+                      parentMessages, messages);
+                    returnObject.userMessages = formattedMessages;
+                    returnObject.title = 'Textbook LMS - ' + lessonObject.name;
+                    returnObject.pageTitle = lessonObject.name;
+                    returnObject.singleLesson = lessonObject;
+                    callback(null, returnObject);
+                  }
+                });
+              });
+            }
+          }
+        });
+      } else {
+        callback(err);
+      }
+    } else {
+      callback(err);
+    }
+  });
+}
+
 module.exports = {
+  addNewUser,
+  addNewLesson,
+  getSingleLessonInfo,
   getTotalActiveLessons: getTotalActiveLessons,
   reduceResults: reduceResults,
   convertArray: convertArray,

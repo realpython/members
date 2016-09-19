@@ -1,20 +1,30 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
-var authHelpers = require('../../auth/helpers');
-var userQueries = require('../../db/queries.users');
-var lessonQueries = require('../../db/queries.lessons');
-var lessonAndUserQueries = require('../../db/queries.users_lessons');
+const authHelpers = require('../../auth/helpers');
+const routeHelpers = require('../_helpers');
+const userQueries = require('../../db/queries.users');
+const lessonQueries = require('../../db/queries.lessons');
+const lessonsUsersQueries = require('../../db/queries.users_lessons');
 
 // *** get all users *** //
-router.get('/', authHelpers.ensureAdmin,
-function(req, res, next) {
-  // get breadcrumbs
-  var breadcrumbs = ['Admin', 'Users'];
-  // get all users
-  return userQueries.getUsers()
-  .then(function(users) {
-    var renderObject = {
+router.get(
+  '/',
+  authHelpers.ensureAdmin,
+  getAllUsers
+);
+// *** add new user *** //
+router.post(
+  '/',
+  authHelpers.ensureAdmin,
+  addNewUser
+);
+
+function getAllUsers(req, res, next) {
+  const breadcrumbs = ['Admin', 'Users'];
+  userQueries.getUsers((err, users) => {
+    if (err) return next(err);
+    const renderObject = {
       title: 'Textbook LMS - admin',
       pageTitle: 'Users',
       user: req.user,
@@ -23,16 +33,13 @@ function(req, res, next) {
       messages: req.flash('messages')
     };
     return res.render('admin/users', renderObject);
-  })
-  .catch(function(err) {
-    return next(err);
   });
-});
+}
 
 // *** get single user *** //
 router.get('/:id', authHelpers.ensureAdmin,
 function(req, res, next) {
-  var userID = parseInt(req.params.id);
+  const userID = parseInt(req.params.id);
   return userQueries.getSingleUser(userID)
   .then(function(user) {
     if (user.length) {
@@ -53,12 +60,10 @@ function(req, res, next) {
   });
 });
 
-// *** add new user *** //
-router.post('/', authHelpers.ensureAdmin,
-function(req, res, next) {
+function addNewUser(req, res, next) {
   // TODO: Add server side validation
-  var payload = req.body;
-  var user = {
+  const payload = req.body;
+  const userObject = {
     github_username: payload.githubUsername,
     github_id: payload.githubID,
     github_display_name: payload.githubDisplayName,
@@ -69,45 +74,25 @@ function(req, res, next) {
     verified: payload.verified || false,
     active: payload.active || true
   };
-  return userQueries.addUser(user)
-  .then(function(user) {
+  routeHelpers.addNewUser(userObject, (err, user) => {
+    if(err) return next(err);
     if (user.length) {
-      var userID = parseInt(user[0].id);
-      // update users_lessons
-      // 1 - get all lessons
-      return lessonQueries.getAllLessons()
-      .then(function(lessons) {
-        // 2 - update users_lessons
-        lessons.forEach(function(lesson) {
-          return lessonAndUserQueries.addRow({
-            user_id: userID,
-            lesson_id: lesson.id
-          })
-          .then(function(results) {
-            // console.log(results);
-          });
-        });
-        req.flash('messages', {
-          status: 'success',
-          value: 'User added.'
-        });
-        return res.redirect('/admin/users');
+      req.flash('messages', {
+        status: 'success',
+        value: 'User added.'
       });
+      return res.redirect('/admin/users');
     }
-  })
-  .catch(function(err) {
-    // TODO: be more specific with the errors
-    return next(err);
   });
-});
+}
 
 // *** update user *** //
 router.put('/:id', authHelpers.ensureAdmin,
 function(req, res, next) {
   // TODO: Add server side validation
-  var userID = parseInt(req.params.id);
-  var payload = req.body;
-  var userObject = {
+  const userID = parseInt(req.params.id);
+  const payload = req.body;
+  const userObject = {
     github_username: payload.githubUsername,
     github_id: payload.githubID,
     github_display_name: payload.githubDisplayName,
@@ -142,7 +127,7 @@ function(req, res, next) {
 router.get('/:userID/deactivate', authHelpers.ensureAdmin,
 function(req, res, next) {
   // TODO: Add server side validation
-  var userID = parseInt(req.params.userID);
+  const userID = parseInt(req.params.userID);
   return userQueries.deactivateUser(userID)
   .then(function(user) {
     if (user.length) {
@@ -169,7 +154,7 @@ function(req, res, next) {
 router.get('/:userID/unverify', authHelpers.ensureAdmin,
 function(req, res, next) {
   // TODO: Add server side validation
-  var userID = parseInt(req.params.userID);
+  const userID = parseInt(req.params.userID);
   return userQueries.unverifyUser(userID)
   .then(function(user) {
     if (user.length) {

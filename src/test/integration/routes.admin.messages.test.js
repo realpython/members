@@ -1,47 +1,48 @@
 process.env.NODE_ENV = 'test';
 
-var chai = require('chai');
-var chaiHttp = require('chai-http');
-var passportStub = require('passport-stub');
+const chai = require('chai');
+const chaiHttp = require('chai-http');
+const passportStub = require('passport-stub');
 
-var knex = require('../../server/db/knex');
-var server = require('../../server/app');
-var messageQueries = require('../../server/db/queries.messages');
-var testHelpers = require('../helpers');
+const knex = require('../../server/db/knex');
+const server = require('../../server/app');
+const messageQueries = require('../../server/db/queries.messages');
+const testHelpers = require('../helpers');
 
-var should = chai.should();
+const should = chai.should();
 
 passportStub.install(server);
 chai.use(chaiHttp);
 
-describe('routes : admin : messages', function() {
+describe('routes : admin : messages', () => {
 
-  beforeEach(function(done) {
-    passportStub.logout();
-    knex.migrate.rollback()
-    .then(function() {
-      knex.migrate.latest()
-      .then(function() {
-        return knex.seed.run()
-        .then(function() {
-          done();
-        });
-      });
-    });
-  });
-
-  afterEach(function(done) {
-    knex.migrate.rollback()
-    .then(function() {
+  beforeEach((done) => {
+    return knex.migrate.rollback()
+    .then(() => {
+      return knex.migrate.latest();
+    })
+    .then(() => {
+      return knex.seed.run();
+    })
+    .then(() => {
       done();
     });
   });
-  describe('if unauthenticated', function() {
-    describe('GET /admin/messages/:id/deactivate?type=parent', function() {
-      it('should redirect to log in page', function(done) {
+
+  afterEach((done) => {
+    return knex.migrate.rollback()
+    .then(() => {
+      done();
+    });
+  });
+
+  describe('if !authenticated', () => {
+    describe('GET /admin/messages/:id/deactivate?type=parent', () => {
+      it('should redirect to log in page', (done) => {
         chai.request(server)
         .get('/admin/messages/1/deactivate?type=parent')
-        .end(function(err, res) {
+        .end((err, res) => {
+          should.not.exist(err);
           res.redirects.length.should.equal(1);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
@@ -50,11 +51,12 @@ describe('routes : admin : messages', function() {
         });
       });
     });
-    describe('GET /admin/messages/:id/update', function() {
-      it('should redirect to log in page', function(done) {
+    describe('GET /admin/messages/:id/update', () => {
+      it('should redirect to log in page', (done) => {
         chai.request(server)
         .get('/admin/messages/1/update')
-        .end(function(err, res) {
+        .end((err, res) => {
+          should.not.exist(err);
           res.redirects.length.should.equal(1);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
@@ -65,20 +67,26 @@ describe('routes : admin : messages', function() {
     });
   });
 
-  describe('if authenticated, active, and verified', function() {
-    beforeEach(function(done) {
-      testHelpers.authenticateAndVerifyActiveUser(done);
+  describe('if authenticated, active, and verified', () => {
+    beforeEach((done) => {
+      const permissions = {
+        verified: true,
+        admin: false,
+        active: true
+      };
+      testHelpers.authenticate(permissions, done);
     });
-    afterEach(function(done) {
+    afterEach((done) => {
       passportStub.logout();
       done();
     });
-    describe('GET /admin/messages/:id/deactivate?type=parent', function() {
-      it('should redirect to the dashboard', function(done) {
+    describe('GET /admin/messages/:id/deactivate?type=parent', () => {
+      it('should redirect to the dashboard', (done) => {
         chai.request(server)
         .get('/admin/messages/1/deactivate?type=parent')
-        .end(function(err, res) {
-          res.redirects.length.should.equal(2);
+        .end((err, res) => {
+          should.not.exist(err);
+          res.redirects.length.should.equal(1);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
           res.text.should.contain('<h1>Dashboard</h1>');
@@ -89,12 +97,13 @@ describe('routes : admin : messages', function() {
         });
       });
     });
-    describe('GET /admin/messages/:id/update', function() {
-      it('should redirect to the dashboard', function(done) {
+    describe('GET /admin/messages/:id/update', () => {
+      it('should redirect to the dashboard', (done) => {
         chai.request(server)
         .get('/admin/messages/1/update')
-        .end(function(err, res) {
-          res.redirects.length.should.equal(2);
+        .end((err, res) => {
+          should.not.exist(err);
+          res.redirects.length.should.equal(1);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
           res.text.should.contain('<h1>Dashboard</h1>');
@@ -107,20 +116,26 @@ describe('routes : admin : messages', function() {
     });
   });
 
-  describe('if authenticated and verified but inactive', function() {
-    beforeEach(function(done) {
-      testHelpers.authenticateAndVerifyInactiveUser(done);
+  describe('if authenticated, !active, verified', () => {
+    beforeEach((done) => {
+      const permissions = {
+        verified: true,
+        admin: false,
+        active: false
+      };
+      testHelpers.authenticate(permissions, done);
     });
-    afterEach(function(done) {
+    afterEach((done) => {
       passportStub.logout();
       done();
     });
-    describe('GET /admin/messages/:id/deactivate?type=parent', function() {
-      it('should redirect to the inactive page', function(done) {
+    describe('GET /admin/messages/:id/deactivate?type=parent', () => {
+      it('should redirect to the inactive page', (done) => {
         chai.request(server)
         .get('/admin/messages/1/deactivate?type=parent')
-        .end(function(err, res) {
-          res.redirects.length.should.equal(3);
+        .end((err, res) => {
+          should.not.exist(err);
+          res.redirects.length.should.equal(2);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
           res.text.should.contain('<h2>Your account is inactive.</h2>');
@@ -129,12 +144,13 @@ describe('routes : admin : messages', function() {
         });
       });
     });
-    describe('GET /admin/messages/:id/update', function() {
-      it('should redirect to the inactive page', function(done) {
+    describe('GET /admin/messages/:id/update', () => {
+      it('should redirect to the inactive page', (done) => {
         chai.request(server)
         .get('/admin/messages/1/update')
-        .end(function(err, res) {
-          res.redirects.length.should.equal(3);
+        .end((err, res) => {
+          should.not.exist(err);
+          res.redirects.length.should.equal(2);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
           res.text.should.contain('<h2>Your account is inactive.</h2>');
@@ -145,20 +161,26 @@ describe('routes : admin : messages', function() {
     });
   });
 
-  describe('if authenticated and active but unverified', function() {
-    beforeEach(function(done) {
-      testHelpers.authenticateActiveUser(done);
+  describe('if authenticated, active, !verified', () => {
+    beforeEach((done) => {
+      const permissions = {
+        verified: false,
+        admin: false,
+        active: true
+      };
+      testHelpers.authenticate(permissions, done);
     });
-    afterEach(function(done) {
+    afterEach((done) => {
       passportStub.logout();
       done();
     });
-    describe('GET /admin/messages/:id/deactivate?type=parent', function() {
-      it('should redirect to the not verified page', function(done) {
+    describe('GET /admin/messages/:id/deactivate?type=parent', () => {
+      it('should redirect to the not verified page', (done) => {
         chai.request(server)
         .get('/admin/messages/1/deactivate?type=parent')
-        .end(function(err, res) {
-          res.redirects.length.should.equal(3);
+        .end((err, res) => {
+          should.not.exist(err);
+          res.redirects.length.should.equal(2);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
           res.text.should.contain(
@@ -169,12 +191,13 @@ describe('routes : admin : messages', function() {
         });
       });
     });
-    describe('GET /admin/messages/:id/update', function() {
-      it('should redirect to the inactive page', function(done) {
+    describe('GET /admin/messages/:id/update', () => {
+      it('should redirect to the inactive page', (done) => {
         chai.request(server)
         .get('/admin/messages/1/update')
-        .end(function(err, res) {
-          res.redirects.length.should.equal(3);
+        .end((err, res) => {
+          should.not.exist(err);
+          res.redirects.length.should.equal(2);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
           res.text.should.contain(
@@ -187,21 +210,27 @@ describe('routes : admin : messages', function() {
     });
   });
 
-  describe('if authenticated as an admin', function() {
-    beforeEach(function(done) {
-      testHelpers.authenticateAdmin(done);
+  describe('if admin', () => {
+    beforeEach((done) => {
+      const permissions = {
+        verified: true,
+        admin: true,
+        active: true
+      };
+      testHelpers.authenticate(permissions, done);
     });
-    afterEach(function(done) {
+    afterEach((done) => {
       passportStub.logout();
       done();
     });
-    describe('GET /admin/messages/:id/deactivate?type=parent', function() {
-      it('should deactivate parent and child messages', function(done) {
+    describe('GET /admin/messages/:id/deactivate?type=parent', () => {
+      it('should deactivate parent and child messages', (done) => {
         messageQueries.getActiveParentMessages()
-        .then(function(messages) {
+        .then((messages) => {
           chai.request(server)
           .get('/admin/messages/' + messages[0].id + '/deactivate?type=parent')
-          .end(function(err, res) {
+          .end((err, res) => {
+            should.not.exist(err);
             res.redirects.length.should.equal(1);
             res.status.should.equal(200);
             res.type.should.equal('text/html');
@@ -212,13 +241,14 @@ describe('routes : admin : messages', function() {
         });
       });
     });
-    describe('GET /admin/messages/:id/deactivate?type=child', function() {
-      it('should deactivate child messages', function(done) {
+    describe('GET /admin/messages/:id/deactivate?type=child', () => {
+      it('should deactivate child messages', (done) => {
         messageQueries.getActiveChildMessages()
-        .then(function(messages) {
+        .then((messages) => {
           chai.request(server)
           .get('/admin/messages/' + messages[0].id + '/deactivate?type=parent')
-          .end(function(err, res) {
+          .end((err, res) => {
+            should.not.exist(err);
             res.redirects.length.should.equal(1);
             res.status.should.equal(200);
             res.type.should.equal('text/html');
@@ -229,13 +259,14 @@ describe('routes : admin : messages', function() {
         });
       });
     });
-    describe('GET /admin/messages/:id/update', function() {
-      it('should update messages', function(done) {
+    describe('GET /admin/messages/:id/update', () => {
+      it('should update messages', (done) => {
         messageQueries.getActiveParentMessages()
-        .then(function(messages) {
+        .then((messages) => {
           chai.request(server)
           .get('/admin/messages/' + messages[0].id + '/update')
-          .end(function(err, res) {
+          .end((err, res) => {
+            should.not.exist(err);
             res.redirects.length.should.equal(1);
             res.status.should.equal(200);
             res.type.should.equal('text/html');

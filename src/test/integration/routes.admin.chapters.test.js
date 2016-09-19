@@ -1,48 +1,48 @@
 process.env.NODE_ENV = 'test';
 
-var chai = require('chai');
-var chaiHttp = require('chai-http');
-var passportStub = require('passport-stub');
+const chai = require('chai');
+const chaiHttp = require('chai-http');
+const passportStub = require('passport-stub');
 
-var knex = require('../../server/db/knex');
-var server = require('../../server/app');
-var chapterQueries = require('../../server/db/queries.chapters');
-var testHelpers = require('../helpers');
+const knex = require('../../server/db/knex');
+const server = require('../../server/app');
+const chapterQueries = require('../../server/db/queries.chapters');
+const testHelpers = require('../helpers');
 
-var should = chai.should();
+const should = chai.should();
 
 passportStub.install(server);
 chai.use(chaiHttp);
 
-describe('routes : admin : chapters', function() {
+describe('routes : admin : chapters', () => {
 
-  beforeEach(function(done) {
-    passportStub.logout();
-    knex.migrate.rollback()
-    .then(function() {
-      knex.migrate.latest()
-      .then(function() {
-        return knex.seed.run()
-        .then(function() {
-          done();
-        });
-      });
-    });
-  });
-
-  afterEach(function(done) {
-    knex.migrate.rollback()
-    .then(function() {
+  beforeEach((done) => {
+    return knex.migrate.rollback()
+    .then(() => {
+      return knex.migrate.latest();
+    })
+    .then(() => {
+      return knex.seed.run();
+    })
+    .then(() => {
       done();
     });
   });
 
-  describe('if unauthenticated', function() {
-    describe('GET /admin/chapters', function() {
-      it('should redirect to log in page', function(done) {
+  afterEach((done) => {
+    return knex.migrate.rollback()
+    .then(() => {
+      done();
+    });
+  });
+
+  describe('if !authenticated', () => {
+    describe('GET /admin/chapters', () => {
+      it('should redirect to log in page', (done) => {
         chai.request(server)
         .get('/admin/chapters')
-        .end(function(err, res) {
+        .end((err, res) => {
+          should.not.exist(err);
           res.redirects.length.should.equal(1);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
@@ -51,11 +51,12 @@ describe('routes : admin : chapters', function() {
         });
       });
     });
-    describe('GET /admin/chapters/1', function() {
-      it('should redirect to log in page', function(done) {
+    describe('GET /admin/chapters/1', () => {
+      it('should redirect to log in page', (done) => {
         chai.request(server)
         .get('/admin/chapters/1')
-        .end(function(err, res) {
+        .end((err, res) => {
+          should.not.exist(err);
           res.redirects.length.should.equal(1);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
@@ -64,12 +65,13 @@ describe('routes : admin : chapters', function() {
         });
       });
     });
-    describe('POST /admin/chapters', function() {
-      it('should redirect to log in page', function(done) {
+    describe('POST /admin/chapters', () => {
+      it('should redirect to log in page', (done) => {
         chai.request(server)
         .post('/admin/chapters')
         .send(testHelpers.sampleChapter)
-        .end(function(err, res) {
+        .end((err, res) => {
+          should.not.exist(err);
           res.redirects.length.should.equal(1);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
@@ -78,12 +80,13 @@ describe('routes : admin : chapters', function() {
         });
       });
     });
-    describe('PUT /admin/chapters/1', function() {
-      it('should redirect to log in page', function(done) {
+    describe('PUT /admin/chapters/1', () => {
+      it('should redirect to log in page', (done) => {
         chai.request(server)
         .put('/admin/chapters/1')
         .send(testHelpers.updateChapter)
-        .end(function(err, res) {
+        .end((err, res) => {
+          should.not.exist(err);
           res.redirects.length.should.equal(1);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
@@ -92,11 +95,12 @@ describe('routes : admin : chapters', function() {
         });
       });
     });
-    describe('GET /admin/chapters/1/deactivate', function() {
-      it('should redirect to log in page', function(done) {
+    describe('GET /admin/chapters/1/deactivate', () => {
+      it('should redirect to log in page', (done) => {
         chai.request(server)
         .get('/admin/chapters/1/deactivate')
-        .end(function(err, res) {
+        .end((err, res) => {
+          should.not.exist(err);
           res.redirects.length.should.equal(1);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
@@ -107,21 +111,27 @@ describe('routes : admin : chapters', function() {
     });
   });
 
-  describe('if authenticated, active, and verified as a user',
-  function() {
-    beforeEach(function(done) {
-      testHelpers.authenticateAndVerifyActiveUser(done);
+  describe('if authenticated, active, verified',
+  () => {
+    beforeEach((done) => {
+      const permissions = {
+        verified: true,
+        admin: false,
+        active: true
+      };
+      testHelpers.authenticate(permissions, done);
     });
-    afterEach(function(done) {
+    afterEach((done) => {
       passportStub.logout();
       done();
     });
-    describe('GET /admin/chapters', function() {
-      it('should redirect to the dashboard', function(done) {
+    describe('GET /admin/chapters', () => {
+      it('should redirect to the dashboard', (done) => {
         chai.request(server)
         .get('/admin/chapters')
-        .end(function(err, res) {
-          res.redirects.length.should.equal(2);
+        .end((err, res) => {
+          should.not.exist(err);
+          res.redirects.length.should.equal(1);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
           res.text.should.contain('<h1>Dashboard</h1>');
@@ -132,12 +142,13 @@ describe('routes : admin : chapters', function() {
         });
       });
     });
-    describe('GET /admin/chapters/1', function() {
-      it('should redirect to the dashboard', function(done) {
+    describe('GET /admin/chapters/1', () => {
+      it('should redirect to the dashboard', (done) => {
         chai.request(server)
         .get('/admin/chapters/1')
-        .end(function(err, res) {
-          res.redirects.length.should.equal(2);
+        .end((err, res) => {
+          should.not.exist(err);
+          res.redirects.length.should.equal(1);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
           res.text.should.contain('<h1>Dashboard</h1>');
@@ -148,13 +159,14 @@ describe('routes : admin : chapters', function() {
         });
       });
     });
-    describe('POST /admin/chapters', function() {
-      it('should redirect to dashboard', function(done) {
+    describe('POST /admin/chapters', () => {
+      it('should redirect to dashboard', (done) => {
         chai.request(server)
         .post('/admin/chapters')
         .send(testHelpers.sampleChapter)
-        .end(function(err, res) {
-          res.redirects.length.should.equal(2);
+        .end((err, res) => {
+          should.not.exist(err);
+          res.redirects.length.should.equal(1);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
           res.text.should.contain('<h1>Dashboard</h1>');
@@ -165,13 +177,14 @@ describe('routes : admin : chapters', function() {
         });
       });
     });
-    describe('PUT /admin/chapters/1', function() {
-      it('should redirect to dashboard', function(done) {
+    describe('PUT /admin/chapters/1', () => {
+      it('should redirect to dashboard', (done) => {
         chai.request(server)
         .put('/admin/chapters/1')
         .send(testHelpers.updateChapter)
-        .end(function(err, res) {
-          res.redirects.length.should.equal(2);
+        .end((err, res) => {
+          should.not.exist(err);
+          res.redirects.length.should.equal(1);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
           res.text.should.contain('<h1>Dashboard</h1>');
@@ -182,12 +195,13 @@ describe('routes : admin : chapters', function() {
         });
       });
     });
-    describe('GET /admin/chapters/1/deactivate', function() {
-      it('should redirect to dashboard', function(done) {
+    describe('GET /admin/chapters/1/deactivate', () => {
+      it('should redirect to dashboard', (done) => {
         chai.request(server)
         .get('/admin/chapters/1/deactivate')
-        .end(function(err, res) {
-          res.redirects.length.should.equal(2);
+        .end((err, res) => {
+          should.not.exist(err);
+          res.redirects.length.should.equal(1);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
           res.text.should.contain('<h1>Dashboard</h1>');
@@ -200,20 +214,26 @@ describe('routes : admin : chapters', function() {
     });
   });
 
-  describe('if authenticated and verified but inactive', function() {
-    beforeEach(function(done) {
-      testHelpers.authenticateAndVerifyInactiveUser(done);
+  describe('if authenticated, !active, verified', () => {
+    beforeEach((done) => {
+      const permissions = {
+        verified: true,
+        admin: false,
+        active: false
+      };
+      testHelpers.authenticate(permissions, done);
     });
-    afterEach(function(done) {
+    afterEach((done) => {
       passportStub.logout();
       done();
     });
-    describe('GET /admin/chapters', function() {
-      it('should redirect to the inactive page', function(done) {
+    describe('GET /admin/chapters', () => {
+      it('should redirect to the inactive page', (done) => {
         chai.request(server)
         .get('/admin/chapters')
-        .end(function(err, res) {
-          res.redirects.length.should.equal(3);
+        .end((err, res) => {
+          should.not.exist(err);
+          res.redirects.length.should.equal(2);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
           res.text.should.contain('<h2>Your account is inactive.</h2>');
@@ -222,12 +242,13 @@ describe('routes : admin : chapters', function() {
         });
       });
     });
-    describe('GET /admin/chapters/1', function() {
-      it('should redirect to the inactive page', function(done) {
+    describe('GET /admin/chapters/1', () => {
+      it('should redirect to the inactive page', (done) => {
         chai.request(server)
         .get('/admin/chapters/1')
-        .end(function(err, res) {
-          res.redirects.length.should.equal(3);
+        .end((err, res) => {
+          should.not.exist(err);
+          res.redirects.length.should.equal(2);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
           res.text.should.contain('<h2>Your account is inactive.</h2>');
@@ -236,13 +257,14 @@ describe('routes : admin : chapters', function() {
         });
       });
     });
-    describe('POST /admin/chapters', function() {
-      it('should redirect to the inactive page', function(done) {
+    describe('POST /admin/chapters', () => {
+      it('should redirect to the inactive page', (done) => {
         chai.request(server)
         .post('/admin/chapters')
         .send(testHelpers.sampleChapter)
-        .end(function(err, res) {
-          res.redirects.length.should.equal(3);
+        .end((err, res) => {
+          should.not.exist(err);
+          res.redirects.length.should.equal(2);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
           res.text.should.contain('<h2>Your account is inactive.</h2>');
@@ -251,13 +273,14 @@ describe('routes : admin : chapters', function() {
         });
       });
     });
-    describe('PUT /admin/chapters/1', function() {
-      it('should redirect to the inactive page', function(done) {
+    describe('PUT /admin/chapters/1', () => {
+      it('should redirect to the inactive page', (done) => {
         chai.request(server)
         .put('/admin/chapters/1')
         .send(testHelpers.updateChapter)
-        .end(function(err, res) {
-          res.redirects.length.should.equal(3);
+        .end((err, res) => {
+          should.not.exist(err);
+          res.redirects.length.should.equal(2);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
           res.text.should.contain('<h2>Your account is inactive.</h2>');
@@ -266,12 +289,13 @@ describe('routes : admin : chapters', function() {
         });
       });
     });
-    describe('GET /admin/chapters/1/deactivate', function() {
-      it('should redirect to dashboard', function(done) {
+    describe('GET /admin/chapters/1/deactivate', () => {
+      it('should redirect to dashboard', (done) => {
         chai.request(server)
         .get('/admin/chapters/1/deactivate')
-        .end(function(err, res) {
-          res.redirects.length.should.equal(3);
+        .end((err, res) => {
+          should.not.exist(err);
+          res.redirects.length.should.equal(2);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
           res.text.should.contain('<h2>Your account is inactive.</h2>');
@@ -282,20 +306,26 @@ describe('routes : admin : chapters', function() {
     });
   });
 
-  describe('if authenticated and active but unverified', function() {
-    beforeEach(function(done) {
-      testHelpers.authenticateActiveUser(done);
+  describe('if authenticated, active, !verified', () => {
+    beforeEach((done) => {
+      const permissions = {
+        verified: false,
+        admin: false,
+        active: true
+      };
+      testHelpers.authenticate(permissions, done);
     });
-    afterEach(function(done) {
+    afterEach((done) => {
       passportStub.logout();
       done();
     });
-    describe('GET /admin/chapters', function() {
-      it('should redirect to the not verified page', function(done) {
+    describe('GET /admin/chapters', () => {
+      it('should redirect to the not verified page', (done) => {
         chai.request(server)
         .get('/admin/chapters')
-        .end(function(err, res) {
-          res.redirects.length.should.equal(3);
+        .end((err, res) => {
+          should.not.exist(err);
+          res.redirects.length.should.equal(2);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
           res.text.should.contain(
@@ -306,12 +336,13 @@ describe('routes : admin : chapters', function() {
         });
       });
     });
-    describe('GET /admin/chapters/1', function() {
-      it('should redirect to the not verified page', function(done) {
+    describe('GET /admin/chapters/1', () => {
+      it('should redirect to the not verified page', (done) => {
         chai.request(server)
         .get('/admin/chapters/1')
-        .end(function(err, res) {
-          res.redirects.length.should.equal(3);
+        .end((err, res) => {
+          should.not.exist(err);
+          res.redirects.length.should.equal(2);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
           res.text.should.contain(
@@ -322,13 +353,14 @@ describe('routes : admin : chapters', function() {
         });
       });
     });
-    describe('POST /admin/chapters', function() {
-      it('should redirect to the not verified page', function(done) {
+    describe('POST /admin/chapters', () => {
+      it('should redirect to the not verified page', (done) => {
         chai.request(server)
         .post('/admin/chapters')
         .send(testHelpers.sampleChapter)
-        .end(function(err, res) {
-          res.redirects.length.should.equal(3);
+        .end((err, res) => {
+          should.not.exist(err);
+          res.redirects.length.should.equal(2);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
           res.text.should.contain(
@@ -339,13 +371,14 @@ describe('routes : admin : chapters', function() {
         });
       });
     });
-    describe('PUT /admin/chapters/1', function() {
-      it('should redirect to the not verified page', function(done) {
+    describe('PUT /admin/chapters/1', () => {
+      it('should redirect to the not verified page', (done) => {
         chai.request(server)
         .put('/admin/chapters/1')
         .send(testHelpers.updateChapter)
-        .end(function(err, res) {
-          res.redirects.length.should.equal(3);
+        .end((err, res) => {
+          should.not.exist(err);
+          res.redirects.length.should.equal(2);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
           res.text.should.contain(
@@ -358,19 +391,25 @@ describe('routes : admin : chapters', function() {
     });
   });
 
-  describe('if authenticated as an admin', function() {
-    beforeEach(function(done) {
-      testHelpers.authenticateAdmin(done);
+  describe('if admin', () => {
+    beforeEach((done) => {
+      const permissions = {
+        verified: true,
+        admin: true,
+        active: true
+      };
+      testHelpers.authenticate(permissions, done);
     });
-    afterEach(function(done) {
+    afterEach((done) => {
       passportStub.logout();
       done();
     });
-    describe('GET /admin/chapters', function() {
-      it('should return a response', function(done) {
+    describe('GET /admin/chapters', () => {
+      it('should return a response', (done) => {
         chai.request(server)
         .get('/admin/chapters')
-        .end(function(err, res) {
+        .end((err, res) => {
+          should.not.exist(err);
           res.redirects.length.should.equal(0);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
@@ -380,13 +419,14 @@ describe('routes : admin : chapters', function() {
         });
       });
     });
-    describe('GET /admin/chapters/1', function() {
-      it('should return a response', function(done) {
+    describe('GET /admin/chapters/1', () => {
+      it('should return a response', (done) => {
         chapterQueries.getSingleChapter(1)
-        .then(function(chapter) {
+        .then((chapter) => {
           chai.request(server)
           .get('/admin/chapters/1')
-          .end(function(err, res) {
+          .end((err, res) => {
+            should.not.exist(err);
             res.redirects.length.should.equal(0);
             res.status.should.equal(200);
             res.type.should.equal('application/json');
@@ -398,11 +438,12 @@ describe('routes : admin : chapters', function() {
         });
       });
     });
-    describe('GET /admin/chapters/999', function() {
-      it('should throw an error if chapter does not exist', function(done) {
+    describe('GET /admin/chapters/999', () => {
+      it('should throw an error if chapter does not exist', (done) => {
         chai.request(server)
         .get('/admin/chapters/999')
-        .end(function(err, res) {
+        .end((err, res) => {
+          should.exist(err);
           res.redirects.length.should.equal(0);
           res.status.should.equal(500);
           res.type.should.equal('application/json');
@@ -411,12 +452,13 @@ describe('routes : admin : chapters', function() {
         });
       });
     });
-    describe('POST /admin/chapters', function() {
-      it('should return a 200 response', function(done) {
+    describe('POST /admin/chapters', () => {
+      it('should return a 200 response', (done) => {
         chai.request(server)
         .post('/admin/chapters')
         .send(testHelpers.sampleChapter)
-        .end(function(err, res) {
+        .end((err, res) => {
+          should.not.exist(err);
           res.redirects.length.should.equal(1);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
@@ -425,13 +467,14 @@ describe('routes : admin : chapters', function() {
         });
       });
     });
-    describe('POST /admin/chapters', function() {
+    describe('POST /admin/chapters', () => {
       it('should throw an error when duplicate data is used',
-      function(done) {
+      (done) => {
         chai.request(server)
         .post('/admin/chapters')
         .send(testHelpers.duplicateChapter)
-        .end(function(err, res) {
+        .end((err, res) => {
+          should.exist(err);
           res.redirects.length.should.equal(0);
           res.status.should.equal(500);
           res.type.should.equal('text/html');
@@ -440,12 +483,13 @@ describe('routes : admin : chapters', function() {
         });
       });
     });
-    describe('PUT /admin/chapters/1', function() {
-      it('should return a 200 response', function(done) {
+    describe('PUT /admin/chapters/1', () => {
+      it('should return a 200 response', (done) => {
         chai.request(server)
         .put('/admin/chapters/1')
         .send(testHelpers.updateChapter)
-        .end(function(err, res) {
+        .end((err, res) => {
+          should.not.exist(err);
           res.redirects.length.should.equal(0);
           res.status.should.equal(200);
           res.type.should.equal('application/json');
@@ -455,13 +499,14 @@ describe('routes : admin : chapters', function() {
         });
       });
     });
-    describe('PUT /admin/chapters/999', function() {
+    describe('PUT /admin/chapters/999', () => {
       it('should throw an error if the chapter id does not exist',
-        function(done) {
+        (done) => {
         chai.request(server)
         .put('/admin/chapters/999')
         .send(testHelpers.updateChapter)
-        .end(function(err, res) {
+        .end((err, res) => {
+          should.exist(err);
           res.redirects.length.should.equal(0);
           res.status.should.equal(500);
           res.type.should.equal('application/json');
@@ -470,11 +515,12 @@ describe('routes : admin : chapters', function() {
         });
       });
     });
-    describe('GET /admin/chapters/1/deactivate', function() {
-      it('should return a 200 response', function(done) {
+    describe('GET /admin/chapters/1/deactivate', () => {
+      it('should return a 200 response', (done) => {
         chai.request(server)
         .get('/admin/chapters/1/deactivate')
-        .end(function(err, res) {
+        .end((err, res) => {
+          should.not.exist(err);
           res.redirects.length.should.equal(1);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
@@ -483,12 +529,13 @@ describe('routes : admin : chapters', function() {
         });
       });
     });
-    describe('GET /admin/chapters/999/deactivate', function() {
+    describe('GET /admin/chapters/999/deactivate', () => {
       it('should redirect to dashboard if the user id does not exist',
-        function(done) {
+        (done) => {
         chai.request(server)
         .get('/admin/chapters/999/deactivate')
-        .end(function(err, res) {
+        .end((err, res) => {
+          should.not.exist(err);
           res.redirects.length.should.equal(1);
           res.status.should.equal(200);
           res.type.should.equal('text/html');

@@ -1,25 +1,34 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
-var authHelpers = require('../../auth/helpers');
-var lessonQueries = require('../../db/queries.lessons');
-var chapterQueries = require('../../db/queries.chapters');
-var userQueries = require('../../db/queries.users');
-var lessonAndUserQueries = require('../../db/queries.users_lessons');
-var routeHelpers = require('../_helpers');
+const authHelpers = require('../../auth/helpers');
+const lessonQueries = require('../../db/queries.lessons');
+const chapterQueries = require('../../db/queries.chapters');
+const userQueries = require('../../db/queries.users');
+const lessonsUsersQueries = require('../../db/queries.users_lessons');
+const routeHelpers = require('../_helpers');
 
 // *** get all lessons *** //
-router.get('/', authHelpers.ensureAdmin,
-function(req, res, next) {
-  // get breadcrumbs
-  var breadcrumbs = ['Admin', 'Lessons'];
-  // get all lessons
-  return lessonQueries.getAllLessons()
-  .then(function(lessons) {
-    // get all chapters
-    return chapterQueries.getChapters()
-    .then(function(chapters) {
-      var renderObject = {
+router.get(
+  '/',
+  authHelpers.ensureAdmin,
+  getAllLessons
+);
+
+// *** add new lesson *** //
+router.post(
+  '/',
+  authHelpers.ensureAdmin,
+  addNewLesson
+);
+
+function getAllLessons(req, res, next) {
+  const breadcrumbs = ['Admin', 'Lessons'];
+  lessonQueries.getAllLessons((err, lessons) => {
+    if (err) next(err);
+    chapterQueries.getChapters((err, chapters) => {
+      if (err) next(err);
+      const renderObject = {
         title: 'Textbook LMS - admin',
         pageTitle: 'Lessons',
         user: req.user,
@@ -30,100 +39,56 @@ function(req, res, next) {
       };
       return res.render('admin/lessons', renderObject);
     });
-  })
-  .catch(function(err) {
-    return next(err);
   });
-});
+}
 
-// *** get single lesson *** //
-router.get('/:id', authHelpers.ensureAdmin,
-function(req, res, next) {
-  var lessonID = parseInt(req.params.id);
-  return lessonQueries.getSingleLesson(lessonID)
-  .then(function(lesson) {
-    if (lesson.length) {
-      return res.status(200).json({
-        status: 'success',
-        data: lesson[0]
-      });
-    } else {
-      return res.status(500).json({
-        message: 'Something went wrong.'
-      });
-    }
-  })
-  .catch(function(err) {
-    return res.status(500).json({
-      message: 'Something went wrong.'
-    });
-  });
-});
-
-// *** add new lesson *** //
-router.post('/', authHelpers.ensureAdmin,
-function(req, res, next) {
+function addNewLesson(req, res, next) {
   // TODO: Add server side validation
-  var payload = req.body;
-  var chapterID = parseInt(payload.chapter);
-  var lesson = {
+  const payload = req.body;
+  const chapterID = parseInt(payload.chapter);
+  const lesson = {
     name: payload.name,
     content: payload.content,
     chapter_id: chapterID,
     active: false
   };
-  // get lesson order numbers
-  return lessonQueries.getLessonOrderNumbers()
-  .then(function(lessonOrders) {
-    var lessonOrderNum = routeHelpers.getNextLessonOrderNum(lessonOrders);
-    lesson.lesson_order_number = parseInt(lessonOrderNum);
-    // get lessons from associated chapter
-    return lessonQueries.getLessonChapterOrderNumsFromChapterID(chapterID)
-    .then(function(lessons) {
-      var chapterOrderNum = routeHelpers.getNextChapterOrderNum(lessons);
-      lesson.chapter_order_number = parseInt(chapterOrderNum);
-      return lessonQueries.addLesson(lesson)
-      .then(function(response) {
-        if (response.length) {
-          var lessonID = parseInt(response[0].id);
-          // update users_lessons
-          // 1 - get all users
-          return userQueries.getUsers()
-          .then(function(users) {
-            // 2 - update users_lessons
-            users.forEach(function(user) {
-              return lessonAndUserQueries.addRow({
-                user_id: user.id,
-                lesson_id: lessonID
-              })
-              .then(function(results) {
-                // console.log(results);
-              });
+  routeHelpers.addNewLesson(lesson, (err, addedLesson) => {
+    if (err) {
+      return next(err);
+    } else if(addedLesson) {
+      if (addedLesson.length) {
+        const addedLessonID = parseInt(addedLesson[0].id);
+        userQueries.getUsers((err, users) => {
+          if (err) return next(err);
+          users.forEach((user) => {
+            const newLessonObject = {
+              user_id: user.id,
+              lesson_id: addedLessonID
+            };
+            lessonsUsersQueries.addRow(newLessonObject, (err, results) => {
+              if (err) return next(err);
             });
-            req.flash('messages', {
-              status: 'success',
-              value: 'Lesson added.'
-            });
-            return res.redirect('/admin/lessons');
           });
-        }
-        return res.redirect('/admin/lessons');
-      });
-    });
-  })
-  .catch(function(err) {
-    // TODO: be more specific with the errors
-    return next(err);
+          req.flash('messages', {
+            status: 'success',
+            value: 'Lesson added.'
+          });
+          return res.redirect('/admin/lessons');
+        });
+      } else {
+        return next('Something went wrong!');
+      }
+    }
   });
-});
+}
 
 // *** update lesson *** //
 router.put('/:id', authHelpers.ensureAdmin,
 function(req, res, next) {
   // TODO: Add server side validation
-  var lessonID = parseInt(req.params.id);
-  var payload = req.body;
-  var lessonObject = {
+  const lessonID = parseInt(req.params.id);
+  const payload = req.body;
+  const lessonObject = {
     lesson_order_number: payload.lessonOrderNumber,
     chapter_order_number: payload.chapterOrderNumber,
     name: payload.lessonName,
@@ -155,7 +120,7 @@ function(req, res, next) {
 router.get('/:lessonID/deactivate', authHelpers.ensureAdmin,
 function(req, res, next) {
   // TODO: Add server side validation
-  var lessonID = parseInt(req.params.lessonID);
+  const lessonID = parseInt(req.params.lessonID);
   return lessonQueries.deactivateLesson(lessonID)
   .then(function(lesson) {
     if (lesson.length) {
@@ -177,5 +142,35 @@ function(req, res, next) {
     return next(err);
   });
 });
+
+// *** get single lesson *** //
+router.get(
+  '/:id',
+  authHelpers.ensureAdmin,
+  getSingleLesson
+);
+function getSingleLesson(req, res, next) {
+  const lessonID = parseInt(req.params.id);
+  lessonQueries.getSingleLesson(lessonID, (err, lesson) => {
+    if (err) {
+      return next(err);
+    } else if(lesson) {
+      if (lesson.length) {
+        return res.status(200).json({
+          status: 'success',
+          data: lesson[0]
+        });
+      } else {
+        return res.status(500).json({
+          message: 'Something went wrong.'
+        });
+      }
+    } else {
+      return res.status(404).json({
+        message: 'That lesson does not exist.'
+      });
+    }
+  });
+}
 
 module.exports = router;

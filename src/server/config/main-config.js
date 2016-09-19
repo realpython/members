@@ -18,10 +18,12 @@
 
   appConfig.init = function (app, express) {
 
-    var logger = require('../utils/logger.js');
+    if (process.env.NODE_ENV !== 'test') {
+      app.use(morgan('dev'));
+    }
 
     // *** view engine *** //
-    logger.debug('Setting \'Swig\' as view engine');
+    // logger.debug('Setting \'Swig\' as view engine');
     // var swig = new swig.Swig();
     swigExtras.useFilter(swig, 'truncate');
     swigExtras.useFilter(swig, 'markdown');
@@ -30,11 +32,11 @@
     app.set('views', path.join(__dirname, '..', 'views'));
 
     // *** config middleware *** //
-    logger.debug('Setting configuration middleware');
-    logger.debug('Overriding \'Express\' logger');
-    app.use(morgan('combined', {
-      stream: logger.stream
-    }));
+    // logger.debug('Setting configuration middleware');
+    // logger.debug('Overriding \'Express\' logger');
+    // app.use(morgan('combined', {
+    //   stream: logger.stream
+    // }));
     app.use(cookieParser());
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: false }));

@@ -1,4 +1,16 @@
-var knex = require('./knex');
+const knex = require('./knex');
+
+function addCode(obj, callback) {
+  return knex('codes')
+  .insert(obj)
+  .returning('*')
+  .then((code) => {
+    callback(null, code);
+  })
+  .catch((err) => {
+    callback(err);
+  });
+}
 
 function getUnunsedCodes() {
   return knex('codes')
@@ -12,12 +24,6 @@ function getCodeFromVerifyCode(verifyCode) {
   .select('*');
 }
 
-function addCode(obj) {
-  return knex('codes')
-  .insert(obj)
-  .returning('*');
-}
-
 function updateCodeFromVerifyCode(verifyCode) {
   return knex('codes')
   .update({
@@ -28,8 +34,8 @@ function updateCodeFromVerifyCode(verifyCode) {
 }
 
 module.exports = {
+  addCode,
   getUnunsedCodes: getUnunsedCodes,
   getCodeFromVerifyCode: getCodeFromVerifyCode,
-  addCode: addCode,
   updateCodeFromVerifyCode: updateCodeFromVerifyCode
 };

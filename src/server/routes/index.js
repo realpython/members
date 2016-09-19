@@ -1,62 +1,53 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
-var authHelpers = require('../auth/helpers');
-var userQueries = require('../db/queries.users');
-var routeHelpers = require('./_helpers');
+const authHelpers = require('../auth/helpers');
+const userQueries = require('../db/queries.users');
+const routeHelpers = require('./_helpers');
 
 // *** sanity check *** //
-router.get('/ping', function(req, res, next) {
-  res.send('pong!');
-});
+router.get(
+  '/ping',
+  getPing
+);
 
 // *** dashboard *** //
-router.get('/',
+router.get(
+  '/',
   authHelpers.ensureAuthenticated,
   authHelpers.ensureVerified,
   authHelpers.ensureActive,
-  function(req, res, next) {
-  var userID = parseInt(req.user.id);
-  // get all side bar data
-  routeHelpers.getSideBarData(userID)
-  .then(function(data) {
-    var sortedChapters = data.sortedChapters;
-    var completed = data.completed;
-    var totalActiveLessons = data.totalActiveLessons;
-    // get completed percentage
-    var percentage = ((completed.length / totalActiveLessons.length) *
-      100).toFixed(0);
-    // get feed data
-    return userQueries.getMessageFeedData()
-    .then(function(messageFeedData) {
-      // get total users
-      return userQueries.getTotalUsers()
-      .then(function(totalUsers) {
-        var renderObject = {
-          title: 'Textbook LMS - dashboard',
-          pageTitle: 'Dashboard',
-          user: req.user,
-          sortedChapters: sortedChapters,
-          completed: percentage,
-          completeNum: completed.length,
-          completedArray: completed,
-          feed: messageFeedData,
-          totalLessons: totalActiveLessons.length,
-          totalUsers: totalUsers[0].count,
-          messages: req.flash('messages')
-        };
-        if (req.user.admin) {
-          if (parseInt(process.env.CAN_VERIFY) === 1) {
-            renderObject.verify = true;
-          }
-        }
-        return res.render('dashboard', renderObject);
-      });
-    });
-  })
-  .catch(function(err) {
-    return next(err);
+  getDashboard
+);
+
+function getPing(req, res, next) {
+  res.send('pong!');
+}
+
+function getDashboard(req, res, next) {
+  const userID = parseInt(req.user.id);
+  routeHelpers.getSideBarData(userID, (err, data) => {
+    if (err) return next(err);
+    const renderObject = {
+      title: 'Textbook LMS - dashboard',
+      pageTitle: 'Dashboard',
+      user: req.user,
+      sortedChapters: data.sortedChapters,
+      completed: data.percentage,
+      completeNum: (data.completed).length,
+      completedArray: data.completed,
+      feed: data.messageFeedData,
+      totalLessons: (data.totalActiveLessons).length,
+      totalUsers: (data.totalUsers[0]).count,
+      messages: req.flash('messages')
+    };
+    if (req.user.admin) {
+      if (parseInt(process.env.CAN_VERIFY) === 1) {
+        renderObject.verify = true;
+      }
+    }
+    return res.render('index', renderObject);
   });
-});
+}
 
 module.exports = router;

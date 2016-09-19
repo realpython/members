@@ -1,5 +1,4 @@
 module.exports = {
-
   development: {
     client: 'postgresql',
     connection: 'postgres://localhost:5432/members',
@@ -40,5 +39,4 @@ module.exports = {
       directory: __dirname + '/build/server/db/seeds'
     }
   }
-
 };

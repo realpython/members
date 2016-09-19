@@ -1,16 +1,28 @@
-var knex = require('./knex');
+const knex = require('./knex');
 
-function getAllLessons() {
-  return knex('lessons')
-  .select('*')
-  .orderBy('lesson_order_number');
-}
-
-function getActiveLessons() {
+function getAllLessons(callback) {
   return knex('lessons')
   .select('*')
   .orderBy('lesson_order_number')
-  .where('active', true);
+  .then((lessons) => {
+    callback(null, lessons);
+  })
+  .catch((err) => {
+    callback(err);
+  });
+}
+
+function getActiveLessons(callback) {
+  return knex('lessons')
+  .select('*')
+  .orderBy('lesson_order_number')
+  .where('active', true)
+  .then((lessons) => {
+    callback(null, lessons);
+  })
+  .catch((err) => {
+    callback(err);
+  });
 }
 
 function getInactiveLessons() {
@@ -20,11 +32,17 @@ function getInactiveLessons() {
   .where('active', false);
 }
 
-function getLessonOrderNumbers() {
+function getActiveLessonOrderNumbers(callback) {
   return knex('lessons')
   .select('lesson_order_number')
   .orderBy('lesson_order_number')
-  .where('active', true);
+  .where('active', true)
+  .then((lessons) => {
+    callback(null, lessons);
+  })
+  .catch((err) => {
+    callback(err);
+  });
 }
 
 function getLessonsFromChapterID(chapterID) {
@@ -35,17 +53,29 @@ function getLessonsFromChapterID(chapterID) {
   .where('active', true);
 }
 
-function getLessonChapterOrderNumsFromChapterID(chapterID) {
+function getLessonChapterOrderNumsFromChapterID(chapterID, callback) {
   return knex('lessons')
   .select('chapter_order_number')
   .orderBy('chapter_order_number')
-  .where('chapter_id', parseInt(chapterID));
+  .where('chapter_id', parseInt(chapterID))
+  .then((lessons) => {
+    callback(null, lessons);
+  })
+  .catch((err) => {
+    callback(err);
+  });
 }
 
-function getSingleLesson(lessonID) {
+function getSingleLesson(lessonID, callback) {
   return knex('lessons')
-    .select('*')
-    .where('id', parseInt(lessonID));
+  .select('*')
+  .where('id', parseInt(lessonID))
+  .then((lesson) => {
+    callback(null, lesson);
+  })
+  .catch((err) => {
+    callback(err);
+  });
 }
 
 function getSingleLessonFromLessonID(lessonID) {
@@ -54,16 +84,28 @@ function getSingleLessonFromLessonID(lessonID) {
     .where('id', parseInt(lessonID));
 }
 
-function getSingleLessonFromOrder(lessonOrderNum) {
+function getSingleLessonFromOrder(lessonOrderNum, callback) {
   return knex('lessons')
-    .select('*')
-    .where('lesson_order_number', parseInt(lessonOrderNum));
+  .select('*')
+  .where('lesson_order_number', parseInt(lessonOrderNum))
+  .then((lesson) => {
+    callback(null, lesson);
+  })
+  .catch((err) => {
+    callback(err);
+  });
 }
 
-function addLesson(obj) {
+function addLesson(obj, callback) {
   return knex('lessons')
-    .insert(obj)
-    .returning('*');
+  .insert(obj)
+  .returning('*')
+  .then((lesson) => {
+    callback(null, lesson);
+  })
+  .catch((err) => {
+    callback(err);
+  });
 }
 
 function updateLesson(lessonID, obj) {
@@ -92,16 +134,16 @@ function deactivateLessonsFromChapterID(chapterID) {
 }
 
 module.exports = {
-  getAllLessons: getAllLessons,
-  getActiveLessons: getActiveLessons,
+  getAllLessons,
+  getActiveLessons,
   getInactiveLessons: getInactiveLessons,
-  getLessonOrderNumbers: getLessonOrderNumbers,
+  getActiveLessonOrderNumbers,
   getLessonsFromChapterID: getLessonsFromChapterID,
-  getLessonChapterOrderNumsFromChapterID: getLessonChapterOrderNumsFromChapterID,
-  getSingleLesson: getSingleLesson,
+  getLessonChapterOrderNumsFromChapterID,
+  getSingleLesson,
   getSingleLessonFromLessonID: getSingleLessonFromLessonID,
-  getSingleLessonFromOrder: getSingleLessonFromOrder,
-  addLesson: addLesson,
+  getSingleLessonFromOrder,
+  addLesson,
   updateLesson: updateLesson,
   deactivateLesson: deactivateLesson,
   deactivateLessonsFromChapterID: deactivateLessonsFromChapterID

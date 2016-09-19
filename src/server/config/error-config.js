@@ -2,7 +2,7 @@
 
   errorConfig.init = function (app) {
 
-    var logger = require('../utils/logger.js');
+    // var logger = require('../utils/logger.js');
 
     // *** error handling *** //
     app.use(function(req, res, next) {
@@ -13,7 +13,7 @@
     });
 
     app.use(function(err, req, res, next) {
-      logger.log('error', err.customMessage, err);
+      // console.log('error', err.customMessage, err);
       res.status(err.status || 500);
       res.render('error', {
         message: err.customMessage || 'Something went wrong!',

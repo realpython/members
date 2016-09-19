@@ -1,9 +1,15 @@
-var knex = require('./knex');
+const knex = require('./knex');
 
-function getChapters() {
+function getChapters(callback) {
   return knex('chapters')
   .select('*')
-  .orderBy('order_number');
+  .orderBy('order_number')
+  .then((chapters) => {
+    callback(null, chapters);
+  })
+  .catch((err) => {
+    callback(err);
+  });
 }
 
 function getSingleChapter(chapterID) {
@@ -12,17 +18,38 @@ function getSingleChapter(chapterID) {
     .where('id', parseInt(chapterID));
 }
 
-function getSingleChapterFromOrder(orderNum) {
+function getSingleChapterFromOrder(orderNum, callback) {
   return knex('chapters')
-    .select('*')
-    .where('order_number', parseInt(orderNum));
+  .select('*')
+  .where('order_number', parseInt(orderNum))
+  .then((chapter) => {
+    callback(null, chapter);
+  })
+  .catch((err) => {
+    callback(err);
+  });
 }
 
-function chaptersAndLessons() {
-  return knex.select('lessons.id as lessonID', 'lessons.lesson_order_number as lessonLessonOrder', 'lessons.chapter_order_number as lessonChapterOrder', 'lessons.name as lessonName', 'lessons.content as lessonContent', 'lessons.active as lessonActive', 'chapters.id as chapterID', 'chapters.order_number as chapterOrder', 'chapters.name as chapterName')
-    .from('chapters')
-    .join('lessons', 'lessons.chapter_id', 'chapters.id')
-    .where('lessons.active', true);
+function chaptersAndLessons(callback) {
+  return knex.select(
+    'lessons.id as lessonID',
+    'lessons.lesson_order_number as lessonLessonOrder', 'lessons.chapter_order_number as lessonChapterOrder',
+    'lessons.name as lessonName',
+    'lessons.content as lessonContent',
+    'lessons.active as lessonActive',
+    'chapters.id as chapterID',
+    'chapters.order_number as chapterOrder',
+    'chapters.name as chapterName'
+  )
+  .from('chapters')
+  .join('lessons', 'lessons.chapter_id', 'chapters.id')
+  .where('lessons.active', true)
+  .then((data) => {
+    callback(null, data);
+  })
+  .catch((err) => {
+    callback(err);
+  });
 }
 
 function addChapter(obj) {
@@ -48,10 +75,10 @@ function updateChapter(chapterID, obj) {
 }
 
 module.exports = {
-  getChapters: getChapters,
+  getChapters,
   getSingleChapter: getSingleChapter,
-  getSingleChapterFromOrder: getSingleChapterFromOrder,
-  chaptersAndLessons: chaptersAndLessons,
+  getSingleChapterFromOrder,
+  chaptersAndLessons,
   addChapter: addChapter,
   deactivateChapter: deactivateChapter,
   updateChapter: updateChapter

@@ -1,38 +1,37 @@
 process.env.NODE_ENV = 'test';
 
-var chai = require('chai');
+const chai = require('chai');
 
-var knex = require('../../server/db/knex');
-var chapterQueries = require('../../server/db/queries.chapters');
+const knex = require('../../server/db/knex');
+const chapterQueries = require('../../server/db/queries.chapters');
 
-var should = chai.should();
+const should = chai.should();
 
-describe('db : queries : chapters', function() {
+describe('db : queries : chapters', () => {
 
-  beforeEach(function(done) {
-    knex.migrate.rollback()
-    .then(function() {
-      knex.migrate.latest()
-      .then(function() {
-        return knex.seed.run()
-        .then(function() {
-          done();
-        });
-      });
-    });
-  });
-
-  afterEach(function(done) {
-    knex.migrate.rollback()
-    .then(function() {
+  beforeEach((done) => {
+    return knex.migrate.rollback()
+    .then(() => {
+      return knex.migrate.latest();
+    })
+    .then(() => {
+      return knex.seed.run();
+    })
+    .then(() => {
       done();
     });
   });
 
-  describe('getChapters()', function() {
-    it('should format data correctly', function(done) {
-      chapterQueries.getChapters()
-      .then(function(results) {
+  afterEach((done) => {
+    return knex.migrate.rollback()
+    .then(() => {
+      done();
+    });
+  });
+
+  describe('getChapters()', () => {
+    it('should format data correctly', (done) => {
+      chapterQueries.getChapters((err, results) => {
         results.length.should.equal(4);
         results[0].should.include.keys('id', 'order_number', 'name', 'created_at', 'active');
         results[1].should.include.keys('id', 'order_number', 'name', 'created_at', 'active');
@@ -42,10 +41,10 @@ describe('db : queries : chapters', function() {
       done();
     });
   });
-  describe('getSingleChapter(1)', function() {
-    it('should format data correctly', function(done) {
+  describe('getSingleChapter()', () => {
+    it('should format data correctly', (done) => {
       chapterQueries.getSingleChapter(1)
-      .then(function(results) {
+      .then((results) => {
         results.length.should.equal(1);
         results[0].should.include.keys('id', 'order_number', 'name',  'created_at');
       });

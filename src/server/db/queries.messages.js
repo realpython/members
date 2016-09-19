@@ -1,17 +1,29 @@
-var knex = require('./knex');
+const knex = require('./knex');
 
-function getActiveMessages() {
+function getActiveMessages(callback) {
   return knex('messages')
   .select('*')
   .where('active', true)
-  .orderBy('updated_at', 'desc');
+  .orderBy('updated_at', 'desc')
+  .then((messages) => {
+    callback(null, messages);
+  })
+  .catch((err) => {
+    callback(err);
+  });
 }
 
-function getInactiveMessages() {
+function getInactiveMessages(callback) {
   return knex('messages')
   .select('*')
   .where('active', false)
-  .orderBy('updated_at', 'desc');
+  .orderBy('updated_at', 'desc')
+  .then((messages) => {
+    callback(null, messages);
+  })
+  .catch((err) => {
+    callback(err);
+  });
 }
 
 function getAllMessages() {
@@ -50,14 +62,31 @@ function addMessage(obj) {
     .returning('*');
 }
 
-function messagesAndUsers(lessonID) {
+function messagesAndUsers(lessonID, callback) {
   return knex
-    .select('messages.id as messageID', 'messages.content as messageContent', 'messages.parent_id as messageParentID', 'messages.lesson_id as messageLessonID', 'messages.created_at as messageCreatedAt', 'messages.updated_at as messageUpdatedAt', 'users.id as userID', 'users.github_display_name as userGithubDisplayName', 'users.github_avatar as userGithubAvatar', 'users.created_at as userCreatedAt', 'users.admin as userAdmin')
-    .from('messages')
-    .join('users', 'users.id', 'messages.user_id')
-    .orderBy('messages.updated_at', 'desc')
-    .where('messages.lesson_id', parseInt(lessonID))
-    .where('messages.active', true);
+  .select(
+    'messages.id as messageID',
+    'messages.content as messageContent',
+    'messages.parent_id as messageParentID',
+    'messages.lesson_id as messageLessonID',
+    'messages.created_at as messageCreatedAt',
+    'messages.updated_at as messageUpdatedAt',
+    'users.id as userID',
+    'users.github_display_name as userGithubDisplayName', 'users.github_avatar as userGithubAvatar',
+    'users.created_at as userCreatedAt',
+    'users.admin as userAdmin'
+  )
+  .from('messages')
+  .join('users', 'users.id', 'messages.user_id')
+  .orderBy('messages.updated_at', 'desc')
+  .where('messages.lesson_id', parseInt(lessonID))
+  .where('messages.active', true)
+  .then((results) => {
+    callback(null, results);
+  })
+  .catch((err) => {
+    callback(err);
+  });
 }
 
 function deleteChildMessagesFromParent(messageID) {
@@ -101,14 +130,14 @@ function deactivateChildMessagesFromParent(messageID) {
 }
 
 module.exports = {
-  getActiveMessages: getActiveMessages,
-  getInactiveMessages: getInactiveMessages,
+  getActiveMessages,
+  getInactiveMessages,
   getAllMessages: getAllMessages,
   getActiveParentMessages: getActiveParentMessages,
   getActiveChildMessages: getActiveChildMessages,
   getMessagesFromLessonID: getMessagesFromLessonID,
   addMessage: addMessage,
-  messagesAndUsers: messagesAndUsers,
+  messagesAndUsers,
   deleteChildMessagesFromParent: deleteChildMessagesFromParent,
   deleteMessage: deleteMessage,
   updateMessageUpdatedAt: updateMessageUpdatedAt,

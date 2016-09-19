@@ -1,138 +1,70 @@
-var passportStub = require('passport-stub');
+const passportStub = require('passport-stub');
 
-var knex = require('../server/db/knex');
-var userQueries = require('../server/db/queries.users');
-var codeQueries = require('../server/db/queries.codes');
-var Promise = require('es6-promise').Promise;
+const knex = require('../server/db/knex');
+const userQueries = require('../server/db/queries.users');
+const lessonsQueries = require('../server/db/queries.lessons');
+const codeQueries = require('../server/db/queries.codes');
+const usersLessonsQueries = require('../server/db/queries.users_lessons');
 
-function authenticateActiveUser(done) {
-  userQueries.addUser({
-    github_username: 'michael',
-    github_id: 123456,
-    github_display_name: 'Michael Herman',
-    github_access_token: '123456',
-    github_avatar: 'https://avatars.io/static/default_128.jpg',
-    email: 'michael@realpython.com',
-    verified: false,
-    admin: false,
-    active: true
-  }).returning('id')
-  .then(function(singleUser) {
-    var userID = parseInt(singleUser[0]);
-    return Promise.all([
-      knex('lessons').select('*')
-    ])
-    .then(function(lessons) {
-      Promise.all(
-      lessons[0].map(function(lesson) {
-        return new Promise(function(resolve, reject) {
-          return knex('users_lessons')
-          .insert({
-            user_id: userID,
-            lesson_id: lesson.id,
-            lesson_read: false
-          }).returning('*')
-          .then(function(results) {
-            resolve();
-          });
-        });
-      }))
-      .then(function() {
-        return userQueries.getSingleUser(userID)
-        .then(function(user) {
-          passportStub.login(user[0]);
-          done();
-        });
-      });
-    });
-  });
-}
+// TODO: Make authenticate dynamic based on permissions
 
-function authenticateActiveUserDuplicate(done) {
-  userQueries.addUser({
-    github_username: 'jeremy',
-    github_id: 987654321,
-    github_display_name: 'Jeremy Johnson',
-    github_access_token: '987654321',
-    github_avatar: 'https://avatars.io/static/default_128.jpg',
-    email: 'jeremy@realpython.com',
-    verified: false,
-    admin: false,
-    active: true
-  }).returning('id')
-  .then(function(singleUser) {
-    var userID = parseInt(singleUser[0]);
-    return Promise.all([
-      knex('lessons').select('*')
-    ])
-    .then(function(lessons) {
-      Promise.all(
-      lessons[0].map(function(lesson) {
-        return new Promise(function(resolve, reject) {
-          return knex('users_lessons')
-          .insert({
-            user_id: userID,
-            lesson_id: lesson.id,
-            lesson_read: false
-          }).returning('*')
-          .then(function(results) {
-            resolve();
-          });
-        });
-      }))
-      .then(function() {
-        done();
-      });
-    });
-  });
-}
-
-function authenticateAndVerifyActiveUser(done) {
-  userQueries.addUser({
+function authenticate(statusObject, done) {
+  const userObject = {
     github_username: 'fletcher',
     github_id: 99887766,
     github_display_name: 'Fletcher Heisler',
     github_access_token: '99887766',
     github_avatar: 'https://avatars.io/static/default_128.jpg',
     email: 'fletcher@realpython.com',
-    verified: true,
-    admin: false,
-    active: true,
+    verified: statusObject.verified,
+    admin: statusObject.admin,
+    active: statusObject.active,
     verify_code: '21049144460970398511'
-  }).returning('id')
-  .then(function(singleUser) {
-    var userID = parseInt(singleUser[0]);
-    return Promise.all([
-      knex('lessons').select('*')
-    ])
-    .then(function(lessons) {
-      Promise.all(
-      lessons[0].map(function(lesson) {
-        return new Promise(function(resolve, reject) {
-          return knex('users_lessons')
-          .insert({
-            user_id: userID,
-            lesson_id: lesson.id,
-            lesson_read: false
-          }).returning('*')
-          .then(function(results) {
-            resolve();
-          });
-        });
-      }))
-      .then(function() {
-        var codeObject = {
-          verify_code: '21049144460970398511'
+  };
+  userQueries.addUser(userObject, (err, user) => {
+    lessonsQueries.getAllLessons((err, lessons) => {
+      lessons.map((lesson) => {
+        const obj = {
+          user_id: parseInt(user[0].id),
+          lesson_id: parseInt(lesson.id),
+          lesson_read: false
         };
-        codeQueries.addCode(codeObject)
-        .then(function(test) {
-          userQueries.getSingleUser(userID)
-          .then(function(user) {
-            passportStub.login(user[0]);
-            done();
-          });
-        });
+        usersLessonsQueries.addRow(obj, (err, res) => {});
       });
+      const codeObject = {
+        verify_code: '21049144460970398511'
+      };
+      codeQueries.addCode(codeObject, (err, res) => {
+        passportStub.login(user[0]);
+        done();
+      });
+    });
+  });
+}
+
+function authenticateDuplicate(statusObject, done) {
+  const userObject = {
+    github_username: 'jeremy',
+    github_id: 20191817,
+    github_display_name: 'Jeremy Johnson',
+    github_access_token: '20191817',
+    github_avatar: 'https://avatars.io/static/default_128.jpg',
+    email: 'jeremy@realpython.com',
+    verified: statusObject.verified,
+    admin: statusObject.admin,
+    active: statusObject.active
+  };
+  userQueries.addUser(userObject, (err, user) => {
+    lessonsQueries.getAllLessons((err, lessons) => {
+      lessons.map((lesson) => {
+        const obj = {
+          user_id: parseInt(user[0].id),
+          lesson_id: parseInt(lesson.id),
+          lesson_read: false
+        };
+        usersLessonsQueries.addRow(obj, (err, res) => {});
+      });
+      done();
     });
   });
 }
@@ -181,92 +113,6 @@ function authenticateAndVerifyActiveAdminUser(done) {
             passportStub.login(user[0]);
             done();
           });
-        });
-      });
-    });
-  });
-}
-
-function authenticateAndVerifyInactiveUser(done) {
-  userQueries.addUser({
-    github_username: 'michael',
-    github_id: 123456,
-    github_display_name: 'Michael Herman',
-    github_access_token: '123456',
-    github_avatar: 'https://avatars.io/static/default_128.jpg',
-    email: 'michael@realpython.com',
-    verified: true,
-    admin: false,
-    active: false,
-    verify_code: '21049144460970398511'
-  }).returning('id')
-  .then(function(singleUser) {
-    var userID = parseInt(singleUser[0]);
-    return Promise.all([
-      knex('lessons').select('*')
-    ])
-    .then(function(lessons) {
-      // update users_lessons
-      lessons[0].forEach(function(lesson) {
-        knex('users_lessons')
-        .insert({
-          user_id: userID,
-          lesson_id: lesson.id,
-          lesson_read: false
-        }).returning('*')
-        .then(function(results) {});
-      });
-      var codeObject = {
-        verify_code: '21049144460970398511'
-      };
-      codeQueries.addCode(codeObject)
-      .then(function(test) {
-        userQueries.getSingleUser(userID)
-        .then(function(user) {
-          passportStub.login(user[0]);
-          done();
-        });
-      });
-    });
-  });
-}
-
-function authenticateAdmin(done) {
-  userQueries.addUser({
-    github_username: 'admin',
-    github_id: 654321,
-    github_display_name: 'Jeremy Johnson',
-    github_access_token: '654321',
-    github_avatar: 'https://avatars.io/static/default_128.jpg',
-    email: 'jeremy@realpython.com',
-    verified: true,
-    admin: true
-  }).returning('id')
-  .then(function(singleUser) {
-    var userID = parseInt(singleUser[0]);
-    return Promise.all([
-      knex('lessons').select('*')
-    ])
-    .then(function(lessons) {
-      Promise.all(
-      lessons[0].map(function(lesson) {
-        return new Promise(function(resolve, reject) {
-          return knex('users_lessons')
-          .insert({
-            user_id: userID,
-            lesson_id: lesson.id,
-            lesson_read: false
-          }).returning('*')
-          .then(function(results) {
-            resolve();
-          });
-        });
-      }))
-      .then(function() {
-        userQueries.getSingleUser(userID)
-        .then(function(user) {
-          passportStub.login(user[0]);
-          done();
         });
       });
     });
@@ -368,11 +214,8 @@ var lessonUnread = {
 };
 
 module.exports = {
-  authenticateActiveUser: authenticateActiveUser,
-  authenticateActiveUserDuplicate: authenticateActiveUserDuplicate,
-  authenticateAndVerifyActiveUser: authenticateAndVerifyActiveUser,
-  authenticateAndVerifyInactiveUser: authenticateAndVerifyInactiveUser,
-  authenticateAdmin: authenticateAdmin,
+  authenticate,
+  authenticateDuplicate,
   sampleUser: sampleUser,
   duplicateUser: duplicateUser,
   updateUser: updateUser,

@@ -1,22 +1,25 @@
-var express = require('express');
-var router = express.Router();
-var nodemailer = require('nodemailer');
+const express = require('express');
+const router = express.Router();
+const nodemailer = require('nodemailer');
 
-var authHelpers = require('../auth/helpers');
-var chapterQueries = require('../db/queries.chapters');
-var routeHelpers = require('./_helpers');
+const authHelpers = require('../auth/helpers');
+const chapterQueries = require('../db/queries.chapters');
+const routeHelpers = require('./_helpers');
 
 // *** contact *** //
 router.get('/',
   authHelpers.ensureVerified,
   authHelpers.ensureAuthenticated,
   authHelpers.ensureActive,
-  function(req, res, next) {
-  var userID = req.user.id;
+  getContact
+);
+
+function getContact(req, res, next) {
+  const userID = req.user.id;
   // get all side bar data
-  routeHelpers.getSideBarData(userID)
-  .then(function(data) {
-    var renderObject = {
+  routeHelpers.getSideBarData(userID, (err, data) => {
+    if (err) return next(err);
+    const renderObject = {
       title: 'Textbook LMS - contact',
       pageTitle: 'Contact',
       user: req.user,
@@ -25,36 +28,33 @@ router.get('/',
       messages: req.flash('messages')
     };
     return res.render('contact', renderObject);
-  })
-  .catch(function(err) {
-    return next(err);
   });
-});
+}
 
 router.post('/',
   authHelpers.ensureVerified,
   authHelpers.ensureAuthenticated,
   authHelpers.ensureActive,
   function(req, res, next) {
-  var emailSubject = req.body.subject;
-  var emailMessage = req.body.message;
-  var userID = req.user.id;
-  var userEmail = req.user.email;
+  const emailSubject = req.body.subject;
+  const emailMessage = req.body.message;
+  const userID = req.user.id;
+  const userEmail = req.user.email;
   // nodemailer
   // TODO: update for staging
-  var transport = {
+  const transport = {
     name: 'minimal',
     version: '0.1.0',
     send: function (mail, callback) {
-      var input = mail.message.createReadStream();
+      const input = mail.message.createReadStream();
       input.pipe(process.stdout);
       input.on('end', function () {
         callback(null, true);
       });
     }
   };
-  var transporter = nodemailer.createTransport(transport);
-  var mailOptions = {
+  const transporter = nodemailer.createTransport(transport);
+  const mailOptions = {
     from: userEmail,
     to: 'test',
     subject: emailSubject,

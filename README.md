@@ -10,7 +10,6 @@ Just a simple learning management system for textbook-like sites, powering Real 
 [![devDependencies Status](https://david-dm.org/realpython/members/dev-status.svg)](https://david-dm.org/realpython/members?type=dev)
 
 1. [Staging Server](https://fast-mesa-25213.herokuapp.com/)
-1. [Production](https://realpython.herokuapp.com/)
 
 ## Getting Started
 

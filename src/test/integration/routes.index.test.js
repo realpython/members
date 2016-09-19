@@ -1,53 +1,51 @@
 process.env.NODE_ENV = 'test';
 
-var chai = require('chai');
-var chaiHttp = require('chai-http');
-var passportStub = require('passport-stub');
-var path = require('path');
-var fs = require('fs');
+const chai = require('chai');
+const chaiHttp = require('chai-http');
+const passportStub = require('passport-stub');
+const path = require('path');
+const fs = require('fs');
 
-var knex = require('../../server/db/knex');
-var server = require('../../server/app');
-var chapterQueries = require('../../server/db/queries.chapters');
-var lessonQueries = require('../../server/db/queries.lessons');
-var logFileName = path.join(
-  __dirname, '..', '..', 'server', 'logs', 'test-logs.log');
-var testHelpers = require('../helpers');
+const knex = require('../../server/db/knex');
+const server = require('../../server/app');
+const chapterQueries = require('../../server/db/queries.chapters');
+const lessonQueries = require('../../server/db/queries.lessons');
+const testHelpers = require('../helpers');
 
-var should = chai.should();
+const should = chai.should();
 
 passportStub.install(server);
 chai.use(chaiHttp);
 
-describe('routes : index', function() {
+describe('routes : index', () => {
 
-  beforeEach(function(done) {
-    passportStub.logout();
-    knex.migrate.rollback()
-    .then(function() {
-      knex.migrate.latest()
-      .then(function() {
-        return knex.seed.run()
-        .then(function() {
-          done();
-        });
-      });
-    });
-  });
-
-  afterEach(function(done) {
-    knex.migrate.rollback()
-    .then(function() {
+  beforeEach((done) => {
+    return knex.migrate.rollback()
+    .then(() => {
+      return knex.migrate.latest();
+    })
+    .then(() => {
+      return knex.seed.run();
+    })
+    .then(() => {
       done();
     });
   });
 
-  describe('if unauthenticated', function() {
-    describe('GET /ping', function() {
-      it('should return a response', function(done) {
+  afterEach((done) => {
+    return knex.migrate.rollback()
+    .then(() => {
+      done();
+    });
+  });
+
+  describe('if !authenticated', () => {
+    describe('GET /ping', () => {
+      it('should return a response', (done) => {
         chai.request(server)
         .get('/ping')
-        .end(function(err, res) {
+        .end((err, res) => {
+          should.not.exist(err);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
           res.text.should.equal('pong!');
@@ -55,11 +53,12 @@ describe('routes : index', function() {
         });
       });
     });
-    describe('GET /', function() {
-      it('should redirect to log in page', function(done) {
+    describe('GET /', () => {
+      it('should redirect to log in page', (done) => {
         chai.request(server)
         .get('/')
-        .end(function(err, res) {
+        .end((err, res) => {
+          should.not.exist(err);
           res.redirects.length.should.equal(1);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
@@ -68,11 +67,12 @@ describe('routes : index', function() {
         });
       });
     });
-    describe('GET /doesnotexist', function() {
-      it('should throw an error', function(done) {
+    describe('GET /doesnotexist', () => {
+      it('should throw an error', (done) => {
         chai.request(server)
         .get('/doesnotexist')
-        .end(function(err, res) {
+        .end((err, res) => {
+          should.exist(err);
           res.status.should.equal(404);
           res.type.should.equal('text/html');
           res.text.should.contain('<p>Sorry. That page cannot be found.</p>');
@@ -80,42 +80,27 @@ describe('routes : index', function() {
         });
       });
     });
-    describe('GET /doesnotexist', function() {
-      it('should create log file', function(done) {
-        chai.request(server)
-        .get('/doesnotexist')
-        .end(function(err, res) {
-          res.status.should.equal(404);
-          res.type.should.equal('text/html');
-          res.text.should.contain('<p>Sorry. That page cannot be found.</p>');
-          fs.stat(logFileName, function (err, stats) {
-            if (!err) {
-              fs.unlink(logFileName, function(err) {
-                if (!err) {
-                  done();
-                }
-              });
-            }
-          });
-        });
-      });
-    });
-
   });
 
-  describe('if authenticated, active, and verified', function() {
-    beforeEach(function(done) {
-      testHelpers.authenticateAndVerifyActiveUser(done);
+  describe('if authenticated, active, and verified', () => {
+    beforeEach((done) => {
+      const permissions = {
+        verified: true,
+        admin: false,
+        active: true
+      };
+      testHelpers.authenticate(permissions, done);
     });
-    afterEach(function(done) {
+    afterEach((done) => {
       passportStub.logout();
       done();
     });
-    describe('GET /', function() {
-      it('should return a response', function(done) {
+    describe('GET /', () => {
+      it('should return a response', (done) => {
         chai.request(server)
         .get('/')
-        .end(function(err, res) {
+        .end((err, res) => {
+          should.not.exist(err);
           res.redirects.length.should.equal(0);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
@@ -137,19 +122,57 @@ describe('routes : index', function() {
     });
   });
 
-  describe('if authenticated and verified but inactive', function() {
-    beforeEach(function(done) {
-      testHelpers.authenticateActiveUser(done);
+  describe('if authenticated, !active, verified', () => {
+    beforeEach((done) => {
+      const permissions = {
+        verified: true,
+        admin: false,
+        active: false
+      };
+      testHelpers.authenticate(permissions, done);
     });
-    afterEach(function(done) {
+    afterEach((done) => {
       passportStub.logout();
       done();
     });
-    describe('GET /', function() {
-      it('should redirect to the inactive page', function(done) {
+    describe('GET /', () => {
+      it('should redirect to the inactive page', (done) => {
         chai.request(server)
         .get('/')
-        .end(function(err, res) {
+        .end((err, res) => {
+          should.not.exist(err);
+          res.redirects.length.should.equal(1);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.not.contain(
+            '<h2>Please verify your account.</h2>');
+          res.text.should.contain(
+            '<h2>Your account is inactive.</h2>');
+          done();
+        });
+      });
+    });
+  });
+
+  describe('if authenticated, active, !verified', () => {
+    beforeEach((done) => {
+      const permissions = {
+        verified: false,
+        admin: false,
+        active: true
+      };
+      testHelpers.authenticate(permissions, done);
+    });
+    afterEach((done) => {
+      passportStub.logout();
+      done();
+    });
+    describe('GET /', () => {
+      it('should redirect to the not verified page', (done) => {
+        chai.request(server)
+        .get('/')
+        .end((err, res) => {
+          should.not.exist(err);
           res.redirects.length.should.equal(1);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
@@ -163,45 +186,25 @@ describe('routes : index', function() {
     });
   });
 
-  describe('if authenticated and active but unverified', function() {
-    beforeEach(function(done) {
-      testHelpers.authenticateActiveUser(done);
+  describe('if admin', () => {
+    beforeEach((done) => {
+      const permissions = {
+        verified: true,
+        admin: true,
+        active: true
+      };
+      testHelpers.authenticate(permissions, done);
     });
-    afterEach(function(done) {
+    afterEach((done) => {
       passportStub.logout();
       done();
     });
-    describe('GET /', function() {
-      it('should redirect to the not verified page', function(done) {
+    describe('GET /', () => {
+      it('should return a response', (done) => {
         chai.request(server)
         .get('/')
-        .end(function(err, res) {
-          res.redirects.length.should.equal(1);
-          res.status.should.equal(200);
-          res.type.should.equal('text/html');
-          res.text.should.contain(
-            '<h2>Please verify your account.</h2>');
-          res.text.should.not.contain(
-            '<h2>Your account is inactive.</h2>');
-          done();
-        });
-      });
-    });
-  });
-
-  describe('if authenticated as an admin', function() {
-    beforeEach(function(done) {
-      testHelpers.authenticateAdmin(done);
-    });
-    afterEach(function(done) {
-      passportStub.logout();
-      done();
-    });
-    describe('GET /', function() {
-      it('should return a response', function(done) {
-        chai.request(server)
-        .get('/')
-        .end(function(err, res) {
+        .end((err, res) => {
+          should.not.exist(err);
           res.redirects.length.should.equal(0);
           res.status.should.equal(200);
           res.type.should.equal('text/html');

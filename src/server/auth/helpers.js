@@ -1,71 +1,46 @@
-var knex = require('../db/knex');
-var userQueries = require('../db/queries.users');
-var lessonQueries = require('../db/queries.lessons');
-var lessonAndUserQueries = require('../db/queries.users_lessons');
+const knex = require('../db/knex');
+const userQueries = require('../db/queries.users');
+const lessonQueries = require('../db/queries.lessons');
+const usersLessonsQueries = require('../db/queries.users_lessons');
 
-function githubCallback(
-  accessToken, refreshToken, profile, done) {
-  knex('users').where('github_id', profile.id)
-  .then(function(user) {
-    if (user.length) {
-      done(null, user[0]);
-    } else {
-      var email = profile._json.email || null;
-      var displayName = profile.displayName || profile.username;
-      var avatar = profile._json.avatar_url || 'https://avatars.io/static/default_128.jpg';
-      return knex('users').insert({
-        github_username: profile.username,
-        github_id: profile.id,
-        github_display_name: displayName,
-        github_access_token: accessToken,
-        github_avatar: avatar,
-        email: email
-      }).returning('*')
-      .then(function(response) {
-        var res = response;
-        // update users_lessons
-        // 1 - get all lessons
-        return lessonQueries.getAllLessons()
-        .then(function(lessons) {
-          // 2 - update users_lessons
-          lessons.forEach(function(lesson) {
-            return lessonAndUserQueries.addRow({
-              user_id: parseInt(res[0].id),
-              lesson_id: lesson.id
-            })
-            .then(function(results) {
-              // console.log(results);
-            });
-          });
-          done(null, res[0]);
-        });
+// TODO: combine ensureAuthenticated() and ensureVerified() by setting up global permission logic config
+
+function githubCallback(accessToken, refreshToken, profile, done) {
+  // does the user already exist?
+  userQueries.getSingleUserByGithubID(profile.id, (err, user) => {
+    if (err) done(err);
+    // yes?
+    if (user.length) done(null, user[0]);
+    // no? => add the new user
+    const newUserObject = {};
+    newUserObject.github_username = profile.username;
+    newUserObject.github_id = parseInt(profile.id);
+    newUserObject.github_display_name = profile.displayName || profile.username;
+    newUserObject.github_access_token = accessToken;
+    newUserObject.github_avatar = profile._json.avatar_url || 'https://avatars.io/static/default_128.jpg';
+    newUserObject.email = profile._json.email || null;
+    lessonQueries.addUser(newUserObject, (err, response) => {
+      if (err) done(err);
+      const newUser = response[0];
+      // update users_lessons join table
+      usersLessonsQueries.addNewUser(
+        parseInt(newUser.id), (err, res) => {
+        if (err) done(err);
+        done(null, newUser);
       });
-    }
-  })
-  .catch(function(err) {
-    done(err);
+    });
   });
 }
 
 function ensureAuthenticated(req, res, next) {
-  // check request header
   if (req.user) {
-    // check database
-    var userID = req.user.id;
-    return userQueries.getSingleUser(parseInt(userID))
-    .then(function(user) {
-      if (
-        user.length &&
-        parseInt(user[0].id) === parseInt(userID)
-      ) {
+    const userID = parseInt(req.user.id);
+    userQueries.getSingleUserByID(userID, (err, user) => {
+      if (err) return next(err);
+      if (user.length && parseInt(user[0].id) === userID) {
         return next();
       } else {
-        // TODO: handle this error better
-        res.status(403);
-        res.json({
-          message: 'User does not exist.'
-        });
-        return res;
+        return next('User does not exist.');
       }
     });
   } else {
@@ -78,35 +53,29 @@ function ensureAuthenticated(req, res, next) {
 }
 
 function ensureVerified(req, res, next) {
-  // check request header
   if (req.user) {
-    // check request header
     if (req.user.verified) {
-      // check database
-      var userID = req.user.id;
-      return userQueries.getSingleUser(parseInt(userID))
-      .then(function(user) {
-        if (user.length && parseInt(user[0].id) === parseInt(userID)) {
-          if (!user[0].verify && user[0].verify_code === req.user.verify_code) {
+      const userID = parseInt(req.user.id);
+      userQueries.getSingleUserByID(userID, (err, user) => {
+        if (err) return next(err);
+        if (user.length && parseInt(user[0].id) === userID) {
+          if (
+            user[0].verified &&
+            user[0].verify_code === req.user.verify_code
+          ) {
             return next();
           } else {
-            // TODO: handle this error better
-            res.status(403);
-            res.json({
-              message: 'verification code is incorrect.'
-            });
-            return res;
+            return next('Verification code is incorrect.');
           }
         } else {
-          // TODO: handle this error better
-          res.status(403);
-          res.json({
-            message: 'User does not exist.'
-          });
-          return res;
+          return next('User does not exist.');
         }
       });
     } else {
+      req.flash('messages', {
+        status: 'danger',
+        value: 'You need to verify before continuing.'
+      });
       return res.redirect('/auth/verify');
     }
   } else {
@@ -119,27 +88,21 @@ function ensureVerified(req, res, next) {
 }
 
 function ensureActive(req, res, next) {
-  // check request header
-  if (req.user.active) {
-    return next();
-  } else {
-    req.flash('messages', {
-      status: 'danger',
-      value: 'Your account is inactive.'
-    });
-    return res.redirect('/auth/inactive');
-  }
+  if (req.user.active) return next();
+  req.flash('messages', {
+    status: 'danger',
+    value: 'Your account is inactive.'
+  });
+  return res.redirect('/auth/inactive');
 }
 
 function ensureAdmin(req, res, next) {
-  // check request header
   if (req.user) {
-    // check request header
     if (req.user.admin) {
-      // check database
-      var userID = req.user.id;
-      return userQueries.getSingleUser(parseInt(userID))
-      .then(function(user) {
+      const userID = parseInt(req.user.id);
+      // return next();
+      return userQueries.getSingleUser(userID)
+      .then((user) => {
         if (
           user.length &&
           parseInt(user[0].id) === parseInt(userID) &&
@@ -147,36 +110,34 @@ function ensureAdmin(req, res, next) {
         ) {
           return next();
         } else {
-          // TODO: handle this error better
-          res.status(403);
-          res.json({
-            message: 'User does not exist.'
-          });
-          return res;
+          return next('User does not exist.');
         }
       });
-    }
+    } else {
+      req.flash('messages', {
+        status: 'danger',
+        value: 'You do not have permission to view that page.'
+      });
+      return res.redirect('/');
+  }
   }
   req.flash('messages', {
     status: 'danger',
-    value: 'You do not have permission to view that page.'
+    value: 'You need to sign in before continuing.'
   });
   return res.redirect('/auth/log_in');
 }
 
 function loginRedirect(req, res, next) {
-  if (req.user) {
-    return res.redirect('/');
-  } else {
-    return next();
-  }
+  if (req.user) return res.redirect('/');
+  return next();
 }
 
 module.exports = {
-  ensureAuthenticated: ensureAuthenticated,
-  ensureVerified: ensureVerified,
-  ensureActive: ensureActive,
-  ensureAdmin: ensureAdmin,
-  loginRedirect: loginRedirect,
-  githubCallback: githubCallback
+  ensureAuthenticated,
+  ensureVerified,
+  ensureActive,
+  ensureAdmin,
+  loginRedirect,
+  githubCallback
 };

@@ -9,30 +9,29 @@ var should = chai.should();
 
 describe('db : queries : users_lessons', function() {
 
-  beforeEach(function(done) {
-    knex.migrate.rollback()
-    .then(function() {
-      knex.migrate.latest()
-      .then(function() {
-        return knex.seed.run()
-        .then(function() {
-          done();
-        });
-      });
+  beforeEach((done) => {
+    return knex.migrate.rollback()
+    .then(() => {
+      return knex.migrate.latest();
+    })
+    .then(() => {
+      return knex.seed.run();
+    })
+    .then(() => {
+      done();
     });
   });
 
-  afterEach(function(done) {
-    knex.migrate.rollback()
-    .then(function() {
+  afterEach((done) => {
+    return knex.migrate.rollback()
+    .then(() => {
       done();
     });
   });
 
   describe('getAllUsersAndLessons()', function() {
     it('should format data correctly', function(done) {
-      usersAndlessonsQueries.getAllUsersAndLessons()
-      .then(function(results) {
+      usersAndlessonsQueries.getAllUsersAndLessons((err, results) => {
         results[0].should.include.keys('id', 'user_id', 'lesson_id', 'lesson_read');
         done();
       });

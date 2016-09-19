@@ -1,50 +1,49 @@
 process.env.NODE_ENV = 'test';
 
-var chai = require('chai');
-var chaiHttp = require('chai-http');
-var passportStub = require('passport-stub');
+const chai = require('chai');
+const chaiHttp = require('chai-http');
+const passportStub = require('passport-stub');
 
-var knex = require('../../server/db/knex');
-var server = require('../../server/app');
-var testHelpers = require('../helpers');
-var userQueries = require('../../server/db/queries.users');
-var codeQueries = require('../../server/db/queries.codes');
+const knex = require('../../server/db/knex');
+const server = require('../../server/app');
+const testHelpers = require('../helpers');
+const userQueries = require('../../server/db/queries.users');
+const codeQueries = require('../../server/db/queries.codes');
 
-
-var should = chai.should();
+const should = chai.should();
 
 passportStub.install(server);
 chai.use(chaiHttp);
 
-describe('routes : auth', function() {
+describe('routes : auth', () => {
 
-  beforeEach(function(done) {
-    passportStub.logout();
-    knex.migrate.rollback()
-    .then(function() {
-      knex.migrate.latest()
-      .then(function() {
-        return knex.seed.run()
-        .then(function() {
-          done();
-        });
-      });
-    });
-  });
-
-  afterEach(function(done) {
-    knex.migrate.rollback()
-    .then(function() {
+  beforeEach((done) => {
+    return knex.migrate.rollback()
+    .then(() => {
+      return knex.migrate.latest();
+    })
+    .then(() => {
+      return knex.seed.run();
+    })
+    .then(() => {
       done();
     });
   });
 
-  describe('if unauthenticated', function() {
-    describe('GET /auth/log_out', function() {
-      it('should redirect to log in page', function(done) {
+  afterEach((done) => {
+    return knex.migrate.rollback()
+    .then(() => {
+      done();
+    });
+  });
+
+  describe('if !authenticated', () => {
+    describe('GET /auth/log_out', () => {
+      it('should redirect to log in page', (done) => {
         chai.request(server)
         .get('/auth/log_out')
-        .end(function(err, res) {
+        .end((err, res) => {
+          should.not.exist(err);
           res.redirects.length.should.equal(1);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
@@ -53,11 +52,12 @@ describe('routes : auth', function() {
         });
       });
     });
-    describe('GET /auth/log_in', function() {
-      it('should redirect to log in page', function(done) {
+    describe('GET /auth/log_in', () => {
+      it('should redirect to log in page', (done) => {
         chai.request(server)
         .get('/auth/log_in')
-        .end(function(err, res) {
+        .end((err, res) => {
+          should.not.exist(err);
           res.redirects.length.should.equal(0);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
@@ -66,14 +66,15 @@ describe('routes : auth', function() {
         });
       });
     });
-    describe('POST /auth/verify', function() {
-      it('should redirect to log in page', function(done) {
+    describe('POST /auth/verify', () => {
+      it('should redirect to log in page', (done) => {
         chai.request(server)
         .post('/auth/verify')
         .send({
           code: 21049144460970398511
         })
-        .end(function(err, res) {
+        .end((err, res) => {
+          should.not.exist(err);
           res.redirects.length.should.equal(1);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
@@ -82,11 +83,12 @@ describe('routes : auth', function() {
         });
       });
     });
-    describe('GET /auth/inactive', function() {
-      it('should redirect to log in page', function(done) {
+    describe('GET /auth/inactive', () => {
+      it('should redirect to log in page', (done) => {
         chai.request(server)
         .get('/auth/inactive')
-        .end(function(err, res) {
+        .end((err, res) => {
+          should.not.exist(err);
           res.redirects.length.should.equal(1);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
@@ -95,11 +97,12 @@ describe('routes : auth', function() {
         });
       });
     });
-    describe('GET /auth/verify', function() {
-      it('should redirect to log in page', function(done) {
+    describe('GET /auth/verify', () => {
+      it('should redirect to log in page', (done) => {
         chai.request(server)
         .get('/auth/verify')
-        .end(function(err, res) {
+        .end((err, res) => {
+          should.not.exist(err);
           res.redirects.length.should.equal(1);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
@@ -110,19 +113,25 @@ describe('routes : auth', function() {
     });
   });
 
-  describe('if authenticated, active, and verified', function() {
-    beforeEach(function(done) {
-      testHelpers.authenticateAndVerifyActiveUser(done);
+  describe('if authenticated, active, and verified', () => {
+    beforeEach((done) => {
+      const permissions = {
+        verified: true,
+        admin: false,
+        active: true
+      };
+      testHelpers.authenticate(permissions, done);
     });
-    afterEach(function(done) {
+    afterEach((done) => {
       passportStub.logout();
       done();
     });
-    describe('GET /auth/log_out', function() {
-      it('should log out and redirect to log in page', function(done) {
+    describe('GET /auth/log_out', () => {
+      it('should log out and redirect to log in page', (done) => {
         chai.request(server)
         .get('/auth/log_out')
-        .end(function(err, res) {
+        .end((err, res) => {
+          should.not.exist(err);
           res.redirects.length.should.equal(1);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
@@ -131,11 +140,12 @@ describe('routes : auth', function() {
         });
       });
     });
-    describe('GET /auth/log_in', function() {
-      it('should redirect to dashboard', function(done) {
+    describe('GET /auth/log_in', () => {
+      it('should redirect to dashboard', (done) => {
         chai.request(server)
         .get('/auth/log_in')
-        .end(function(err, res) {
+        .end((err, res) => {
+          should.not.exist(err);
           res.redirects.length.should.equal(1);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
@@ -144,16 +154,17 @@ describe('routes : auth', function() {
         });
       });
     });
-    describe('POST /auth/verify', function() {
-      it('should throw an error', function(done) {
+    describe('POST /auth/verify', () => {
+      it('should throw an error', (done) => {
         codeQueries.getUnunsedCodes()
-        .then(function(codes) {
+        .then((codes) => {
           chai.request(server)
           .post('/auth/verify')
           .send({
             code: codes[0].verify_code
           })
-          .end(function(err, res) {
+          .end((err, res) => {
+            should.not.exist(err);
             res.redirects.length.should.equal(1);
             res.status.should.equal(200);
             res.type.should.equal('text/html');
@@ -165,14 +176,15 @@ describe('routes : auth', function() {
         });
       });
     });
-    describe('POST /auth/verify', function() {
-      it('should redirect to the inactive page if the code is incorrect', function(done) {
+    describe('POST /auth/verify', () => {
+      it('should redirect to the inactive page if the code is incorrect', (done) => {
         chai.request(server)
         .post('/auth/verify')
         .send({
           code: 999
         })
-        .end(function(err, res) {
+        .end((err, res) => {
+          should.not.exist(err);
           res.redirects.length.should.equal(1);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
@@ -187,34 +199,16 @@ describe('routes : auth', function() {
         });
       });
     });
-    // describe('POST /auth/verify', function() {
-    //   it('should redirect to the inactive page if the code is a duplicate', function(done) {
-    //     chai.request(server)
-    //     .post('/auth/verify')
-    //     .send({
-    //       code: 999
-    //     })
-    //     .end(function(err, res) {
-    //       res.redirects.length.should.equal(1);
-    //       res.status.should.equal(200);
-    //       res.type.should.equal('text/html');
-    //       res.text.should.contain(
-    //         '<h2>Please verify your account.</h2>');
-    //       res.text.should.not.contain(
-    //         '<h2>Your account is inactive.</h2>');
-    //       done();
-    //     });
-    //   });
-    // });
-    describe('POST /auth/verify', function() {
-      it('should redirect to the closed page if verification status is 0', function(done) {
+    describe('POST /auth/verify', () => {
+      it('should redirect to the closed page if verification status is 0', (done) => {
         process.env.CAN_VERIFY = 0;
         chai.request(server)
         .post('/auth/verify')
         .send({
           code: 999
         })
-        .end(function(err, res) {
+        .end((err, res) => {
+          should.not.exist(err);
           res.redirects.length.should.equal(1);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
@@ -229,11 +223,12 @@ describe('routes : auth', function() {
         });
       });
     });
-    describe('GET /auth/inactive', function() {
-      it('should log out and redirect to log in page', function(done) {
+    describe('GET /auth/inactive', () => {
+      it('should log out and redirect to log in page', (done) => {
         chai.request(server)
         .get('/auth/inactive')
-        .end(function(err, res) {
+        .end((err, res) => {
+          should.not.exist(err);
           res.redirects.length.should.equal(0);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
@@ -243,11 +238,12 @@ describe('routes : auth', function() {
         });
       });
     });
-    describe('GET /auth/verify', function() {
-      it('should redirect to the not verified page', function(done) {
+    describe('GET /auth/verify', () => {
+      it('should redirect to the not verified page', (done) => {
         chai.request(server)
         .get('/auth/verify')
-        .end(function(err, res) {
+        .end((err, res) => {
+          should.not.exist(err);
           res.redirects.length.should.equal(0);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
@@ -260,13 +256,14 @@ describe('routes : auth', function() {
         });
       });
     });
-    describe('GET /auth/verify', function() {
+    describe('GET /auth/verify', () => {
       it('should redirect to the closed page if verification status is 0',
-      function(done) {
+      (done) => {
         process.env.CAN_VERIFY = 0;
         chai.request(server)
         .get('/auth/verify')
-        .end(function(err, res) {
+        .end((err, res) => {
+          should.not.exist(err);
           res.redirects.length.should.equal(0);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
@@ -283,19 +280,25 @@ describe('routes : auth', function() {
     });
   });
 
-  describe('if authenticated and verified but inactive', function() {
-    beforeEach(function(done) {
-      testHelpers.authenticateAndVerifyInactiveUser(done);
+  describe('if authenticated, !active, verified', () => {
+    beforeEach((done) => {
+      const permissions = {
+        verified: true,
+        admin: false,
+        active: false
+      };
+      testHelpers.authenticate(permissions, done);
     });
-    afterEach(function(done) {
+    afterEach((done) => {
       passportStub.logout();
       done();
     });
-    describe('GET /auth/log_out', function() {
-      it('should log out and redirect to log in page', function(done) {
+    describe('GET /auth/log_out', () => {
+      it('should log out and redirect to log in page', (done) => {
         chai.request(server)
         .get('/auth/log_out')
-        .end(function(err, res) {
+        .end((err, res) => {
+          should.not.exist(err);
           res.redirects.length.should.equal(1);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
@@ -304,11 +307,12 @@ describe('routes : auth', function() {
         });
       });
     });
-    describe('GET /auth/log_in', function() {
-      it('should redirect to the inactive page', function(done) {
+    describe('GET /auth/log_in', () => {
+      it('should redirect to the inactive page', (done) => {
         chai.request(server)
         .get('/auth/log_in')
-        .end(function(err, res) {
+        .end((err, res) => {
+          should.not.exist(err);
           res.redirects.length.should.equal(2);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
@@ -318,14 +322,15 @@ describe('routes : auth', function() {
         });
       });
     });
-    describe('POST /auth/verify', function() {
-      it('should redirect to the inactive page', function(done) {
+    describe('POST /auth/verify', () => {
+      it('should redirect to the inactive page', (done) => {
         chai.request(server)
         .post('/auth/verify')
         .send({
           code: 21049144460970398511
         })
-        .end(function(err, res) {
+        .end((err, res) => {
+          should.not.exist(err);
           res.redirects.length.should.equal(1);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
@@ -335,11 +340,12 @@ describe('routes : auth', function() {
         });
       });
     });
-    describe('GET /auth/inactive', function() {
-      it('should redirect to the inactive page', function(done) {
+    describe('GET /auth/inactive', () => {
+      it('should redirect to the inactive page', (done) => {
         chai.request(server)
         .get('/auth/inactive')
-        .end(function(err, res) {
+        .end((err, res) => {
+          should.not.exist(err);
           res.redirects.length.should.equal(0);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
@@ -349,11 +355,12 @@ describe('routes : auth', function() {
         });
       });
     });
-    describe('GET /auth/verify', function() {
-      it('should redirect to the inactive page', function(done) {
+    describe('GET /auth/verify', () => {
+      it('should redirect to the inactive page', (done) => {
         chai.request(server)
         .get('/auth/verify')
-        .end(function(err, res) {
+        .end((err, res) => {
+          should.not.exist(err);
           res.redirects.length.should.equal(1);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
@@ -365,19 +372,25 @@ describe('routes : auth', function() {
     });
   });
 
-  describe('if authenticated and active but unverified', function() {
-    beforeEach(function(done) {
-      testHelpers.authenticateActiveUser(done);
+  describe('if authenticated, active, !verified', () => {
+    beforeEach((done) => {
+      const permissions = {
+        verified: false,
+        admin: false,
+        active: true
+      };
+      testHelpers.authenticate(permissions, done);
     });
-    afterEach(function(done) {
+    afterEach((done) => {
       passportStub.logout();
       done();
     });
-    describe('GET /auth/log_out', function() {
-      it('should log out and redirect to log in page', function(done) {
+    describe('GET /auth/log_out', () => {
+      it('should log out and redirect to log in page', (done) => {
         chai.request(server)
         .get('/auth/log_out')
-        .end(function(err, res) {
+        .end((err, res) => {
+          should.not.exist(err);
           res.redirects.length.should.equal(1);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
@@ -386,11 +399,12 @@ describe('routes : auth', function() {
         });
       });
     });
-    describe('GET /auth/log_in', function() {
-      it('should redirect to the not verified page', function(done) {
+    describe('GET /auth/log_in', () => {
+      it('should redirect to the not verified page', (done) => {
         chai.request(server)
         .get('/auth/log_in')
-        .end(function(err, res) {
+        .end((err, res) => {
+          should.not.exist(err);
           res.redirects.length.should.equal(2);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
@@ -402,25 +416,25 @@ describe('routes : auth', function() {
         });
       });
     });
-    describe('POST /auth/verify', function() {
-      it('should verify and then redirect to /', function(done) {
+    describe('POST /auth/verify', () => {
+      it('should verify and then redirect to /', (done) => {
         codeQueries.getUnunsedCodes()
-        .then(function(codes) {
+        .then((codes) => {
           chai.request(server)
           .post('/auth/verify')
           .send({
             code: codes[0].verify_code
           })
-          .end(function() {
+          .end(() => {
             chai.request(server)
             .get('/auth/log_out')
-            .end(function() {
-              return userQueries.getSingleUserByUsername('michael')
-              .then(function(user) {
+            .end(() => {
+              userQueries.getSingleUserByUsername('fletcher', (err, user) => {
                 passportStub.login(user[0]);
                 chai.request(server)
                 .get('/')
-                .end(function(err, res) {
+                .end((err, res) => {
+                  should.not.exist(err);
                   res.redirects.length.should.equal(0);
                   res.status.should.equal(200);
                   res.type.should.equal('text/html');
@@ -437,34 +451,38 @@ describe('routes : auth', function() {
         });
       });
     });
-    describe('POST /auth/verify', function() {
-      beforeEach(function(done) {
-        testHelpers.authenticateActiveUserDuplicate(done);
+    describe('POST /auth/verify', () => {
+      beforeEach((done) => {
+        const permissions = {
+          verified: false,
+          admin: false,
+          active: true
+        };
+        testHelpers.authenticateDuplicate(permissions, done);
       });
-      afterEach(function(done) {
+      afterEach((done) => {
         passportStub.logout();
         done();
       });
-      it('should throw an error if a duplicate verify code is used with a different user',
-      function(done) {
+      it('should throw an error if a duplicate verify code is used with a different user', (done) => {
         codeQueries.getUnunsedCodes()
-        .then(function(codes) {
+        .then((codes) => {
           chai.request(server)
           .post('/auth/verify')
           .send({
             code: codes[0].verify_code
           })
-          .end(function() {
+          .end(() => {
             passportStub.logout();
-            return userQueries.getSingleUserByUsername('michael')
-            .then(function(user) {
+            userQueries.getSingleUserByUsername('fletcher', (err, user) => {
               passportStub.login(user[0]);
               chai.request(server)
               .post('/auth/verify')
               .send({
                 code: codes[0].verify_code
               })
-              .end(function(err, res) {
+              .end((err, res) => {
+                should.not.exist(err);
                 res.redirects.length.should.equal(1);
                 res.status.should.equal(200);
                 res.type.should.equal('text/html');
@@ -474,10 +492,10 @@ describe('routes : auth', function() {
                   '<h2>Your account is inactive.</h2>');
                 res.text.should.not.contain('try Textbook');
                 res.text.should.not.contain('<h1>Dashboard</h1>');
-                return userQueries.getSingleUserByUsername('jeremy')
-                .then(function(user) {
-                  user[0].verified.should.equal(false);
-                  should.not.exist(user[0].verify_code);
+                userQueries.getSingleUserByUsername(
+                  'jeremy', (err, newUser) => {
+                  newUser[0].verified.should.equal(false);
+                  should.not.exist(newUser[0].verify_code);
                   done();
                 });
               });
@@ -486,34 +504,38 @@ describe('routes : auth', function() {
         });
       });
     });
-    describe('POST /auth/verify', function() {
-      beforeEach(function(done) {
-        testHelpers.authenticateActiveUserDuplicate(done);
+    describe('POST /auth/verify', () => {
+      beforeEach((done) => {
+        const permissions = {
+          verified: false,
+          admin: false,
+          active: true
+        };
+        testHelpers.authenticateDuplicate(permissions, done);
       });
-      afterEach(function(done) {
+      afterEach((done) => {
         passportStub.logout();
         done();
       });
-      it('should throw an error if a duplicate verify code is used with the same user',
-      function(done) {
+      it('should throw an error if a duplicate verify code is used with the same user', (done) => {
         codeQueries.getUnunsedCodes()
-        .then(function(codes) {
+        .then((codes) => {
           chai.request(server)
           .post('/auth/verify')
           .send({
             code: codes[0].verify_code
           })
-          .end(function() {
+          .end(() => {
             passportStub.logout();
-            return userQueries.getSingleUserByUsername('jeremy')
-            .then(function(user) {
+            userQueries.getSingleUserByUsername('jeremy', (err, user) => {
               passportStub.login(user[0]);
               chai.request(server)
               .post('/auth/verify')
               .send({
                 code: codes[0].verify_code
               })
-              .end(function(err, res) {
+              .end((err, res) => {
+                should.not.exist(err);
                 res.redirects.length.should.equal(1);
                 res.status.should.equal(200);
                 res.type.should.equal('text/html');
@@ -523,10 +545,10 @@ describe('routes : auth', function() {
                   '<h2>Your account is inactive.</h2>');
                 res.text.should.not.contain('try Textbook');
                 res.text.should.not.contain('<h1>Dashboard</h1>');
-                return userQueries.getSingleUserByUsername('jeremy')
-                .then(function(user) {
-                  user[0].verified.should.equal(false);
-                  should.not.exist(user[0].verify_code);
+                userQueries.getSingleUserByUsername(
+                'jeremy', (err, newUser) => {
+                  newUser[0].verified.should.equal(false);
+                  should.not.exist(newUser[0].verify_code);
                   done();
                 });
               });
@@ -535,25 +557,25 @@ describe('routes : auth', function() {
         });
       });
     });
-    describe('POST /auth/verify', function() {
-      it('should throw an error if an incorrect code is used', function(done) {
+    describe('POST /auth/verify', () => {
+      it('should throw an error if an incorrect code is used', (done) => {
         codeQueries.getUnunsedCodes()
-        .then(function(codes) {
+        .then((codes) => {
           chai.request(server)
           .post('/auth/verify')
           .send({
             code: 999
           })
-          .end(function() {
+          .end(() => {
             chai.request(server)
             .get('/auth/log_out')
-            .end(function() {
-              return userQueries.getSingleUserByUsername('michael')
-              .then(function(user) {
+            .end(() => {
+              userQueries.getSingleUserByUsername('fletcher', (err, user) => {
                 passportStub.login(user[0]);
                 chai.request(server)
                 .get('/')
-                .end(function(err, res) {
+                .end((err, res) => {
+                  should.not.exist(err);
                   res.redirects.length.should.equal(1);
                   res.status.should.equal(200);
                   res.type.should.equal('text/html');
@@ -570,12 +592,12 @@ describe('routes : auth', function() {
         });
       });
     });
-    describe('GET /auth/inactive', function() {
-      it('should redirect to the not verified page',
-      function(done) {
+    describe('GET /auth/inactive', () => {
+      it('should redirect to the not verified page', (done) => {
         chai.request(server)
         .get('/auth/inactive')
-        .end(function(err, res) {
+        .end((err, res) => {
+          should.not.exist(err);
           res.redirects.length.should.equal(1);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
@@ -588,12 +610,12 @@ describe('routes : auth', function() {
         });
       });
     });
-    describe('GET /auth/verify', function() {
-      it('should redirect to the not verified page',
-      function(done) {
+    describe('GET /auth/verify', () => {
+      it('should redirect to the not verified page', (done) => {
         chai.request(server)
         .get('/auth/verify')
-        .end(function(err, res) {
+        .end((err, res) => {
+          should.not.exist(err);
           res.redirects.length.should.equal(0);
           res.status.should.equal(200);
           res.type.should.equal('text/html');

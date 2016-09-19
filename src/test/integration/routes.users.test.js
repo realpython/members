@@ -1,102 +1,110 @@
 process.env.NODE_ENV = 'test';
 
-var chai = require('chai');
-var chaiHttp = require('chai-http');
-var passportStub = require('passport-stub');
+const chai = require('chai');
+const chaiHttp = require('chai-http');
+const passportStub = require('passport-stub');
 
-var knex = require('../../server/db/knex');
-var server = require('../../server/app');
-var userQueries = require('../../server/db/queries.users');
-var testHelpers = require('../helpers');
+const knex = require('../../server/db/knex');
+const server = require('../../server/app');
+const userQueries = require('../../server/db/queries.users');
+const testHelpers = require('../helpers');
 
-var should = chai.should();
+const should = chai.should();
 
 passportStub.install(server);
 chai.use(chaiHttp);
 
-describe('routes : users', function() {
+describe('routes : users', () => {
 
-  beforeEach(function(done) {
-    passportStub.logout();
-    knex.migrate.rollback()
-    .then(function() {
-      knex.migrate.latest()
-      .then(function() {
-        return knex.seed.run()
-        .then(function() {
+  beforeEach((done) => {
+    return knex.migrate.rollback()
+    .then(() => {
+      return knex.migrate.latest();
+    })
+    .then(() => {
+      return knex.seed.run();
+    })
+    .then(() => {
+      done();
+    });
+  });
+
+  afterEach((done) => {
+    return knex.migrate.rollback()
+    .then(() => {
+      done();
+    });
+  });
+
+  describe('if !authenticated', () => {
+    describe('PUT /users/:username/admin', () => {
+      it('should throw an error', (done) => {
+        chai.request(server)
+        .put('/users/fletcher/admin')
+        .send({ admin: true })
+        .end((err, res) => {
+          should.not.exist(err);
+          res.status.should.equal(400);
+          res.type.should.equal('application/json');
+          res.body.message.should.equal('That user does not exist.');
+          done();
+        });
+      });
+    });
+    describe('GET /users/:id/profile', () => {
+      it('should redirect to log in page', (done) => {
+        chai.request(server)
+        .get('/users/1/profile')
+        .end((err, res) => {
+          should.not.exist(err);
+          res.redirects.length.should.equal(1);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('try Textbook');
+          done();
+        });
+      });
+    });
+    describe('POST /users/:id/profile', () => {
+      it('should redirect to log in page', (done) => {
+        chai.request(server)
+        .post('/users/1/profile')
+        .send({
+          displayName: 'John Doe'
+        })
+        .end((err, res) => {
+          should.not.exist(err);
+          res.redirects.length.should.equal(1);
+          res.status.should.equal(200);
+          res.type.should.equal('text/html');
+          res.text.should.contain('try Textbook');
           done();
         });
       });
     });
   });
 
-  afterEach(function(done) {
-    knex.migrate.rollback()
-    .then(function() {
-      done();
+  describe('if authenticated, active, and verified', () => {
+    beforeEach((done) => {
+      const permissions = {
+        verified: true,
+        admin: false,
+        active: true
+      };
+      testHelpers.authenticate(permissions, done);
     });
-  });
-
-  // describe('if unauthenticated', function() {
-  //   describe('PUT /users/:username/admin', function() {
-  //     it('should throw an error', function(done) {
-  //       chai.request(server)
-  //       .put('/users/fletcher/admin')
-  //       .send({ admin: true })
-  //       .end(function(err, res) {
-  //         res.status.should.equal(400);
-  //         res.type.should.equal('application/json');
-  //         res.body.message.should.equal('That user does not exist.');
-  //         done();
-  //       });
-  //     });
-  //   });
-  //   describe('GET /users/:id/profile', function() {
-  //     it('should redirect to log in page', function(done) {
-  //       chai.request(server)
-  //       .get('/users/1/profile')
-  //       .end(function(err, res) {
-  //         res.redirects.length.should.equal(1);
-  //         res.status.should.equal(200);
-  //         res.type.should.equal('text/html');
-  //         res.text.should.contain('try Textbook');
-  //         done();
-  //       });
-  //     });
-  //   });
-  //   describe('POST /users/:id/profile', function() {
-  //     it('should redirect to log in page', function(done) {
-  //       chai.request(server)
-  //       .post('/users/1/profile')
-  //       .send({
-  //         displayName: 'John Doe'
-  //       })
-  //       .end(function(err, res) {
-  //         res.redirects.length.should.equal(1);
-  //         res.status.should.equal(200);
-  //         res.type.should.equal('text/html');
-  //         res.text.should.contain('try Textbook');
-  //         done();
-  //       });
-  //     });
-  //   });
-  // });
-
-  describe('if authenticated, active, and verified', function() {
-    beforeEach(function(done) {
-      testHelpers.authenticateAndVerifyActiveUser(done);
-    });
-    afterEach(function(done) {
+    afterEach((done) => {
       passportStub.logout();
       done();
     });
-    describe('GET /users/:id/profile', function() {
-      it('should return a 200 response', function(done) {
+    describe('GET /users/:id/profile', () => {
+      it('should return a 200 response', (done) => {
         userQueries.getUsers()
-        .then(function(users) {
+        .then((users) => {
           chai.request(server)
           .get('/users/' + parseInt(users[0].id) + '/profile')
-          .end(function(err, res) {
+          .end((err, res) => {
+            should.not.exist(err);
             res.status.should.equal(200);
             res.type.should.equal('text/html');
             res.text.should.contain('<h1>User Profile');
@@ -106,12 +114,13 @@ describe('routes : users', function() {
         });
       });
     });
-    describe('PUT /users/:username/admin', function() {
-      it('should return a 200 response', function(done) {
+    describe('PUT /users/:username/admin', () => {
+      it('should return a 200 response', (done) => {
         chai.request(server)
         .put('/users/fletcher/admin')
         .send({ admin: true })
-        .end(function(err, res) {
+        .end((err, res) => {
+          should.not.exist(err);
           res.status.should.equal(200);
           res.type.should.equal('application/json');
           res.body.message.should.equal('User admin status updated.');
@@ -119,12 +128,13 @@ describe('routes : users', function() {
         });
       });
     });
-    describe('PUT /users/:username/admin', function() {
-      it('should throw an error if the user does not exist', function(done) {
+    describe('PUT /users/:username/admin', () => {
+      it('should throw an error if the user does not exist', (done) => {
         chai.request(server)
         .put('/users/michael/admin')
         .send({ admin: true })
-        .end(function(err, res) {
+        .end((err, res) => {
+          should.not.exist(err);
           res.status.should.equal(400);
           res.type.should.equal('application/json');
           res.body.message.should.equal('That user does not exist.');
@@ -132,12 +142,13 @@ describe('routes : users', function() {
         });
       });
     });
-    describe('PUT /users/:username/admin', function() {
-      it('should throw an error if "read" is not in the request body', function(done) {
+    describe('PUT /users/:username/admin', () => {
+      it('should throw an error if "read" is not in the request body', (done) => {
         chai.request(server)
         .put('/users/fletcher/admin')
         .send({ unknown: true })
-        .end(function(err, res) {
+        .end((err, res) => {
+          should.not.exist(err);
           res.status.should.equal(403);
           res.type.should.equal('application/json');
           res.body.message.should.equal(
@@ -146,12 +157,13 @@ describe('routes : users', function() {
         });
       });
     });
-    describe('PUT /users/:username/active', function() {
-      it('should return a 200 response', function(done) {
+    describe('PUT /users/:username/active', () => {
+      it('should return a 200 response', (done) => {
         chai.request(server)
         .put('/users/fletcher/active')
         .send({ active: true })
-        .end(function(err, res) {
+        .end((err, res) => {
+          should.not.exist(err);
           res.status.should.equal(200);
           res.type.should.equal('application/json');
           res.body.message.should.equal('User active status updated.');
@@ -159,14 +171,15 @@ describe('routes : users', function() {
         });
       });
     });
-    describe('POST /users/:id/profile', function() {
-      it('should return a 200 response', function(done) {
+    describe('POST /users/:id/profile', () => {
+      it('should return a 200 response', (done) => {
         chai.request(server)
         .post('/users/1/profile')
         .send({
           displayName: 'John Doe'
         })
-        .end(function(err, res) {
+        .end((err, res) => {
+          should.not.exist(err);
           res.redirects.length.should.equal(1);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
@@ -179,21 +192,27 @@ describe('routes : users', function() {
     });
   });
 
-  describe('if authenticated and verified but inactive', function() {
-    beforeEach(function(done) {
-      testHelpers.authenticateAndVerifyInactiveUser(done);
+  describe('if authenticated, !active, verified', () => {
+    beforeEach((done) => {
+      const permissions = {
+        verified: true,
+        admin: false,
+        active: false
+      };
+      testHelpers.authenticate(permissions, done);
     });
-    afterEach(function(done) {
+    afterEach((done) => {
       passportStub.logout();
       done();
     });
-    describe('GET /users/:id/profile', function() {
-      it('should redirect to the inactive page', function(done) {
+    describe('GET /users/:id/profile', () => {
+      it('should redirect to the inactive page', (done) => {
         userQueries.getUsers()
-        .then(function(users) {
+        .then((users) => {
           chai.request(server)
           .get('/users/' + parseInt(users[0].id) + '/profile')
-          .end(function(err, res) {
+          .end((err, res) => {
+            should.not.exist(err);
             res.redirects.length.should.equal(1);
             res.status.should.equal(200);
             res.type.should.equal('text/html');
@@ -204,14 +223,15 @@ describe('routes : users', function() {
         });
       });
     });
-    describe('POST /users/:id/profile', function() {
-      it('should return a 200 response', function(done) {
+    describe('POST /users/:id/profile', () => {
+      it('should return a 200 response', (done) => {
         chai.request(server)
         .post('/users/1/profile')
         .send({
           displayName: 'John Doe'
         })
-        .end(function(err, res) {
+        .end((err, res) => {
+          should.not.exist(err);
           res.redirects.length.should.equal(1);
           res.status.should.equal(200);
           res.type.should.equal('text/html');
@@ -223,21 +243,27 @@ describe('routes : users', function() {
     });
   });
 
-  describe('if authenticated and active but unverified', function() {
-    beforeEach(function(done) {
-      testHelpers.authenticateActiveUser(done);
+  describe('if authenticated, active, !verified', () => {
+    beforeEach((done) => {
+      const permissions = {
+        verified: false,
+        admin: false,
+        active: true
+      };
+      testHelpers.authenticate(permissions, done);
     });
-    afterEach(function(done) {
+    afterEach((done) => {
       passportStub.logout();
       done();
     });
-    describe('GET /users/:id/profile', function() {
-      it('should redirect to the not verified page', function(done) {
+    describe('GET /users/:id/profile', () => {
+      it('should redirect to the not verified page', (done) => {
         userQueries.getUsers()
-        .then(function(users) {
+        .then((users) => {
           chai.request(server)
           .get('/users/' + parseInt(users[0].id) + '/profile')
-          .end(function(err, res) {
+          .end((err, res) => {
+            should.not.exist(err);
             res.redirects.length.should.equal(1);
             res.status.should.equal(200);
             res.type.should.equal('text/html');
@@ -250,14 +276,15 @@ describe('routes : users', function() {
         });
       });
     });
-    describe('POST /users/:id/profile', function() {
-      it('should redirect to the not verified page', function(done) {
+    describe('POST /users/:id/profile', () => {
+      it('should redirect to the not verified page', (done) => {
         chai.request(server)
         .post('/users/1/profile')
         .send({
           displayName: 'John Doe'
         })
-        .end(function(err, res) {
+        .end((err, res) => {
+          should.not.exist(err);
           res.redirects.length.should.equal(1);
           res.status.should.equal(200);
           res.type.should.equal('text/html');

@@ -1,37 +1,38 @@
 process.env.NODE_ENV = 'test';
 
-var chai = require('chai');
+const chai = require('chai');
 
-var knex = require('../../server/db/knex');
-var messageQueries = require('../../server/db/queries.messages');
+const knex = require('../../server/db/knex');
+const messageQueries = require('../../server/db/queries.messages');
 
-var should = chai.should();
+const should = chai.should();
 
-describe('db : queries : messages', function() {
+describe('db : queries : messages', () => {
 
-  beforeEach(function(done) {
-    knex.migrate.rollback()
-    .then(function() {
-      knex.migrate.latest()
-      .then(function() {
-        return knex.seed.run()
-        .then(function() {
-          done();
-        });
-      });
-    });
-  });
-
-  afterEach(function(done) {
-    knex.migrate.rollback()
-    .then(function() {
+  beforeEach((done) => {
+    return knex.migrate.rollback()
+    .then(() => {
+      return knex.migrate.latest();
+    })
+    .then(() => {
+      return knex.seed.run();
+    })
+    .then(() => {
       done();
     });
   });
-  describe('getAllMessages()', function() {
-    it('should format data correctly', function(done) {
+
+  afterEach((done) => {
+    return knex.migrate.rollback()
+    .then(() => {
+      done();
+    });
+  });
+
+  describe('getAllMessages()', () => {
+    it('should format data correctly', (done) => {
       messageQueries.getAllMessages()
-      .then(function(results) {
+      .then((results) => {
         results.length.should.equal(6);
         results[0].should.include.keys('id', 'content', 'parent_id', 'lesson_id', 'user_id', 'created_at', 'updated_at', 'active');
         results[1].should.include.keys('id', 'content', 'parent_id', 'lesson_id', 'user_id', 'created_at', 'updated_at', 'active');
@@ -43,10 +44,10 @@ describe('db : queries : messages', function() {
       done();
     });
   });
-  describe('getMessagesFromLessonID(1)', function() {
-    it('should format data correctly', function(done) {
+  describe('getMessagesFromLessonID(1)', () => {
+    it('should format data correctly', (done) => {
       messageQueries.getMessagesFromLessonID(1)
-      .then(function(results) {
+      .then((results) => {
         results.length.should.equal(4);
         results[0].should.include.keys('id', 'content', 'parent_id', 'lesson_id', 'user_id', 'created_at', 'updated_at', 'active');
         results[1].should.include.keys('id', 'content', 'parent_id', 'lesson_id', 'user_id', 'created_at', 'updated_at', 'active');
@@ -56,12 +57,11 @@ describe('db : queries : messages', function() {
       done();
     });
   });
-  describe('messagesAndUsers()', function() {
-    it('should format data correctly', function(done) {
-      messageQueries.messagesAndUsers(1)
-      .then(function(results) {
-        var d1;
-        var d2;
+  describe('messagesAndUsers()', () => {
+    it('should format data correctly', (done) => {
+      messageQueries.messagesAndUsers(1, (err, results) => {
+        let d1;
+        let d2;
         if (results[0].messageContent === 'Awesome lesson!') {
           d1 = Date.parse(results[0].messageCreatedAt);
           d2 = Date.parse(results[1].messageCreatedAt);
@@ -69,23 +69,23 @@ describe('db : queries : messages', function() {
           d1 = Date.parse(results[1].messageCreatedAt);
           d2 = Date.parse(results[0].messageCreatedAt);
         }
-        var test = d1 >= d2;
+        const test = d1 >= d2;
         test.should.be.true; // jshint ignore:line
       });
       done();
     });
   });
-  describe('deleteMessage()', function() {
-    it('should delete a single, parent message', function(done) {
+  describe('deleteMessage()', () => {
+    it('should delete a single, parent message', (done) => {
       messageQueries.getActiveParentMessages()
-      .then(function(parentMessages) {
-        var parentMessageID = parseInt(parentMessages[0].id);
-        var parentMessagesLength = parseInt(parentMessages.length);
+      .then((parentMessages) => {
+        const parentMessageID = parseInt(parentMessages[0].id);
+        const parentMessagesLength = parseInt(parentMessages.length);
         messageQueries.deleteMessage(parentMessageID)
-        .then(function(results) {
+        .then((results) => {
           messageQueries.getActiveParentMessages()
-          .then(function(messages) {
-            var test = (parentMessagesLength - 1) === parseInt(messages.length);
+          .then((messages) => {
+            const test = (parentMessagesLength - 1) === parseInt(messages.length);
             test.should.be.true; // jshint ignore:line
           });
           done();
@@ -93,18 +93,18 @@ describe('db : queries : messages', function() {
       });
     });
   });
-  describe('deleteChildMessagesFromParent()', function() {
-    it('should delete all child messages', function(done) {
+  describe('deleteChildMessagesFromParent()', () => {
+    it('should delete all child messages', (done) => {
       messageQueries.getActiveChildMessages()
-      .then(function(childMessages) {
-        var parentMessageID = parseInt(childMessages[0].parent_id);
-        var parentMessagesLength = parseInt(childMessages.length);
+      .then((childMessages) => {
+        const parentMessageID = parseInt(childMessages[0].parent_id);
+        const parentMessagesLength = parseInt(childMessages.length);
         messageQueries.deleteChildMessagesFromParent(parentMessageID)
-        .then(function(numberOfDeleted) {
-          var firstTest = parentMessagesLength === parseInt(numberOfDeleted);
+        .then((numberOfDeleted) => {
+          const firstTest = parentMessagesLength === parseInt(numberOfDeleted);
           firstTest.should.be.true; // jshint ignore:line
           messageQueries.getActiveChildMessages()
-          .then(function(messages) {
+          .then((messages) => {
             (messages.length).should.eq(0);
             done();
           });
@@ -112,17 +112,17 @@ describe('db : queries : messages', function() {
       });
     });
   });
-  describe('deactivateMessage()', function() {
-    it('should deactivate a single, parent message', function(done) {
+  describe('deactivateMessage()', () => {
+    it('should deactivate a single, parent message', (done) => {
       messageQueries.getActiveParentMessages()
-      .then(function(parentMessages) {
-        var parentMessageID = parseInt(parentMessages[0].id);
-        var parentMessagesLength = parseInt(parentMessages.length);
+      .then((parentMessages) => {
+        const parentMessageID = parseInt(parentMessages[0].id);
+        const parentMessagesLength = parseInt(parentMessages.length);
         messageQueries.deactivateMessage(parentMessageID)
-        .then(function(results) {
+        .then((results) => {
           messageQueries.getActiveParentMessages()
-          .then(function(messages) {
-            var test = (parentMessagesLength - 1) === parseInt(messages.length);
+          .then((messages) => {
+            const test = (parentMessagesLength - 1) === parseInt(messages.length);
             test.should.be.true; // jshint ignore:line
           });
           done();
@@ -130,18 +130,18 @@ describe('db : queries : messages', function() {
       });
     });
   });
-  describe('deactivateChildMessagesFromParent()', function() {
-    it('should deactivate all child messages', function(done) {
+  describe('deactivateChildMessagesFromParent()', () => {
+    it('should deactivate all child messages', (done) => {
       messageQueries.getActiveChildMessages()
-      .then(function(childMessages) {
-        var parentMessageID = parseInt(childMessages[0].parent_id);
-        var parentMessagesLength = parseInt(childMessages.length);
+      .then((childMessages) => {
+        const parentMessageID = parseInt(childMessages[0].parent_id);
+        const parentMessagesLength = parseInt(childMessages.length);
         messageQueries.deactivateChildMessagesFromParent(parentMessageID)
-        .then(function(numberOfDectivated) {
-          var firstTest = parentMessagesLength === parseInt(numberOfDectivated);
+        .then((numberOfDectivated) => {
+          const firstTest = parentMessagesLength === parseInt(numberOfDectivated);
           firstTest.should.be.true; // jshint ignore:line
           messageQueries.getActiveChildMessages()
-          .then(function(messages) {
+          .then((messages) => {
             (messages.length).should.eq(0);
             done();
           });
@@ -149,20 +149,18 @@ describe('db : queries : messages', function() {
       });
     });
   });
-  describe('getInactiveMessages()', function() {
-    it('should format data correctly', function(done) {
-      messageQueries.getInactiveMessages()
-      .then(function(results) {
+  describe('getInactiveMessages()', () => {
+    it('should format data correctly', (done) => {
+      messageQueries.getInactiveMessages((err, results) => {
         results.length.should.equal(1);
         results[0].should.include.keys('id', 'content', 'parent_id', 'lesson_id', 'user_id', 'created_at', 'updated_at', 'active');
       });
       done();
     });
   });
-  describe('getActiveMessages()', function() {
-    it('should format data correctly', function(done) {
-      messageQueries.getActiveMessages()
-      .then(function(results) {
+  describe('getActiveMessages()', () => {
+    it('should format data correctly', (done) => {
+      messageQueries.getActiveMessages((err, results) => {
         results.length.should.equal(5);
         results[0].active.should.eql(true);
         results[0].should.include.keys('id', 'content', 'parent_id', 'lesson_id', 'user_id', 'created_at', 'updated_at', 'active');

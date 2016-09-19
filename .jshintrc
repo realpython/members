@@ -1,5 +1,7 @@
+
 {
   "globals": {
+    "esnext": true,
     "jasmine": false,
     "spyOn": false,
     "it": false,
@@ -14,6 +16,7 @@
     "$": false,
     "confirm": false
   },
+  "esnext": true,
   "node" : true,
   "browser" : true,
   "boss" : false,

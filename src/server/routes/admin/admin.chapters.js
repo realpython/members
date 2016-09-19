@@ -1,19 +1,24 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
-var authHelpers = require('../../auth/helpers');
-var chapterQueries = require('../../db/queries.chapters');
-var lessonQueries = require('../../db/queries.lessons');
+const authHelpers = require('../../auth/helpers');
+const chapterQueries = require('../../db/queries.chapters');
+const lessonQueries = require('../../db/queries.lessons');
 
 // *** get all chapters *** //
-router.get('/', authHelpers.ensureAdmin,
-function(req, res, next) {
+router.get(
+  '/',
+  authHelpers.ensureAdmin,
+  getAllChapters
+);
+
+function getAllChapters(req, res, next) {
   // get breadcrumbs
-  var breadcrumbs = ['Admin', 'Chapters'];
+  const breadcrumbs = ['Admin', 'Chapters'];
   // get all chapters
-  return chapterQueries.getChapters()
-  .then(function(chapters) {
-    var renderObject = {
+  return chapterQueries.getChapters((err, chapters) => {
+    if (err) return next(err);
+    const renderObject = {
       title: 'Textbook LMS - admin',
       pageTitle: 'Chapters',
       user: req.user,
@@ -22,17 +27,14 @@ function(req, res, next) {
       messages: req.flash('messages')
     };
     return res.render('admin/chapters', renderObject);
-  })
-  .catch(function(err) {
-    return next(err);
   });
-});
+}
 
 // *** get single chapter *** //
 router.get('/:id',
 authHelpers.ensureAdmin,
 function(req, res, next) {
-  var chapterID = parseInt(req.params.id);
+  const chapterID = parseInt(req.params.id);
   return chapterQueries.getSingleChapter(chapterID)
   .then(function(chapter) {
     if (chapter.length) {
@@ -57,8 +59,8 @@ function(req, res, next) {
 router.post('/', authHelpers.ensureAdmin,
 function(req, res, next) {
   // TODO: Add server side validation
-  var payload = req.body;
-  var chapter = {
+  const payload = req.body;
+  const chapter = {
     order_number: payload.orderNumber,
     name: payload.name,
     active: payload.active || false
@@ -83,9 +85,9 @@ function(req, res, next) {
 router.put('/:id', authHelpers.ensureAdmin,
 function(req, res, next) {
   // TODO: Add server side validation
-  var chapterID = parseInt(req.params.id);
-  var payload = req.body;
-  var chapterObject = {
+  const chapterID = parseInt(req.params.id);
+  const payload = req.body;
+  const chapterObject = {
     order_number: parseInt(payload.chapterOrderNumber),
     name: payload.chapterName,
     active: payload.chapterActive
@@ -114,7 +116,7 @@ function(req, res, next) {
 router.get('/:chapterID/deactivate', authHelpers.ensureAdmin,
 function(req, res, next) {
   // TODO: Add server side validation
-  var chapterID = parseInt(req.params.chapterID);
+  const chapterID = parseInt(req.params.chapterID);
   return chapterQueries.deactivateChapter(chapterID)
   .then(function(chapter) {
     if (chapter.length) {

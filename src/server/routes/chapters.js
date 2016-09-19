@@ -1,36 +1,37 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
-var authHelpers = require('../auth/helpers');
-var chapterQueries = require('../db/queries.chapters');
-var routeHelpers = require('./_helpers');
+const authHelpers = require('../auth/helpers');
+const chapterQueries = require('../db/queries.chapters');
+const routeHelpers = require('./_helpers');
 
 // *** get single chapter *** //
 router.get('/:id',
   authHelpers.ensureVerified,
   authHelpers.ensureAuthenticated,
   authHelpers.ensureActive,
-  function(req, res, next) {
-  var renderObject = {
-    user: req.user,
-    messages: req.flash('messages')
-  };
-  var userID = req.user.id;
-  // get all side bar data
-  routeHelpers.getSideBarData(userID)
-  .then(function(data) {
-    renderObject.sortedChapters = data.sortedChapters;
-    renderObject.completedArray = data.completed;
+  getSingleChapter
+);
+
+function getSingleChapter(req, res, next) {
+  const userID = parseInt(req.user.id);
+  routeHelpers.getSideBarData(userID, (err, data) => {
+    if (err) return next(err);
     // get single chapter info
-    var singleChapter = (data.sortedChapters).filter(function(chapter) {
+    const singleChapter = (data.sortedChapters).filter((chapter) => {
       return parseInt(chapter.chapterID) === parseInt(req.params.id);
     });
     // render
     if (singleChapter.length) {
-      var chapterObject = singleChapter[0];
-      renderObject.title = 'Textbook LMS - ' + chapterObject.chapterName;
-      renderObject.pageTitle = chapterObject.chapterName;
-      renderObject.singleChapter = chapterObject;
+      const renderObject = {
+        title: 'Textbook LMS - ' + singleChapter[0].chapterName,
+        pageTitle: singleChapter[0].chapterName,
+        user: req.user,
+        sortedChapters: data.sortedChapters,
+        completedArray: data.completed,
+        singleChapter: singleChapter[0],
+        messages: req.flash('messages')
+      };
       return res.render('chapter', renderObject);
     } else {
       req.flash('messages', {
@@ -39,10 +40,7 @@ router.get('/:id',
       });
       return res.redirect('/');
     }
-  })
-  .catch(function(err) {
-    return next(err);
   });
-});
+}
 
 module.exports = router;
