@@ -495,8 +495,8 @@ describe('routes : admin : lessons', () => {
     });
     describe('POST /admin/lessons', () => {
       it('should not add new rows to the \'users_lessons\' table when duplicate data is used', (done) => {
-        usersLessonsQueries.getAllUsersAndLessons((err, results) => {
-          const totalLessonsCount = parseInt(results.length);
+        return knex('users_lessons').del()
+        .then(() => {
           chai.request(server)
           .post('/admin/lessons')
           .send(testHelpers.duplicateLesson)
@@ -508,7 +508,7 @@ describe('routes : admin : lessons', () => {
             res.text.should.contain('<p>Something went wrong!</p>');
             usersLessonsQueries.getAllUsersAndLessons((err, lessons) => {
               const newCount = parseInt(lessons.length);
-              newCount.should.equal(totalLessonsCount);
+              newCount.should.equal(0);
               done();
             });
           });

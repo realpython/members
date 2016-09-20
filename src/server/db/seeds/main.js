@@ -7,21 +7,11 @@
 
   exports.seed = (knex, Promise) => {
     return helpers.dropTables()
-    .then(() => {
-      return helpers.insertUsers();
-    })
-    .then(() => {
-      return helpers.insertChapters();
-    })
-    .then(() => {
-      return helpers.getChapters();
-    })
-    .then((chapters) => {
-      return helpers.insertLessons(chapters);
-    })
-    .then(() => {
-      return helpers.getUsers();
-    })
+    .then(() => { return helpers.insertUsers(); })
+    .then(() => { return helpers.insertChapters(); })
+    .then(() => { return helpers.getChapters(); })
+    .then((chapters) => { return helpers.insertLessons(chapters); })
+    .then(() => { return helpers.getUsers(); })
     .then((users) => {
       userID = parseInt(users[0].id);
       return helpers.getLessons();
@@ -32,18 +22,14 @@
       });
       return Promise.all(allPromises);
     })
-    .then(() => {
-      return helpers.insertMessages(userID);
-    })
+    .then(() => { return helpers.insertMessages(userID); })
     .then((messages) => {
-      return helpers.insertMessageReplies(parseInt(messages[0][0]), userID);
+      return helpers.insertMessageReplies(
+        parseInt(messages[0][0]), userID);
     })
-    .then(() => {
-      return helpers.insertSuggestions(userID);
-    })
-    .then(() => {
-      return helpers.insertCodes();
-    });
+    .then(() => { return helpers.insertSuggestions(userID); })
+    .then(() => { return helpers.insertCodes(); })
+    .catch((err) => console.log(err));
   };
 
 }());
