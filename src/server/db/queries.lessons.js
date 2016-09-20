@@ -1,4 +1,4 @@
-const knex = require('./knex');
+const knex = require('./connection');
 
 function getAllLessons(callback) {
   return knex('lessons')
@@ -25,13 +25,6 @@ function getActiveLessons(callback) {
   });
 }
 
-function getInactiveLessons() {
-  return knex('lessons')
-  .select('*')
-  .orderBy('lesson_order_number')
-  .where('active', false);
-}
-
 function getActiveLessonOrderNumbers(callback) {
   return knex('lessons')
   .select('lesson_order_number')
@@ -43,6 +36,13 @@ function getActiveLessonOrderNumbers(callback) {
   .catch((err) => {
     callback(err);
   });
+}
+
+function getInactiveLessons() {
+  return knex('lessons')
+  .select('*')
+  .orderBy('lesson_order_number')
+  .where('active', false);
 }
 
 function getLessonsFromChapterID(chapterID) {

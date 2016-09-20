@@ -2,7 +2,7 @@ process.env.NODE_ENV = 'test';
 
 const chai = require('chai');
 
-const knex = require('../../server/db/knex');
+const knex = require('../../server/db/connection');
 const lessonQueries = require('../../server/db/queries.lessons');
 
 const should = chai.should();
@@ -26,6 +26,39 @@ describe('db : queries : lessons', () => {
     return knex.migrate.rollback()
     .then(() => {
       done();
+    });
+  });
+
+  describe('getAllLessons()', () => {
+    it('should return all lessons', (done) => {
+      lessonQueries.getAllLessons((err, lessons) => {
+        should.not.exist(err);
+        lessons.length.should.equal(7);
+        lessons[0].should.include.keys(
+          'id', 'lesson_order_number', 'chapter_order_number',
+          'content', 'active', 'chapter_id', 'created_at');
+        lessons[6].should.include.keys(
+          'id', 'lesson_order_number', 'chapter_order_number',
+          'content', 'active', 'chapter_id', 'created_at');
+        done();
+      });
+    });
+  });
+
+  describe('getActiveLessons()', () => {
+    it('should return all active lessons', (done) => {
+      lessonQueries.getActiveLessons((err, lessons) => {
+        should.not.exist(err);
+        lessons.length.should.equal(6);
+        lessons[0].should.include.keys(
+          'id', 'lesson_order_number', 'chapter_order_number',
+          'content', 'active', 'chapter_id', 'created_at');
+        lessons[0].active.should.eql(true);
+        lessons[5].should.include.keys(
+          'id', 'lesson_order_number', 'chapter_order_number',
+          'content', 'active', 'chapter_id', 'created_at');
+        done();
+      });
     });
   });
 

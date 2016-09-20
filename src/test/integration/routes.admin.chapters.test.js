@@ -4,7 +4,7 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const passportStub = require('passport-stub');
 
-const knex = require('../../server/db/knex');
+const knex = require('../../server/db/connection');
 const server = require('../../server/app');
 const chapterQueries = require('../../server/db/queries.chapters');
 const testHelpers = require('../_helpers');
@@ -421,8 +421,7 @@ describe('routes : admin : chapters', () => {
     });
     describe('GET /admin/chapters/1', () => {
       it('should return a response', (done) => {
-        chapterQueries.getSingleChapter(1)
-        .then((chapter) => {
+        chapterQueries.getSingleChapterFromID(1, (err, chapter) => {
           chai.request(server)
           .get('/admin/chapters/1')
           .end((err, res) => {
@@ -445,9 +444,9 @@ describe('routes : admin : chapters', () => {
         .end((err, res) => {
           should.exist(err);
           res.redirects.length.should.equal(0);
-          res.status.should.equal(500);
+          res.status.should.equal(404);
           res.type.should.equal('application/json');
-          res.body.message.should.equal('Something went wrong.');
+          res.body.message.should.equal('That chapter does not exist.');
           done();
         });
       });

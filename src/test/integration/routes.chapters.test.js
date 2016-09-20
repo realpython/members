@@ -4,7 +4,7 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const passportStub = require('passport-stub');
 
-const knex = require('../../server/db/knex');
+const knex = require('../../server/db/connection');
 const server = require('../../server/app');
 const chapterQueries = require('../../server/db/queries.chapters');
 const testHelpers = require('../_helpers');
@@ -82,7 +82,7 @@ describe('routes : chapters', () => {
     });
     describe('GET /chapters/:id', () => {
       it('should return a response', (done) => {
-        chapterQueries.getSingleChapterFromOrder(2, (err, chapter) => {
+        chapterQueries.getSingleChapterFromOrderNum(2, (err, chapter) => {
           chai.request(server)
           .get('/chapters/' + chapter[0].id)
           .end((err, res) => {
@@ -129,7 +129,7 @@ describe('routes : chapters', () => {
     });
     describe('GET /chapters/:id', () => {
       it('should redirect to the inactive page', (done) => {
-        chapterQueries.getSingleChapterFromOrder(2, (err, chapter) => {
+        chapterQueries.getSingleChapterFromOrderNum(2, (err, chapter) => {
           chai.request(server)
           .get('/chapters/' + chapter[0].id)
           .end((err, res) => {
@@ -176,7 +176,7 @@ describe('routes : chapters', () => {
     });
     describe('GET /chapters/:id', () => {
       it('should redirect to the not verified page', (done) => {
-        chapterQueries.getSingleChapterFromOrder(2, (err, chapter) => {
+        chapterQueries.getSingleChapterFromOrderNum(2, (err, chapter) => {
           chai.request(server)
           .get('/chapters/' + chapter[0].id)
           .end((err, res) => {

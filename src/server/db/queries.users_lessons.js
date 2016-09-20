@@ -1,4 +1,4 @@
-const knex = require('./knex');
+const knex = require('./connection');
 const lessonQueries = require('./queries.lessons');
 
 function addRow(obj, callback) {

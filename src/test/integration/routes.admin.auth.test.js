@@ -5,7 +5,7 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const passportStub = require('passport-stub');
 
-const knex = require('../../server/db/knex');
+const knex = require('../../server/db/connection');
 const server = require('../../server/app');
 const testHelpers = require('../_helpers');
 

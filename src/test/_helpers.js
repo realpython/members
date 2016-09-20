@@ -1,6 +1,6 @@
 const passportStub = require('passport-stub');
 
-const knex = require('../server/db/knex');
+const knex = require('../server/db/connection');
 const userQueries = require('../server/db/queries.users');
 const lessonsQueries = require('../server/db/queries.lessons');
 const codeQueries = require('../server/db/queries.codes');

@@ -2,7 +2,7 @@ process.env.NODE_ENV = 'test';
 
 const chai = require('chai');
 
-const knex = require('../../server/db/knex');
+const knex = require('../../server/db/connection');
 const messageQueries = require('../../server/db/queries.messages');
 
 const should = chai.should();
@@ -60,6 +60,7 @@ describe('db : queries : messages', () => {
   describe('messagesAndUsers()', () => {
     it('should format data correctly', (done) => {
       messageQueries.messagesAndUsers(1, (err, results) => {
+        should.not.exist(err);
         var d1;
         var d2;
         if (results[0].messageContent === 'Awesome lesson!') {
@@ -152,6 +153,7 @@ describe('db : queries : messages', () => {
   describe('getInactiveMessages()', () => {
     it('should format data correctly', (done) => {
       messageQueries.getInactiveMessages((err, results) => {
+        should.not.exist(err);
         results.length.should.equal(1);
         results[0].should.include.keys('id', 'content', 'parent_id', 'lesson_id', 'user_id', 'created_at', 'updated_at', 'active');
       });
@@ -161,6 +163,7 @@ describe('db : queries : messages', () => {
   describe('getActiveMessages()', () => {
     it('should format data correctly', (done) => {
       messageQueries.getActiveMessages((err, results) => {
+        should.not.exist(err);
         results.length.should.equal(5);
         results[0].active.should.eql(true);
         results[0].should.include.keys('id', 'content', 'parent_id', 'lesson_id', 'user_id', 'created_at', 'updated_at', 'active');

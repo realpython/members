@@ -12,6 +12,13 @@ router.get(
   getAllChapters
 );
 
+// *** get single chapter *** //
+router.get(
+  '/:id',
+  authHelpers.ensureAdmin,
+  getSingleChapter
+);
+
 function getAllChapters(req, res, next) {
   // get breadcrumbs
   const breadcrumbs = ['Admin', 'Chapters'];
@@ -30,30 +37,28 @@ function getAllChapters(req, res, next) {
   });
 }
 
-// *** get single chapter *** //
-router.get('/:id',
-authHelpers.ensureAdmin,
-function(req, res, next) {
+
+function getSingleChapter(req, res, next) {
   const chapterID = parseInt(req.params.id);
-  return chapterQueries.getSingleChapter(chapterID)
-  .then(function(chapter) {
-    if (chapter.length) {
-      return res.status(200).json({
-        status: 'success',
-        data: chapter[0]
-      });
-    } else {
+  chapterQueries.getSingleChapterFromID(chapterID, (err, chapter) => {
+    if (err) {
       return res.status(500).json({
         message: 'Something went wrong.'
       });
+    } else {
+      if (chapter.length) {
+        return res.status(200).json({
+          status: 'success',
+          data: chapter[0]
+        });
+      } else {
+        return res.status(404).json({
+          message: 'That chapter does not exist.'
+        });
+      }
     }
-  })
-  .catch(function(err) {
-    return res.status(500).json({
-      message: 'Something went wrong.'
-    });
   });
-});
+}
 
 // *** add new chapter *** //
 router.post('/', authHelpers.ensureAdmin,

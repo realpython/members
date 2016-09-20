@@ -4,7 +4,7 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const passportStub = require('passport-stub');
 
-const knex = require('../../server/db/knex');
+const knex = require('../../server/db/connection');
 const server = require('../../server/app');
 const lessonQueries = require('../../server/db/queries.lessons');
 const usersLessonsQueries = require('../../server/db/queries.users_lessons');
@@ -465,51 +465,6 @@ describe('routes : admin : lessons', () => {
             lessonQueries.getAllLessons((err, lessons) => {
               const newCount = parseInt(lessons.length);
               newCount.should.equal(totalLessonsCount + 1);
-              done();
-            });
-          });
-        });
-      });
-    });
-    describe('POST /admin/lessons', () => {
-      beforeEach((done) => {
-        return knex.migrate.rollback()
-        .then(() => {
-          return knex.migrate.latest();
-        })
-        .then(() => {
-          return knex.seed.run();
-        })
-        .then(() => {
-          const permissions = {
-            verified: true,
-            admin: true,
-            active: true
-          };
-          testHelpers.authenticate(permissions, done);
-        });
-      });
-      afterEach((done) => {
-        return knex.migrate.rollback()
-        .then(() => {
-          done();
-        });
-      });
-      it('should add new rows to the \'users_lessons\' table', (done) => {
-        usersLessonsQueries.getAllUsersAndLessons((err, results) => {
-          results.length.should.equal(14);
-          chai.request(server)
-          .post('/admin/lessons')
-          .send(testHelpers.sampleLesson)
-          .end((err, res) => {
-            should.not.exist(err);
-            res.redirects.length.should.equal(1);
-            res.status.should.equal(200);
-            res.type.should.equal('text/html');
-            res.text.should.contain('<h1>Lessons</h1>');
-            // check database for added rows to users_queries
-            usersLessonsQueries.getAllUsersAndLessons((err, updatedResults) => {
-              updatedResults.length.should.equal(16);
               done();
             });
           });

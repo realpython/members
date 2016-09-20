@@ -1,4 +1,4 @@
-const knex = require('./knex');
+const knex = require('./connection');
 
 function getChapters(callback) {
   return knex('chapters')
@@ -12,13 +12,19 @@ function getChapters(callback) {
   });
 }
 
-function getSingleChapter(chapterID) {
+function getSingleChapterFromID(chapterID, callback) {
   return knex('chapters')
-    .select('*')
-    .where('id', parseInt(chapterID));
+  .select('*')
+  .where('id', parseInt(chapterID))
+  .then((chapter) => {
+    callback(null, chapter);
+  })
+  .catch((err) => {
+    callback(err);
+  });
 }
 
-function getSingleChapterFromOrder(orderNum, callback) {
+function getSingleChapterFromOrderNum(orderNum, callback) {
   return knex('chapters')
   .select('*')
   .where('order_number', parseInt(orderNum))
@@ -76,8 +82,8 @@ function updateChapter(chapterID, obj) {
 
 module.exports = {
   getChapters,
-  getSingleChapter: getSingleChapter,
-  getSingleChapterFromOrder,
+  getSingleChapterFromID,
+  getSingleChapterFromOrderNum,
   chaptersAndLessons,
   addChapter: addChapter,
   deactivateChapter: deactivateChapter,

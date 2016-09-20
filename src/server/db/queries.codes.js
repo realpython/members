@@ -1,4 +1,4 @@
-const knex = require('./knex');
+const knex = require('./connection');
 
 function addCode(obj, callback) {
   return knex('codes')

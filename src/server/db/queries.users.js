@@ -1,4 +1,4 @@
-var knex = require('./knex');
+var knex = require('./connection');
 
 function addUser(obj, callback) {
   return knex('users')

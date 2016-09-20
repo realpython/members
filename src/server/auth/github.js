@@ -1,18 +1,25 @@
-const passport = require('passport');
-const GitHubStrategy = require('passport-github2').Strategy;
+(function() {
 
-const knex = require('../db/knex');
-const authHelpers = require('./helpers');
-const init = require('./init');
+  'use strict';
 
-const githubConfig = {
-  clientID: process.env.githubClientID,
-  clientSecret: process.env.githubClientSecret,
-  callbackURL: process.env.callbackURL
-};
+  const passport = require('passport');
+  const GitHubStrategy = require('passport-github2').Strategy;
 
-passport.use(new GitHubStrategy(githubConfig, authHelpers.githubCallback));
+  const knex = require('../db/connection');
+  const authHelpers = require('./helpers');
+  const init = require('./init');
 
-init();
+  const githubConfig = {
+    clientID: process.env.githubClientID,
+    clientSecret: process.env.githubClientSecret,
+    callbackURL: process.env.callbackURL
+  };
 
-module.exports = passport;
+  passport.use(new GitHubStrategy(
+    githubConfig, authHelpers.githubCallback));
+
+  init();
+
+  module.exports = passport;
+
+}());

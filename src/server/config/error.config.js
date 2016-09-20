@@ -1,5 +1,7 @@
 ((errorConfig) => {
 
+  'use strict';
+
   errorConfig.init = (app) => {
 
     // *** error handling *** //

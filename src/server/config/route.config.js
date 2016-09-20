@@ -1,5 +1,7 @@
 ((routeConfig) => {
 
+  'use strict';
+
   routeConfig.init = (app) => {
 
     // *** routes *** //
