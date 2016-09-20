@@ -5,7 +5,7 @@ exports.seed = (knex, Promise) => {
   .returning('*')
   .then((chapters) => {
     // get chapter order number
-    const chapterOrder = chapters[0].map(function(chapter) {
+    const chapterOrder = chapters.map((chapter) => {
       return chapter.order_number;
     });
     // link lesson name to order number

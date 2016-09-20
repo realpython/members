@@ -1,8 +1,5 @@
-exports.seed = function(knex, Promise) {
+exports.seed = (knex, Promise) => {
   return Promise.join(
-    // Deletes ALL existing entries
-    // knex('chapters').del(),
-    // Inserts seed entries
     knex('chapters').insert({
       order_number: 1,
       name: 'Functions and Loops'

@@ -12,13 +12,11 @@ exports.seed = (knex, Promise) => {
   })
   .returning('*')
   .then((user) => {
-    const userID = parseInt(user[0][0].id);
-    return Promise.join(
-      knex('lessons').select('*')
-    )
+    const userID = parseInt(user[0].id);
+    return knex('lessons').select('*')
     .then((lessons) => {
       // update users_lessons
-      lessons[0].forEach((lesson) => {
+      lessons.forEach((lesson) => {
         return knex('users_lessons')
         .insert({
           user_id: userID,

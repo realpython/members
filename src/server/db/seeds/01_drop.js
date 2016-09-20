@@ -3,6 +3,8 @@ exports.seed = (knex, Promise) => {
     knex('chapters').del(),
     knex('lessons').del(),
     knex('users').del(),
-    knex('messages').del()
+    knex('messages').del(),
+    knex('suggestions').del(),
+    knex('codes').del()
   ]);
 };
