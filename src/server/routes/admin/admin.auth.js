@@ -1,42 +1,48 @@
-const express = require('express');
-const router = express.Router();
+(function() {
 
-const authHelpers = require('../../auth/helpers');
-const userQueries = require('../../db/queries.users');
+  'use strict';
 
-// *** get verification status *** //
-router.get(
-  '/verification',
-  authHelpers.ensureAdmin,
-  getVerificationStatus
-);
+  const express = require('express');
+  const router = express.Router();
 
-// *** toggle verification status *** //
-router.get(
-  '/verification/toggle',
-  authHelpers.ensureAdmin,
-  toggleVerificationStatus
-);
+  const authHelpers = require('../../auth/helpers');
+  const userQueries = require('../../db/queries/users');
 
-function getVerificationStatus(req, res, next) {
-  let status = false;
-  // check status
-  if (parseInt(process.env.CAN_VERIFY) === 1) status = true;
-  return res.status(200).json({
-    status: 'success',
-    verified: status
-  });
-}
+  // *** get verification status *** //
+  router.get(
+    '/verification',
+    authHelpers.ensureAdmin,
+    getVerificationStatus
+  );
 
-function toggleVerificationStatus(req, res, next) {
-  process.env.CAN_VERIFY = 1;
-  // check status
-  if (parseInt(process.env.CAN_VERIFY) === 1) process.env.CAN_VERIFY = 0;
-  req.flash('messages', {
-    status: 'success',
-    value: 'Verification status toggled.'
-  });
-  return res.redirect('/');
-}
+  // *** toggle verification status *** //
+  router.get(
+    '/verification/toggle',
+    authHelpers.ensureAdmin,
+    toggleVerificationStatus
+  );
 
-module.exports = router;
+  function getVerificationStatus(req, res, next) {
+    let status = false;
+    // check status
+    if (parseInt(process.env.CAN_VERIFY) === 1) status = true;
+    return res.status(200).json({
+      status: 'success',
+      verified: status
+    });
+  }
+
+  function toggleVerificationStatus(req, res, next) {
+    process.env.CAN_VERIFY = 1;
+    // check status
+    if (parseInt(process.env.CAN_VERIFY) === 1) process.env.CAN_VERIFY = 0;
+    req.flash('messages', {
+      status: 'success',
+      value: 'Verification status toggled.'
+    });
+    return res.redirect('/');
+  }
+
+  module.exports = router;
+
+}());

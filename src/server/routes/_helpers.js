@@ -1,8 +1,8 @@
-const chapterQueries = require('../db/queries.chapters');
-const userQueries = require('../db/queries.users');
-const lessonQueries = require('../db/queries.lessons');
-const messageQueries = require('../db/queries.messages');
-const usersLessonsQueries = require('../db/queries.users_lessons');
+const chapterQueries = require('../db/queries/chapters');
+const userQueries = require('../db/queries/users');
+const lessonQueries = require('../db/queries/lessons');
+const messageQueries = require('../db/queries/messages');
+const usersLessonsQueries = require('../db/queries/users_lessons');
 
 function getTotalActiveLessons(chapters) {
   var total = chapters.reduce(function(acc, chapter) {

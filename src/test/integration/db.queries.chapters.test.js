@@ -3,7 +3,7 @@ process.env.NODE_ENV = 'test';
 const chai = require('chai');
 
 const knex = require('../../server/db/connection');
-const chapterQueries = require('../../server/db/queries.chapters');
+const chapterQueries = require('../../server/db/queries/chapters');
 
 const should = chai.should();
 
@@ -82,5 +82,5 @@ describe('db : queries : chapters', () => {
       done();
     });
   });
-  
+
 });

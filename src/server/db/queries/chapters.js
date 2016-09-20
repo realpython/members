@@ -1,4 +1,4 @@
-const knex = require('./connection');
+const knex = require('../connection');
 
 function getChapters(callback) {
   return knex('chapters')

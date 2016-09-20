@@ -6,8 +6,8 @@ const passportStub = require('passport-stub');
 
 const knex = require('../../server/db/connection');
 const server = require('../../server/app');
-const userQueries = require('../../server/db/queries.users');
-const usersLessonsQueries = require('../../server/db/queries.users_lessons');
+const userQueries = require('../../server/db/queries/users');
+const usersLessonsQueries = require('../../server/db/queries/users_lessons');
 const testHelpers = require('../_helpers');
 
 const should = chai.should();

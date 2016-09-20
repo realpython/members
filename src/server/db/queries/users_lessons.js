@@ -1,5 +1,5 @@
-const knex = require('./connection');
-const lessonQueries = require('./queries.lessons');
+const knex = require('../connection');
+const lessonQueries = require('./lessons');
 
 function addRow(obj, callback) {
   return knex('users_lessons')

@@ -3,9 +3,9 @@ const router = express.Router();
 
 const authHelpers = require('../../auth/helpers');
 const routeHelpers = require('../_helpers');
-const userQueries = require('../../db/queries.users');
-const lessonQueries = require('../../db/queries.lessons');
-const lessonsUsersQueries = require('../../db/queries.users_lessons');
+const userQueries = require('../../db/queries/users');
+const lessonQueries = require('../../db/queries/lessons');
+const lessonsUsersQueries = require('../../db/queries/users_lessons');
 
 // *** get all users *** //
 router.get(

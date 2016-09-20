@@ -4,9 +4,9 @@
 
 
   const knex = require('../db/connection');
-  const userQueries = require('../db/queries.users');
-  const lessonQueries = require('../db/queries.lessons');
-  const usersLessonsQueries = require('../db/queries.users_lessons');
+  const userQueries = require('../db/queries/users');
+  const lessonQueries = require('../db/queries/lessons');
+  const usersLessonsQueries = require('../db/queries/users_lessons');
 
   // TODO: combine ensureAuthenticated() and ensureVerified() by setting up global permission logic config
 

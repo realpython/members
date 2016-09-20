@@ -3,8 +3,8 @@ var router = express.Router();
 
 var githubAuth = require('../auth/github');
 var authHelpers = require('../auth/helpers');
-var userQueries = require('../db/queries.users');
-var codeQueries = require('../db/queries.codes');
+var userQueries = require('../db/queries/users');
+var codeQueries = require('../db/queries/codes');
 
 // *** authenticate with github *** //
 router.get('/github',

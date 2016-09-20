@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var authHelpers = require('../auth/helpers');
-var messageQueries = require('../db/queries.messages');
+var messageQueries = require('../db/queries/messages');
 
 // *** add new message *** //
 router.post('/',

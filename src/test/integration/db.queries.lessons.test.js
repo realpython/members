@@ -3,7 +3,7 @@ process.env.NODE_ENV = 'test';
 const chai = require('chai');
 
 const knex = require('../../server/db/connection');
-const lessonQueries = require('../../server/db/queries.lessons');
+const lessonQueries = require('../../server/db/queries/lessons');
 
 const should = chai.should();
 

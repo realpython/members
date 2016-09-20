@@ -3,7 +3,7 @@ var router = express.Router();
 
 var massiveInstance = require('../db/massive');
 var authHelpers = require('../auth/helpers');
-var chapterQueries = require('../db/queries.chapters');
+var chapterQueries = require('../db/queries/chapters');
 var routeHelpers = require('./_helpers');
 
 // *** search *** //

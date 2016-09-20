@@ -1,4 +1,4 @@
-const knex = require('./connection');
+const knex = require('../connection');
 
 function getActiveMessages(callback) {
   return knex('messages')

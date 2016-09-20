@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const authHelpers = require('../auth/helpers');
-const chapterQueries = require('../db/queries.chapters');
+const chapterQueries = require('../db/queries/chapters');
 const routeHelpers = require('./_helpers');
 
 // *** get single chapter *** //

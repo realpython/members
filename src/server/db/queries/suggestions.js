@@ -1,4 +1,4 @@
-var knex = require('./connection');
+var knex = require('../connection');
 
 function getAllSuggestions() {
   return knex('suggestions')

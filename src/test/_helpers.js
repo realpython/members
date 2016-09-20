@@ -1,10 +1,10 @@
 const passportStub = require('passport-stub');
 
 const knex = require('../server/db/connection');
-const userQueries = require('../server/db/queries.users');
-const lessonsQueries = require('../server/db/queries.lessons');
-const codeQueries = require('../server/db/queries.codes');
-const usersLessonsQueries = require('../server/db/queries.users_lessons');
+const userQueries = require('../server/db/queries/users');
+const lessonsQueries = require('../server/db/queries/lessons');
+const codeQueries = require('../server/db/queries/codes');
+const usersLessonsQueries = require('../server/db/queries/users_lessons');
 
 // TODO: Make authenticate dynamic based on permissions
 

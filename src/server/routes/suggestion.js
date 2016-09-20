@@ -2,8 +2,8 @@ var express = require('express');
 var router = express.Router();
 
 var authHelpers = require('../auth/helpers');
-var chapterQueries = require('../db/queries.chapters');
-var suggestionQueries = require('../db/queries.suggestions');
+var chapterQueries = require('../db/queries/chapters');
+var suggestionQueries = require('../db/queries/suggestions');
 var routeHelpers = require('./_helpers');
 
 // *** suggestions *** //

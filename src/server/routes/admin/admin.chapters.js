@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 
 const authHelpers = require('../../auth/helpers');
-const chapterQueries = require('../../db/queries.chapters');
-const lessonQueries = require('../../db/queries.lessons');
+const chapterQueries = require('../../db/queries/chapters');
+const lessonQueries = require('../../db/queries/lessons');
 
 // *** get all chapters *** //
 router.get(

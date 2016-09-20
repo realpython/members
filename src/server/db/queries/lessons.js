@@ -1,4 +1,4 @@
-const knex = require('./connection');
+const knex = require('../connection');
 
 function getAllLessons(callback) {
   return knex('lessons')

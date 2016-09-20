@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const authHelpers = require('../auth/helpers');
-const userQueries = require('../db/queries.users');
+const userQueries = require('../db/queries/users');
 const routeHelpers = require('./_helpers');
 
 // *** sanity check *** //

@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 
 const authHelpers = require('../auth/helpers');
-const chapterQueries = require('../db/queries.chapters');
-const lessonQueries = require('../db/queries.lessons');
-const userAndLessonQueries = require('../db/queries.users_lessons');
-const messageQueries = require('../db/queries.messages');
+const chapterQueries = require('../db/queries/chapters');
+const lessonQueries = require('../db/queries/lessons');
+const userAndLessonQueries = require('../db/queries/users_lessons');
+const messageQueries = require('../db/queries/messages');
 const routeHelpers = require('./_helpers');
 
 // *** get single lesson *** //
