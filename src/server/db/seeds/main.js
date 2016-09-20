@@ -3,7 +3,7 @@
   'use strict';
 
   const helpers = require('../_seed_helpers');
-  var allUsers;
+  var userID;
 
   exports.seed = (knex, Promise) => {
     return helpers.dropTables()
@@ -23,25 +23,23 @@
       return helpers.getUsers();
     })
     .then((users) => {
-      allUsers = users;
+      userID = parseInt(users[0].id);
       return helpers.getLessons();
     })
     .then((lessons) => {
       const allPromises = lessons.map((lesson) => {
-        return helpers.insertUsersLessons(
-          parseInt(allUsers[0].id), parseInt(lesson.id));
+        return helpers.insertUsersLessons(userID, parseInt(lesson.id));
       });
       return Promise.all(allPromises);
     })
     .then(() => {
-      return helpers.insertMessages(parseInt(allUsers[0].id));
+      return helpers.insertMessages(userID);
     })
     .then((messages) => {
-      return helpers.insertMessageReplies(
-        parseInt(messages[0][0]), parseInt(allUsers[0].id));
+      return helpers.insertMessageReplies(parseInt(messages[0][0]), userID);
     })
     .then(() => {
-      return helpers.insertSuggestions(parseInt(allUsers[0].id));
+      return helpers.insertSuggestions(userID);
     })
     .then(() => {
       return helpers.insertCodes();
