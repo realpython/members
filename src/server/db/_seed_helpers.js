@@ -12,7 +12,10 @@
       knex('messages').del(),
       knex('suggestions').del(),
       knex('codes').del()
-    ]);
+    ])
+    .then(() => {
+      knex('users_lessons').del();
+    });
   }
 
   function insertUsers() {
@@ -60,7 +63,7 @@
 
   function insertLessons(chapters) {
     // get chapter order number
-    const chapterOrder = chapters[0].map((chapter) => {
+    const chapterOrder = chapters.map((chapter) => {
       return chapter.order_number;
     });
     // link lesson name to order number
