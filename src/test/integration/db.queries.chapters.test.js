@@ -9,24 +9,16 @@ const should = chai.should();
 
 describe('db : queries : chapters', () => {
 
-  beforeEach((done) => {
+  before((done) => {
     return knex.migrate.rollback()
-    .then(() => {
-      return knex.migrate.latest();
-    })
-    .then(() => {
-      return knex.seed.run();
-    })
-    .then(() => {
-      done();
-    });
+    .then(() => { return knex.migrate.latest(); })
+    .then(() => { return knex.seed.run(); })
+    .then(() => { done(); });
   });
 
-  afterEach((done) => {
+  after((done) => {
     return knex.migrate.rollback()
-    .then(() => {
-      done();
-    });
+    .then(() => { done(); });
   });
 
   describe('getChapters()', () => {

@@ -19,22 +19,14 @@ describe('routes : admin : users', () => {
 
   beforeEach((done) => {
     return knex.migrate.rollback()
-    .then(() => {
-      return knex.migrate.latest();
-    })
-    .then(() => {
-      return knex.seed.run();
-    })
-    .then(() => {
-      done();
-    });
+    .then(() => { return knex.migrate.latest(); })
+    .then(() => { return knex.seed.run(); })
+    .then(() => { done(); });
   });
 
   afterEach((done) => {
     return knex.migrate.rollback()
-    .then(() => {
-      done();
-    });
+    .then(() => { done(); });
   });
 
   describe('if !authenticated', () => {
@@ -543,8 +535,7 @@ describe('routes : admin : users', () => {
     });
     describe('POST /admin/users', () => {
       it('should add new rows to the \'users_lessons\' table', (done) => {
-        usersLessonsQueries.getAllUsersAndLessons((err, results) => {
-          results.length.should.equal(14);
+        knex('users_lessons').del().then(() => {
           chai.request(server)
           .post('/admin/users')
           .send(testHelpers.sampleUser)
@@ -562,7 +553,7 @@ describe('routes : admin : users', () => {
                 userID, (err, usersAndLessons) => {
                 usersAndLessons.length.should.equal(7);
                 usersLessonsQueries.getAllUsersAndLessons((err, all) => {
-                  all.length.should.equal(21);
+                  all.length.should.equal(7);
                   done();
                 });
               });

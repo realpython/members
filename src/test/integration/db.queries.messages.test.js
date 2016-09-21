@@ -11,22 +11,14 @@ describe('db : queries : messages', () => {
 
   beforeEach((done) => {
     return knex.migrate.rollback()
-    .then(() => {
-      return knex.migrate.latest();
-    })
-    .then(() => {
-      return knex.seed.run();
-    })
-    .then(() => {
-      done();
-    });
+    .then(() => { return knex.migrate.latest(); })
+    .then(() => { return knex.seed.run(); })
+    .then(() => { done(); });
   });
 
   afterEach((done) => {
     return knex.migrate.rollback()
-    .then(() => {
-      done();
-    });
+    .then(() => { done(); });
   });
 
   describe('getAllMessages()', () => {

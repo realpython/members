@@ -8,6 +8,8 @@
     "console": false,
     "describe": false,
     "expect": false,
+    "before": false,
+    "after": false,
     "beforeEach": false,
     "afterEach": false,
     "waits": false,
