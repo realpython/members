@@ -35,7 +35,9 @@
   function toggleVerificationStatus(req, res, next) {
     process.env.CAN_VERIFY = 1;
     // check status
-    if (parseInt(process.env.CAN_VERIFY) === 1) process.env.CAN_VERIFY = 0;
+    if (parseInt(process.env.CAN_VERIFY) === 1) {
+      process.env.CAN_VERIFY = 0;
+    }
     req.flash('messages', {
       status: 'success',
       value: 'Verification status toggled.'

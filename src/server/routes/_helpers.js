@@ -170,7 +170,7 @@ function getTotalActiveCompletedLessons(activeLessons, completedLessons) {
 function getSideBarData(userID, callback) {
   // get all chapters and associated lessons for the sidebar and navbar
   return new Promise((resolve, reject) => {
-    chapterQueries.chaptersAndLessons((err, results) => {
+    chapterQueries.getChaptersAndLessons((err, results) => {
       if (err) reject(err);
       // filter, reduce, and sort the results
       const reducedResults = reduceResults(results);

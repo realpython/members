@@ -65,7 +65,7 @@ describe('db : queries : chapters', () => {
 
   describe('chaptersAndLessons()', () => {
     it('should return chapters and lessons', (done) => {
-      chapterQueries.chaptersAndLessons((err, data) => {
+      chapterQueries.getChaptersAndLessons((err, data) => {
         should.not.exist(err);
         data.length.should.equal(6);
         data[0].should.include.keys(

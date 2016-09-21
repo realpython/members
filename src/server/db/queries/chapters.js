@@ -36,7 +36,7 @@ function getSingleChapterFromOrderNum(orderNum, callback) {
   });
 }
 
-function chaptersAndLessons(callback) {
+function getChaptersAndLessons(callback) {
   return knex.select(
     'lessons.id as lessonID',
     'lessons.lesson_order_number as lessonLessonOrder', 'lessons.chapter_order_number as lessonChapterOrder',
@@ -58,10 +58,16 @@ function chaptersAndLessons(callback) {
   });
 }
 
-function addChapter(obj) {
+function addChapter(obj, callback) {
   return knex('chapters')
-    .insert(obj)
-    .returning('*');
+  .insert(obj)
+  .returning('*')
+  .then((chapter) => {
+    callback(null, chapter);
+  })
+  .catch((err) => {
+    callback(err);
+  });
 }
 
 function deactivateChapter(chapterID) {
@@ -84,8 +90,8 @@ module.exports = {
   getChapters,
   getSingleChapterFromID,
   getSingleChapterFromOrderNum,
-  chaptersAndLessons,
-  addChapter: addChapter,
+  getChaptersAndLessons,
+  addChapter,
   deactivateChapter: deactivateChapter,
   updateChapter: updateChapter
 };

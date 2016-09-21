@@ -19,6 +19,13 @@ router.get(
   getSingleChapter
 );
 
+// *** add new chapter *** //
+router.post(
+  '/',
+  authHelpers.ensureAdmin,
+  addNewChapter
+);
+
 function getAllChapters(req, res, next) {
   // get breadcrumbs
   const breadcrumbs = ['Admin', 'Chapters'];
@@ -60,9 +67,7 @@ function getSingleChapter(req, res, next) {
   });
 }
 
-// *** add new chapter *** //
-router.post('/', authHelpers.ensureAdmin,
-function(req, res, next) {
+function addNewChapter(req, res, next) {
   // TODO: Add server side validation
   const payload = req.body;
   const chapter = {
@@ -70,21 +75,25 @@ function(req, res, next) {
     name: payload.name,
     active: payload.active || false
   };
-  return chapterQueries.addChapter(chapter)
-  .then(function(response) {
-    if (response.length) {
+  chapterQueries.addChapter(chapter, (err, chapter) => {
+    if(err) {
+      return next(err);
+    }
+    if (chapter.length) {
       req.flash('messages', {
         status: 'success',
         value: 'Chapter added.'
       });
+      return res.redirect('/admin/chapters');
+    } else {
+      req.flash('messages', {
+        status: 'danger',
+        value: 'Sorry, that chapter does not exist.'
+      });
+      return res.redirect('/admin/chapters');
     }
-    return res.redirect('/admin/chapters');
-  })
-  .catch(function(err) {
-    // TODO: be more specific with the errors
-    return next(err);
   });
-});
+}
 
 // *** update chapter *** //
 router.put('/:id', authHelpers.ensureAdmin,
