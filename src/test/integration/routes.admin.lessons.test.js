@@ -486,6 +486,7 @@ describe('routes : admin : lessons', () => {
       });
     });
     describe('POST /admin/lessons', () => {
+      // TODO: this may still be adding rows to both the lessons and users_lessons table
       it('should not add new rows to the \'users_lessons\' table when duplicate data is used', (done) => {
         return knex('users_lessons').del()
         .then(() => {

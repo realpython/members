@@ -70,13 +70,19 @@ function addChapter(obj, callback) {
   });
 }
 
-function deactivateChapter(chapterID) {
+function deactivateChapter(chapterID, callback) {
   return knex('chapters')
-    .update({
-      active: false
-    })
-    .where('id', parseInt(chapterID))
-    .returning('*');
+  .update({
+    active: false
+  })
+  .where('id', parseInt(chapterID))
+  .returning('*')
+  .then((chapter) => {
+    callback(null, chapter);
+  })
+  .catch((err) => {
+    callback(err);
+  });
 }
 
 function updateChapter(chapterID, obj) {
@@ -92,6 +98,6 @@ module.exports = {
   getSingleChapterFromOrderNum,
   getChaptersAndLessons,
   addChapter,
-  deactivateChapter: deactivateChapter,
+  deactivateChapter,
   updateChapter: updateChapter
 };

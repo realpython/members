@@ -131,8 +131,7 @@ router.get('/:chapterID/deactivate', authHelpers.ensureAdmin,
 function(req, res, next) {
   // TODO: Add server side validation
   const chapterID = parseInt(req.params.chapterID);
-  return chapterQueries.deactivateChapter(chapterID)
-  .then(function(chapter) {
+  return chapterQueries.deactivateChapter(chapterID, (err, chapter) => {
     if (chapter.length) {
       return lessonQueries.deactivateLessonsFromChapterID(chapterID)
       .then(function(lessons) {
@@ -151,6 +150,7 @@ function(req, res, next) {
     }
   })
   .catch(function(err) {
+    console.log(err);
     // TODO: be more specific with the errors
     return next(err);
   });
