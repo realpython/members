@@ -37,6 +37,8 @@ Just a simple learning management system for textbook-like sites, powering Real 
 
 ## Notes
 
+https://github.com/jbutko/ExpressJS-Socket.IO-AngularJS-Boilerplate
+
 1. Make sure to drop the database before running the seed!
 1. Updates (`development` and `testing` only):
   - admin status: `curl -X PUT -d admin=true http://localhost:3000/users/<USERNAME>/admin`
